@@ -79,8 +79,7 @@
 </div>
 
 <ngx-smart-modal #courseModal identifier="courseModal" [closable]="false" [customClass]="''">
-	<div class="bg-blue p-2 px-3 text-white"> <strong> Detalles </strong> </div>
-
+	<div class="bg-blue p-2 px-3 text-white row justify-content-between"> <strong> Detalles </strong> <a (click)="courseModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a> </div>
 
 	<div *ngIf="realClass" class="p-2 px-3">
 		<p class="m-0 font-weight-bold"> Curso </p>
@@ -103,7 +102,7 @@
 		<p class="m-0 mb-2"> {{realClass.SSR_COMPONENT}} </p>
 
 		<div class="row justify-content-around align-items-center">
-			<a href="{{virtualRoom[realClass.INSTITUTION]}}local/wseducad/auth/sso.php?strm={{realClass.STRM}}&class={{realClass.CLASS_NBR}}&emplid={{this.user.codigoAlumno}}" target="_blank" class="mr-3"><img src="./assets/img/icon/moodle.jpg" style="width: 50px"></a>
+			<a href="{{virtualRoom[realClass.INSTITUTION]}}local/wseducad/auth/sso.php?strm={{realClass.STRM}}&class={{realClass.CLASS_NBR2 == '0' || !realClass.CLASS_NBR2?realClass.CLASS_NBR:realClass.CLASS_NBR2}}&emplid={{this.user.codigoAlumno}}" target="_blank" class="mr-3"><img src="./assets/img/icon/moodle.jpg" style="width: 50px"></a>
 			<a (click)="goFinalGrades()" class="pointer"><img src="./assets/img/icon/ico-1.png" style="width: 50px"></a>
 			<a class="ml-3 disabled" title="En Mantenimiento"><img src="./assets/img/icon/ico-2.png" style="width: 50px"></a>
 		</div>

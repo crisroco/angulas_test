@@ -227,6 +227,11 @@ export class StudentComponent implements OnInit {
 	ngOnInit() {
 		if(!this.session.getObject('user')){
 			this.router.navigate(['/login']);
+			// for (var i = this.typeLibraries.length - 1; i >= 0; i--) {
+			// 	this.typeLibraries[i].libraries.forEach((library) => {
+			// 		library.url = library.url.replace(/{dni}/gi, this.dataTeacher.dni);
+			// 	});
+			// }
 		}
 	}
 
