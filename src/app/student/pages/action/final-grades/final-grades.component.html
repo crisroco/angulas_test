@@ -1,0 +1,35 @@
+<h5> <strong> Mis Notas Finales - Alumno </strong> </h5>
+
+<div class="row bg-blue p-2 px-5 mb-2"> 
+	<p class="m-0 text-white mr-2"> Curso  <span> {{DESCR}} </span> </p>
+</div>
+
+<div class="row bg-gray-a p-3 px-5">
+	<div class="col-md-12 bg-blue p-2 px-3 text-white mb-2"> Fórmula: {{formule}}</div>
+
+	<div class="col-md-12 p-0 mb-2" *ngIf="grades && grades.length">
+		<div class="bg-blue text-white p-2 px-3"> Detalle de evaluaciones </div>
+		<div class="p-3 bg-white">
+			<div class="scroll h-auto">
+				<table class="w-100">
+					<thead class="">
+						<tr class="text-center text-s">
+							<th class="px-1 py-2 align-middle text-left text-m">Descripción</th>
+							<th class="px-1 py-2 align-middle text-m">Nota</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-center text-s" *ngFor="let grade of grades; let s = 'index'">
+							<td class="p-1 text-left">{{ grade.descripcion }}</td>
+							<td class="p-1">{{ grade.nota }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="realCourse" class="col-md-12 bg-blue p-2 px-3 text-white mb-2 text-m"> Nota Parcial: <strong>{{realCourse.notaAvance}}</strong></div>
+
+	<div *ngIf="realCourse" class="col-md-12 bg-blue p-2 px-3 text-white text-m"> Nota Final Oficial: <strong>{{realCourse.notaFinal}}</strong></div>
+</div>

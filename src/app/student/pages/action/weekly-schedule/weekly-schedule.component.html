@@ -1,0 +1,111 @@
+<h5> <strong> Plantilla de Alumno | Programa: {{realProgram?realProgram.nombrePrograma:''}} </strong> </h5>
+
+<div class="row bg-blue p-2 px-5 justify-content-center mb-2"> 
+	<p class="m-0 text-white mr-2"> Programa </p>
+	<select class="" [(ngModel)]="realProgram" (change)="getData()">
+		<option *ngFor="let program of programs" [ngValue]="program"> {{program.nombrePrograma}} </option>
+	</select>
+</div>
+<div class="row bg-gray-a p-3">
+	<div class="bg-white col-md-12 p-3">
+		
+		<div class="row justify-content-end align-items-center">
+			<p class="m-0 mr-2">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</p>
+			<div
+				class="btn btn-transparent"
+				mwlCalendarPreviousView
+				[view]="view"
+				[(viewDate)]="viewDate"
+				(viewDateChange)="closeOpenMonthViewDay()"
+				>
+				<i class="fa fa-chevron-left"></i>
+			</div>
+			<div
+				class="btn btn-outline-secondary"
+				mwlCalendarToday
+				[(viewDate)]="viewDate"
+				(viewDateChange)="closeOpenMonthViewDay()"
+				>
+				Hoy
+			</div>
+			<div
+				class="btn btn-transparent"
+				mwlCalendarNextView
+				[view]="view"
+				[(viewDate)]="viewDate"
+				(viewDateChange)="closeOpenMonthViewDay()"
+				>
+				<i class="fa fa-chevron-right"></i>
+			</div>
+	    </div>
+		<div class="scroll ">
+			<mwl-calendar-week-view
+		      [viewDate]="viewDate"
+		      [events]="events"
+		      (eventClicked)="eventClicked($event.event, courseModal)"
+		      [dayStartHour]="6"
+		      [weekStartsOn]="1"
+		    >
+		    </mwl-calendar-week-view>
+		</div>
+		<div class="bg-gray p-2"> (**) Sesiones programadas complementarias al curso </div>
+
+	    <div class="mt-5 mb-3">
+	    	<div class="bg-blue text-white p-2"> Cursos Virtuales </div>
+	    	<div class="p-2 ">
+	    		<table class="w-100">
+					<thead class="">
+						<tr class="text-center text-s">
+							<th class="px-1 py-2 align-middle text-left text-m">Curso</th>
+							<th class="px-1 py-2 align-middle text-m">Descripción</th>
+							<th class="px-1 py-2 align-middle text-m">Inicio</th>
+							<th class="px-1 py-2 align-middle text-m">Fin</th>
+							<th class="px-1 py-2 align-middle text-m">Horas semanales</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-center text-s" *ngFor="let vclass of virtualClass; let s = 'index'">
+							<td class="p-1 text-left">{{ vclass.DESCR }}</td>
+							<td class="p-1">{{ vclass.DES_STRM }}</td>
+							<td class="p-1">{{ vclass.FECH_INI }}</td>
+							<td class="p-1">{{ vclass.FECH_FIN }}</td>
+							<td class="p-1">{{ vclass.HRS_ACAD }}</td>
+						</tr>
+					</tbody>
+				</table>
+	    	</div>
+	    </div>
+	</div>
+</div>
+
+<ngx-smart-modal #courseModal identifier="courseModal" [closable]="false" [customClass]="''">
+	<div class="bg-blue p-2 px-3 text-white"> <strong> Detalles </strong> </div>
+
+
+	<div *ngIf="realClass" class="p-2 px-3">
+		<p class="m-0 font-weight-bold"> Curso </p>
+		<p class="m-0 mb-1"> {{realClass.DESCR}} </p>
+		<p class="m-0 font-weight-bold"> Local </p>
+		<p class="m-0 mb-1"> {{realClass.LOCAL}} </p>
+		<p class="m-0 font-weight-bold"> Aula </p>
+		<p class="m-0 mb-1"> {{realClass.DESCR_FACILITY}} </p>
+		<p class="m-0 font-weight-bold"> Docente </p>
+		<p class="m-0 mb-1"> {{realClass.DOCENTE}} </p>
+		<p class="m-0 font-weight-bold"> Fecha </p>
+		<p class="m-0 mb-1"> {{realClass.date}} </p>
+		<p class="m-0 font-weight-bold"> Hora </p>
+		<p class="m-0 mb-1"> {{realClass.MEETING_TIME_START}} </p>
+		<p class="m-0 font-weight-bold"> Clase </p>
+		<p class="m-0 mb-1"> {{realClass.CLASS_NBR}} </p>
+		<p class="m-0 font-weight-bold"> Sección </p>
+		<p class="m-0 mb-1"> {{realClass.CLASS_SECTION}} </p>
+		<p class="m-0 font-weight-bold"> Componente </p>
+		<p class="m-0 mb-2"> {{realClass.SSR_COMPONENT}} </p>
+
+		<div class="row justify-content-around align-items-center">
+			<a href="{{virtualRoom[realClass.INSTITUTION]}}local/wseducad/auth/sso.php?strm={{realClass.STRM}}&class={{realClass.CLASS_NBR}}&emplid={{this.user.codigoAlumno}}" target="_blank" class="mr-3"><img src="./assets/img/icon/moodle.jpg" style="width: 50px"></a>
+			<a (click)="goFinalGrades()" class="pointer"><img src="./assets/img/icon/ico-1.png" style="width: 50px"></a>
+			<a class="ml-3 disabled" title="En Mantenimiento"><img src="./assets/img/icon/ico-2.png" style="width: 50px"></a>
+		</div>
+	</div>
+</ngx-smart-modal>

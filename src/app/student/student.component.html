@@ -1,0 +1,91 @@
+<div class="row bg-ucs header">
+	<div class="row container-2 mx-auto px-3 align-items-center justify-content-between">
+		<img src="./assets/img//logo.png" class="img-hs">
+		<a href="/estudiante" class="text-m text-white py-3 bd-b-5 bd-black"> <h5 class="m-0"> <strong> INICIO </strong> </h5> </a>
+		<div class="row position-relative">
+			<div class="circle-q bg-white-a pointer" (click)="menus = !menus">
+				<img src="./assets/img/icon/user.png" class="img-q"> 
+			</div>
+			<div class="bg-white drop" *ngIf="menus">
+				<a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-ucs p-2 px-3 bd-b-1 bd-ucs"> <i class="fa fa-lock"></i> Cambiar contraseña</a>
+				<a class="d-block m-0 text-ucs p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+			</div>
+		</div>
+			
+	</div>
+</div>
+
+<!-- <div class="post-header "> -->
+	<router-outlet></router-outlet>
+<!-- </div> -->
+
+<div class="footer">
+	<div class="row bg-ucs-a">
+		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
+			<!-- <a href="" class="text-m text-white"> Mi Matrícula </a> -->
+			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
+			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
+		</div>
+	</div>
+	<div class="bg-black py-2">	</div>
+</div>
+
+<ngx-smart-modal #libraryModal identifier="libraryModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
+	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-ucs">
+		<h5 class=""> <strong> BIBLIOTECA EN LÍNEA </strong> </h5>
+		<a (click)="libraryModal.close()" class="pointer"><i class="fa fa-times text-ucs text-l"></i></a>
+	</div>
+	<div class="scroll h-fn">
+		<div class="rounded-s bd-1 mb-3 overflow-hidden bd-ucs" *ngFor="let typelibrary of typeLibraries">
+			<div (click)="toggle(typelibrary)" class="bg-ucs p-2 text-white pointer">
+				{{typelibrary.name}}
+			</div>
+			<div [@openClose]="typelibrary.isOpen ? 'open' : 'closed'" class="pd-3 {{typelibrary.subtypes?'':'scroll'}}">
+				<div *ngIf="!typelibrary.subtypes" class="row nowrap align-items-center">
+					<a [style.width]="library.width" href="{{library.url}}" target="_blank" class="row text-center {{l > 0?'ml-3':''}}" *ngFor="let library of typelibrary.libraries; let l = 'index'">
+						<img [style.width]="library.width" src="{{library.img}}">
+						{{library.description}}
+					</a>
+				</div>
+				<div *ngIf="typelibrary.subtypes">
+					<div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" *ngFor="let subtypelibrary of typelibrary.subtypes">
+						<div (click)="toggle(subtypelibrary)" class="bg-gray p-2 pointer">
+							{{subtypelibrary.name}}
+						</div>
+						<div [@openClose]="subtypelibrary.isOpen ? 'open' : 'closed'" class="pd-3 row nowrap align-items-center scroll" >
+							<a [style.width]="librarySub.width" href="{{librarySub.url}}" target="_blank" class="row text-center {{ls > 0?'ml-3':''}}" *ngFor="let librarySub of subtypelibrary.libraries; let ls = 'index'">
+								<img [style.width]="librarySub.width" src="{{librarySub.img}}">
+								{{librarySub.description}}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #linkModal identifier="linkModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
+	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-ucs">
+		<h5 class=""> <strong> MIS LINKS </strong> </h5>
+		<a (click)="linkModal.close()" class="pointer"><i class="fa fa-times text-ucs text-l"></i></a>
+	</div>
+	<div class="scroll h-fn">
+		<div class="rounded-s bd-1 mb-3 overflow-hidden bd-ucs" *ngFor="let typeLink of typeLinks">
+			<div (click)="toggle(typeLink)" class="bg-ucs p-2 text-white pointer">
+				{{typeLink.name}}
+			</div>
+			<div [@openClose]="typeLink.isOpen ? 'open' : 'closed'" class="pd-3">
+				<div class="" *ngFor="let link of typeLink.links; let l = 'index'">
+					<a [style.width]="link.width" href="{{link.url}}" target="_blank" class="text-center text-black">
+						{{link.description}}
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #SurveyModal identifier="SurveyModal" [customClass]="'mediumModal p-post-header'">
+	<a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank"><img class="w-100" src="./assets/img/encuesta.png"></a>
+</ngx-smart-modal>

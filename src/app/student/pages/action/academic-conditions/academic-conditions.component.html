@@ -1,0 +1,140 @@
+<h5> <strong> Mis Condiciones Académicas | Programa: {{realProgram?realProgram.nombrePrograma:''}} </strong> </h5>
+
+<div class="row bg-purple p-2 px-5 justify-content-center mb-2"> 
+	<p class="m-0 text-white mr-2"> Programa </p>
+	<select class="" [(ngModel)]="realProgram" (change)="getAcademicConditions()">
+		<option *ngFor="let program of programs" [ngValue]="program"> {{program.nombrePrograma}} </option>
+	</select>
+</div>
+
+<div class="row bg-gray-a p-3">
+	<div *ngIf="cycles && cycles.length" class="scroll h-m col-md-12">
+		<div class="col-md-12 mb-2" *ngFor="let cycle of cycles">
+			<div class="bg-purple text-white p-2 px-3"> {{cycle.name}} </div>
+			<div class="p-3 bg-white">
+				<div class="scroll h-auto">
+					<table id="table-students" class="w-100">
+						<thead class="">
+							<tr class="text-center text-s">
+								<th class="px-1 py-2 align-middle text-left text-m">Curso</th>
+								<th class="px-1 py-2 align-middle text-left text-m">Descripción</th>
+								<th class="px-1 py-2 align-middle text-m">Creditos</th>
+								<th class="px-1 py-2 align-middle text-m">Nota</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center text-s" *ngFor="let course of cycle.courses; let s = 'index'">
+								<td class="p-1 text-left"><p ngxTooltip tooltipContent="{{course.Condicion?'<b>' + course.DESCR1 + ' - Pre-requisitos:</b> <br>' + course.Condicion:''}}" tooltipMaxWidth="400px" style="display: initial;">{{ course.DESCR1 }}</p></td>
+								<td class="p-1 text-left">{{ course.DESCR2 + (course.TIPO?(course.TIPO == 'E'?' (Equivalente)':(course.TIPO == 'C'?' (Convalidado)':'')):'') }}</td>
+								<td class="p-1">{{ course.UNITS_REPEAT_LIMIT?course.UNITS_REPEAT_LIMIT:0 }}</td>
+								<td class="p-1">{{ course.NOTAS }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="bg-black-a3 text-white p-2 px-3"> Estadísticas Globales </div>
+			<div class="bg-white">
+				<div class="scroll h-auto">
+					<table id="table-students" class="w-100">
+						<tbody>
+							<tr class="text-center text-s">
+								<td class="p-1 text-left px-3">Creditos Obligatorios Necesarios</td>
+								<td class="p-1 bg-purple-a text-white px-3">{{ globalStatistics?globalStatistics.UNITS_REPEAT_LIMIT:0 }}</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="p-1 text-left px-3">Creditos Obligatorios Cumplidos</td>
+								<td class="p-1 bg-purple-a text-white px-3">{{ globalStatistics?globalStatistics.UCS_OBLI_APROBADAS:0 }}</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="p-1 text-left px-3">Avance</td>
+								<td class="p-1 bg-purple-a text-white px-3">{{ globalStatistics?globalStatistics.requiredProgress:0 }}%</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="p-1 text-left px-3">Creditos Electivos Necesarios</td>
+								<td class="p-1 bg-purple-a text-white px-3">{{ globalStatistics?globalStatistics.UCS_MAX_UNID_LEC:0 }}</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="p-1 text-left px-3">Cursos Electivos Cumplidos</td>
+								<td class="p-1 bg-purple-a text-white px-3">{{ globalStatistics?globalStatistics.UCS_ELEC_APROBADAS:0 }}</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="p-1 text-left px-3">Avance</td>
+								<td class="p-1 bg-purple-a text-white px-3">{{ globalStatistics?globalStatistics.electiveProgress:0 }}%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="bg-black-a3 text-white p-2 px-3"> Requisitos </div>
+			<div class="bg-white">
+				<div class="scroll h-auto">
+					<table id="table-students" class="w-100">
+						<thead class="">
+							<tr class="text-center text-s">
+								<th class="px-3 py-2 align-middle text-left text-m">Condiciones de Egresados</th>
+								<th class="px-3 py-2 align-middle text-m bg-purple-a3 text-white">Requerido</th>
+								<th class="px-3 py-2 align-middle text-m bg-purple-a2 text-white">Logro</th>
+								<th class="px-3 py-2 align-middle text-m bg-purple-a text-white">% de Avance</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center text-s">
+								<td class="px-3 py-2 align-middle text-left">Nivel de Inglés</td>
+								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.NIV_ING_REQ?((requirements.NIV_ING_REQ[0]=='Y'?'A1 ':'') + (requirements.NIV_ING_REQ[1]=='Y'?'A2 ':'') + (requirements.NIV_ING_REQ[2]=='Y'?'B1 ':'') + (requirements.NIV_ING_REQ[3]=='Y'?'B2 ':' ')):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.NIV_ING_REG?((requirements.NIV_ING_REG[0]=='Y'?'A1 ':'') + (requirements.NIV_ING_REG[1]=='Y'?'A2 ':'') + (requirements.NIV_ING_REG[2]=='Y'?'B1 ':'') + (requirements.NIV_ING_REG[3]=='Y'?'B2 ':' ')):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements?requirements.englishProgress:0}}%</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="px-3 py-2 align-middle text-left">Trabajo de Investigación</td>
+								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.TRAB_INVEST?(requirements.TRAB_INVEST[0]=='Y'?'Si':'No'):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.TRAB_INVEST?(requirements.TRAB_INVEST[1]=='Y'?'Si':'No'):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements && requirements.TRAB_INVEST?(requirements.TRAB_INVEST[0]=='Y'?(requirements.TRAB_INVEST[1]=='Y'?'Cumplió':'No cumplió'):''):'---'}}</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="px-3 py-2 align-middle text-left">Segundo Idioma</td>
+								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.NIV_TER_IDI_REQ?((requirements.NIV_TER_IDI_REQ[0]=='Y'?'A1 ':'') + (requirements.NIV_TER_IDI_REQ[1]=='Y'?'A2 ':'') + (requirements.NIV_TER_IDI_REQ[2]=='Y'?'B1 ':'') + (requirements.NIV_TER_IDI_REQ[3]=='Y'?'B2 ':' ')):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.NIV_TER_IDI_REG?((requirements.NIV_TER_IDI_REG[0]=='Y'?'A1 ':'') + (requirements.NIV_TER_IDI_REG[1]=='Y'?'A2 ':'') + (requirements.NIV_TER_IDI_REG[2]=='Y'?'B1 ':'') + (requirements.NIV_TER_IDI_REG[3]=='Y'?'B2 ':' ')):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements?requirements.secondProgress:0}}%</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="px-3 py-2 align-middle text-left">Practicas Pre-Profesionales</td>
+								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.PRAC_PRE_PROF?(requirements.PRAC_PRE_PROF[0]=='Y'?'Si':'No'):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.PRAC_PRE_PROF?(requirements.PRAC_PRE_PROF[1]=='Y'?'Si':'No'):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements && requirements.PRAC_PRE_PROF?(requirements.PRAC_PRE_PROF[0]=='Y'?(requirements.PRAC_PRE_PROF[1]=='Y'?'Cumplió':'No cumplió'):''):'---'}}</td>
+							</tr>
+							<tr class="text-center text-s">
+								<td class="px-3 py-2 align-middle text-left">Actividad Extracurricular</td>
+								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.HORAS_EXTRA_REQ?requirements.HORAS_EXTRA_REQ:0}}hr</td>
+								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.HORAS_EXTRA_ALUM?requirements.HORAS_EXTRA_ALUM:0}}hr</td>
+								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements?requirements.extraProgress:0}}%</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="bg-black-a3 text-white p-2 px-3"> Promedio Ponderado </div>
+			<div class="bg-white">
+				<div class="scroll h-auto">
+					<table id="table-students" class="w-100">
+						<tbody>
+							<tr class="text-center text-s">
+								<td class="p-1 text-left px-3">Acumulado</td>
+								<td class="p-1 bg-purple-a text-white px-3">{{ weightedAverage?weightedAverage.PROMEDIO:0 }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

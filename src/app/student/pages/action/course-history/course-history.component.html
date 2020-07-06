@@ -1,0 +1,42 @@
+<h5> <strong> Mi Historial de Cursos | Programa: {{realProgram?realProgram.nombrePrograma:''}} </strong> </h5>
+
+<div class="row bg-bluesky p-2 px-5 justify-content-center mb-2"> 
+	<p class="m-0 text-white mr-2"> Programa </p>
+	<select class="" [(ngModel)]="realProgram" (change)="getCourses()">
+		<option *ngFor="let program of programs" [ngValue]="program"> {{program.nombrePrograma}} </option>
+	</select>
+</div>
+
+<div class="row bg-gray-a p-3">
+	<div *ngIf="cycles && cycles.length" class="scroll h-m col-md-12">
+		<div class="col-md-12 mb-2" *ngFor="let cycle of cycles">
+			<div class="bg-bluesky text-white p-2 px-3"> Ciclo Lectivo: {{cycle.name}} </div>
+			<div class="p-3 bg-white">
+				<div class="scroll h-auto">
+					<table id="table-students" class="w-100">
+						<thead class="">
+							<tr class="text-center text-s">
+								<th class="px-1 py-2 align-middle text-left text-m">Curso</th>
+								<th class="px-1 py-2 align-middle text-left text-m">Descripción</th>
+								<th class="px-1 py-2 align-middle text-m">Creditos</th>
+								<th class="px-1 py-2 align-middle text-m">Nota</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center text-s" *ngFor="let course of cycle.courses; let s = 'index'">
+								<td class="p-1 text-left">{{ course.Curso_descripcion }}</td>
+								<td class="p-1 text-left">{{ course.Des_ciclo_lectivo }}</td>
+								<td class="p-1">{{ course.Creditos }}</td>
+								<td class="p-1">{{ course.Calificacion_ofi }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="bg-bluesky text-white p-2 px-3 text-right"> Promedio Ponderado: {{cycle.nota}} </div>
+		</div>
+		<div class="col-md-12">
+			<div class="bg-gray p-2 px-3 text-right"> Datos Referenciales </div>
+		</div>
+	</div>
+</div>

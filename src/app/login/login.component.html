@@ -1,0 +1,43 @@
+<div class="row bg-imagebg full-content align-items-center justify-content-center">
+	<div class="row col-md-6 full-content bg-ucs-a justify-content-center"> <!-- align-items-center -->
+		<div class="col-md-8 pt-5">
+			<img class="img-s" src="./assets/img/logo.png">
+        </div>
+		<div class="col-md-8 mb-5">
+			<form class="form" [formGroup]="loginForm" (ngSubmit)="login()">				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<div class="input-group-text bg-ucs text-white"><i class="fa fa-user"></i></div>
+					</div>
+					<input class="form-control bg-transparent text-white" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="email"  placeholder="Usuario">
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<div class="input-group-text bg-ucs text-white"><i class="fa fa-lock"></i></div>
+					</div>
+					<input class="form-control bg-transparent text-white" type="password" formControlName="password"  placeholder="Contraseña">
+				</div>
+				<div class="mb-3">
+					<a class="text-white" href="https://recuperacontrasena.cientifica.edu.pe/">¿Olvidaste tu contraseña?</a>
+				</div>
+				<div class="row justify-content-start">
+					<button type="submit" class="btn btn-black"> Ingresar </button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="col-md-6">
+	</div>
+</div>
+
+<a href="https://api.whatsapp.com/send?phone=5117071846&text=!Hola!%20No%20puedo%20acceder%20a%20Intranet%20(Miportal)%20o%20a%20mi%20correo%20de%20alumno%20(@ucientifica).%20%20%C2%BFPueden%20ayudarme?." class="btn btn-wsp">
+	<img src="./assets/img/icon/wsp.png">
+</a>
+
+<div class="btns-float" style="width: 240px">
+	<a href="https://vimeo.com/401404216/c6d3bf6714" class="mb-2 d-block"><img src="./assets/img/login-r9.png" style="width: 240px"></a>
+	<a href="https://vimeo.com/402394919/41073f7afc" class="mb-2 d-block"><img src="./assets/img/login-r5.png" style="width: 240px"></a>
+	<a href="https://vimeo.com/402385789/19146c2ff5" class="mb-2 d-block"><img src="./assets/img/login-r6.png" style="width: 240px"></a>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
