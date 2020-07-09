@@ -45,8 +45,25 @@ li a:hover, li a:not([href]):hover, .pointer{
 	min-height: 100vh;
 }
 
+.min-content-s{
+	min-height: 470px;
+}
+
+.full-content-h{
+	height: 100vh;
+}
+
+.full-content-h-2{
+	height: 100%;
+}
+
 .mb-6{
 	margin-bottom: 6rem;
+}
+
+.px-6{
+	padding-left: 6rem;
+	padding-right: 6rem;
 }
 
 .bg-imagebg{
@@ -68,6 +85,16 @@ li a:hover, li a:not([href]):hover, .pointer{
 
 .btn-b.active-link img, .btn-b:hover img{
 	filter: brightness(0) invert(1);
+}
+
+.btn-ucs{
+	background: #204491;
+	color: white;
+}
+
+.btn-ucs:hover{
+	background: #204491;
+	color: white;
 }
 
 .btn-black{
@@ -177,6 +204,10 @@ li a:hover, li a:not([href]):hover, .pointer{
 
 .bg-sise{
 	background: #e12726;
+}
+
+.bg-sise-a{
+	background: rgba(225, 39, 38, .8);
 }
 
 .bg-black{
@@ -365,6 +396,10 @@ li a:hover, li a:not([href]):hover, .pointer{
 	max-height: 470px;
 }
 
+.h-s{
+	max-height: 270px;
+}
+
 .h-fm{
 	height: 500px;
 }
@@ -507,6 +542,18 @@ li a:hover, li a:not([href]):hover, .pointer{
 	font-size: 20px;
 }
 
+.text-he{
+	font-size: 28px;
+}
+
+.text-sd{
+	font-size: 34px;
+}
+
+.text-t{
+	font-size: 40px;
+}
+
 .text-h-m{
 	font-size: 2rem;
 }
@@ -576,8 +623,17 @@ li a:hover, li a:not([href]):hover, .pointer{
     border-radius: 1rem;
 }
 
+.fullModal .nsm-content{
+	padding: 0;
+}
+
 .mediumModal{
 	max-width: 800px;
+	width: 100%;
+}
+
+.smallModall{
+	max-width: 450px;
 	width: 100%;
 }
 
@@ -586,12 +642,16 @@ li a:hover, li a:not([href]):hover, .pointer{
 	width: 50px;
 }
 
-.img-s {
+.img-s{
 	width: 200px;
 }
 
-.img-hs {
+.img-hs{
 	height: 40px;
+}
+
+.img-grayscale{
+	filter: grayscale(100%);
 }
 /* IMAGE END */
 
@@ -702,6 +762,12 @@ mwl-calendar-event-title span{
     width: 180px;
     position: absolute;
     bottom: 0;
+    right: 0;
+}
+
+.btn-close-float{
+	position: absolute;
+    top: 0;
     right: 0;
 }
 

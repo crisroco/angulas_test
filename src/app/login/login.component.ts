@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { LoginService } from '../services/login.service';
 import { SessionService } from '../services/session.service';
+import { AppSettings } from '../app.settings';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
 	loading = false;
 	loginForm: FormGroup;
 	student: any;
+	code_company = AppSettings.COMPANY;
 
 	constructor(private formBuilder: FormBuilder,
     	private toastr: ToastrService,

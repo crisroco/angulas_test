@@ -26,12 +26,12 @@ export class WeeklyScheduleComponent implements OnInit {
 
 	virtualRoom: any = {
 		"PSTGR": "https://aulavirtualposgrado.cientifica.edu.pe/",
-	    "ECONT": "https://aulavirtualposgrado.cientifica.edu.pe/",
 	    "ESPEC": "https://aulavirtualposgrado.cientifica.edu.pe/",
 	    "PREGR": "https://aulavirtualcpe.cientifica.edu.pe/",
 	    "CIDIO": "https://aulavirtualcpe.cientifica.edu.pe/",
 	    "CINVE": "https://aulavirtualcpe.cientifica.edu.pe/",
 	    "TITPR": "https://aulavirtualcpe.cientifica.edu.pe/",
+	    "ECONT": "https://aulavirtualcpe.cientifica.edu.pe/",
 	    "PREUN": "https://aulavirtualcpe.cientifica.edu.pe/"
 	}
 
@@ -98,12 +98,24 @@ export class WeeklyScheduleComponent implements OnInit {
 
 	goFinalGrades(){
 		this.router.navigate(['/estudiante/accion/notas-finales/' + encodeURIComponent(
-		      this.realClass.CLASS_NBR + '|' + 
+		      (!this.realClass.CLASS_NBR2 || this.realClass.CLASS_NBR2 == '0'?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '|' + 
 		      this.realClass.ACAD_CAREER + '|' + 
 		      this.realClass.STRM + '|' +
 		      this.realClass.CRSE_ID + '|' + 
 		      this.realClass.DESCR
 	    )]);
+	}
+
+	goAssistance(){
+		this.router.navigate(['/estudiante/accion/asistencia/' + encodeURIComponent(
+			this.realClass.INSTITUTION + '|' +
+			this.realClass.STRM + '|' +
+			this.realClass.CLASS_NBR + '|' +
+			this.realClass.DESCR + '|' +
+			this.realClass.DOCENTE + '|' +
+			this.realClass.CLASS_SECTION + '|' +
+			this.realClass.SSR_COMPONENT
+		)]);
 	}
 
 	getSchedule(){
@@ -134,6 +146,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		}
 		var events = [];
 		var objEvents = {};
+		let dates: any = {};
 		this.classDay.forEach(classD => {
 			for(var kDay in days){
 				if(classD[kDay] == 'Y'){
@@ -141,9 +154,10 @@ export class WeeklyScheduleComponent implements OnInit {
 						var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
 						classD.date = rDay;
 						if(!objEvents[rDay + ' ' + classD.MEETING_TIME_START + ' ' + classD.CRSE_ID]){
+							dates = this.getDates(rDay, classD.MEETING_TIME_START, classD.MEETING_TIME_END);
 							events.push({
-								start: new Date(rDay + ' ' + classD.MEETING_TIME_START),
-								end: new Date(rDay + ' ' + classD.MEETING_TIME_END),
+								start: dates.start,//new Date(rDay + ' ' + classD.MEETING_TIME_START),
+								end: dates.end,//new Date(rDay + ' ' + classD.MEETING_TIME_END),
 								title: classD.MEETING_TIME_START + '-' + classD.MEETING_TIME_END + '<br>' + classD.DESCR,
 								actions: this.actions,
 								allDay: false,
@@ -160,6 +174,75 @@ export class WeeklyScheduleComponent implements OnInit {
 			}
 		});
 		this.events = events;
+	}
+
+	getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
+		let start: Date;
+		let end: Date;
+		const ua = navigator.userAgent.toLowerCase();
+		if (ua.indexOf('safari') !== -1) {
+			if (ua.indexOf('chrome') > -1) {
+				start = new Date(rDay + 'T' + MEETING_TIME_START);
+				end = new Date(rDay + 'T' + MEETING_TIME_END);
+			} else {
+				start = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_START)));
+				end = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_END)));
+			}
+		} else {
+			start = new Date(rDay + 'T' + MEETING_TIME_START);
+			end = new Date(rDay + 'T' + MEETING_TIME_END);
+		}
+
+		return { start, end };
+	}
+
+	getHour(pHour: string): string {
+
+		const arrHour = pHour.split(':');
+		let hour =  Number(arrHour[0]);
+		hour += 5;
+		const hourModified = this.pad(hour, 2);
+		const minute =  arrHour[1];
+		const second =  arrHour[2];
+
+		return `${hourModified}:${minute}:${second}`;
+	}
+
+	getDay(pDay: string, pHour: string): string {
+
+		let rDate = `${pDay}T${pHour}`;
+
+		const arrHour = pHour.split(':');
+		let hour =  Number(arrHour[0]);
+		if (hour > 23) {
+
+			const arrDate = pDay.split('-'); // 2020-07-06
+
+			let day =  Number(arrDate[2]);
+			day += 1;
+
+			const dayModified = this.pad(day, 2);
+			const month =  arrDate[1];
+			const year =  arrDate[0];
+
+			const vDate = `${year}-${month}-${dayModified}`;
+
+			hour -= 24;
+			const hourModified = this.pad(hour, 2);
+			const minute =  arrHour[1];
+			const second =  arrHour[2];
+
+			const vHour = `${hourModified}:${minute}:${second}`;
+
+			rDate = `${vDate}T${vHour}`;
+		}
+		return rDate;
+	}
+
+	pad(num: number, size: number): string {
+		let s = num + '';
+		while (s.length < size) { s = '0' + s; }
+		return s;
 	}
 
 	segmentClicked(type, segment){

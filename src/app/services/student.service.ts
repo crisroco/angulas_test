@@ -76,4 +76,12 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getVirtualClass', data).toPromise();
     }
 
+    public getAcademicStatus(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAcademicStatus', data).toPromise();
+    }
+
+    public getAssistanceHistory(parturl): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAssistanceHistory/' + parturl, {}).toPromise();
+    }
+
 }

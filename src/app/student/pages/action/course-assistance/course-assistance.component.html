@@ -1,0 +1,45 @@
+<h5> <strong> Asistencia - Alumno </strong> </h5>
+
+<div class="row bg-blue p-2 px-5 mb-2"> 
+	<p class="m-0 text-white mr-2"> Curso  <strong> {{CRSE_NAME}} </strong> </p>
+</div>
+
+<div class="row bg-gray-a p-3 px-5">
+	<div class="col-md-12 bg-blue p-2 px-3 text-white mb-2 text-m"> Docente: <strong>{{DOCENTE}}</strong></div>
+	<div class="col-md-12 bg-blue p-2 px-3 text-white mb-2 text-m row"> 
+		<div class="col-md-4 p-0">Clase: <strong>{{CLASS_NBR}}</strong></div>
+		<div class="col-md-4 p-0">Sección: <strong>{{CLASS_SECTION}}</strong></div>
+		<div class="col-md-4 p-0">Componente: <strong>{{SSR_COMPONENT}}</strong></div>
+	</div>
+
+	<div class="col-md-12 p-0 mb-2" *ngIf="assistances && assistances.length">
+		<div class="bg-blue text-white p-2 px-3"> Detalle de asistencia </div>
+		<div class="p-3 bg-white">
+			<div class="scroll h-s">
+				<table class="w-100">
+					<thead class="">
+						<tr class="text-center text-s">
+							<th class="px-1 py-2 align-middle text-left text-m">Fecha</th>
+							<th class="px-1 py-2 align-middle text-m">Hora de Entrada</th>
+							<th class="px-1 py-2 align-middle text-m">Hora de Salida</th>
+							<th class="px-1 py-2 align-middle text-m">Presencia</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-center text-s" *ngFor="let assis of assistances; let s = 'index'">
+							<td class="p-1 text-left">{{ assis.CLASS_ATTEND_DT }}</td>
+							<td class="p-1">{{ assis.ATTEND_FROM_TIME }}</td>
+							<td class="p-1">{{ assis.ATTEND_TO_TIME }}</td>
+							<td class="p-1 text-{{assis.ATTEND_PRESENT == 'Y'?'green':'danger'}}">{{ assis.ATTEND_PRESENT == 'Y'?'Asistió':'No Asistió' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 bg-gray p-2 px-3 text-black mb-2 text-m row"> 
+		<div class="col-md-4 p-0">Asistió: <strong>{{percentYesAssistance}}%</strong></div>
+		<div class="col-md-4 p-0">No asistió: <strong>{{percentNotAssistance}}%</strong></div>
+	</div>
+</div>

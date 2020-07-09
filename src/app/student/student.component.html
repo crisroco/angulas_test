@@ -1,4 +1,4 @@
-<div class="row bg-ucs header">
+<div class="row bg-{{company}} header">
 	<div class="row container-2 mx-auto px-3 align-items-center justify-content-between">
 		<img src="./assets/img//logo.png" class="img-hs">
 		<a href="/estudiante" class="text-m text-white py-3 bd-b-5 bd-black"> <h5 class="m-0"> <strong> INICIO </strong> </h5> </a>
@@ -7,8 +7,8 @@
 				<img src="./assets/img/icon/user.png" class="img-q"> 
 			</div>
 			<div class="bg-white drop" *ngIf="menus">
-				<a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-ucs p-2 px-3 bd-b-1 bd-ucs"> <i class="fa fa-lock"></i> Cambiar contraseña</a>
-				<a class="d-block m-0 text-ucs p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+				<a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-{{company}} p-2 px-3 bd-b-1 bd-{{company}}"> <i class="fa fa-lock"></i> Cambiar contraseña</a>
+				<a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
 			</div>
 		</div>
 			
@@ -20,9 +20,10 @@
 <!-- </div> -->
 
 <div class="footer">
-	<div class="row bg-ucs-a">
+	<div class="row bg-{{company}}-a">
 		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
 			<!-- <a href="" class="text-m text-white"> Mi Matrícula </a> -->
+			<a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion" class="text-m text-white pointer">Intención de Matrícula</a>
 			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
 			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
 		</div>
@@ -31,13 +32,13 @@
 </div>
 
 <ngx-smart-modal #libraryModal identifier="libraryModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
-	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-ucs">
+	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
 		<h5 class=""> <strong> BIBLIOTECA EN LÍNEA </strong> </h5>
-		<a (click)="libraryModal.close()" class="pointer"><i class="fa fa-times text-ucs text-l"></i></a>
+		<a (click)="libraryModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
 	</div>
 	<div class="scroll h-fn">
-		<div class="rounded-s bd-1 mb-3 overflow-hidden bd-ucs" *ngFor="let typelibrary of typeLibraries">
-			<div (click)="toggle(typelibrary)" class="bg-ucs p-2 text-white pointer">
+		<div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let typelibrary of typeLibraries">
+			<div (click)="toggle(typelibrary)" class="bg-{{company}} p-2 text-white pointer">
 				{{typelibrary.name}}
 			</div>
 			<div [@openClose]="typelibrary.isOpen ? 'open' : 'closed'" class="pd-3 {{typelibrary.subtypes?'':'scroll'}}">
@@ -66,13 +67,13 @@
 </ngx-smart-modal>
 
 <ngx-smart-modal #linkModal identifier="linkModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
-	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-ucs">
+	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
 		<h5 class=""> <strong> MIS LINKS </strong> </h5>
-		<a (click)="linkModal.close()" class="pointer"><i class="fa fa-times text-ucs text-l"></i></a>
+		<a (click)="linkModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
 	</div>
 	<div class="scroll h-fn">
-		<div class="rounded-s bd-1 mb-3 overflow-hidden bd-ucs" *ngFor="let typeLink of typeLinks">
-			<div (click)="toggle(typeLink)" class="bg-ucs p-2 text-white pointer">
+		<div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let typeLink of typeLinks">
+			<div (click)="toggle(typeLink)" class="bg-{{company}} p-2 text-white pointer">
 				{{typeLink.name}}
 			</div>
 			<div [@openClose]="typeLink.isOpen ? 'open' : 'closed'" class="pd-3">
@@ -86,6 +87,99 @@
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #SurveyModal identifier="SurveyModal" [customClass]="'mediumModal p-post-header'">
-	<a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank"><img class="w-100" src="./assets/img/encuesta.png"></a>
+<ngx-smart-modal #IntentionEnrollmentModal identifier="IntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a *ngIf="!noClosed || (this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.authorizacion.ended_process == 'SI')" (click)="IntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-center p-2 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-sd">Intención de Matricula</h5>
+		<p class="text-m">Queremos adaptar nuestros servicios a tus necesidades.  Por favor llena el siguiente formulario, te tomará menos de dos minutos. </p>
+
+		<div class="bg-gray p-2 text-center mb-2">
+			¿Te matricularás en el 2020-II?
+		</div>
+
+		<div class="row justify-content-center mb-3">
+			<button (click)="openYesMofal()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+			<button (click)="openNotModal()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+		</div>
+	</div>
 </ngx-smart-modal>
+
+<ngx-smart-modal #NotIntentionEnrollmentModal identifier="NotIntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3" *ngIf="this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.authorizacion.ended_process == 'SI'">
+			<a (click)="NotIntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-left p-2 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-l">Por favor indica las razones de tu elección</h5>
+
+		<div class="form-group">
+		    <div class="form-check" *ngFor="let motive of motives">
+				<input class="form-check-input" type="checkbox" id="{{motive.MOTIVO_COD}}" [(ngModel)]="motive.value" value="{{motive.MOTIVO_COD}}">
+				<label class="form-check-label" for="{{motive.MOTIVO_COD}}"> {{motive.MOTIVO_DESC}} </label>
+		    </div>
+	  	</div>
+	</div>
+	<div class="row justify-content-center mb-3">
+		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveNotIntention()">GRABAR</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #YesIntentionEnrollmentModal identifier="YesIntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3" *ngIf="this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.authorizacion.ended_process == 'SI'">
+			<a (click)="YesIntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-left p-2 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-l">Cursos</h5>
+		<p> Elige tu intención de matrícula </p>
+		<div class="form-group scroll h-s">
+		    <table id="table-students" class="w-100">
+				<thead class="">
+					<tr class="text-center text-s">
+						<th class="px-1 py-2 text-{{company}} text-left text-m">Curso</th>
+						<th class="px-1 py-2 text-{{company}} align-middle text-m">Créditos</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center text-s" *ngFor="let course of courses">
+						<td class="p-1 text-left">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" value="{{course.CRSE_ID}}">
+								<label class="form-check-label" for="{{course.CRSE_ID}}"> {{course.CRSE_DESC}} </label>
+						    </div>
+						</td>
+						<td class="p-1 text-center"> {{course.CREDITO}} </td>
+					</tr>
+				</tbody>
+			</table>
+	  	</div>
+		<div class="mb-2">
+			<textarea class="form-control" [(ngModel)]="comment" placeholder="¿Te falta algún curso?"> </textarea>
+		</div>	
+		<div class="bg-gray p-2 mb-2">
+			La intención de matricula no asegura un cupo en el curso elegido
+		</div>	
+	</div>
+	<div class="row justify-content-center mb-3 px-5">
+		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveYesIntention()">GRABAR</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #FinalIntentionEnrollmentModal identifier="FinalIntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1"> </div>
+	<div class="text-left p-2 px-5 mb-3">
+		<h5 class="text-{{company}} font-weight-bold text-center">¡Gracias!</h5>
+		<div> Tu respuesta es importante para nosotros, mejoras tú, mejora el mundo. </div>
+	</div>
+	<div class="row justify-content-center mb-3">
+		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="FinalIntentionEnrollmentModal.close()">FINALIZAR</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

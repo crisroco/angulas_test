@@ -1,8 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { SessionService } from '../services/session.service';
 import { Router } from '@angular/router';
 import { NgxSmartModalService } from 'ngx-smart-modal';
+import { IntentionService } from '../services/intention.service';
+import { Broadcaster } from '../services/broadcaster';
+import { RealDate } from '../helpers/dates';
+import { DynamicSort } from '../helpers/arrays';
+import { ToastrService } from 'ngx-toastr';
+import { AppSettings } from '../app.settings';
 
 @Component({
   selector: 'app-student',
@@ -35,6 +41,9 @@ import { NgxSmartModalService } from 'ngx-smart-modal';
 })
 
 export class StudentComponent implements OnInit {
+	company = AppSettings.COMPANY;
+	user: any = this.session.getObject('user');
+	enrollmentStatus: any;
 	typeLibraries: any = [
 		{
 			name: 'Sistema de Biblioteca',
@@ -176,7 +185,6 @@ export class StudentComponent implements OnInit {
 			]
 		},
 	];
-
 	typeLinks: any = [
 		{
 			name: 'Documentos Pregrado',
@@ -217,15 +225,28 @@ export class StudentComponent implements OnInit {
 			isOpen: true,
 		},
 	];
-
+	realDate: any = RealDate();
 	menus = false;
+	noClosed: boolean = false;
+	crossdata: any;
+	loading: boolean = false;
+	motives: Array<any>;
+	courses: Array<any>;
+	comment: string = '';
+	@ViewChild('IntentionEnrollmentModal') IntentionEnrollmentModal: any;
+	@ViewChild('NotIntentionEnrollmentModal') NotIntentionEnrollmentModal: any;
+	@ViewChild('YesIntentionEnrollmentModal') YesIntentionEnrollmentModal: any;
+	@ViewChild('FinalIntentionEnrollmentModal') FinalIntentionEnrollmentModal: any;
 
 	constructor(private session: SessionService,
 		private router: Router,
+		private intentionS: IntentionService,
+    	private broadcaster: Broadcaster,
+    	private toastr: ToastrService,
 		public ngxSmartModalService: NgxSmartModalService) { }
 
 	ngOnInit() {
-		if(!this.session.getObject('user')){
+		if(!this.user){
 			this.router.navigate(['/login']);
 			// for (var i = this.typeLibraries.length - 1; i >= 0; i--) {
 			// 	this.typeLibraries[i].libraries.forEach((library) => {
@@ -233,6 +254,34 @@ export class StudentComponent implements OnInit {
 			// 	});
 			// }
 		}
+		else{
+			this.getParameters();
+		}
+
+		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
+			if (message && message.intentionModal && message.intentionModal == '2') {
+				this.IntentionEnrollmentModal.open();
+				this.getParameters(false);
+			}
+	    });
+	}
+
+	getParameters(open: boolean = true){
+		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
+		this.intentionS.getParameters(this.user.codigoAlumno)
+		.then(res => {
+			this.enrollmentStatus = res.data && res.data.enrollment_intention_status?res.data:{};
+			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.authorizacion.ended_process == 'NO'){
+				if(open) this.openIntentionEnrollment();
+				this.noClosed = rDate > this.enrollmentStatus.end_date || rDate < this.enrollmentStatus.start_date?true:false;
+				console.log(this.noClosed);
+				console.log(this.enrollmentStatus.end_date, this.enrollmentStatus.start_date, rDate);
+			}
+		})
+	}
+
+	openIntentionEnrollment(){
+		this.IntentionEnrollmentModal.open();
 	}
 
 	toggle(obj) {
@@ -242,6 +291,89 @@ export class StudentComponent implements OnInit {
 	logout(){
 		this.session.allCLear();
 		this.router.navigate(['/login']);
+	}
+
+	getMotives(){
+		this.loading = true;
+		this.intentionS.getMotives(this.user.codigoAlumno)
+		.then(res => {
+			this.loading = false;
+			this.motives = res.data && res.data.motives? res.data.motives:[];
+			var selecteds = res.data && res.data.selected?res.data.selected:[];
+			this.motives.forEach(item => {
+				item.value = selecteds.filter(sele => sele.MOTIVO_COD == item.MOTIVO_COD).length?true:'';
+			});
+		});
+	}
+
+	getCourses(){
+		this.loading = true;
+		this.intentionS.getCourses(this.user.codigoAlumno)
+		.then(res => {
+			this.loading = false;
+			this.courses = res.data? res.data:[];
+			this.courses.forEach(item => {
+				item.value = item.MATRICULA && item.MATRICULA =='SI'?true:'';
+				this.comment = item.COMENTARIO?item.COMENTARIO:'';
+			});
+			this.courses.sort(DynamicSort('CRSE_DESC'))
+		});
+	}
+
+	openNotModal(){
+		this.getMotives();
+		this.IntentionEnrollmentModal.close();
+		this.NotIntentionEnrollmentModal.open();
+	}
+
+	openYesMofal(){
+		this.getCourses();
+		this.IntentionEnrollmentModal.close();
+		this.YesIntentionEnrollmentModal.open();
+	}
+
+	saveYesIntention(){
+		var courses = this.courses.filter(item => item.value);
+		if(courses.length){
+			this.loading = true;
+			this.intentionS.saveYesIntention({emplid: this.user.codigoAlumno, courses: this.courses, comment: this.comment})
+			.then(res => {
+				if(res && res.status){
+					this.toastr.success('Se grabó exitosamente.');
+					this.YesIntentionEnrollmentModal.close();
+					this.FinalIntentionEnrollmentModal.open();
+				}
+				else{
+					this.toastr.error('Error! Inténtelo nuevamente.');
+				}
+				this.loading = false;
+			});
+		}
+		else{
+			this.toastr.error('Debes seleccionar al menos un curso');
+		}
+	}
+
+	saveNotIntention(){
+		var motives = this.motives.filter(item => item.value);
+		if(motives.length){
+			this.loading = true;
+			this.intentionS.saveNotIntention({emplid: this.user.codigoAlumno, motives: motives})
+			.then(res => {
+				if(res && res.status){
+					this.toastr.success('Se grabó exitosamente.');
+					this.NotIntentionEnrollmentModal.close();
+					this.FinalIntentionEnrollmentModal.open();
+				}
+				else{
+					this.toastr.error('Error! Inténtelo nuevamente.');
+				}
+				this.loading = false;
+			});
+		}
+		else{
+			this.toastr.error('Debes seleccionar al menos un motivo');
+		}
 	}
 
 }

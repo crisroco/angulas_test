@@ -1,4 +1,4 @@
-<h5> <strong> Plantilla de Alumno | Programa: {{realProgram?realProgram.nombrePrograma:''}} </strong> </h5>
+<h5> <strong> Programa: {{realProgram?realProgram.nombrePrograma:''}} </strong> </h5>
 
 <div class="row bg-blue p-2 px-5 justify-content-center mb-2"> 
 	<p class="m-0 text-white mr-2"> Programa </p>
@@ -104,7 +104,7 @@
 		<div class="row justify-content-around align-items-center">
 			<a href="{{virtualRoom[realClass.INSTITUTION]}}local/wseducad/auth/sso.php?strm={{realClass.STRM}}&class={{realClass.CLASS_NBR2 == '0' || !realClass.CLASS_NBR2?realClass.CLASS_NBR:realClass.CLASS_NBR2}}&emplid={{this.user.codigoAlumno}}" target="_blank" class="mr-3"><img src="./assets/img/icon/moodle.jpg" style="width: 50px"></a>
 			<a (click)="goFinalGrades()" class="pointer"><img src="./assets/img/icon/ico-1.png" style="width: 50px"></a>
-			<a class="ml-3 disabled" title="En Mantenimiento"><img src="./assets/img/icon/ico-2.png" style="width: 50px"></a>
+			<a (click)="goAssistance()" class="ml-3 pointer"><img src="./assets/img/icon/ico-2.png" class="" style="width: 50px"></a>
 		</div>
 	</div>
 </ngx-smart-modal>

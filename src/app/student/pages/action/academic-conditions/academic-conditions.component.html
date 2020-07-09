@@ -1,10 +1,11 @@
 <h5> <strong> Mis Condiciones Académicas | Programa: {{realProgram?realProgram.nombrePrograma:''}} </strong> </h5>
 
-<div class="row bg-purple p-2 px-5 justify-content-center mb-2"> 
+<div class="row bg-purple p-2 px-5 justify-content-center align-items-center mb-2"> 
 	<p class="m-0 text-white mr-2"> Programa </p>
-	<select class="" [(ngModel)]="realProgram" (change)="getAcademicConditions()">
+	<select class="mr-2" [(ngModel)]="realProgram" (change)="getAcademicConditions()">
 		<option *ngFor="let program of programs" [ngValue]="program"> {{program.nombrePrograma}} </option>
 	</select>
+	<button (click)="preparatePDF()" class="btn btn-black">Descargar PDF</button>
 </div>
 
 <div class="row bg-gray-a p-3">
@@ -13,7 +14,7 @@
 			<div class="bg-purple text-white p-2 px-3"> {{cycle.name}} </div>
 			<div class="p-3 bg-white">
 				<div class="scroll h-auto">
-					<table id="table-students" class="w-100">
+					<table id="table-cycle-{{cycle.name}}" class="w-100">
 						<thead class="">
 							<tr class="text-center text-s">
 								<th class="px-1 py-2 align-middle text-left text-m">Curso</th>
@@ -120,7 +121,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="col-md-12">
 			<div class="bg-black-a3 text-white p-2 px-3"> Promedio Ponderado </div>
 			<div class="bg-white">
@@ -138,3 +138,5 @@
 		</div>
 	</div>
 </div>
+
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

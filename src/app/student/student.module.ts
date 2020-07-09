@@ -11,6 +11,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { StudentService } from '../services/student.service';
+import { IntentionService } from '../services/intention.service';
 import { StudentRoutingModule } from './student-routing.module';
 import { StudentComponent } from './student.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -21,9 +22,10 @@ import { AcademicConditionsComponent } from './pages/action/academic-conditions/
 import { AccountStatusComponent } from './pages/action/account-status/account-status.component';
 import { CourseHistoryComponent } from './pages/action/course-history/course-history.component';
 import { FinalGradesComponent } from './pages/action/final-grades/final-grades.component';
+import { CourseAssistanceComponent } from './pages/action/course-assistance/course-assistance.component';
 
 @NgModule({
-  declarations: [StudentComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent],
+  declarations: [StudentComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -46,7 +48,8 @@ import { FinalGradesComponent } from './pages/action/final-grades/final-grades.c
     StudentRoutingModule
   ],
   providers: [
-    StudentService
+    StudentService,
+    IntentionService
   ],
 })
 export class StudentModule { }

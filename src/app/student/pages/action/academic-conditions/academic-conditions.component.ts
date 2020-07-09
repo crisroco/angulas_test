@@ -4,6 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { StudentService } from '../../../../services/student.service';
 import { SessionService } from '../../../../services/session.service';
+import { DynamicSort } from '../../../../helpers/arrays';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-academic-conditions',
@@ -19,6 +22,7 @@ export class AcademicConditionsComponent implements OnInit {
 	globalStatistics:any;
 	requirements:any;
 	weightedAverage: number = 0;
+	loading = false;
 
 	constructor(private session: SessionService,
 		private studentS: StudentService) { }
@@ -85,14 +89,16 @@ export class AcademicConditionsComponent implements OnInit {
 				}
 			};
 			var tcycles = res.RES_COND_ACAD && res.RES_COND_ACAD.RES_COND_ACAD_DET?res.RES_COND_ACAD.RES_COND_ACAD_DET:[];
-			for (var i = tcycles.length - 1; i >= 0; i--) {
-				if(objCycles[tcycles[i].UCS_CICLO]){
-					objCycles[tcycles[i].UCS_CICLO].courses.push(tcycles[i]);
+			if(tcycles.length){
+				for (var i = tcycles.length - 1; i >= 0; i--) {
+					if(objCycles[tcycles[i].UCS_CICLO]){
+						objCycles[tcycles[i].UCS_CICLO].courses.push(tcycles[i]);
+					}
 				}
-			}
-			for( var kcycle in objCycles){
-				objCycles[kcycle].courses.sort(this.dynamicSortMultiple(["DESCR2", "DESCR1"]));
-				this.cycles.push(objCycles[kcycle]);
+				for( var kcycle in objCycles){
+					objCycles[kcycle].courses.sort(this.dynamicSortMultiple(["DESCR2", "DESCR1"]));
+					this.cycles.push(objCycles[kcycle]);
+				}
 			}
 			this.getGlobalStatistics();
 			this.getRequirements();
@@ -186,6 +192,217 @@ export class AcademicConditionsComponent implements OnInit {
 	        }
 	        return result;
 	    }
+	}
+
+	preparatePDF(){
+		this.loading = true;
+		this.studentS.getAcademicStatus({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		.then(res => {
+			console.log(res);
+			var objSemester = {};
+			var arSemester = [];
+			let academicStatus: Array<any> = res.UCS_REST_RECORD_ACAD_RES && res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM?res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM:[];
+			academicStatus.forEach((item, index) => {
+				if(!objSemester[item.Ccl_Lvo]){
+					objSemester[item.Ccl_Lvo] = {
+						name: item.Descr_4,
+						code: item.Ccl_Lvo,
+						courses: []
+					}
+				}
+				objSemester[item.Ccl_Lvo].courses.push(item);
+			});
+			for(var kSemester in objSemester){
+				arSemester.push(objSemester[kSemester]);
+			}
+			arSemester.sort(DynamicSort('code'));
+			this.loading = false;
+			this.createPDF(arSemester, academicStatus[0]);
+		});
+	}
+
+	createPDF(arr: Array<any>, general){
+		var doc = new jsPDF('p', 'pt');
+		var currentpage = 0;
+		var footer = function (data) {
+		  if (currentpage < doc.internal.getNumberOfPages()) {
+		      doc.setFontSize(10);
+		      doc.setFontStyle('normal');
+		      doc.text("Copyright © 2019 Todos los derechos reservados.", 30, doc.internal.pageSize.height - 30);
+		      currentpage = doc.internal.getNumberOfPages();
+		  }
+		};
+		// var courseTitle = course.DESCR;
+		// var gradeClass = course.ACAD_CAREER + ' - ' + course.CLASS_NBR + ' / ' + course.SSR_COMPONENT + ' - ' + course.CLASS_SECTION;
+		var realDate = new Date();
+		var img = new Image()
+		img.src = 'assets/img/cientifica_pdf.png';
+		doc.addImage(img, 'png',30, 30, 110, 40)
+		// doc.setFontSize(10);
+		// doc.text( 'Docente: '+ UpperFirstLetter(this.user.name + ' ' + this.user.surname), 30, 90);
+		doc.setFontSize(10);
+		doc.text( 'Fecha Imp: ' + realDate.toLocaleString().split(' ')[0], doc.internal.pageSize.width - 30, 45, 'right');
+		doc.setFontSize(10);
+		doc.text( 'Hora Imp: ' + realDate.toLocaleString().split(' ')[1], doc.internal.pageSize.width - 30, 55, 'right');
+		doc.setFontSize(10);
+		doc.text( 'Usuario: ' + this.user.email, doc.internal.pageSize.width - 30, 65, 'right');
+		doc.setFontSize(25);
+		var textTitle = "Registro Académico",
+		    xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(textTitle) * doc.internal.getFontSize() / 2); 
+		doc.text(textTitle, xOffset, 95);
+
+		doc.setFontSize(10);
+		doc.text( 'Institución Académica:: ', 30, 125, 'left');
+		doc.setFontSize(10);
+		doc.text( general.Institucion, 190, 125, 'left');
+		doc.setFontSize(10);
+		doc.text( 'Grado Académico: ', 30, 135, 'left');
+		doc.setFontSize(10);
+		doc.text( general.Grado, 190, 135, 'left');
+		doc.setFontSize(10);
+		doc.text( 'Programa Académico: ', 30, 145, 'left');
+		doc.setFontSize(10);
+		doc.text( general.Descr2, 190, 145, 'left');
+		doc.setFontSize(10);
+		doc.text( 'Plan Académico: ', 30, 155, 'left');
+		doc.setFontSize(10);
+		doc.text( general.Descr3, 190, 155, 'left');
+		doc.setFontSize(10);
+		doc.text( 'ID Alumno: ', 30, 165, 'left');
+		doc.setFontSize(10);
+		doc.text( general.EMPLID, 190, 165, 'left');
+		doc.setFontSize(10);
+		doc.text( 'Alumno: ', 30, 175, 'left');
+		doc.setFontSize(10);
+		doc.text( general.Apellido + ' ' + general.segundo_Apellido + ' ' + general.Nombre, 190, 175, 'left');
+
+		var finalAverage = 0;
+		var electivesAprobe = 0;
+		var electivesDisaprobe = 0;
+		var requiredsAprobe = 0;
+		var requiredsDisaprobe = 0;
+		arr.forEach( (item, index) => {
+			var offset = 35;
+			var offset2 = 45;
+			if(index == 0){
+				offset = 220;
+				offset2 = 230;
+			}
+			var body = []
+			var totalCredits = 0;
+			item.courses.forEach(item => {
+				body.push([item.ID_Curso, item.Descr, (item.Caracter == 0?'Obligatorio':'Electivo'), item.Ciclo, item.Uni_Matrd, item.GRADE, item.Comentario]);
+				totalCredits += parseInt(item.Uni_Matrd);
+				finalAverage = Math.round(item.Promedio*100)/100;
+				if(item.Caracter == 0){
+					item.GRADE >= 13? requiredsAprobe++: requiredsDisaprobe++;
+				}
+				else{
+					item.GRADE >= 13? electivesAprobe++: electivesDisaprobe++;
+				}
+			})
+			doc.setFontSize(14);
+			doc.text( item.name, 30, doc.autoTableEndPosY() + offset, 'left');
+			doc.autoTable({
+				head: [['Código', 'Curso', 'Tipo', 'Ciclo', 'Créditos', 'Nota', 'Observación']],
+				body: body,
+				startY: doc.autoTableEndPosY() + offset2,
+				afterPageContent: footer,
+				margin: { horizontal: 30 },
+				bodyStyles: { 
+				  valign: 'middle',
+				  fontSize: 8,
+				  halign: 'center'
+				},
+				styles: { overflow: 'linebreak' },
+				headerStyles: {
+				    fillColor: [0, 0, 0],
+				    textColor: [255],
+				    halign: 'center'
+				},
+				theme: 'striped'
+			});
+			doc.autoTable({
+				head: [['Total Cursos = ' + item.courses.length + ' Total Unidades = ' + totalCredits + ' Promedio Ponderado Ciclo Lectivo = ' + item.courses[0].N_Med]],
+				startY: doc.autoTableEndPosY(),
+				afterPageContent: footer,
+				margin: { horizontal: 30 },
+				styles: { overflow: 'linebreak' },
+				headerStyles: {
+				    fillColor: [255, 255, 255],
+				    textColor: [0],
+				    halign: 'left'
+				},
+				theme: 'striped'
+			});
+			var limit = doc.autoTableEndPosY();
+			if(limit >= 730){
+				var npages = doc.internal.getNumberOfPages();
+				console.log('numero de paginas: ' + npages);
+				doc.autoTable({
+					head: [['']],
+					startY: doc.autoTableEndPosY() + 5,
+					margin: { horizontal: 30 },
+					styles: { overflow: 'linebreak' },
+					headerStyles: {
+					    fillColor: [255, 255, 255],
+					    textColor: [255],
+					    halign: 'center'
+					},
+					theme: 'striped'
+				});
+			}
+		});
+
+		doc.autoTable({
+			head: [['Promedio Ponderado', finalAverage]],
+			startY: doc.autoTableEndPosY() + 40,
+			afterPageContent: footer,
+			margin: { left: 220, right: 30 },
+			styles: { overflow: 'linebreak' },
+			headerStyles: {
+			    fillColor: [255, 255, 255],
+			    lineColor: [0, 0, 0],
+			    lineWidth: 1,
+			    textColor: [0],
+			    halign: 'left'
+			},
+			theme: 'striped'
+		});
+
+		doc.autoTable({
+			head: [['Tipo', 'UND', 'Aprobados', 'Por Aprobar']],
+			body: [['Obligatorios', requiredsAprobe + requiredsDisaprobe, requiredsAprobe, requiredsDisaprobe ]
+			,['Electivos', electivesAprobe + electivesDisaprobe, electivesAprobe, electivesDisaprobe ],
+			['TOTAL', electivesAprobe + electivesDisaprobe + requiredsAprobe + requiredsDisaprobe, electivesAprobe + requiredsAprobe, electivesDisaprobe + requiredsDisaprobe ]],
+			startY: doc.autoTableEndPosY() + 20,
+			afterPageContent: footer,
+			margin: { left: 220, right: 30 },
+			bodyStyles: { valign: 'middle', fontSize: 8, halign: 'center' },
+			styles: { overflow: 'linebreak' },
+			headerStyles: { fillColor: [0, 0, 0], textColor: [255], halign: 'center' },
+			theme: 'striped'
+		});
+			
+		doc.save("este.pdf");
+	}
+
+	open(){
+		var doc = new jsPDF('p', 'pt');
+		var splitTitle = doc.splitTextToSize('este', 270);
+		var pageHeight = doc.internal.pageSize.height;
+		doc.setFontType("normal");
+		doc.setFontSize("11");
+		var y = 7;
+		for (var i = 0; i < splitTitle.length; i++) {
+			if (y > 280) {
+			y = 10;
+			doc.addPage();
+			}
+			doc.text(15, y, splitTitle[i]);
+			y = y + 7;
+		}
+		doc.save('my.pdf');
 	}
 
 }

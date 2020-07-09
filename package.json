@@ -25,6 +25,8 @@
     "core-js": "^2.5.4",
     "date-fns": "^2.14.0",
     "font-awesome": "^4.7.0",
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.5.6",
     "moment": "^2.27.0",
     "ngx-device-detector": "^1.4.5",
     "ngx-loading": "^3.0.1",

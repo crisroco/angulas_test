@@ -22,8 +22,7 @@ export class GeneralService {
 
 	public makeHeaderNormal(){
 		return {
-		    'Content-Type': 'application/json',
-            'Authorization': this.session.getItem('token')
+		    'Content-Type': 'application/json'
 		};
 	} 
 
