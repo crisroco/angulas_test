@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StudentService } from '../../../../services/student.service';
 import { SessionService } from '../../../../services/session.service';
+import { RealDate } from '../../../../helpers/dates';
 
 @Component({
   selector: 'app-course-assistance',
@@ -19,7 +20,7 @@ export class CourseAssistanceComponent implements OnInit {
 	CLASS_SECTION: string = '';
 	SSR_COMPONENT: string = '';
 	assistances: Array<any>;
-
+	realDate = RealDate();
 	notAssistance = 0;
 	yesAssistance = 0;
 	percentNotAssistance = 0;
@@ -45,12 +46,14 @@ export class CourseAssistanceComponent implements OnInit {
 		.then(res => {
 			console.log(res);
 			this.assistances = res.UCS_REST_LSTALU_ASIS_RES && res.UCS_REST_LSTALU_ASIS_RES.UCS_REST_LSTALU_ASIS_COM?res.UCS_REST_LSTALU_ASIS_RES.UCS_REST_LSTALU_ASIS_COM: [];
+			var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
+			this.assistances = this.assistances.filter(item => item.CLASS_ATTEND_DT <= rDate);
 			this.assistances.forEach(item => {
 				if(item.ATTEND_PRESENT == 'Y') this.yesAssistance++;
 				else this.notAssistance++;
 			});
-			this.percentYesAssistance = this.assistances.length && this.yesAssistance?Math.round(this.yesAssistance/this.assistances.length*10000)/100:0;
-			this.percentNotAssistance = this.assistances.length && this.notAssistance?Math.round(this.notAssistance/this.assistances.length*10000)/100:0;
+			this.percentYesAssistance = this.assistances.length && this.yesAssistance?Math.round(this.yesAssistance/this.assistances.length*100):0;
+			this.percentNotAssistance = this.assistances.length && this.notAssistance?Math.round(this.notAssistance/this.assistances.length*100):0;
 		})
 	}
 
