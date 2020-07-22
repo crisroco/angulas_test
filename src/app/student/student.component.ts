@@ -4,6 +4,7 @@ import { SessionService } from '../services/session.service';
 import { Router } from '@angular/router';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { IntentionService } from '../services/intention.service';
+import { StudentService } from '../services/student.service';
 import { Broadcaster } from '../services/broadcaster';
 import { RealDate } from '../helpers/dates';
 import { DynamicSort } from '../helpers/arrays';
@@ -224,6 +225,17 @@ export class StudentComponent implements OnInit {
 			],
 			isOpen: true,
 		},
+		{
+			name: 'Bolsa de Trabajo',
+			links: [
+				{
+					img: '',
+					url: 'https://empleabilidad.cientifica.edu.pe/',
+					description: 'EMPLEABILIDAD CIENTÍFICA'
+				},
+			],
+			isOpen: true,
+		},
 	];
 	realDate: any = RealDate();
 	menus = false;
@@ -233,14 +245,18 @@ export class StudentComponent implements OnInit {
 	motives: Array<any>;
 	courses: Array<any>;
 	comment: string = '';
+	enroll: any = null;
+	enrollCycles: Array<any>;
 	@ViewChild('IntentionEnrollmentModal') IntentionEnrollmentModal: any;
 	@ViewChild('NotIntentionEnrollmentModal') NotIntentionEnrollmentModal: any;
 	@ViewChild('YesIntentionEnrollmentModal') YesIntentionEnrollmentModal: any;
 	@ViewChild('FinalIntentionEnrollmentModal') FinalIntentionEnrollmentModal: any;
+	@ViewChild('EnrollScheduleModal') EnrollScheduleModal: any;
 
 	constructor(private session: SessionService,
 		private router: Router,
 		private intentionS: IntentionService,
+		private studentS: StudentService,
     	private broadcaster: Broadcaster,
     	private toastr: ToastrService,
 		public ngxSmartModalService: NgxSmartModalService) { }
@@ -263,6 +279,9 @@ export class StudentComponent implements OnInit {
 				this.IntentionEnrollmentModal.open();
 				this.getParameters(false);
 			}
+			else if(message && message.enroll){
+				this.enroll = message.enroll;
+			}
 	    });
 	}
 
@@ -271,13 +290,57 @@ export class StudentComponent implements OnInit {
 		this.intentionS.getParameters(this.user.codigoAlumno)
 		.then(res => {
 			this.enrollmentStatus = res.data && res.data.enrollment_intention_status?res.data:{};
-			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.authorizacion.ended_process == 'NO'){
+			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.type == 'PM' && this.enrollmentStatus.authorizacion.ended_process == 'NO'){
 				if(open) this.openIntentionEnrollment();
 				this.noClosed = rDate > this.enrollmentStatus.end_date || rDate < this.enrollmentStatus.start_date?true:false;
 				console.log(this.noClosed);
 				console.log(this.enrollmentStatus.end_date, this.enrollmentStatus.start_date, rDate);
 			}
 		})
+	}
+
+	getEnrollSchedule(){
+		this.enrollCycles = null;
+		this.EnrollScheduleModal.open();
+		console.log(this.enroll);
+		this.studentS.getEnrollSchedule(this.enroll.OPRID + '/' + this.enroll.INSTITUTION + '/' + this.enroll.ACAD_CAREER + '/' + this.enroll.ACAD_PROG + '/' + this.enroll.codigoPlan + '/' + this.enroll.EMPLID + '/' + this.enroll.STRM)
+		.then(res => {
+			console.log(res);
+			let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
+			var objCycles = {};
+			allData.forEach( (item)  => {
+				if(!objCycles[item.UCS_CICLO]){
+					objCycles[item.UCS_CICLO] = {
+						name: item.UCS_CICLO,
+						isOpen: true,
+						courses: {}
+					}
+				}
+				if(!objCycles[item.UCS_CICLO].courses[item.DESCR]){
+					objCycles[item.UCS_CICLO].courses[item.DESCR] = {
+						name: item.DESCR,
+						isOpen: true,
+						type: item.UCS_OBLIGATORIEDAD,
+						schedule: []
+					}
+				}
+				objCycles[item.UCS_CICLO].courses[item.DESCR].schedule.push(item);
+			});
+			this.enrollCycles = [];
+			for(var kcycle in objCycles){
+				var courses = [];
+				if(kcycle > '0'){
+					for(var kcourse in objCycles[kcycle].courses){
+						courses.push(objCycles[kcycle].courses[kcourse]);
+					}
+					objCycles[kcycle].courses = courses;
+					this.enrollCycles.push(objCycles[kcycle]);
+				}
+			}
+			console.log(objCycles);
+			console.log(this.enrollCycles);
+			// this.enrollCycles = 
+		});
 	}
 
 	openIntentionEnrollment(){

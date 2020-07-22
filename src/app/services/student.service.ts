@@ -84,4 +84,24 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAssistanceHistory/' + parturl, {}).toPromise();
     }
 
+    public getEnrollSchedule(parturl): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getEnrollSchedule/' + parturl, {}).toPromise();
+    }
+
+    public getCompleteConditions(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getCompleteConditions', data).toPromise();
+    }
+
+    public saveAcademicCondition(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/saveAcademicCondition', data).toPromise();
+    }
+
+    public saveFinancialCondition(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/saveFinancialCondition', data).toPromise();
+    }
+
+    public getEnrollQueueNumber(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getEnrollQueueNumber', data).toPromise();
+    }
+
 }

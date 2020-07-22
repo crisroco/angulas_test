@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { StudentService } from '../../../../services/student.service';
 import { SessionService } from '../../../../services/session.service';
+import { AssistanceService } from '../../../../services/assistance.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { Observable, Subject } from 'rxjs';
 import { setHours, setMinutes } from 'date-fns';
@@ -23,6 +24,9 @@ export class WeeklyScheduleComponent implements OnInit {
 	realClass: any;
 	virtualClass: Array<any>;
 	realModal: any;
+	realDate = RealDate();
+	realHourStart;
+	offsetHour = 1000*60*10;
 
 	virtualRoom: any = {
 		"PSTGR": "https://aulavirtualposgrado.cientifica.edu.pe/",
@@ -60,6 +64,7 @@ export class WeeklyScheduleComponent implements OnInit {
 
 	constructor(private session: SessionService,
 		private router: Router,
+		private assistanceS: AssistanceService,
 		private studentS: StudentService) { }
 
 	ngOnInit() {
@@ -131,6 +136,55 @@ export class WeeklyScheduleComponent implements OnInit {
 		.then(res => {
 			this.virtualClass = res.RES_HRS_VIR_CLS && res.RES_HRS_VIR_CLS.COM_HRS_VIR_CLS?res.RES_HRS_VIR_CLS.COM_HRS_VIR_CLS:[];
 		}, error => { })
+	}
+
+	preGoMoodle(){
+		var realClass = JSON.parse(JSON.stringify(this.realClass));
+		realClass.CLASS_ATTEND_DT = realClass.date;
+		this.assistanceS.getAssistanceNBR(realClass)
+		.then(res => {
+			console.log(res);
+			this.realDate = RealDate();
+			var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0]?res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR:'';
+            var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
+            var realHourStart = this.realHourStart.year + '-' + this.realHourStart.month + '-' + this.realHourStart.day;
+			realClass.EMPLID = this.user.codigoAlumno;
+            realClass.ATTEND_TMPLT_NBR = templt_nbr;
+            realClass.ATTEND_PRESENT = 'Y';
+        	realClass.ATTEND_LEFT_EARLY = 'N';
+            realClass.ATTEND_TARDY = 'N';
+            realClass.ATTEND_REASON = '';
+            var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
+            console.log(difference);
+			if(templt_nbr && (realDate == realHourStart || Math.abs(difference) <= this.offsetHour)){
+	            if(this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute){
+	            	realClass.STATUS = 'P';
+	            }
+	            else if(difference <= this.offsetHour && difference > 0){
+	            	realClass.ATTEND_LEFT_EARLY = 'Y';
+	            	realClass.STATUS = 'E';
+	            }
+	            else if(difference >= -this.offsetHour && difference < 0){
+            		realClass.ATTEND_TARDY = 'Y';
+	            	realClass.STATUS = 'L';
+	            }
+	            else{
+	            	realClass.STATUS = 'ER';
+	            }
+			}
+			else{
+	            realClass.STATUS = 'ER';
+			}
+			console.log(realClass);
+            this.assistanceS.saveAssistance(realClass)
+            .then(res => {
+            	this.goMoodle();
+            }, error => { this.goMoodle(); });
+		}, error => { this.goMoodle(); });
+	}
+
+	goMoodle(){
+		window.open(this.virtualRoom[this.realClass.INSTITUTION] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + this.user.codigoAlumno, '_blank');
 	}
 
 	closeOpenMonthViewDay(){
@@ -253,7 +307,9 @@ export class WeeklyScheduleComponent implements OnInit {
 		modal.open();
 		this.realModal = modal;
 		this.realClass = event.meta;
+		this.realHourStart = RealDate(event.start);
 		console.log(event);
+		console.log(this.realHourStart);
 	}
 
 	ngOnDestroy() {

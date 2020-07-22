@@ -198,6 +198,10 @@ li a:hover, li a:not([href]):hover, .pointer{
 	background:  #6fc5e8;
 }
 
+.bg-red{
+	background: red;
+}
+
 .bg-ucs-a{
 	background: rgba(32, 68, 145, .8);
 }
@@ -554,6 +558,10 @@ li a:hover, li a:not([href]):hover, .pointer{
 	font-size: 40px;
 }
 
+.text-gd{
+	font-size: 65px;
+}
+
 .text-h-m{
 	font-size: 2rem;
 }
@@ -594,6 +602,10 @@ li a:hover, li a:not([href]):hover, .pointer{
 	color: #457cbf;
 }
 
+.text-red{
+	color: red;
+}
+
 .text-bluesky{
 	color: #6fc5e8;
 }
@@ -625,6 +637,11 @@ li a:hover, li a:not([href]):hover, .pointer{
 
 .fullModal .nsm-content{
 	padding: 0;
+}
+
+.largeModal{
+	max-width: 1000px;
+	width: 100%;
 }
 
 .mediumModal{

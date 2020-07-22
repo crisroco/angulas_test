@@ -23,8 +23,9 @@
 	<div class="row bg-{{company}}-a">
 		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
 			<!-- <a href="" class="text-m text-white"> Mi Matrícula </a> -->
-			<a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion" class="text-m text-white pointer">Intención de Matrícula</a>
+			<!-- <a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a> -->
 			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
+			<a *ngIf="enroll" (click)="getEnrollSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
 			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
 		</div>
 	</div>
@@ -83,6 +84,63 @@
 					</a>
 				</div>
 			</div>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #EnrollScheduleModal identifier="EnrollScheduleModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'largeModal p-post-header'">
+	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+		<h5 class=""> <strong> CONSULTA DE HORARIOS </strong> </h5>
+		<a (click)="EnrollScheduleModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+	</div>
+	<div class="scroll">
+		<div *ngIf="enrollCycles">
+			<div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let cycles of enrollCycles">
+				<div (click)="toggle(cycles)" class="bg-{{company}} p-2 text-white pointer">
+					Ciclo {{cycles.name}}
+				</div>
+				<div [@openClose]="cycles.isOpen ? 'open' : 'closed'" class="pd-3">
+					<div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" *ngFor="let course of cycles.courses">
+						<div (click)="toggle(course)" class="bg-gray p-2 pointer">
+							<strong> Curso: {{course.name}} - {{course.type}} </strong>
+						</div>
+						<div [@openClose]="course.isOpen ? 'open' : 'closed'" class="pd-2">
+							<div class="scroll h-auto">
+								<table class="w-100">
+									<thead class="">
+										<tr class="text-center text-xs bg-{{company}}-a text-white">
+											<th class="px-2 py-2 align-middle text-left">TIPO</th>
+											<th class="px-2 py-2 align-middle">SECCIÓN</th>
+											<th class="px-2 py-2 align-middle">DÍA</th>
+											<th class="px-2 py-2 align-middle">AULA - LOCAL</th>
+											<th class="px-2 py-2 align-middle">FECHA INICIO</th>
+											<th class="px-2 py-2 align-middle">HORA INICIO</th>
+											<th class="px-2 py-2 align-middle">HORA FIN</th>
+											<th class="px-2 py-2 align-middle">DOCENTE</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="text-center text-s" *ngFor="let vclass of course.schedule; let s = 'index'">
+											<td class="px-2 py-1 text-left">{{ vclass.SSR_COMPONENT }}</td>
+											<td class="px-2 py-1">{{ vclass.CLASS_SECTION }}</td>
+											<td class="px-2 py-1">{{ vclass.UCS_DIA }}</td>
+											<td class="px-2 py-1">{{ vclass.FACILITY_ID + ' / ' + vclass.UCS_FACILITY_DESC + ' ' + vclass.UCS_BLDG_DESC }}</td>
+											<td class="px-2 py-1">{{ vclass.UCS_FECHA_INICIO }}</td>
+											<td class="px-2 py-1">{{ vclass.UCS_HORA_INCIO }}</td>
+											<td class="px-2 py-1">{{ vclass.UCS_HORA_FIN }}</td>
+											<td class="px-2 py-1">{{ vclass.UCS_PROFESOR }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="!enrollCycles">
+			Cargando Horario...
 		</div>
 	</div>
 </ngx-smart-modal>

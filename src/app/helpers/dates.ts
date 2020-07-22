@@ -6,10 +6,13 @@ export function RealDate(d = null){
 		month: '',
 		day: '',
 		hour: '',
+		hour12: 0,
+		thour: '',
 		minute: '',
 		second: '',
 		nday: '',
-		nmonth: ''
+		nmonth: '',
+		timeseconds: 0,
 	};
 	var date = d?d:(new Date());
 	real.year = date.getFullYear() + '';
@@ -18,6 +21,9 @@ export function RealDate(d = null){
 	var day = date.getDate();
 	real.day = (day < 10? '0':'') + day;
 	var hour = date.getHours();
+	real.thour = hour >= 12?'PM':'AM';
+	real.hour12 = hour % 12;
+	real.hour12 = hour == 0?12:real.hour12;
 	real.hour = (hour < 10? '0':'') + hour;
 	var minute = date.getMinutes();
 	real.minute = (minute < 10? '0':'') + minute;
@@ -25,6 +31,7 @@ export function RealDate(d = null){
 	real.second = (second < 10? '0':'') + second;
 	real.nday = AppSettings.NAMES_DAYS[date.getDay()];
 	real.nmonth = AppSettings.NAMES_MONTH[month - 1];
+	real.timeseconds = date.getTime();
 	return real;
 }
 

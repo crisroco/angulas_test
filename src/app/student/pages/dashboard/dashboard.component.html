@@ -1,8 +1,8 @@
 <div class="p-post-header row bg-imagebg full-content">
 	<div class="container-2 mx-auto">
-		<div class="row pt-5">
+		<div class="row pt-4">
 			<div class="col-md-4 p-2">
-				<div class="bg-white-a p-3">
+				<div class="bg-white-a p-3 mb-5">
 					<h5 class="text-{{company}}"> <strong> ¡Bienvenido! </strong> </h5>
 					<h5 class="text-m"> <strong> {{student?student.nombreAlumno:''}} </strong> </h5>
 					<h5 class="text-normal mb-3 pb-3 bd-b-1 bd-{{company}}"> <strong> {{student?student.codigoAlumno:''}} </strong> </h5>
@@ -14,6 +14,30 @@
 						Universidad Científica del Sur						
 					</p>
 					<a href="https://vimeo.com/295459246/6e1168f864" target="_blank" class="btn btn-lg btn-block btn-black"> Video instructivo </a>
+					<div *ngIf="queueEnroll" class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}"> {{queueEnroll.ind_grupo != 'Y'?'Aún no tienes Turno de Matricula':'Turno: ' + queueEnroll.date.day + ' de ' + queueEnroll.date.nmonth + ' ' + queueEnroll.date.hour12 + ':' + queueEnroll.date.minute + queueEnroll.date.thour}} </div>
+
+					<div class="row justify-content-center align-items-center mb-2 mt-3">
+						<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="AcademicConditionModal.open()">
+							<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
+							<div class="bg-black text-white p-2 text-s">
+								<p class="m-0">Condiciones</p>
+								<p class="m-0">Académicas</p>
+							</div>
+							<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO" class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
+								<p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+							</div>
+						</div>
+						<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="FinancialConditionModal.open()">
+							<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
+							<div class="bg-black text-white p-2 text-s">
+								<p class="m-0">Condiciones</p>
+								<p class="m-0">Financieras</p>
+							</div>
+							<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO" class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
+								<p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-8 p-2 mb-6">
@@ -63,6 +87,14 @@
 							</div>
 						</div>
 					</div>
+					<div *ngIf="enroll" class="col-lg-4 col-sm-6 my-2">
+						<div class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" (click)="enrollPeople()">
+							<div class="text-center px-3">
+								<i class="fa fa-user-o text-gd text-black"></i>
+								<p class="text-bluesky m-0 text-xm text-black">Matrícula</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -73,5 +105,45 @@
 	<a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank"><img class="w-100 rounded-1" src="./assets/img/encuesta.png"></a>
 	<div class="btn-close-float p-2">
 		<a (click)="SurveyModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i class="fa fa-times text-white text-l"></i></a>
-	</div>	
+	</div>
 </ngx-smart-modal>
+
+<ngx-smart-modal #AcademicConditionModal identifier="AcademicConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a (click)="AcademicConditionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-left p-2 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-center">Condiciones Académicas</h5>
+	</div>
+	<div class="h-fn scroll fullModal">
+		<img class="w-100" src="./assets/pdfjs/web/condiciones_academicas/condiciones_academicas_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesAcadConditions; let ac = 'index'">
+		<!-- <ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_academicas.pdf"></ng2-pdfjs-viewer> -->
+	</div>
+	<div class="row justify-content-center my-3">
+		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Descargar PDF</a>
+		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'" class="btn rounded-1 px-4 btn-{{company}}" (click)="saveAcademicCondition()">ACEPTAR</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #FinancialConditionModal identifier="FinancialConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a (click)="FinancialConditionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-left p-2 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-center">Condiciones Financieras</h5>
+	</div>
+	<div class="h-fn scroll fullModal">
+		<img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesFinaConditions; let ac = 'index'">
+		<!-- <ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_financieras.pdf"></ng2-pdfjs-viewer> -->
+	</div>
+	<div class="row justify-content-center my-3">
+		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Descargar PDF</a>
+		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'" class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveFinancialCondition()">ACEPTAR</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

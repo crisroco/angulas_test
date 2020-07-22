@@ -28,6 +28,7 @@
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.6",
     "moment": "^2.27.0",
+    "ng2-pdfjs-viewer": "^5.0.7",
     "ngx-device-detector": "^1.4.5",
     "ngx-loading": "^3.0.1",
     "ngx-smart-modal": "^7.4.1",
