@@ -84,18 +84,22 @@ export class DashboardComponent implements OnInit {
 						this.enroll.STRM = this.enroll.cicloAdmision;// == '0904'?'0992':'2204';
 						this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
 						this.enroll.EMPLID = this.user.codigoAlumno;
-						this.crossData.sendMessage({ enroll: this.enroll });
-						this.studentS.getCompleteConditions(this.enroll)
+						this.studentS.getSTRM(this.enroll)
 						.then(res => {
-							this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
-						});
-						this.studentS.getEnrollQueueNumber(this.enroll)
-						.then(res => {
-							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
-							this.timeoutEnroll = true;
-							var parts = this.queueEnroll.fecha_ing.split('/');
-							var enrollDate = RealDate(new Date(parts[2] + '-' + parts[1] + '-' + parts[0] + ' ' + this.queueEnroll.hora_ing));
-							this.queueEnroll.date = enrollDate;
+							this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
+							this.crossData.sendMessage({ enroll: this.enroll });
+							this.studentS.getCompleteConditions(this.enroll)
+							.then(res => {
+								this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
+							});
+							this.studentS.getEnrollQueueNumber(this.enroll)
+							.then(res => {
+								this.queueEnroll = res.UCS_GRUPO_MAT_RES;
+								this.timeoutEnroll = true;
+								var parts = this.queueEnroll.fecha_ing.split('/');
+								var enrollDate = RealDate(new Date(parts[2] + '-' + parts[1] + '-' + parts[0] + ' ' + this.queueEnroll.hora_ing));
+								this.queueEnroll.date = enrollDate;
+							});
 						});
 					}
 				}, error => { });

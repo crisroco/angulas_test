@@ -43,49 +43,49 @@
 			<div class="col-md-8 p-2 mb-6">
 				<div class="bg-white-a p-4 row">
 					<div class="col-lg-4 col-sm-6 my-2">
-						<div class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [routerLink]="'/estudiante/accion/horario'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/horario'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/horario.png">
 								<p class="text-blue m-0 text-xm">Horario</p>
 								<p class="text-blue m-0 text-xm">semanal</p>
 							</div>
-						</div>
+						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6 my-2">
-						<div class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [routerLink]="'/estudiante/accion/datos-personales'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/datos-personales'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/datos.png">
 								<p class="text-orange m-0 text-xm">Datos</p>
 								<p class="text-orange m-0 text-xm">personales</p>
 							</div>
-						</div>
+						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6 my-2">
-						<div class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [routerLink]="'/estudiante/accion/condiciones-academicas'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/condiciones-academicas'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/academico.png">
 								<p class="text-purple m-0 text-xm">Condiciones</p>
 								<p class="text-purple m-0 text-xm">académicas</p>
 							</div>
-						</div>
+						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6 my-2">
-						<div class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [routerLink]="'/estudiante/accion/estado-cuenta'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/estado-cuenta'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/cuenta.png">
 								<p class="text-green m-0 text-xm">Estado</p>
 								<p class="text-green m-0 text-xm">de cuenta</p>
 							</div>
-						</div>
+						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6 my-2">
-						<div class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [routerLink]="'/estudiante/accion/historial-cursos'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/historial-cursos'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/cursos.png">
 								<p class="text-bluesky m-0 text-xm">Historial</p>
 								<p class="text-bluesky m-0 text-xm">de cursos</p>
 							</div>
-						</div>
+						</a>
 					</div>
 					<div *ngIf="enroll" class="col-lg-4 col-sm-6 my-2">
 						<div class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" (click)="enrollPeople()">

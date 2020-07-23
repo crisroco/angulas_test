@@ -104,4 +104,8 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getEnrollQueueNumber', data).toPromise();
     }
 
+    public getSTRM(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getSTRM', data).toPromise();
+    }
+
 }

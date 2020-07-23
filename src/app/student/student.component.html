@@ -94,7 +94,7 @@
 		<a (click)="EnrollScheduleModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
 	</div>
 	<div class="scroll">
-		<div *ngIf="enrollCycles">
+		<div *ngIf="enrollCycles && enrollCycles.length">
 			<div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let cycles of enrollCycles">
 				<div (click)="toggle(cycles)" class="bg-{{company}} p-2 text-white pointer">
 					Ciclo {{cycles.name}}
@@ -139,8 +139,15 @@
 				</div>
 			</div>
 		</div>
+		<div *ngIf="enrollCycles && !enrollCycles.length">
+			<div class="p-2">
+				Usted no cuenta con horarios disponibles.
+			</div>
+		</div>
 		<div *ngIf="!enrollCycles">
-			Cargando Horario...
+			<div class="p-2">
+				Cargando Horario...
+			</div>
 		</div>
 	</div>
 </ngx-smart-modal>
