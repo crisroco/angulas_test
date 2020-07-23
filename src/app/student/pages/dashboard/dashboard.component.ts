@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
-		// this.AcademicConditionModal.open();
+		this.SurveyModal.open();
 		// this.FinancialConditionModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
