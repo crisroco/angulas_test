@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import { SessionService } from '../../../../services/session.service';
 import { Broadcaster } from '../../../../services/broadcaster';
+import { RealDate } from '../../../../helpers/dates';
 import * as moment from 'moment';
 
 @Component({
@@ -20,6 +21,7 @@ export class EnrollComponent implements OnInit {
   queueEnroll: any;
   timeoutEnroll: any;
   enrolldata: any;
+  realDate: any = RealDate();
 
   constructor(public wsService: WebsocketService,
     private broadcaster: Broadcaster,
@@ -41,15 +43,29 @@ export class EnrollComponent implements OnInit {
       else if (message && message.queueEnroll) {
         this.timeoutEnroll = true;
         this.queueEnroll = message.queueEnroll;
+        this.setRealDateEnroll();
       }
       else if (message && message.enroll) {
-        this.timeoutEnroll = true;
         this.enrolldata = message.enroll;
       }
       else if (message && message.initSocket && message.initSocket == 'Y'){
-         this.initSocket();
+         
       }
     });
+  }
+
+  setRealDateEnroll(){
+    this.realDate = RealDate();
+    console.log('ejecuta');
+    if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) {
+      this.timeoutEnroll = false;
+      this.initSocket();
+    }
+    setTimeout(() => {
+      if(this.timeoutEnroll){
+        this.setRealDateEnroll();
+      }
+    }, 5000);
   }
 
   initSocket(){

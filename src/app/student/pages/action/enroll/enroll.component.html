@@ -6,6 +6,9 @@
       <div class="p-3">
         <div class="loader"></div>
       </div>
+      <div class="bg-white p-3 my-5">
+        <h5 class="text-ucs text-l m-0"> <strong> Turno: {{queueEnroll.date.day}} de {{queueEnroll.date.nmonth}}  {{queueEnroll.date.hour12}} : {{queueEnroll.date.minute}} {{queueEnroll.date.thour}} </strong> </h5>
+      </div>
 		</div>
 	</div>
 </div>
@@ -34,7 +37,7 @@
   <div class="row align-items-center" *ngIf="user.ind_deuda == 'N' && enroll_conditions && (enroll_conditions.FLAG_ACADEMICO == 'Y' || enroll_conditions.FLAG_FINANCIERO == 'Y') && queueEnroll && queueEnroll.ind_grupo == 'N'">
     <div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
       <div class="bg-white p-3 my-5">
-        <h5 class="text-ucs text-l m-0"> <strong> Si no aceptas las condiciones académicas y financieras, no te permitirá ingresar a la opción de Matrícula. </strong> </h5>
+        <h5 class="text-ucs text-l m-0"> <strong> Aún no tienes Turno de Matricula. </strong> </h5>
         <hr>
         <p class="m-0 mb-1 text-xm">  </p>
       </div>
