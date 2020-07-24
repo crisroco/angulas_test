@@ -10,8 +10,10 @@ import { TooltipModule, TooltipOptions } from '@teamhive/ngx-tooltip';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
+import { AppSettings } from '../app.settings';
 import { StudentService } from '../services/student.service';
 import { IntentionService } from '../services/intention.service';
+import { WebsocketService } from '../services/websocket.service';
 import { StudentRoutingModule } from './student-routing.module';
 import { StudentComponent } from './student.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -23,9 +25,13 @@ import { AccountStatusComponent } from './pages/action/account-status/account-st
 import { CourseHistoryComponent } from './pages/action/course-history/course-history.component';
 import { FinalGradesComponent } from './pages/action/final-grades/final-grades.component';
 import { CourseAssistanceComponent } from './pages/action/course-assistance/course-assistance.component';
+import { EnrollComponent } from './pages/action/enroll/enroll.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
 
 @NgModule({
-  declarations: [StudentComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent],
+  declarations: [StudentComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -45,11 +51,13 @@ import { CourseAssistanceComponent } from './pages/action/course-assistance/cour
       useFactory: adapterFactory,
     }),
     CommonModule,
-    StudentRoutingModule
+    StudentRoutingModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [
     StudentService,
-    IntentionService
+    IntentionService,
+    WebsocketService
   ],
 })
 export class StudentModule { }

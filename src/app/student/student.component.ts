@@ -247,6 +247,9 @@ export class StudentComponent implements OnInit {
 	comment: string = '';
 	enroll: any = null;
 	enrollCycles: Array<any>;
+	enroll_conditions: any;
+	queueEnroll: any;
+	student: any;
 	@ViewChild('IntentionEnrollmentModal') IntentionEnrollmentModal: any;
 	@ViewChild('NotIntentionEnrollmentModal') NotIntentionEnrollmentModal: any;
 	@ViewChild('YesIntentionEnrollmentModal') YesIntentionEnrollmentModal: any;
@@ -282,6 +285,10 @@ export class StudentComponent implements OnInit {
 			else if(message && message.enroll){
 				this.enroll = message.enroll;
 			}
+			else if(message && message.getEnroll && message.getEnroll == 'Y'){
+				console.log('entro');
+				this.getQueueEnroll();
+			}
 	    });
 	}
 
@@ -293,8 +300,6 @@ export class StudentComponent implements OnInit {
 			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.type == 'PM' && this.enrollmentStatus.authorizacion.ended_process == 'NO'){
 				if(open) this.openIntentionEnrollment();
 				this.noClosed = rDate > this.enrollmentStatus.end_date || rDate < this.enrollmentStatus.start_date?true:false;
-				console.log(this.noClosed);
-				console.log(this.enrollmentStatus.end_date, this.enrollmentStatus.start_date, rDate);
 			}
 		})
 	}
@@ -302,10 +307,8 @@ export class StudentComponent implements OnInit {
 	getEnrollSchedule(){
 		this.enrollCycles = null;
 		this.EnrollScheduleModal.open();
-		console.log(this.enroll);
 		this.studentS.getEnrollSchedule(this.enroll.OPRID + '/' + this.enroll.INSTITUTION + '/' + this.enroll.ACAD_CAREER + '/' + this.enroll.ACAD_PROG + '/' + this.enroll.codigoPlan + '/' + this.enroll.EMPLID + '/' + this.enroll.STRM)
 		.then(res => {
-			console.log(res);
 			let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
 			var objCycles = {};
 			allData.forEach( (item)  => {
@@ -337,10 +340,56 @@ export class StudentComponent implements OnInit {
 					this.enrollCycles.push(objCycles[kcycle]);
 				}
 			}
-			console.log(objCycles);
-			console.log(this.enrollCycles);
-			// this.enrollCycles = 
 		});
+	}
+
+	sendEnroll(){
+		this.broadcaster.sendMessage({enroll: this.enroll});
+		this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
+		this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
+		this.broadcaster.sendMessage({initSocket: 'Y'});
+	}
+
+	getQueueEnroll(){
+		if(this.enroll && this.enroll_conditions && this.queueEnroll){
+			this.sendEnroll();
+		}
+		else{
+			this.student = this.session.getObject('student');
+			this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
+			.then(res => {
+				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
+				this.enroll = units.filter(item => item.institucion == 'PREGR');
+				this.enroll = this.enroll.length?this.enroll[0]:null;
+				if(this.enroll){
+					this.enroll.OPRID = this.user.email;
+					this.enroll.INSTITUTION = this.enroll.institucion;
+					this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
+					this.enroll.STRM = this.enroll.cicloAdmision;// == '0904'?'0992':'2204';
+					this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
+					this.enroll.EMPLID = this.student.codigoAlumno;
+					this.studentS.getSTRM(this.enroll)
+					.then(res => {
+						this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
+						this.broadcaster.sendMessage({enroll: this.enroll});
+						this.studentS.getCompleteConditions(this.enroll)
+						.then(res => {
+							this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
+							this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
+						});
+						this.studentS.getEnrollQueueNumber(this.enroll)
+						.then(res => {
+							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
+							var parts = this.queueEnroll.fecha_ing.split('/');
+							var enrollDate = RealDate(new Date(parts[2] + '-' + parts[1] + '-' + parts[0] + ' ' + this.queueEnroll.hora_ing));
+							this.queueEnroll.date = enrollDate;
+							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
+							this.broadcaster.sendMessage({initSocket: 'Y'});
+						});
+					});
+				}
+			}, error => { });
+		}
 	}
 
 	openIntentionEnrollment(){

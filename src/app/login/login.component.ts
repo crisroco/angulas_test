@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { LoginService } from '../services/login.service';
 import { SessionService } from '../services/session.service';
+import { QueueService } from '../services/queue.service';
 import { AppSettings } from '../app.settings';
 
 @Component({
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     	private toastr: ToastrService,
     	private loginS: LoginService,
     	private session: SessionService,
+    	private queueS: QueueService,
     	private router: Router,
     	private deviceS: DeviceDetectorService) { }
 
@@ -50,9 +52,14 @@ export class LoginComponent implements OnInit {
 				this.toastr.error('El Acceso solo esta permitido a los ALUMNOS.');
 				return;
 			}
-			this.student['email'] = data.email;
-			this.session.setObject('user', this.student);
-			this.router.navigate(['estudiante']);
+
+			this.queueS.authEncrypt({...data, code: this.student.codigoAlumno})
+				.subscribe( (res: any) => {
+					this.session.setItem('up', res.ciphertext);
+					this.student.email = data.email;
+					this.session.setObject('user', this.student);
+					this.router.navigate(['estudiante']);
+			});
 		}, error => { this.loading = false; });
 	}
 

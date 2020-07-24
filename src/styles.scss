@@ -138,7 +138,6 @@ li a:hover, li a:not([href]):hover, .pointer{
 }
 
 .btn-purple-b{
-	/*background: #fff;*/
 	color: #985fa7;
 }
 
@@ -148,12 +147,20 @@ li a:hover, li a:not([href]):hover, .pointer{
 }
 
 .btn-bluesky-b{
-	/*background: #fff;*/
 	color: #6fc5e8;
 }
 
 .btn-bluesky-b.active-link, .btn-bluesky-b:hover{
 	background: #6fc5e8;
+	color: #fff;
+}
+
+.btn-black-b{
+	color: #0f0f0f;
+}
+
+.btn-black-b.active-link, .btn-black-b:hover{
+	background: #0f0f0f;
 	color: #fff;
 }
 /* BOTTON END */

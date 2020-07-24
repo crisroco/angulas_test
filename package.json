@@ -32,6 +32,7 @@
     "ngx-device-detector": "^1.4.5",
     "ngx-loading": "^3.0.1",
     "ngx-smart-modal": "^7.4.1",
+    "ngx-socket-io": "^3.2.0",
     "ngx-toastr": "^10.1.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",

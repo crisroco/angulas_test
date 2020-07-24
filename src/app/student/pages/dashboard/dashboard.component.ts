@@ -32,10 +32,12 @@ export class DashboardComponent implements OnInit {
 	imagesAcadConditions = new Array(8);
 	imagesFinaConditions = new Array(23);
 	timeoutEnroll: boolean = false;
+	crossdata: any;
 
 	constructor(private session: SessionService,
 		private studentS: StudentService,
-		private crossData: Broadcaster,
+		private broadcaster: Broadcaster,
+		private router: Router,
     	private toastr: ToastrService,
 		private intentionS: IntentionService) { }
 
@@ -47,16 +49,19 @@ export class DashboardComponent implements OnInit {
 			this.student = res.UcsMetodoDatosPersRespuesta;
 			this.session.setObject('student', this.student);
 		}, error => { });
-		// this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
-		// .then(res => { 
-		// 	this.academicData = res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta[0]?res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta[0]:null;
-		// 	if(this.academicData){
-		// 		this.studentS.getScheduleStudent({code: this.user.codigoAlumno, academicGrade: this.academicData.codigoGrado})
-		// 		.then(res => {
-		// 			console.log(res);
-		// 		}, error => { });
-		// 	}				
-		// }, error => { });
+		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
+			if (message && message.enroll_conditions) {
+				this.enroll_conditions = message.enroll_conditions;
+			}
+			else if (message && message.queueEnroll) {
+				this.timeoutEnroll = true;
+				this.queueEnroll = message.queueEnroll;
+				this.setRealDateEnroll();
+			}
+			else if (message && message.enroll) {
+				this.enroll = message.enroll;
+			}
+	    });
 		this.getParameters();
 		var ese = new Array(4);
 	}
@@ -67,48 +72,19 @@ export class DashboardComponent implements OnInit {
 		.then(res => {
 			this.enrollmentStatus = res.data && res.data.enrollment_intention_status?res.data:{};
 			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.type == 'PM' && this.enrollmentStatus.authorizacion.ended_process == 'NO'){
-				if(open) this.crossData.sendMessage({ intentionModal: 2 });
+				if(open) this.broadcaster.sendMessage({ intentionModal: 2 });
 				this.noClosed = rDate > this.enrollmentStatus.end_date || rDate < this.enrollmentStatus.start_date?true:false;
 			}
-
 			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.type == 'M'){
-				this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
-				.then(res => {
-					var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
-					this.enroll = units.filter(item => item.institucion == 'PREGR');
-					this.enroll = this.enroll.length?this.enroll[0]:null;
-					if(this.enroll){
-						this.enroll.OPRID = this.user.email;
-						this.enroll.INSTITUTION = this.enroll.institucion;
-						this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
-						this.enroll.STRM = this.enroll.cicloAdmision;// == '0904'?'0992':'2204';
-						this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-						this.enroll.EMPLID = this.user.codigoAlumno;
-						this.studentS.getSTRM(this.enroll)
-						.then(res => {
-							this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
-							this.crossData.sendMessage({ enroll: this.enroll });
-							this.studentS.getCompleteConditions(this.enroll)
-							.then(res => {
-								this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
-							});
-							this.studentS.getEnrollQueueNumber(this.enroll)
-							.then(res => {
-								this.queueEnroll = res.UCS_GRUPO_MAT_RES;
-								this.timeoutEnroll = true;
-								var parts = this.queueEnroll.fecha_ing.split('/');
-								var enrollDate = RealDate(new Date(parts[2] + '-' + parts[1] + '-' + parts[0] + ' ' + this.queueEnroll.hora_ing));
-								this.queueEnroll.date = enrollDate;
-							});
-						});
-					}
-				}, error => { });
+				this.broadcaster.sendMessage({ getEnroll: 'Y' });
 			}
 		})
 	}
 
 	setRealDateEnroll(){
 		this.realDate = RealDate();
+		console.log('ejecuta');
+		if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) this.timeoutEnroll = false;
 		setTimeout(() => {
 			if(this.timeoutEnroll){
 				this.setRealDateEnroll();
@@ -149,22 +125,19 @@ export class DashboardComponent implements OnInit {
 			this.toastr.error('Si no aceptas las condiciones académicas y financieras, no te permitirá ingresar a la opción de Matrícula.');
 			return;
 		}
-		this.loading = true;
-		this.studentS.getEnrollQueueNumber(this.enroll)
-		.then(res => {
-			this.queueEnroll = res.UCS_GRUPO_MAT_RES;
-			this.loading = false;
-			if(this.queueEnroll.ind_grupo == 'N'){
-				this.toastr.error('Aún no tienes Turno de Matricula.');
-				return;
-			}
-			this.realDate = RealDate();
-			var parts = this.queueEnroll.fecha_ing.split('/');
-			var enrollDate = RealDate(new Date(parts[2] + '-' + parts[1] + '-' + parts[0] + ' ' + this.queueEnroll.hora_ing));
-			this.queueEnroll.date = enrollDate;
-			if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) window.open(AppSettings.PEOPLE_LOGIN, '_blank');
-			else this.toastr.error(this.queueEnroll.mensaje, '', {enableHtml: true});
-		}, error => { this.loading = false; });
+
+		if(this.queueEnroll.ind_grupo == 'N'){
+			this.toastr.error('Aún no tienes Turno de Matricula.');
+			return;
+		}
+		this.realDate = RealDate();
+		if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) this.router.navigate(['/estudiante/accion/matricula']);//window.open(AppSettings.PEOPLE_LOGIN, '_blank');
+		else this.toastr.error(this.queueEnroll.mensaje, '', {enableHtml: true});
+	}
+
+	ngOnDestroy(){
+		console.log('eliminado');
+		this.crossdata.unsubscribe();
 	}
 
 }

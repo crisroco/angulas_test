@@ -1,0 +1,82 @@
+<h5> <strong> Matrícula </strong> </h5>
+
+<div class="bg-gray-a p-4" *ngIf="user.ind_deuda == 'N' && enroll_conditions && (enroll_conditions.FLAG_ACADEMICO == 'Y' || enroll_conditions.FLAG_FINANCIERO == 'Y') && queueEnroll && queueEnroll.ind_grupo != 'N' && enroll.wait">
+	<div class="row align-items-center">
+		<div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
+      <div class="p-3">
+        <div class="loader"></div>
+      </div>
+		</div>
+	</div>
+</div>
+
+<div class="bg-gray-a p-4" *ngIf="user.ind_deuda != 'N' || (user.ind_deuda == 'N' && enroll_conditions && (enroll_conditions.FLAG_ACADEMICO == 'N' || enroll_conditions.FLAG_FINANCIERO == 'N')) || (user.ind_deuda == 'N' && enroll_conditions && (enroll_conditions.FLAG_ACADEMICO == 'Y' || enroll_conditions.FLAG_FINANCIERO == 'Y') && queueEnroll && queueEnroll.ind_grupo == 'N')">
+  <div class="row align-items-center" *ngIf="user.ind_deuda != 'N'">
+    <div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
+      <div class="bg-white p-3 my-5">
+        <h5 class="text-ucs text-l m-0"> <strong> Por favor, regularice su deuda, contactarse con Finanzas. </strong> </h5>
+        <hr>
+        <p class="m-0 mb-1 text-xm">  </p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row align-items-center" *ngIf="user.ind_deuda == 'N' && enroll_conditions && (enroll_conditions.FLAG_ACADEMICO == 'N' || enroll_conditions.FLAG_FINANCIERO == 'N')">
+    <div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
+      <div class="bg-white p-3 my-5">
+        <h5 class="text-ucs text-l m-0"> <strong> Si no aceptas las condiciones académicas y financieras, no te permitirá ingresar a la opción de Matrícula. </strong> </h5>
+        <hr>
+        <p class="m-0 mb-1 text-xm">  </p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row align-items-center" *ngIf="user.ind_deuda == 'N' && enroll_conditions && (enroll_conditions.FLAG_ACADEMICO == 'Y' || enroll_conditions.FLAG_FINANCIERO == 'Y') && queueEnroll && queueEnroll.ind_grupo == 'N'">
+    <div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
+      <div class="bg-white p-3 my-5">
+        <h5 class="text-ucs text-l m-0"> <strong> Si no aceptas las condiciones académicas y financieras, no te permitirá ingresar a la opción de Matrícula. </strong> </h5>
+        <hr>
+        <p class="m-0 mb-1 text-xm">  </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bg-gray-a p-4" *ngIf="user.ind_deuda == 'N' && enroll_conditions && (enroll_conditions.FLAG_ACADEMICO == 'Y' || enroll_conditions.FLAG_FINANCIERO == 'Y') && queueEnroll && queueEnroll.ind_grupo != 'N' && !enroll.wait">
+  <div class="row align-items-center" *ngIf="enroll.status === 0">
+		<div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
+      <div class="p-3">
+        <div class="loader"></div>
+      </div>
+			<div class="bg-white p-3 my-5">
+				<h5 class="text-ucs text-l m-0"> <strong> Eres el N° {{enroll.numero}} en la cola </strong> </h5>
+        <hr>
+        <p class="m-0 mb-1 text-xm"> Cuando sea tu turno, te enviaremos un mensaje a tu correo intitucional y a tu celular.</p>
+			</div>
+		</div>
+  </div>
+  
+  <div class="row align-items-center" *ngIf="enroll.status === 1">
+		<div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
+			<div class="bg-white p-3 my-5">
+				<h5 class="text-ucs text-center text-l m-0"> <strong> ¡Es tu turno! </strong>  </h5>
+        <hr>
+        <!-- <p class="m-0 mb-1 text-xm"> Cuando sea tu turno, te enviaremos un mensaje a tu correo intitucional y a tu celular.</p> -->
+        <button class="btn btn-ucs btn-block" (click)="matricula()" >Matricúlate <small>({{countDownEnroll}})</small></button>
+        <!-- this.countDownEnroll === '00:00:00' -->
+      </div>
+		</div>
+  </div>
+
+  <div class="row align-items-center" *ngIf="enroll.status === 2">
+		<div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
+			<div class="bg-white p-3 my-5">
+				<h5 class="text-ucs text-center text-l m-0"> <strong> Turno vencido </strong>  </h5>
+        <hr>
+        <p class="m-0 mb-1 text-xm"> Tu turno a culminado, para volver a realizar la matrícula ingresa a la cola de espera.</p>
+        <button class="btn mt-2 btn-ucs btn-block" (click)="queue()">Ir a Cola</button>
+      </div>
+		</div>
+  </div>
+
+</div>
