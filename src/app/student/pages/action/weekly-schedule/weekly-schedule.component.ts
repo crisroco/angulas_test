@@ -4,11 +4,13 @@ import { ToastrService } from 'ngx-toastr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { StudentService } from '../../../../services/student.service';
 import { SessionService } from '../../../../services/session.service';
+import { GeneralService } from '../../../../services/general.service';
 import { AssistanceService } from '../../../../services/assistance.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { Observable, Subject } from 'rxjs';
 import { setHours, setMinutes } from 'date-fns';
 import { RealDate, AddDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../../helpers/dates';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-weekly-schedule',
@@ -65,6 +67,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	constructor(private session: SessionService,
 		private router: Router,
 		private assistanceS: AssistanceService,
+		private generalS: GeneralService,
 		private studentS: StudentService) { }
 
 	ngOnInit() {
@@ -184,7 +187,12 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	goMoodle(){
-		window.open(this.virtualRoom[this.realClass.INSTITUTION] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + this.user.codigoAlumno, '_blank');
+		var emplid = this.student.codigoAlumno;
+		if(this.realClass.INSTITUTION != 'PSTGR' && this.realClass.INSTITUTION != 'ESPEC'){
+			var rdate = Math.floor(Date.now() / 1000);
+			emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', {format: this.generalS.formatJsonCrypto}).toString());
+		}
+		window.open(this.virtualRoom[this.realClass.INSTITUTION] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + emplid, '_blank');
 	}
 
 	closeOpenMonthViewDay(){
