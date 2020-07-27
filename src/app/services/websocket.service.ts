@@ -41,6 +41,15 @@ export class WebsocketService {
     });
   }
 
+  queue(code: string, phone: string, email: string) {
+    console.log('Queue ! ! !');
+    return new Promise( (resolve, reject) => {
+      this.emit('app:queue', { code, phone, email }, (res) => {
+        resolve(res);
+      });
+    });
+  }
+
   updateEnroll( code: string ) {
     console.log('Update Enrol ! ! !');
     return new Promise( (resolve, reject) => {

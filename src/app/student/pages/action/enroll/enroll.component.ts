@@ -27,7 +27,7 @@ export class EnrollComponent implements OnInit {
     private broadcaster: Broadcaster,
     private session: SessionService) { 
       this.ngOnInit();
-    }
+  }
 
   ngOnInit() {
     this.getDataEnroll();
@@ -130,9 +130,9 @@ export class EnrollComponent implements OnInit {
 
   queue() {
     this.enroll.wait = true;
-    this.wsService.enroll(this.student.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
+    this.wsService.queue(this.student.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
         .then( (res: any) => {
-          console.log('check!', res);
+          console.log('queue!', res);
           if (res.ok) {
             this.enroll.wait = false;
             this.enroll.status = 1;
@@ -148,7 +148,8 @@ export class EnrollComponent implements OnInit {
   matricula() {
     //http://127.0.0.1:5500/psp/CS90PRD/?cmd=login
     // window.open(`https://academico.sise.edu.pe/psp/CS90PRD/?cmd=login&up=${localStorage.getItem('up')}`, '_blank');
-    window.open(`http://127.0.0.1:5500/WEB-INF/psftdocs/CS90PRD/signin.html?cmd=login&up=${localStorage.getItem('up')}`, '_blank');
+    // window.open(`http://52.184.160.28:8000/psp/CS90DEV/?cmd=login&languageCd=ESP&up=${localStorage.getItem('up')}`, '_blank');
+    window.open(`http://testmatricula.cientifica.edu.pe/psp/CS90DEV/?cmd=login&languageCd=ESP&up=${localStorage.getItem('up')}`, '_blank');
   }
 
   ngOnDestroy(){
