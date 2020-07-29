@@ -20,6 +20,10 @@ export class IntentionService {
         return this.http.get(AppSettings.BASE + AppSettings.INTENTION + '/getCourses/' + code, { headers: this.generalS.makeHeaderNormal()}).toPromise();
     }
 
+    public getCoursesIntensive(code): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.INTENTION + '/getCoursesIntensive/' + code, { headers: this.generalS.makeHeaderNormal()}).toPromise();
+    }
+
     public getMotives(code): Promise<any> {
     	return this.http.get(AppSettings.BASE + AppSettings.INTENTION + '/getMotives/' + code, { headers: this.generalS.makeHeaderNormal()}).toPromise();
     }
@@ -30,6 +34,10 @@ export class IntentionService {
 
     public saveYesIntention(data: any): Promise<any> {
     	return this.http.post(AppSettings.BASE + AppSettings.INTENTION + '/saveYesIntention', data, { headers: this.generalS.makeHeaderNormal()}).toPromise();
+    }
+
+    public saveYesIntensive(data: any): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.INTENTION + '/saveYesIntensive', data, { headers: this.generalS.makeHeaderNormal()}).toPromise();
     }
 
 }

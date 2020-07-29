@@ -45,6 +45,7 @@ export class StudentComponent implements OnInit {
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	enrollmentStatus: any;
+	enrollmentIntensiveStatus: any;
 	typeLibraries: any = [
 		{
 			name: 'Sistema de Biblioteca',
@@ -244,12 +245,17 @@ export class StudentComponent implements OnInit {
 	loading: boolean = false;
 	motives: Array<any>;
 	courses: Array<any>;
+	coursesIntensive: Array<any>;
 	comment: string = '';
 	enroll: any = null;
 	enrollCycles: Array<any>;
 	enroll_conditions: any;
 	queueEnroll: any;
 	student: any;
+	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
+	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
+	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
+
 	@ViewChild('IntentionEnrollmentModal') IntentionEnrollmentModal: any;
 	@ViewChild('NotIntentionEnrollmentModal') NotIntentionEnrollmentModal: any;
 	@ViewChild('YesIntentionEnrollmentModal') YesIntentionEnrollmentModal: any;
@@ -282,6 +288,10 @@ export class StudentComponent implements OnInit {
 				this.IntentionEnrollmentModal.open();
 				this.getParameters(false);
 			}
+			else if (message && message.intensiveModal && message.intensiveModal == '2') {
+				this.IntensiveEnrollmentModal.open();
+				this.enrollmentIntensiveStatus = message.intensiveData;
+			}
 			else if(message && message.enroll){
 				this.enroll = message.enroll;
 			}
@@ -296,11 +306,13 @@ export class StudentComponent implements OnInit {
 		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
 		this.intentionS.getParameters(this.user.codigoAlumno)
 		.then(res => {
-			this.enrollmentStatus = res.data && res.data.enrollment_intention_status?res.data:{};
-			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.type == 'PM' && this.enrollmentStatus.authorizacion.ended_process == 'NO'){
-				if(open) this.openIntentionEnrollment();
-				this.noClosed = rDate > this.enrollmentStatus.end_date || rDate < this.enrollmentStatus.start_date?true:false;
-			}
+			this.enrollmentStatus = res.data && res.data?res.data:[];
+			this.enrollmentStatus.forEach((item) => {
+				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO'){
+					if(open) this.openIntentionEnrollment();
+					this.noClosed = rDate > item.end_date || rDate < item.start_date?true:false;
+				}
+			});
 		})
 	}
 
@@ -432,6 +444,20 @@ export class StudentComponent implements OnInit {
 		});
 	}
 
+	getCoursesIntensive(){
+		this.loading = true;
+		this.intentionS.getCoursesIntensive(this.user.codigoAlumno)
+		.then(res => {
+			this.loading = false;
+			this.coursesIntensive = res.data? res.data:[];
+			this.coursesIntensive.forEach(item => {
+				item.value = item.MATRICULA && item.MATRICULA =='SI'?true:'';
+				this.comment = item.COMENTARIO?item.COMENTARIO:'';
+			});
+			this.coursesIntensive.sort(DynamicSort('CRSE_DESC'))
+		});
+	}
+
 	openNotModal(){
 		this.getMotives();
 		this.IntentionEnrollmentModal.close();
@@ -486,6 +512,48 @@ export class StudentComponent implements OnInit {
 		else{
 			this.toastr.error('Debes seleccionar al menos un motivo');
 		}
+	}
+
+	changeCourseIntensive(course){
+		this.coursesIntensive.forEach((item) => {
+			item.value = '';
+		});
+		course.value = true;
+	}
+
+	openYesIntensiveMofal(){
+		this.getCoursesIntensive();
+		this.YesIntensiveEnrollmentModal.open();
+		this.IntensiveEnrollmentModal.close();
+	}
+
+	openNotIntensiveModal(){
+		this.IntensiveEnrollmentModal.close();
+	}
+
+	confirmIntensive(){
+		this.ConfirmIntensiveEnrollmentModal.open();
+		this.YesIntensiveEnrollmentModal.close();
+	}
+
+	saveYesIntensive(){
+		var courseIntensive = this.coursesIntensive.filter(item => item.value);
+		if(courseIntensive.length){
+			this.loading = true;
+			this.intentionS.saveYesIntensive(courseIntensive[0])
+			.then(res =>{
+				if(res.status){
+					this.toastr.success('Te matriculaste correctamente');
+					this.ConfirmIntensiveEnrollmentModal.close();
+					this.enrollmentIntensiveStatus = null;
+				}
+				else{
+					this.toastr.error(res.message);
+				}
+				this.loading = false;
+			}, error => { this.loading = false; })
+		}
+		console.log(courseIntensive);
 	}
 
 }

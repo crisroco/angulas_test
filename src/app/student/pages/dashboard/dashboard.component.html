@@ -102,11 +102,27 @@
 </div>
 
 <ngx-smart-modal #SurveyModal identifier="SurveyModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
-	<a href="https://es.surveymonkey.com/r/KDQD7XS" target="_blank"><img class="w-100 rounded-1" src="./assets/img/encuesta_230720.png"></a>
+	<div class="p-2">
+		<iframe id="vimeoVideo" src="https://vimeo.com/438413404/54b6a3a808" width="100%" height="450" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+	</div>
 	<div class="btn-close-float p-2">
 		<a (click)="SurveyModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i class="fa fa-times text-white text-l"></i></a>
 	</div>
 </ngx-smart-modal>
+
+<article *ngFor="let notification of notifications; let i = 'index'" >
+	<ngx-smart-modal #NotificationModal{{i}} identifier="NotificationModal{{i}}" [closable]="false" [customClass]="'fullModal p-post-header'">
+		<div class="bg-{{company}} p-4 rounded-t-1">
+			<div class="btn-close-float p-3">
+				<a (click)="ngxSmartModalService.close('NotificationModal' + i)" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+			</div>
+		</div>
+		<div class="text-left p-2 px-5">
+			<h5 *ngIf="notification.title" class="text-{{company}} font-weight-bold text-sd  mb-3">{{notification.title?notification.title:''}}</h5>
+			<div *ngIf="notification.description" [innerHTML]="notification.description?notification.description:''"></div>
+		</div>
+	</ngx-smart-modal>
+</article>
 
 <ngx-smart-modal #AcademicConditionModal identifier="AcademicConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">

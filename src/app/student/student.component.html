@@ -24,6 +24,7 @@
 		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
 			<!-- <a href="" class="text-m text-white"> Mi Matrícula </a> -->
 			<!-- <a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a> -->
+			<a (click)="IntensiveEnrollmentModal.open()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Matrícula Intensivo</a>
 			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
 			<a *ngIf="enroll" (click)="getEnrollSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
 			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
@@ -244,6 +245,89 @@
 	</div>
 	<div class="row justify-content-center mb-3">
 		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="FinalIntentionEnrollmentModal.close()">FINALIZAR</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #IntensiveEnrollmentModal identifier="IntensiveEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="IntensiveEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-center p-2 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula - Intensivo</h5>
+		<p class="text-m">Queremos adaptar nuestros servicios a tus necesidades.  Por favor llena el siguiente formulario, te tomará menos de dos minutos. </p>
+
+		<div class="bg-gray p-2 text-center mb-2">
+			¿Te matricularás en el 2020-II Intensivo?
+		</div>
+
+		<div class="row justify-content-center mb-3">
+			<button (click)="openYesIntensiveMofal()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+			<button (click)="openNotIntensiveModal()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #YesIntensiveEnrollmentModal identifier="YesIntensiveEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'largeModal fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="YesIntensiveEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-center p-2 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula - Intensivo</h5>
+		<p class="text-m">Recuerda que solo podrás elegir un curso y que al aceptar se generará un cargo. </p>
+
+		<div class="form-group scroll h-s">
+		    <table id="table-students" class="w-100">
+				<thead class="">
+					<tr class="text-center text-s">
+						<th class="px-1 py-2 text-{{company}} text-left text-m">Curso</th>
+						<th class="px-1 py-2 text-{{company}} align-middle text-m">Horario</th>
+						<th class="px-1 py-2 text-{{company}} align-middle text-m">Créditos</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center text-s" *ngFor="let course of coursesIntensive">
+						<td class="p-1 text-left">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" (change)='changeCourseIntensive(course)' value="{{course.CRSE_ID}}">
+								<label class="form-check-label" for="{{course.CRSE_ID}}"> {{course.CRSE_DESC}} </label>
+						    </div>
+						</td>
+						<td class="p-1 text-center"> {{course.schedule}} </td>
+						<td class="p-1 text-center"> {{course.CREDITO}} </td>
+					</tr>
+				</tbody>
+			</table>
+	  	</div>
+
+		<div class="row justify-content-center mb-3">
+			<button (click)="confirmIntensive()" class="btn rounded-1 px-4 btn-{{company}}">Guardar</button>
+			<!-- <button (click)="YesIntensiveEnrollmentModal.close()" class="btn rounded-1 px-4 btn-{{company}}">Cancelar</button> -->
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #ConfirmIntensiveEnrollmentModal identifier="ConfirmIntensiveEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="ConfirmIntensiveEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-center p-2 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula - Intensivo</h5>
+		<p class="text-m m-0">Recuerda que solo podrás elegir un curso y que al aceptar se generará un cargo. </p>
+
+		<div class="bg-gray p-2 text-center mb-2">
+			¿Estás seguro que deseas matricularte?
+		</div>
+
+		<div class="row justify-content-center mb-3">
+			<button (click)="saveYesIntensive()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+			<button (click)="ConfirmIntensiveEnrollmentModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+		</div>
 	</div>
 </ngx-smart-modal>
 

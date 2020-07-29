@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { NgxSmartModalService } from 'ngx-smart-modal';
 import { StudentService } from '../../../services/student.service';
 import { SessionService } from '../../../services/session.service';
 import { Broadcaster } from '../../../services/broadcaster';
@@ -33,17 +34,18 @@ export class DashboardComponent implements OnInit {
 	imagesFinaConditions = new Array(23);
 	timeoutEnroll: boolean = false;
 	crossdata: any;
+	notifications: Array<any>;
 
 	constructor(private session: SessionService,
 		private studentS: StudentService,
 		private broadcaster: Broadcaster,
 		private router: Router,
     	private toastr: ToastrService,
+    	public ngxSmartModalService: NgxSmartModalService,
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
 		this.SurveyModal.open();
-		// this.FinancialConditionModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
@@ -63,6 +65,7 @@ export class DashboardComponent implements OnInit {
 			}
 	    });
 		this.getParameters();
+		this.getNotifications();
 		var ese = new Array(4);
 	}
 
@@ -70,15 +73,35 @@ export class DashboardComponent implements OnInit {
 		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
 		this.intentionS.getParameters(this.user.codigoAlumno)
 		.then(res => {
-			this.enrollmentStatus = res.data && res.data.enrollment_intention_status?res.data:{};
-			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.type == 'PM' && this.enrollmentStatus.authorizacion.ended_process == 'NO'){
-				if(open) this.broadcaster.sendMessage({ intentionModal: 2 });
-				this.noClosed = rDate > this.enrollmentStatus.end_date || rDate < this.enrollmentStatus.start_date?true:false;
-			}
-			if(this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.type == 'M'){
-				this.broadcaster.sendMessage({ getEnroll: 'Y' });
-			}
+			this.enrollmentStatus = res.data && res.data?res.data:[];
+			this.enrollmentStatus.forEach((item) => {
+				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO'){
+					if(open) this.broadcaster.sendMessage({ intentionModal: 2 });
+					this.noClosed = rDate > item.end_date || rDate < item.start_date?true:false;
+				}
+				if(item && item.enrollment_intention_status == 'A' && item.type == 'M'){
+					this.broadcaster.sendMessage({ getEnroll: 'Y' });
+				}
+				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && item.authorizacion.ended_process == 'NO'){
+					console.log('dsadas');
+					if(open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
+				}
+			})
+				
 		})
+	}
+
+	getNotifications(){
+		this.studentS.getAdStudent(this.user.codigoAlumno)
+		.then( res => {
+			this.notifications = res;
+			setTimeout(() =>{
+				this.notifications.forEach((item, idx) => {
+					this.ngxSmartModalService.open('NotificationModal' + idx);
+				});
+			}, 500);
+			console.log(this.notifications);
+		}, error => { });
 	}
 
 	setRealDateEnroll(){
