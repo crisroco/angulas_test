@@ -24,7 +24,7 @@
 		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
 			<!-- <a href="" class="text-m text-white"> Mi Matrícula </a> -->
 			<!-- <a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a> -->
-			<a (click)="IntensiveEnrollmentModal.open()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Matrícula Intensivo</a>
+			<a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Matrícula Intensivo</a>
 			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
 			<a *ngIf="enroll" (click)="getEnrollSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
 			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
@@ -255,11 +255,11 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula - Intensivo</h5>
-		<p class="text-m">Queremos adaptar nuestros servicios a tus necesidades.  Por favor llena el siguiente formulario, te tomará menos de dos minutos. </p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula Cursos Intensivos</h5>
+		<p class="text-m"> Ponemos a tu disposición cursos a fin de adelantar o recuperar los mismos de acuerdo a tu plan.  Revisa la disponibilidad de los mismos.</p>
 
 		<div class="bg-gray p-2 text-center mb-2">
-			¿Te matricularás en el 2020-II Intensivo?
+			¿Te matricularás...?
 		</div>
 
 		<div class="row justify-content-center mb-3">
@@ -276,8 +276,8 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula - Intensivo</h5>
-		<p class="text-m">Recuerda que solo podrás elegir un curso y que al aceptar se generará un cargo. </p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula Cursos Intensivos</h5>
+		<p class="text-m">Recuerda que sólo podrás elegir un curso, una vez elegido el mismo no podrás modificarlo.  Al guardar la matricula se generará el cargo respectivo, de no cancelar el mismo la matricula será revocada.</p>
 
 		<div class="form-group scroll h-s">
 		    <table id="table-students" class="w-100">
@@ -303,7 +303,7 @@
 			</table>
 	  	</div>
 
-		<div class="row justify-content-center mb-3">
+		<div *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process != 'SI'" class="row justify-content-center mb-3">
 			<button (click)="confirmIntensive()" class="btn rounded-1 px-4 btn-{{company}}">Guardar</button>
 			<!-- <button (click)="YesIntensiveEnrollmentModal.close()" class="btn rounded-1 px-4 btn-{{company}}">Cancelar</button> -->
 		</div>
@@ -317,8 +317,8 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula - Intensivo</h5>
-		<p class="text-m m-0">Recuerda que solo podrás elegir un curso y que al aceptar se generará un cargo. </p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula Cursos Intensivos</h5>
+		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez elegido el mismo no podrás modificarlo.  Al guardar la matricula se generará el cargo respectivo, de no cancelar el mismo la matricula será revocada.</p>
 
 		<div class="bg-gray p-2 text-center mb-2">
 			¿Estás seguro que deseas matricularte?

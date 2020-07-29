@@ -289,8 +289,8 @@ export class StudentComponent implements OnInit {
 				this.getParameters(false);
 			}
 			else if (message && message.intensiveModal && message.intensiveModal == '2') {
-				this.IntensiveEnrollmentModal.open();
 				this.enrollmentIntensiveStatus = message.intensiveData;
+				if(this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process != 'SI') this.IntensiveEnrollmentModal.open();
 			}
 			else if(message && message.enroll){
 				this.enroll = message.enroll;
@@ -513,6 +513,10 @@ export class StudentComponent implements OnInit {
 			this.toastr.error('Debes seleccionar al menos un motivo');
 		}
 	}
+	openIntensiveModal(){
+		if(this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process != 'SI') this.IntensiveEnrollmentModal.open();
+		else this.openYesIntensiveMofal();
+	}
 
 	changeCourseIntensive(course){
 		this.coursesIntensive.forEach((item) => {
@@ -532,8 +536,12 @@ export class StudentComponent implements OnInit {
 	}
 
 	confirmIntensive(){
+		var courseIntensive = this.coursesIntensive.filter(item => item.value);
+		if(!courseIntensive.length){
+			this.toastr.error('Elige al menos un curso');
+			return;
+		}
 		this.ConfirmIntensiveEnrollmentModal.open();
-		this.YesIntensiveEnrollmentModal.close();
 	}
 
 	saveYesIntensive(){
@@ -545,7 +553,9 @@ export class StudentComponent implements OnInit {
 				if(res.status){
 					this.toastr.success('Te matriculaste correctamente');
 					this.ConfirmIntensiveEnrollmentModal.close();
-					this.enrollmentIntensiveStatus = null;
+					this.enrollmentIntensiveStatus.ended_process = 'SI';
+					this.YesIntensiveEnrollmentModal.close();
+					// this.enrollmentIntensiveStatus = null;
 				}
 				else{
 					this.toastr.error(res.message);

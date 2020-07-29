@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit {
 				if(item && item.enrollment_intention_status == 'A' && item.type == 'M'){
 					this.broadcaster.sendMessage({ getEnroll: 'Y' });
 				}
-				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && item.authorizacion.ended_process == 'NO'){
+				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI'){
 					console.log('dsadas');
 					if(open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
 				}
