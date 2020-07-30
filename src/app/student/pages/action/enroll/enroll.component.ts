@@ -148,8 +148,8 @@ export class EnrollComponent implements OnInit {
   matricula() {
     //http://127.0.0.1:5500/psp/CS90PRD/?cmd=login
     // window.open(`https://academico.sise.edu.pe/psp/CS90PRD/?cmd=login&up=${localStorage.getItem('up')}`, '_blank');
-    // window.open(`http://52.184.160.28:8040/psp/CS90TST/?cmd=login&languageCd=ESP&up=${localStorage.getItem('up')}`, '_blank');
-    window.open(`http://52.184.160.28:8040/psp/CS90DEV/?cmd=login&languageCd=ESP&up=${localStorage.getItem('up')}`, '_blank');
+    window.open(`http://52.184.160.28:8040/psp/CS90TST/?cmd=login&languageCd=ESP&up=${localStorage.getItem('up')}`, '_blank');
+    // window.open(`http://52.184.160.28:8040/psp/CS90DEV/?cmd=login&languageCd=ESP&up=${localStorage.getItem('up')}`, '_blank');
     // window.open(`http://testmatricula.cientifica.edu.pe/psp/CS90DEV/?cmd=login&languageCd=ESP&up=${localStorage.getItem('up')}`, '_blank');
   }
 

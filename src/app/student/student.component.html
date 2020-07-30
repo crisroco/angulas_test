@@ -24,7 +24,7 @@
 		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
 			<!-- <a href="" class="text-m text-white"> Mi Matrícula </a> -->
 			<!-- <a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a> -->
-			<a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Matrícula Intensivo</a>
+			<a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
 			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
 			<a *ngIf="enroll" (click)="getEnrollSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
 			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
@@ -255,11 +255,11 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matrícula Ciclo Intensivo</h5>
-		<p class="text-m">Ponemos a tu disposición cursos a fin de adelantar o recuperar los mismos de acuerdo a tu plan.  Revisa la disponibilidad de los mismos.</p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
+		<p class="text-m">Ponemos a tu disposición cursos a fin de adelantar o recuperar los mismos de acuerdo a tu plan. Revisa la disponibilidad de los mismos</p>
 
 		<div class="bg-gray p-2 text-center mb-2">
-			¿Te matricularas en el Ciclo Intensivo?
+			¿Te Inscribirás en el Ciclo Intensivo?
 		</div>
 
 		<div class="row justify-content-center mb-3">
@@ -276,9 +276,10 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matrícula Ciclo Intensivo</h5>
-		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez elegido el mismo no podrás modificarlo.</p>
-		<p class="text-m">Al guardar la matricula se generará el cargo respectivo, de no cancelar el mismo la matricula será revocada.</p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
+		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez guardado el mismo no podrás modificarlo.</p>
+		<p class="text-m m-0">Al guardar la inscripción se generará el cargo respectivo, de no cancelar el mismo la inscripción será revocada.</p>
+		<p class="text-m">Al finalizar tu inscripción puedes realizar tus pagos por los canales disponibles hasta el 01/08.</p>
 
 		<div *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process == 'SI'" class="bg-gray p-2 text-center mb-2">
 			Tu solicitud esta registrada
@@ -290,7 +291,6 @@
 					<tr class="text-center text-s">
 						<th class="px-1 py-2 text-{{company}} text-left text-m">Curso</th>
 						<th class="px-1 py-2 text-{{company}} align-middle text-m">Horario</th>
-						<th class="px-1 py-2 text-{{company}} align-middle text-m">Créditos</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -302,7 +302,6 @@
 						    </div>
 						</td>
 						<td class="p-1 text-center"> {{course.schedule}} </td>
-						<td class="p-1 text-center"> {{course.CREDITO}} </td>
 					</tr>
 				</tbody>
 			</table>
@@ -322,9 +321,10 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matrícula Ciclo Intensivo</h5>
-		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez elegido el mismo no podrás modificarlo.</p>
-		<p class="text-m">Al guardar la matricula se generará el cargo respectivo, de no cancelar el mismo la matricula será revocada.</p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
+		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez guardado el mismo no podrás modificarlo.</p>
+		<p class="text-m m-0">Al guardar la inscripción se generará el cargo respectivo, de no cancelar el mismo la inscripción será revocada.</p>
+		<p class="text-m">Al finalizar tu inscripción puedes realizar tus pagos por los canales disponibles hasta el 01/08.</p>
 
 		<div class="bg-gray p-2 text-center mb-2">
 			¿Estás seguro que deseas matricularte?

@@ -107,6 +107,7 @@ export class AcademicConditionsComponent implements OnInit {
 	}
 
 	getGlobalStatistics(){
+		this.loading = true;
 		this.studentS.getGlobalStatistics({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
 			console.log(res);
@@ -119,7 +120,8 @@ export class AcademicConditionsComponent implements OnInit {
 				this.globalStatistics.requiredProgress = this.globalStatistics.UNITS_REPEAT_LIMIT && this.globalStatistics.UCS_OBLI_APROBADAS?Math.round(this.globalStatistics.UCS_OBLI_APROBADAS / this.globalStatistics.UNITS_REPEAT_LIMIT * 10000)/100:0;
 				this.globalStatistics.electiveProgress = this.globalStatistics.UCS_MAX_UNID_LEC && this.globalStatistics.UCS_ELEC_APROBADAS?Math.round(this.globalStatistics.UCS_ELEC_APROBADAS / this.globalStatistics.UCS_MAX_UNID_LEC * 10000)/100:0;
 			}
-		}, error => { });
+			this.loading = false;
+		}, error => { this.loading = false; });
 	}
 
 	getRequirements(){
@@ -279,8 +281,11 @@ export class AcademicConditionsComponent implements OnInit {
 		var finalAverage = 0;
 		var electivesAprobe = 0;
 		var electivesDisaprobe = 0;
+		var electivesUnd = 0;
 		var requiredsAprobe = 0;
 		var requiredsDisaprobe = 0;
+		var requiredsUnd = 0;
+		var objCourses = {}; 
 		arr.forEach( (item, index) => {
 			var offset = 35;
 			var offset2 = 45;
@@ -294,11 +299,12 @@ export class AcademicConditionsComponent implements OnInit {
 				body.push([item.ID_Curso, item.Descr, (item.Caracter == 0?'Obligatorio':'Electivo'), item.Ciclo, item.Uni_Matrd, item.GRADE, item.Comentario]);
 				totalCredits += parseInt(item.Uni_Matrd);
 				finalAverage = Math.round(item.Promedio*100)/100;
-				if(item.Caracter == 0){
-					item.GRADE >= 13? requiredsAprobe++: requiredsDisaprobe++;
-				}
-				else{
-					item.GRADE >= 13? electivesAprobe++: electivesDisaprobe++;
+				requiredsUnd = parseInt(item.OBLIGAT);
+				electivesUnd = parseInt(item.ELECTIVO);
+				if(!objCourses[item.ID_Curso]){
+					objCourses[item.ID_Curso] = true;
+					if(item.Caracter == 0) item.GRADE >= 13? requiredsAprobe += parseInt(item.Uni_Matrd): requiredsDisaprobe += parseInt(item.Uni_Matrd);
+					else item.GRADE >= 13? electivesAprobe += parseInt(item.Uni_Matrd): electivesDisaprobe += parseInt(item.Uni_Matrd);
 				}
 			})
 			doc.setFontSize(14);
@@ -372,9 +378,9 @@ export class AcademicConditionsComponent implements OnInit {
 
 		doc.autoTable({
 			head: [['Tipo', 'UND', 'Aprobados', 'Por Aprobar']],
-			body: [['Obligatorios', requiredsAprobe + requiredsDisaprobe, requiredsAprobe, requiredsDisaprobe ]
-			,['Electivos', electivesAprobe + electivesDisaprobe, electivesAprobe, electivesDisaprobe ],
-			['TOTAL', electivesAprobe + electivesDisaprobe + requiredsAprobe + requiredsDisaprobe, electivesAprobe + requiredsAprobe, electivesDisaprobe + requiredsDisaprobe ]],
+			body: [['Obligatorios', this.globalStatistics.UNITS_REPEAT_LIMIT, this.globalStatistics.UCS_OBLI_APROBADAS, this.globalStatistics.UNITS_REPEAT_LIMIT - this.globalStatistics.UCS_OBLI_APROBADAS ]
+			,['Electivos', this.globalStatistics.UCS_MAX_UNID_LEC, this.globalStatistics.UCS_ELEC_APROBADAS, this.globalStatistics.UCS_MAX_UNID_LEC - this.globalStatistics.UCS_ELEC_APROBADAS ],
+			['TOTAL', this.globalStatistics.UNITS_REPEAT_LIMIT + this.globalStatistics.UCS_MAX_UNID_LEC, this.globalStatistics.UCS_OBLI_APROBADAS + this.globalStatistics.UCS_ELEC_APROBADAS, (this.globalStatistics.UNITS_REPEAT_LIMIT + this.globalStatistics.UCS_MAX_UNID_LEC) - (this.globalStatistics.UCS_OBLI_APROBADAS + this.globalStatistics.UCS_ELEC_APROBADAS) ]],
 			startY: doc.autoTableEndPosY() + 20,
 			afterPageContent: footer,
 			margin: { left: 220, right: 30 },

@@ -288,6 +288,10 @@ export class StudentComponent implements OnInit {
 				this.IntentionEnrollmentModal.open();
 				this.getParameters(false);
 			}
+			else if(message && message.openEnroll && message.openEnroll == '2'){
+				this.getParameters(false);
+				console.log('tmre');
+			}
 			else if (message && message.intensiveModal && message.intensiveModal == '2') {
 				this.enrollmentIntensiveStatus = message.intensiveData;
 				if(this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process != 'SI') this.IntensiveEnrollmentModal.open();
@@ -311,6 +315,10 @@ export class StudentComponent implements OnInit {
 				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO'){
 					if(open) this.openIntentionEnrollment();
 					this.noClosed = rDate > item.end_date || rDate < item.start_date?true:false;
+				}
+				if(item && item.enrollment_intention_status == 'A' && item.type == 'M'){
+					this.broadcaster.sendMessage({ enrollTab: 'Y' });
+					console.log('tarde');
 				}
 			});
 		})
@@ -554,7 +562,7 @@ export class StudentComponent implements OnInit {
 			this.intentionS.saveYesIntensive(courseIntensive[0])
 			.then(res =>{
 				if(res.status){
-					this.toastr.success('Te matriculaste correctamente');
+					this.toastr.success('Solicitud Registrada - Condicionada a Pago', '', {closeButton:true, progressBar:true});
 					this.ConfirmIntensiveEnrollmentModal.close();
 					this.enrollmentIntensiveStatus.authorizacion.ended_process = 'SI';
 					this.YesIntensiveEnrollmentModal.close();
