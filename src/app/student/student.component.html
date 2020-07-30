@@ -255,11 +255,11 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula Cursos Intensivos</h5>
-		<p class="text-m"> Ponemos a tu disposición cursos a fin de adelantar o recuperar los mismos de acuerdo a tu plan.  Revisa la disponibilidad de los mismos.</p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matrícula Ciclo Intensivo</h5>
+		<p class="text-m">Ponemos a tu disposición cursos a fin de adelantar o recuperar los mismos de acuerdo a tu plan.  Revisa la disponibilidad de los mismos.</p>
 
 		<div class="bg-gray p-2 text-center mb-2">
-			¿Te matricularás...?
+			¿Te matricularas en el Ciclo Intensivo?
 		</div>
 
 		<div class="row justify-content-center mb-3">
@@ -276,8 +276,13 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula Cursos Intensivos</h5>
-		<p class="text-m">Recuerda que sólo podrás elegir un curso, una vez elegido el mismo no podrás modificarlo.  Al guardar la matricula se generará el cargo respectivo, de no cancelar el mismo la matricula será revocada.</p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matrícula Ciclo Intensivo</h5>
+		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez elegido el mismo no podrás modificarlo.</p>
+		<p class="text-m">Al guardar la matricula se generará el cargo respectivo, de no cancelar el mismo la matricula será revocada.</p>
+
+		<div *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process == 'SI'" class="bg-gray p-2 text-center mb-2">
+			Tu solicitud esta registrada
+		</div>
 
 		<div class="form-group scroll h-s">
 		    <table id="table-students" class="w-100">
@@ -292,8 +297,8 @@
 					<tr class="text-center text-s" *ngFor="let course of coursesIntensive">
 						<td class="p-1 text-left">
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" (change)='changeCourseIntensive(course)' value="{{course.CRSE_ID}}">
-								<label class="form-check-label" for="{{course.CRSE_ID}}"> {{course.CRSE_DESC}} </label>
+								<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID2}}" [(ngModel)]="course.value" (change)='changeCourseIntensive(course)' value="{{course.CRSE_ID2}}" [attr.disabled]="!(enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process != 'SI')?true:null">
+								<label class="form-check-label" for="{{course.CRSE_ID2}}"> {{course.CRSE_DESC2}} </label>
 						    </div>
 						</td>
 						<td class="p-1 text-center"> {{course.schedule}} </td>
@@ -317,8 +322,9 @@
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Matricula Cursos Intensivos</h5>
-		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez elegido el mismo no podrás modificarlo.  Al guardar la matricula se generará el cargo respectivo, de no cancelar el mismo la matricula será revocada.</p>
+		<h5 class="text-{{company}} font-weight-bold text-sd">Matrícula Ciclo Intensivo</h5>
+		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez elegido el mismo no podrás modificarlo.</p>
+		<p class="text-m">Al guardar la matricula se generará el cargo respectivo, de no cancelar el mismo la matricula será revocada.</p>
 
 		<div class="bg-gray p-2 text-center mb-2">
 			¿Estás seguro que deseas matricularte?

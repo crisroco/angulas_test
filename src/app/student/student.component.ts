@@ -450,9 +450,12 @@ export class StudentComponent implements OnInit {
 		.then(res => {
 			this.loading = false;
 			this.coursesIntensive = res.data? res.data:[];
-			this.coursesIntensive.forEach(item => {
+			var objCourseIntensive = {};
+			this.coursesIntensive.forEach((item, idx) => {
 				item.value = item.MATRICULA && item.MATRICULA =='SI'?true:'';
 				this.comment = item.COMENTARIO?item.COMENTARIO:'';
+				if(objCourseIntensive[item.CRSE_ID2]) this.coursesIntensive.splice(idx, 1);
+				else objCourseIntensive[item.CRSE_ID2] = true;
 			});
 			this.coursesIntensive.sort(DynamicSort('CRSE_DESC'))
 		});
@@ -553,7 +556,7 @@ export class StudentComponent implements OnInit {
 				if(res.status){
 					this.toastr.success('Te matriculaste correctamente');
 					this.ConfirmIntensiveEnrollmentModal.close();
-					this.enrollmentIntensiveStatus.ended_process = 'SI';
+					this.enrollmentIntensiveStatus.authorizacion.ended_process = 'SI';
 					this.YesIntensiveEnrollmentModal.close();
 					// this.enrollmentIntensiveStatus = null;
 				}
