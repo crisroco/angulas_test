@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
 	enroll: any;
 	enroll_conditions: any;
 	queueEnroll: any;
+	showwsp: boolean = false;
 	imagesAcadConditions = new Array(8);
 	imagesFinaConditions = new Array(23);
 	timeoutEnroll: boolean = false;
@@ -50,6 +51,8 @@ export class DashboardComponent implements OnInit {
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
 			this.session.setObject('student', this.student);
+			this.getParameters();
+			this.getNotifications();
 		}, error => { });
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enroll_conditions) {
@@ -64,8 +67,6 @@ export class DashboardComponent implements OnInit {
 				this.enroll = message.enroll;
 			}
 	    });
-		this.getParameters();
-		this.getNotifications();
 		var ese = new Array(4);
 	}
 

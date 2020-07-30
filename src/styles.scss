@@ -201,6 +201,10 @@ li a:hover, li a:not([href]):hover, .pointer{
 	background:  #6fbf4a;
 }
 
+.bg-wsp{
+	background: #34BC58;
+}
+
 .bg-bluesky{
 	background:  #6fc5e8;
 }
@@ -258,6 +262,26 @@ li a:hover, li a:not([href]):hover, .pointer{
 	padding: 1rem;
 }
 /* PADDING END */
+
+/* TRIANGLE START */
+.triangle{
+	width: 0;
+    height: 0;
+    border-right: 8px solid transparent;
+    border-top: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid #000;
+}
+
+.triangle-b{
+	width: 0;
+    height: 0;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #000;
+    border-left: 8px solid transparent;
+    border-bottom: 0px solid transparent;
+}
+/* TRIANGLE END  */
 
 /* BORDER START*/
 .bd-0{
@@ -333,6 +357,18 @@ li a:hover, li a:not([href]):hover, .pointer{
 
 .bd-gray{
 	border-color: #ebebeb;
+}
+
+.bd-white{
+	border-color: #fff;
+}
+
+.bd-b-white{
+	border-bottom-color: #fff;
+}
+
+.bd-t-white{
+	border-top-color: #fff;
 }
 
 .rounded-0{
@@ -703,6 +739,12 @@ li a:hover, li a:not([href]):hover, .pointer{
     border-radius: 50%;
 }
 
+.circle-xmi{
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+}
+
 .circle-s{
     width: 100px;
     height: 100px;
@@ -793,6 +835,21 @@ mwl-calendar-event-title span{
 	position: absolute;
     top: 0;
     right: 0;
+}
+
+.float-wsp-tr{
+	top: -15px;
+	right: 26px;
+}
+
+.float-wsp-br{
+	bottom: 75px;
+	right: 26px;
+}
+
+.float-triangle-br{
+	bottom: -8px;
+	right: 26px;
 }
 
 .nsm-dialog-btn-close{
