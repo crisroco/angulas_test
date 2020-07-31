@@ -31,11 +31,12 @@ export class DashboardComponent implements OnInit {
 	enroll_conditions: any;
 	queueEnroll: any;
 	showwsp: boolean = false;
-	imagesAcadConditions = new Array(8);
-	imagesFinaConditions = new Array(23);
+	imagesAcadConditions = new Array(29);
+	imagesFinaConditions = new Array(25);
 	timeoutEnroll: boolean = false;
 	crossdata: any;
 	notifications: Array<any>;
+	btnEnroll: boolean = false;
 
 	constructor(private session: SessionService,
 		private studentS: StudentService,
@@ -82,13 +83,15 @@ export class DashboardComponent implements OnInit {
 				}
 				if(item && item.enrollment_intention_status == 'A' && item.type == 'M'){
 					this.broadcaster.sendMessage({ getEnroll: 'Y' });
+					this.btnEnroll = true;
 				}
 				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N'){
 					console.log('dsadas');
 					if(open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
 				}
 			})
-				
+			this.broadcaster.sendMessage({ getEnroll: 'Y' });
+			this.btnEnroll = true;
 		})
 	}
 

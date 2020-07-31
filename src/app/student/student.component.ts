@@ -193,8 +193,8 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'https://miportal.cientifica.edu.pe/core/docs/CALENDARIO_ACADEMICO_2020_I_PREGR.pdf',
-					description: 'CALENDARIO ACADÉMICO 2020-I'
+					url: 'https://docs.cientifica.edu.pe/general_pdf/calendario-acad%C3%A9mico-PRGR-2020-2.pdf',
+					description: 'CALENDARIO ACADÉMICO PREGRADO 2020-2'
 				},
 			],
 			isOpen: true,
@@ -204,12 +204,12 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'https://miportal.cientifica.edu.pe/core/docs/CALENDARIO_ACADEMICO_2020_I_CPE_ATE.pdf',
+					url: 'https://docs.cientifica.edu.pe/general_pdf/CALENDARIO_ACADEMICO_2020_I_CPE_ATE.pdf',
 					description: 'CALENDARIO ACADÉMICO 2020-I CAMPUS ATE'
 				},
 				{
 					img: '',
-					url: 'https://miportal.cientifica.edu.pe/core/docs/CALENDARIO_ACADEMICO_2020_I_CPE_VILLA.pdf',
+					url: 'https://docs.cientifica.edu.pe/general_pdf/CALENDARIO_ACADEMICO_2020_I_CPE_VILLA.pdf',
 					description: 'CALENDARIO ACADÉMICO 2020-I CAMPUS VILLA'
 				},
 			],
@@ -220,7 +220,7 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'https://miportal.cientifica.edu.pe/core/docs/Manual_de_Usuario_Portal_Alumno_-_UCSUR.pptx',
+					url: 'https://docs.cientifica.edu.pe/general_pdf/Manual-de-Usuario-Portal-Alumno-UCSUR.pptx',
 					description: 'MANUAL DE USUARIO PORTAL ALUMNO – CIENTIFICA'
 				},
 			],

@@ -10,7 +10,7 @@ export class AppSettings {
     public static STUDENT = '/student';
     public static INTENTION = '/intention';
     public static ASSISTANCE = '/assistance';
-    public static PEOPLE_LOGIN = 'https://academico.cientifica.edu.pe/psp/CS90PRD/?cmd=login&languageCd=ESP&';
+    public static PEOPLE_LOGIN = 'https://academico.cientifica.edu.pe/psp/CS90PRD/?cmd=login&languageCd=ESP';
     // public static PEOPLE_LOGIN = 'http://52.184.160.28:8040/psp/CS90TST/?cmd=login&languageCd=ESP&';
     public static WSURL = 'https://backdev-colas.cientifica.edu.pe:5000/';
     // public static WSURL = 'https://backdev03-colas.cientifica.edu.pe:5001/';

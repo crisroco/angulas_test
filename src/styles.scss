@@ -653,12 +653,24 @@ li a:hover, li a:not([href]):hover, .pointer{
 	color: #6fc5e8;
 }
 
+.text-wsp, a.text-wsp{
+	color: #34BC58;
+}
+
+a.text-wsp:hover{
+	color: #44CC68;
+}
+
 .text-gray{
 	color: #ebebeb;
 }
 
-.text-black{
+.text-black, a.text-black{
 	color: #5f5f5f;
+}
+
+a.text-black:hover{
+	color: #7f7f7f;
 }
 
 .hover-ucs:hover, .hover-ucs:not([href]):hover{
