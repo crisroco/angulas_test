@@ -288,9 +288,8 @@ export class StudentComponent implements OnInit {
 				this.IntentionEnrollmentModal.open();
 				this.getParameters(false);
 			}
-			else if(message && message.openEnroll && message.openEnroll == '2'){
+			else if(message && message.openEnroll && message.openEnroll == 'Y'){
 				this.getParameters(false);
-				console.log('tmre');
 			}
 			else if (message && message.intensiveModal && message.intensiveModal == '2') {
 				this.enrollmentIntensiveStatus = message.intensiveData;
@@ -300,7 +299,6 @@ export class StudentComponent implements OnInit {
 				this.enroll = message.enroll;
 			}
 			else if(message && message.getEnroll && message.getEnroll == 'Y'){
-				console.log('entro');
 				this.getQueueEnroll();
 			}
 	    });
@@ -318,7 +316,6 @@ export class StudentComponent implements OnInit {
 				}
 				if(item && item.enrollment_intention_status == 'A' && item.type == 'M'){
 					this.broadcaster.sendMessage({ enrollTab: 'Y' });
-					console.log('tarde');
 				}
 			});
 		})
@@ -574,7 +571,6 @@ export class StudentComponent implements OnInit {
 				this.loading = false;
 			}, error => { this.loading = false; })
 		}
-		console.log(courseIntensive);
 	}
 
 }

@@ -39,7 +39,6 @@ export class EnrollComponent implements OnInit {
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       if (message && message.enroll_conditions) {
         this.enroll_conditions = message.enroll_conditions;
-        console.log('enrolled');
       }
       else if (message && message.queueEnroll) {
         this.timeoutEnroll = true;

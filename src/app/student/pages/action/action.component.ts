@@ -10,7 +10,9 @@ export class ActionComponent implements OnInit {
 	crossdata: any;
 	enrollTab: any;
 
-	constructor( private broadcaster: Broadcaster, ) { }
+	constructor( private broadcaster: Broadcaster, ) { 
+		// this.ngOnInit();
+	}
 
 	ngOnInit() {
 		this.broadcaster.sendMessage({openEnroll: 'Y'});

@@ -86,12 +86,11 @@ export class DashboardComponent implements OnInit {
 					this.btnEnroll = true;
 				}
 				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N'){
-					console.log('dsadas');
 					if(open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
 				}
 			})
-			this.broadcaster.sendMessage({ getEnroll: 'Y' });
-			this.btnEnroll = true;
+			// this.broadcaster.sendMessage({ getEnroll: 'Y' });
+			// this.btnEnroll = true;
 		})
 	}
 
@@ -104,13 +103,11 @@ export class DashboardComponent implements OnInit {
 					this.ngxSmartModalService.open('NotificationModal' + idx);
 				});
 			}, 500);
-			console.log(this.notifications);
 		}, error => { });
 	}
 
 	setRealDateEnroll(){
 		this.realDate = RealDate();
-		console.log('ejecuta');
 		if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) this.timeoutEnroll = false;
 		setTimeout(() => {
 			if(this.timeoutEnroll){
