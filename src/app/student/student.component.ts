@@ -398,7 +398,7 @@ export class StudentComponent implements OnInit {
 						.then(res => {
 							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
 							var parts = this.queueEnroll.fecha_ing.split('/');
-							var enrollDate = RealDate(new Date(parts[2] + '-' + parts[1] + '-' + parts[0] + ' ' + this.queueEnroll.hora_ing));
+							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.hora_ing + ':00'));
 							this.queueEnroll.date = enrollDate;
 							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
 							this.broadcaster.sendMessage({initSocket: 'Y'});
@@ -433,6 +433,71 @@ export class StudentComponent implements OnInit {
 				item.value = selecteds.filter(sele => sele.MOTIVO_COD == item.MOTIVO_COD).length?true:'';
 			});
 		});
+	}
+
+	getDates(rDay: string, MEETING_TIME_START: string) {
+		let start: Date;
+		const ua = navigator.userAgent.toLowerCase();
+		if (ua.indexOf('safari') !== -1) {
+			if (ua.indexOf('chrome') > -1) {
+				start = new Date(rDay + 'T' + MEETING_TIME_START);
+			} else {
+				start = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_START)));
+			}
+		} else {
+			start = new Date(rDay + 'T' + MEETING_TIME_START);
+		}
+
+		return start;
+	}
+
+	getHour(pHour: string): string {
+
+		const arrHour = pHour.split(':');
+		let hour =  Number(arrHour[0]);
+		hour += 5;
+		const hourModified = this.pad(hour, 2);
+		const minute =  arrHour[1];
+		const second =  arrHour[2];
+
+		return `${hourModified}:${minute}:${second}`;
+	}
+
+	getDay(pDay: string, pHour: string): string {
+
+		let rDate = `${pDay}T${pHour}`;
+
+		const arrHour = pHour.split(':');
+		let hour =  Number(arrHour[0]);
+		if (hour > 23) {
+
+			const arrDate = pDay.split('-'); // 2020-07-06
+
+			let day =  Number(arrDate[2]);
+			day += 1;
+
+			const dayModified = this.pad(day, 2);
+			const month =  arrDate[1];
+			const year =  arrDate[0];
+
+			const vDate = `${year}-${month}-${dayModified}`;
+
+			hour -= 24;
+			const hourModified = this.pad(hour, 2);
+			const minute =  arrHour[1];
+			const second =  arrHour[2];
+
+			const vHour = `${hourModified}:${minute}:${second}`;
+
+			rDate = `${vDate}T${vHour}`;
+		}
+		return rDate;
+	}
+
+	pad(num: number, size: number): string {
+		let s = num + '';
+		while (s.length < size) { s = '0' + s; }
+		return s;
 	}
 
 	getCourses(){

@@ -91,6 +91,7 @@ export class AcademicConditionsComponent implements OnInit {
 			var tcycles = res.RES_COND_ACAD && res.RES_COND_ACAD.RES_COND_ACAD_DET?res.RES_COND_ACAD.RES_COND_ACAD_DET:[];
 			if(tcycles.length){
 				for (var i = tcycles.length - 1; i >= 0; i--) {
+					tcycles[i].UCS_CICLO = (tcycles[i].UCS_CICLO > 10? 11 : tcycles[i].UCS_CICLO);
 					if(objCycles[tcycles[i].UCS_CICLO]){
 						objCycles[tcycles[i].UCS_CICLO].courses.push(tcycles[i]);
 					}

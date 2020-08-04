@@ -23,7 +23,7 @@ export function RealDate(d = null){
 	var hour = date.getHours();
 	real.thour = hour >= 12?'PM':'AM';
 	real.hour12 = hour % 12;
-	real.hour12 = hour == 0?12:real.hour12;
+	real.hour12 = real.hour12 == 0?12:real.hour12;
 	real.hour = (hour < 10? '0':'') + hour;
 	var minute = date.getMinutes();
 	real.minute = (minute < 10? '0':'') + minute;
