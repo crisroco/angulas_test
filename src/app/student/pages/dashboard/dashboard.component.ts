@@ -155,8 +155,8 @@ export class DashboardComponent implements OnInit {
 			return;
 		}
 		this.realDate = RealDate();
-		if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) this.router.navigate(['/estudiante/accion/matricula']);//window.open(AppSettings.PEOPLE_LOGIN, '_blank');
-		else this.toastr.error(this.queueEnroll.mensaje, '', {enableHtml: true});
+		if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) {window.open('/estudiante/accion/matricula', '_self');} //this.router.navigate(['/estudiante/accion/matricula']);
+		else {this.toastr.error(this.queueEnroll.mensaje, '', {enableHtml: true})};
 	}
 
 	ngOnDestroy(){
