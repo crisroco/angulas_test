@@ -4,6 +4,7 @@ import { SessionService } from '../../../../services/session.service';
 import { AppSettings } from '../../../../app.settings';
 import { Broadcaster } from '../../../../services/broadcaster';
 import { RealDate } from '../../../../helpers/dates';
+import { QueueService } from '../../../../services/queue.service';
 import * as moment from 'moment';
 
 @Component({
@@ -26,6 +27,7 @@ export class EnrollComponent implements OnInit {
 
   constructor(public wsService: WebsocketService,
     private broadcaster: Broadcaster,
+    private queueS: QueueService,
     private session: SessionService) { 
       this.ngOnInit();
   }
@@ -146,7 +148,12 @@ export class EnrollComponent implements OnInit {
   }
 
   matricula() {
-    window.open(`${AppSettings.PEOPLE_LOGIN}&up=${localStorage.getItem('up')}`, '_blank');
+    // this.queueS.authEncrypt({code: this.student.codigoAlumno})
+    //  .subscribe( (res: any) => {
+    //     this.session.setItem('up', res.ciphertext);
+        
+    // });
+     window.open(`${AppSettings.PEOPLE_LOGIN}&up=${localStorage.getItem('up')}`, '_blank');
   }
 
   ngOnDestroy(){

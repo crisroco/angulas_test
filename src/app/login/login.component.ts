@@ -7,6 +7,7 @@ import { LoginService } from '../services/login.service';
 import { SessionService } from '../services/session.service';
 import { QueueService } from '../services/queue.service';
 import { AppSettings } from '../app.settings';
+import { Encrypt } from '../helpers/general';
 
 @Component({
   selector: 'app-login',
@@ -56,6 +57,7 @@ export class LoginComponent implements OnInit {
 			this.queueS.authEncrypt({...data, code: this.student.codigoAlumno})
 				.subscribe( (res: any) => {
 					this.session.setItem('up', res.ciphertext);
+					// this.session.setItem('data', Encrypt(JSON.stringify(data), 'miportal&ucs'));
 					this.student.email = data.email;
 					this.session.setObject('user', this.student);
 					this.router.navigate(['estudiante']);
