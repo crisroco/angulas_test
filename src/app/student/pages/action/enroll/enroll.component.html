@@ -37,7 +37,7 @@
   <div class="row align-items-center" *ngIf="user.ind_deuda == 'N' && enroll_conditions && (enroll_conditions.FLAG_ACADEMICO == 'Y' || enroll_conditions.FLAG_FINANCIERO == 'Y') && queueEnroll && queueEnroll.ind_grupo == 'N'">
     <div class="col-sm-12 col-md-8 col-lg-5 mx-auto">
       <div class="bg-white p-3 my-5">
-        <h5 class="text-ucs text-l m-0"> <strong> Aún no tienes Turno de Matricula. </strong> </h5>
+        <h5 class="text-ucs text-l m-0"> <strong> Aún no tienes Turno de Matrícula. </strong> </h5>
         <hr>
         <p class="m-0 mb-1 text-xm">  </p>
       </div>
@@ -65,7 +65,7 @@
 				<h5 class="text-ucs text-center text-l m-0"> <strong> ¡Es tu turno! </strong>  </h5>
         <hr>
         <!-- <p class="m-0 mb-1 text-xm"> Cuando sea tu turno, te enviaremos un mensaje a tu correo intitucional y a tu celular.</p> -->
-        <button class="btn btn-ucs btn-block" (click)="matricula()" >Da click aquí para matricúlarte <small>({{countDownEnroll}})</small></button>
+        <button class="btn btn-ucs btn-block" (click)="matricula()" >Da click aquí para matricularte <small>({{countDownEnroll}})</small></button>
         <!-- this.countDownEnroll === '00:00:00' -->
       </div>
 		</div>
@@ -76,7 +76,7 @@
 			<div class="bg-white p-3 my-5">
 				<h5 class="text-ucs text-center text-l m-0"> <strong> Turno vencido </strong>  </h5>
         <hr>
-        <p class="m-0 mb-1 text-xm"> Tu turno a culminado, para volver a realizar la matrícula ingresa a la cola de espera.</p>
+        <p class="m-0 mb-1 text-xm"> Tu turno ha culminado, para volver a realizar la matrícula ingresa a la cola de espera.</p>
         <button class="btn mt-2 btn-ucs btn-block" (click)="queue()">Ir a Cola</button>
       </div>
 		</div>
