@@ -204,13 +204,13 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'https://docs.cientifica.edu.pe/general_pdf/CALENDARIO_ACADEMICO_2020_I_CPE_ATE.pdf',
-					description: 'CALENDARIO ACADÉMICO 2020-I CAMPUS ATE'
+					url: 'https://docs.cientifica.edu.pe/general_pdf/calendario_CPE_2020-2_ATE.pdf',
+					description: 'CALENDARIO ACADÉMICO 2020-2 CAMPUS ATE'
 				},
 				{
 					img: '',
-					url: 'https://docs.cientifica.edu.pe/general_pdf/CALENDARIO_ACADEMICO_2020_I_CPE_VILLA.pdf',
-					description: 'CALENDARIO ACADÉMICO 2020-I CAMPUS VILLA'
+					url: 'https://docs.cientifica.edu.pe/general_pdf/calendario_CPE_2020-2_VILLA.pdf',
+					description: 'CALENDARIO ACADÉMICO 2020-2 CAMPUS VILLA'
 				},
 			],
 			isOpen: true,
