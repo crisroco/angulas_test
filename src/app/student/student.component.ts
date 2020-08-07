@@ -349,14 +349,16 @@ export class StudentComponent implements OnInit {
 			this.enrollCycles = [];
 			for(var kcycle in objCycles){
 				var courses = [];
+				for(var kcourse in objCycles[kcycle].courses){
+					courses.push(objCycles[kcycle].courses[kcourse]);
+				}
+				objCycles[kcycle].courses = courses;
 				if(kcycle > '0'){
-					for(var kcourse in objCycles[kcycle].courses){
-						courses.push(objCycles[kcycle].courses[kcourse]);
-					}
-					objCycles[kcycle].courses = courses;
 					this.enrollCycles.push(objCycles[kcycle]);
 				}
 			}
+			objCycles[0].name = 'Electivo';
+			this.enrollCycles.push(objCycles[0]);
 		});
 	}
 
