@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DashboardComponent implements OnInit {
 	@ViewChild('SurveyModal') SurveyModal: any;
+	@ViewChild('SurveyModal2') SurveyModal2: any;
 	@ViewChild('AcademicConditionModal') AcademicConditionModal: any;
 	@ViewChild('FinancialConditionModal') FinancialConditionModal: any;
 	company = AppSettings.COMPANY;
@@ -48,6 +49,7 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit() {
 		this.SurveyModal.open();
+		this.SurveyModal2.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
