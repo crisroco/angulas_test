@@ -28,6 +28,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	realModal: any;
 	realDate = RealDate();
 	realHourStart;
+	realHourEnd;
 	offsetHour = 1000*60*10;
 
 	virtualRoom: any = {
@@ -146,7 +147,8 @@ export class WeeklyScheduleComponent implements OnInit {
 		realClass.CLASS_ATTEND_DT = realClass.date;
 		this.assistanceS.getAssistanceNBR(realClass)
 		.then(res => {
-			console.log(res);
+
+
 			this.realDate = RealDate();
 			var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0]?res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR:'';
             var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
@@ -158,8 +160,9 @@ export class WeeklyScheduleComponent implements OnInit {
             realClass.ATTEND_TARDY = 'N';
             realClass.ATTEND_REASON = '';
             var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
-            console.log(difference);
-			if(templt_nbr && (realDate == realHourStart || Math.abs(difference) <= this.offsetHour)){
+            var difference2 = (this.realHourEnd.timeseconds - this.realHourStart.timeseconds)/2;
+            var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
+			if(templt_nbr && (realDate == realHourStart || Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0))){
 	            if(this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute){
 	            	realClass.STATUS = 'P';
 	            }
@@ -167,7 +170,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	            	realClass.ATTEND_LEFT_EARLY = 'Y';
 	            	realClass.STATUS = 'E';
 	            }
-	            else if(difference >= -this.offsetHour && difference < 0){
+	            else if((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)){
             		realClass.ATTEND_TARDY = 'Y';
 	            	realClass.STATUS = 'L';
 	            }
@@ -178,7 +181,10 @@ export class WeeklyScheduleComponent implements OnInit {
 			else{
 	            realClass.STATUS = 'ER';
 			}
+			console.log(difference2);
+			console.log(difference3)
 			console.log(realClass);
+
             this.assistanceS.saveAssistance(realClass)
             .then(res => {
             	this.goMoodle();
@@ -316,8 +322,9 @@ export class WeeklyScheduleComponent implements OnInit {
 		this.realModal = modal;
 		this.realClass = event.meta;
 		this.realHourStart = RealDate(event.start);
+		this.realHourEnd = RealDate(event.end);
 		console.log(event);
-		console.log(this.realHourStart);
+		console.log(this.realHourEnd);
 	}
 
 	ngOnDestroy() {
