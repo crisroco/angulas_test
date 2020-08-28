@@ -9,7 +9,7 @@ import { AssistanceService } from '../../../../services/assistance.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { Observable, Subject } from 'rxjs';
 import { setHours, setMinutes } from 'date-fns';
-import { RealDate, AddDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../../helpers/dates';
+import { RealDate, AddDay, SameDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../../helpers/dates';
 import * as CryptoJS from 'crypto-js';
 
 @Component({
@@ -147,8 +147,6 @@ export class WeeklyScheduleComponent implements OnInit {
 		realClass.CLASS_ATTEND_DT = realClass.date;
 		this.assistanceS.getAssistanceNBR(realClass)
 		.then(res => {
-
-
 			this.realDate = RealDate();
 			var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0]?res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR:'';
             var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
@@ -218,7 +216,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		this.classDay.forEach(classD => {
 			for(var kDay in days){
 				if(classD[kDay] == 'Y'){
-					if(BetweenDays(classD.FECH_INI, classD.FECH_FIN, days[kDay])){
+					if(SameDay(classD.FECH_INI, days[kDay])){
 						var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
 						classD.date = rDay;
 						if(!objEvents[rDay + ' ' + classD.MEETING_TIME_START + ' ' + classD.CRSE_ID]){

@@ -74,3 +74,9 @@ export function BetweenDays(first, last, day){
 	if(sDay < first || sDay > last) return false;
 	else return true;
 }
+
+export function SameDay(stDate, day){
+	var sDay = day.year + '-' + day.month + '-' + day.day;
+	if(sDay == stDate) return true;
+	else return false;
+}
