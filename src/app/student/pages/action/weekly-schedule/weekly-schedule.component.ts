@@ -64,11 +64,13 @@ export class WeeklyScheduleComponent implements OnInit {
     segmentModifier: Function;
     prevBtnDisabled: boolean = false;
     nextBtnDisabled: boolean = false;
+    realDevice = this.deviceS.getDeviceInfo();
 
 	constructor(private session: SessionService,
 		private router: Router,
 		private assistanceS: AssistanceService,
 		private generalS: GeneralService,
+    	private deviceS: DeviceDetectorService,
 		private studentS: StudentService) { }
 
 	ngOnInit() {
@@ -80,6 +82,7 @@ export class WeeklyScheduleComponent implements OnInit {
 				this.getData();
 			}
 		}, error => { });
+		console.log(this.realDevice);
 	}
 
 	getData(){
@@ -157,6 +160,7 @@ export class WeeklyScheduleComponent implements OnInit {
         	realClass.ATTEND_LEFT_EARLY = 'N';
             realClass.ATTEND_TARDY = 'N';
             realClass.ATTEND_REASON = '';
+            realClass.platform = this.realDevice.os + ' - ' + this.realDevice.browser;
             var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
             var difference2 = (this.realHourEnd.timeseconds - this.realHourStart.timeseconds)/2;
             var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
@@ -196,7 +200,7 @@ export class WeeklyScheduleComponent implements OnInit {
 			var rdate = Math.floor(Date.now() / 1000);
 			emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', {format: this.generalS.formatJsonCrypto}).toString());
 		}
-		window.open(this.virtualRoom[this.realClass.INSTITUTION] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + emplid, '_blank');
+		window.open(this.virtualRoom[this.realClass.INSTITUTION] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + emplid, '_self');
 	}
 
 	closeOpenMonthViewDay(){
