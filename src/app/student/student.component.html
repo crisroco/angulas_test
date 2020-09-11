@@ -22,10 +22,10 @@
 <div class="footer">
 	<div class="row bg-{{company}}-a">
 		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
-			<!-- <a href="" class="text-m text-white"> Mi Matrícula </a> -->
-			<!-- <a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a> -->
+			<a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
 			<a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
 			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
+			<a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a>
 			<a *ngIf="enroll" (click)="getEnrollSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
 			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
 		</div>
@@ -336,6 +336,125 @@
 		<div class="row justify-content-center mb-3">
 			<button (click)="saveYesIntensive()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
 			<button (click)="ConfirmIntensiveEnrollmentModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #UpdatePersonalDataModal identifier="UpdatePersonalDataModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a (click)="UpdatePersonalDataModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="p-2 px-5">
+		<h5 class="text-center text-{{company}} font-weight-bold text-m">Ayúdanos a mantenerte actualizado(a) completando esta breve encuesta:</h5>
+
+		<form [formGroup]="personalDataForm" class="form">
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">Fecha de nacimiento <span class="text-red">*</span></label>
+				<input class="col-sm-9 form-control" type="date" formControlName="birth_date">
+			</div>
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">Celular <span class="text-red">*</span></label>
+				<input (keypress)="inputsS.OnlyNumbers($event)" class="col-sm-9 form-control" type="text" formControlName="phone" maxlength="9" placeholder="Celular">
+			</div>
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">E-mail Personal <span class="text-red">*</span></label>
+				<input class="col-sm-9 form-control" type="text" formControlName="email" placeholder="E-mail Personal">
+			</div>
+			<!-- <div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">Departamento <span class="text-red">*</span></label>
+				<input class="col-sm-9 form-control" type="text" formControlName="department" placeholder="Departamento">
+			</div> -->
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">Provincia <span class="text-red">*</span></label>
+				<input class="col-sm-9 form-control" type="text" formControlName="province" placeholder="Provincia">
+			</div>
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">Distrito <span class="text-red">*</span></label>
+				<input class="col-sm-9 form-control" type="text" formControlName="district" placeholder="Distrito">
+			</div>
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">¿Quién financia tus estudios?</label>
+				<select class="col-sm-9 form-control" formControlName="who_finances">
+					<option value="">Selecciona</option>
+					<option value="Yo mismo">Yo mismo</option>
+					<option value="Padre">Padre</option>
+					<option value="Empresa">Empresa</option>
+					<option value="Otro">Otro</option>
+				</select>
+			</div>
+			<div class="form-group row mb-3">
+				<label class="col-sm-3 m-0 form-label">¿Actualmente trabajas? <span class="text-red">*</span></label>
+				<div class="col-sm-9">
+					<div class="form-check form-check-inline">
+					  <input class="form-check-input" type="radio" formControlName="working" id="actr1" value="SI">
+					  <label class="form-check-label" for="actr1">SI</label>
+					</div>
+					<div class="form-check form-check-inline">
+					  <input class="form-check-input" type="radio" formControlName="working" id="actr2" value="NO">
+					  <label class="form-check-label" for="actr2">NO</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group row mb-3">
+				<div class="form-check form-check-inline p-2">
+				  <input class="form-check-input mr-2" type="checkbox" id="policy" formControlName="privacy_policy" value="SI">
+				  <label class="form-check-label" for="policy">Declaro conocer la política de privacidad de la Universidad Científica del Sur y doy mi consentimiento para el tratamiento de los datos personales consignados en este formulario. <span class="text-red">*</span> </label> 
+				</div>
+			</div>
+		</form>
+
+		<div class="bg-gray p-2 mb-2">
+			<span class="text-red">*</span> Campo obligatorio
+		</div>
+
+		<div class="row justify-content-center mb-3">
+			<button (click)="savePersonalData()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SIGUIENTE</button>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #UpdateWorkingDataModal identifier="UpdateWorkingDataModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<!-- <div class="btn-close-float p-3">
+			<a (click)="UpdateWorkingDataModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div> -->
+	</div>
+	<div class="p-2 px-5">
+		<h5 class="text-center text-{{company}} font-weight-bold text-m">Información Laboral:</h5>
+
+		<form [formGroup]="workinglDataForm" class="form">
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">Nombre Empresa <span class="text-red">*</span></label>
+				<input class="col-sm-9 form-control" type="text" formControlName="company_name" placeholder="Nombre Empresa">
+			</div>
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">Cargo <span class="text-red">*</span></label>
+				<select class="col-sm-9 form-control" formControlName="company_position">
+					<option value="">Selecciona</option>
+					<option value="Practicante / Auxiliar">Practicante / Auxiliar</option>
+					<option value="Asistente">Asistente</option>
+					<option value="Analista">Analista</option>
+					<option value="Supervisor / Coordinador">Supervisor / Coordinador</option>
+					<option value="Jefe / Responsable de área">Jefe / Responsable de área</option>
+					<option value="Sub-gerente / Gerente">Sub-gerente / Gerente</option>
+					<option value="Director / Alta dirección">Director / Alta dirección</option>
+				</select>
+			</div>
+			<div class="form-group row mb-2">
+				<label class="col-sm-3 m-0 form-label">E-mail Laboral <span class="text-red">*</span></label>
+				<input class="col-sm-9 form-control" type="text" formControlName="company_email" placeholder="E-mail Laboral">
+			</div>
+		</form>
+
+		<div class="bg-gray p-2 mb-2">
+			<span class="text-red">*</span> Campo obligatorio
+		</div>
+
+		<div class="row justify-content-center mb-3">
+			<button (click)="saveWorkingData()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SIGUIENTE</button>
 		</div>
 	</div>
 </ngx-smart-modal>

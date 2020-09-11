@@ -1,9 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { StudentService } from '../../../services/student.service';
 import { SessionService } from '../../../services/session.service';
+import { ValidationService } from '../../../services/validation.service';
+import { InputsService } from '../../../services/inputs.service';
+import { FormService } from '../../../services/form.service';
 import { Broadcaster } from '../../../services/broadcaster';
 import { IntentionService } from '../../../services/intention.service';
 import { AppSettings } from '../../../app.settings';
@@ -39,8 +43,11 @@ export class DashboardComponent implements OnInit {
 	notifications: Array<any>;
 	btnEnroll: boolean = false;
 
-	constructor(private session: SessionService,
+	constructor( private formBuilder: FormBuilder,
+		private session: SessionService,
 		private studentS: StudentService,
+		public inputsS: InputsService,
+		private formS: FormService,
 		private broadcaster: Broadcaster,
 		private router: Router,
     	private toastr: ToastrService,
@@ -57,6 +64,7 @@ export class DashboardComponent implements OnInit {
 			this.getParameters();
 			this.getNotifications();
 		}, error => { });
+
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enroll_conditions) {
 				this.enroll_conditions = message.enroll_conditions;

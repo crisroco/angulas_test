@@ -1,11 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { SessionService } from '../services/session.service';
 import { Router } from '@angular/router';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { IntentionService } from '../services/intention.service';
 import { StudentService } from '../services/student.service';
 import { Broadcaster } from '../services/broadcaster';
+import { ValidationService } from '../services/validation.service';
+import { InputsService } from '../services/inputs.service';
+import { FormService } from '../services/form.service';
 import { RealDate } from '../helpers/dates';
 import { DynamicSort } from '../helpers/arrays';
 import { ToastrService } from 'ngx-toastr';
@@ -251,6 +255,8 @@ export class StudentComponent implements OnInit {
 	enrollCycles: Array<any>;
 	enroll_conditions: any;
 	queueEnroll: any;
+	personalDataForm: FormGroup;
+	workinglDataForm: FormGroup;
 	student: any;
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
@@ -262,27 +268,28 @@ export class StudentComponent implements OnInit {
 	@ViewChild('FinalIntentionEnrollmentModal') FinalIntentionEnrollmentModal: any;
 	@ViewChild('EnrollScheduleModal') EnrollScheduleModal: any;
 
-	constructor(private session: SessionService,
+	@ViewChild('UpdatePersonalDataModal') UpdatePersonalDataModal: any;
+	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
+
+	constructor( private formBuilder: FormBuilder,
+		private session: SessionService,
 		private router: Router,
 		private intentionS: IntentionService,
 		private studentS: StudentService,
     	private broadcaster: Broadcaster,
     	private toastr: ToastrService,
+		public inputsS: InputsService,
+		private formS: FormService,
 		public ngxSmartModalService: NgxSmartModalService) { }
 
 	ngOnInit() {
 		if(!this.user){
 			this.router.navigate(['/login']);
-			// for (var i = this.typeLibraries.length - 1; i >= 0; i--) {
-			// 	this.typeLibraries[i].libraries.forEach((library) => {
-			// 		library.url = library.url.replace(/{dni}/gi, this.dataTeacher.dni);
-			// 	});
-			// }
 		}
 		else{
 			this.getParameters();
 		}
-
+		this.initUpdatePersonalData();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -302,6 +309,93 @@ export class StudentComponent implements OnInit {
 				this.getQueueEnroll();
 			}
 	    });
+	}
+
+	initUpdatePersonalData(){
+		this.personalDataForm = this.formBuilder.group({
+			emplid: [this.user.codigoAlumno, Validators.required],
+			email: ['', ValidationService.emailValidator],
+			phone: ['', [Validators.required, Validators.pattern("(9)[0-9]{8}")]],
+			birth_date: ['', Validators.required],
+			department: ['Lima', Validators.required],
+			province: ['', Validators.required],
+			district: ['', Validators.required],
+			who_finances: ['', Validators.required],
+			working: ['', Validators.required],
+			privacy_policy: ['', ValidationService.booleanValidator],
+		});
+		this.workinglDataForm = this.formBuilder.group({
+			emplid: [this.user.codigoAlumno, Validators.required],
+			company_email: ['', ValidationService.emailValidator],
+			company_name: ['', Validators.required],
+			company_position: ['', Validators.required],
+		});
+		this.getPersonalData();
+
+	}
+
+	getPersonalData(){
+		this.studentS.getPersonalData(this.user.codigoAlumno)
+		.then(res => {
+			if(!res.data){
+				this.UpdatePersonalDataModal.open();
+			}
+			this.setClient(res.data);
+		});
+	}
+
+	openPersonalDataModal(){
+		this.getPersonalData();
+		this.UpdatePersonalDataModal.open();
+	}
+
+	setClient(data){
+		this.personalDataForm.controls['email'].setValue(data.email?data.email:'');
+		this.personalDataForm.controls['phone'].setValue(data.phone?data.phone:'');
+		this.personalDataForm.controls['birth_date'].setValue(data.birth_date?data.birth_date.split(' ')[0]:'');
+		this.personalDataForm.controls['province'].setValue(data.province?data.province:'');
+		this.personalDataForm.controls['district'].setValue(data.district?data.district:'');
+		this.personalDataForm.controls['who_finances'].setValue(data.who_finances?data.who_finances:'');
+		this.personalDataForm.controls['working'].setValue(data.working?data.working:'');
+		this.personalDataForm.controls['privacy_policy'].setValue(data.privacy_policy?data.privacy_policy:'');
+		this.workinglDataForm.controls['company_email'].setValue(data.company_email?data.company_email:'');
+		this.workinglDataForm.controls['company_name'].setValue(data.company_name?data.company_name:'');
+		this.workinglDataForm.controls['company_position'].setValue(data.company_position?data.company_position:'');
+  	}
+
+	savePersonalData(){
+		if(this.personalDataForm.invalid){
+			let data = this.personalDataForm.value;
+			this.formS.controlErrors(this.personalDataForm);
+			return;
+		}
+		let data = this.personalDataForm.value;
+		data.birth_date_u = (new Date(data.birth_date)).getTime();
+		if(data.working != 'SI'){
+			data.company_email = ' ';
+			data.company_name = ' ';
+			data.company_position = ' ';
+		}
+		this.studentS.savePersonalData(data)
+		.then(res => {
+			this.UpdatePersonalDataModal.close();
+			if(data.working == 'SI') this.UpdateWorkingDataModal.open();
+			else this.FinalIntentionEnrollmentModal.open();
+		});
+	}
+
+	saveWorkingData(){
+		if(this.workinglDataForm.invalid){
+			let data = this.workinglDataForm.value;
+			this.formS.controlErrors(this.workinglDataForm);
+			return;
+		}
+		let data = this.workinglDataForm.value;
+		this.studentS.savePersonalData(data)
+		.then(res => {
+			this.UpdateWorkingDataModal.close();
+			this.FinalIntentionEnrollmentModal.open();
+		});
 	}
 
 	getParameters(open: boolean = true){

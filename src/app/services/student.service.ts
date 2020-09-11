@@ -108,4 +108,12 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getSTRM', data).toPromise();
     }
 
+    public getPersonalData(code): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.PERSONAL_DATA + '/getPersonalData/' + code, {}).toPromise();
+    }
+
+    public savePersonalData(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.PERSONAL_DATA + '/savePersonalData', data).toPromise();
+    }
+
 }
