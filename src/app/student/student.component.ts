@@ -330,7 +330,7 @@ export class StudentComponent implements OnInit {
 			company_name: ['', Validators.required],
 			company_position: ['', Validators.required],
 		});
-		this.getPersonalData();
+		// this.getPersonalData();
 
 	}
 
