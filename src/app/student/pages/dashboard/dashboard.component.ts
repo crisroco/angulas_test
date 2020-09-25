@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
 	@ViewChild('SurveyModal2') SurveyModal2: any;
 	@ViewChild('AcademicConditionModal') AcademicConditionModal: any;
 	@ViewChild('FinancialConditionModal') FinancialConditionModal: any;
+	@ViewChild('AnnouncementModal') AnnouncementModal: any;
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	student: any = {};
@@ -64,7 +65,7 @@ export class DashboardComponent implements OnInit {
 			this.getParameters();
 			this.getNotifications();
 		}, error => { });
-
+		this.AnnouncementModal.open();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enroll_conditions) {
 				this.enroll_conditions = message.enroll_conditions;
