@@ -191,19 +191,18 @@
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #AnnouncementModal  identifier="AnnouncementModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+<ngx-smart-modal #AnnouncementModal  identifier="AnnouncementModal" [closable]="false" [customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
 			<a (click)="AnnouncementModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
 		</div>
 	</div>
 	<div class="text-left p-2 px-5">
-		<h4 class="text-{{company}} font-weight-bold text-center">Noticias</h4>
+		<h4 class="text-{{company}} font-weight-bold text-center">Encuesta 2020-2</h4>
 	</div>
-	<div class="row scroll fullModal">
-		<div class="col-md-12 pb-3">
-			<h5>Recuerda que el 27 se vence tu próxima armada, no pierdas el beneficio del 20% de pagar hasta el vencimiento</h5>
-		</div>
+	<div class="h-fn scroll fullModal px-2">
+		<a target="_blank" href="https://sedd.cientifica.edu.pe/login/ingresar"><img class="w-100" src="./assets/img/encuesta_3.png"></a>
+		<p class="mt-2 text-center"><a class="text-{{company}}" target="_blank" href="https://sedd.cientifica.edu.pe/login/ingresar">Ingresar a la encuesta</a></p>
 	</div>
 </ngx-smart-modal>
 
