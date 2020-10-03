@@ -337,9 +337,9 @@ export class StudentComponent implements OnInit {
 	getPersonalData(){
 		this.studentS.getPersonalData(this.user.codigoAlumno)
 		.then(res => {
-			if(!res.data){
-				this.UpdatePersonalDataModal.open();
-			}
+			// if(!res.data){
+			// 	this.UpdatePersonalDataModal.open();
+			// }
 			this.setClient(res.data);
 		});
 	}
