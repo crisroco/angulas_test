@@ -191,6 +191,19 @@
 	</div>
 </ngx-smart-modal>
 
+<ngx-smart-modal #HolidayModal  identifier="HolidayModal" [closable]="false" [customClass]="'fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a (click)="HolidayModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-left p-3 px-5">
+		<h5 class="text-{{company}} font-weight-bold text-sd  mb-3">Comunicado</h5>
+		<div class="mb-3"> Estimado/a estudiante </div>
+ 		<div>Te informamos que debido a que el Gobierno ha declarado el feriado 8 de octubre como día laborable, la Universidad Científica del Sur realizará sus clases con normalidad.</div>
+	</div>
+</ngx-smart-modal>
+
 <ngx-smart-modal #AnnouncementModal  identifier="AnnouncementModal" [closable]="false" [customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
@@ -203,18 +216,6 @@
 	<div class="h-fn scroll fullModal px-2">
 		<a target="_blank" href="https://sedd.cientifica.edu.pe/login/ingresar"><img class="w-100" src="./assets/img/encuesta_3.png"></a>
 		<p class="mt-2 text-center"><a class="text-{{company}}" target="_blank" href="https://sedd.cientifica.edu.pe/login/ingresar">Ingresar a la encuesta</a></p>
-	</div>
-</ngx-smart-modal>
-
-<ngx-smart-modal #HolidayModal  identifier="HolidayModal" [closable]="false" [customClass]="'fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3">
-			<a (click)="HolidayModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-		</div>
-	</div>
-	<div class="text-left p-3 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd  mb-3">Estimado/a estudiante</h5>
- 		<div>Te informamos que debido a que el Gobierno ha declarado el feriado 8 de octubre como día laborable, la Universidad Científica del Sur realizará sus clases con normalidad.</div>
 	</div>
 </ngx-smart-modal>
 
