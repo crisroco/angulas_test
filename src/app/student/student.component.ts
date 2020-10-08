@@ -463,6 +463,11 @@ export class StudentComponent implements OnInit {
 		this.broadcaster.sendMessage({initSocket: 'Y'});
 	}
 
+	sendDataStudent(){
+		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
+		this.broadcaster.sendMessage({code: this.user.codigoAlumno, institution: this.enroll.institucion, date: rDate});
+	}
+
 	getQueueEnroll(){
 		if(this.enroll && this.enroll_conditions && this.queueEnroll){
 			this.sendEnroll();
@@ -474,6 +479,7 @@ export class StudentComponent implements OnInit {
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 				this.enroll = units.filter(item => item.institucion == 'PREGR');
 				this.enroll = this.enroll.length?this.enroll[0]:null;
+				this.sendDataStudent();
 				if(this.enroll){
 					this.enroll.OPRID = this.user.email;
 					this.enroll.INSTITUTION = this.enroll.institucion;

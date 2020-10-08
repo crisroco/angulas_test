@@ -44,6 +44,10 @@ export class DashboardComponent implements OnInit {
 	crossdata: any;
 	notifications: Array<any>;
 	btnEnroll: boolean = false;
+	currentNextClass:any = {
+		limit : 0
+	};
+	nextClassLink:any;
 
 	constructor( private formBuilder: FormBuilder,
 		private session: SessionService,
@@ -67,7 +71,7 @@ export class DashboardComponent implements OnInit {
 			this.getNotifications();
 		}, error => { });
 		this.AnnouncementModal.open();
-		this.HolidayModal.open();
+		// this.HolidayModal.open();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enroll_conditions) {
 				this.enroll_conditions = message.enroll_conditions;
@@ -79,6 +83,14 @@ export class DashboardComponent implements OnInit {
 			}
 			else if (message && message.enroll) {
 				this.enroll = message.enroll;
+			}
+			else if (message && message.code) {
+				if (message.institution == 'PREGR') {
+					this.studentS.getAllClasses({code: message.code, institution: message.institution, date: message.date})
+					.then((res) => {
+						this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR);
+					});
+				}
 			}
 	    });
 		var ese = new Array(4);
@@ -175,6 +187,36 @@ export class DashboardComponent implements OnInit {
 	ngOnDestroy(){
 		console.log('eliminado');
 		this.crossdata.unsubscribe();
+	}
+
+	nextClass(arrClass){
+		var dt = new Date();
+  		var secs = dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60 * dt.getHours());
+		for (let i = 0; i < arrClass.length; i++) {
+			let actualC = arrClass[i];
+			var hour = actualC['MEETING_TIME_START'].split(':')[0]*60*60;
+			var minute = actualC['MEETING_TIME_START'].split(':')[1]*60;
+			var total = hour + minute;
+			if (total > secs && secs > this.currentNextClass.limit) {
+				this.currentNextClass['limit'] = total;
+				this.currentNextClass = actualC;
+				this.getLink(actualC);
+			}
+		}
+	}
+
+	getLink(cls){
+		let d = new Date();
+		var hour = cls.MEETING_TIME_START.split(':')[0];
+		var minute = cls.MEETING_TIME_START.split(':')[1];
+		d.setHours(hour);
+		d.setMinutes(minute);
+		d.setSeconds(0);
+		let timeStamp = d.getTime().toString().slice(0, -3);
+		this.studentS.getLinkZoom(cls['STRM'], cls['CLASS_NBR2'], Number(timeStamp))
+			.then((res) => {
+				this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
+			});
 	}
 
 }
