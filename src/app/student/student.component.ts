@@ -300,7 +300,7 @@ export class StudentComponent implements OnInit {
 			}
 			else if (message && message.intensiveModal && message.intensiveModal == '2') {
 				this.enrollmentIntensiveStatus = message.intensiveData;
-				if(this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process != 'SI') this.IntensiveEnrollmentModal.open();
+				// if(this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process != 'SI') this.IntensiveEnrollmentModal.open();
 			}
 			else if(message && message.enroll){
 				this.enroll = message.enroll;

@@ -116,4 +116,8 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.PERSONAL_DATA + '/savePersonalData', data).toPromise();
     }
 
+    public getLinkZoom(cicle, myclass, date): Promise<any> {
+        return this.http.get("https://aulavirtualcpe.cientifica.edu.pe/mod/zoom/client/zoom_link.php?strm=" + cicle + '&nbr=' + myclass + '&date=' + date, {responseType: 'text'}).toPromise();
+    }
+
 }
