@@ -197,8 +197,10 @@ export class DashboardComponent implements OnInit {
 			var hour = actualC['MEETING_TIME_START'].split(':')[0]*60*60;
 			var minute = actualC['MEETING_TIME_START'].split(':')[1]*60;
 			var total = hour + minute;
-			if (total > secs && secs > this.currentNextClass.limit) {
-				this.currentNextClass['limit'] = total;
+			var hour2 = actualC['MEETING_TIME_END'].split(':')[0]*60*60;
+			var minute2 = actualC['MEETING_TIME_END'].split(':')[1]*60;
+			var total2 = hour2 + minute2;
+			if (total-600 < secs && secs < total2 - 600) {
 				this.currentNextClass = actualC;
 				this.getLink(actualC);
 			}

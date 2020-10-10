@@ -290,6 +290,7 @@ export class StudentComponent implements OnInit {
 			this.getParameters();
 		}
 		this.initUpdatePersonalData();
+		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -463,9 +464,20 @@ export class StudentComponent implements OnInit {
 		this.broadcaster.sendMessage({initSocket: 'Y'});
 	}
 
-	sendDataStudent(){
+	sendDataStudent(inst){
 		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
-		this.broadcaster.sendMessage({code: this.user.codigoAlumno, institution: this.enroll.institucion, date: rDate});
+		this.broadcaster.sendMessage({code: this.user.codigoAlumno, institution: inst.institucion, date: rDate});
+	}
+
+	checkInList(){
+		this.student = this.session.getObject('student');
+		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
+			.then((res) => {
+				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
+				var one = units.filter(item => item.institucion == 'PREGR');
+				var inst = one.length?one[0]:null;
+				this.sendDataStudent(inst);
+			});
 	}
 
 	getQueueEnroll(){
@@ -479,7 +491,6 @@ export class StudentComponent implements OnInit {
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 				this.enroll = units.filter(item => item.institucion == 'PREGR');
 				this.enroll = this.enroll.length?this.enroll[0]:null;
-				this.sendDataStudent();
 				if(this.enroll){
 					this.enroll.OPRID = this.user.email;
 					this.enroll.INSTITUTION = this.enroll.institucion;
