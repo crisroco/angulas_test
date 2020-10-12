@@ -71,7 +71,6 @@ export class DashboardComponent implements OnInit {
 			this.getNotifications();
 		}, error => { });
 		this.AnnouncementModal.open();
-		// this.HolidayModal.open();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enroll_conditions) {
 				this.enroll_conditions = message.enroll_conditions;
@@ -85,7 +84,7 @@ export class DashboardComponent implements OnInit {
 				this.enroll = message.enroll;
 			}
 			else if (message && message.code) {
-				if (message.institution == 'PREGR') {
+				if (message.institution != 'PSTRG') {
 					this.studentS.getAllClasses({code: message.code, institution: message.institution, date: message.date})
 					.then((res) => {
 						this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR);
