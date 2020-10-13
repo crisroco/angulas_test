@@ -70,7 +70,6 @@ export class DashboardComponent implements OnInit {
 			this.getParameters();
 			this.getNotifications();
 		}, error => { });
-		this.AnnouncementModal.open();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enroll_conditions) {
 				this.enroll_conditions = message.enroll_conditions;
