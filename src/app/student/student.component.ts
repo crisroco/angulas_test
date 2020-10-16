@@ -270,6 +270,7 @@ export class StudentComponent implements OnInit {
 
 	@ViewChild('UpdatePersonalDataModal') UpdatePersonalDataModal: any;
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
+	@ViewChild('humanityModal') humanityModal: any;
 
 	constructor( private formBuilder: FormBuilder,
 		private session: SessionService,
@@ -383,6 +384,10 @@ export class StudentComponent implements OnInit {
 			if(data.working == 'SI') this.UpdateWorkingDataModal.open();
 			else this.FinalIntentionEnrollmentModal.open();
 		});
+	}
+
+	openHumanityModal(){
+		this.humanityModal.open();
 	}
 
 	saveWorkingData(){
