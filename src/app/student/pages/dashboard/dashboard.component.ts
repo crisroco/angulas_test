@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
 	enroll_conditions: any;
 	queueEnroll: any;
 	showwsp: boolean = false;
+	fidelityLink: any = '';
 	imagesAcadConditions = new Array(29);
 	imagesFinaConditions = new Array(25);
 	timeoutEnroll: boolean = false;
@@ -63,6 +64,7 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
+		this.AnnouncementModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
@@ -115,6 +117,12 @@ export class DashboardComponent implements OnInit {
 			// this.broadcaster.sendMessage({ getEnroll: 'Y' });
 			// this.btnEnroll = true;
 		})
+		this.studentS.getFidelityLink(this.user.codigoAlumno)
+			.then((res) => {
+				if (res) {
+					this.fidelityLink = res['data']['link'];
+				}
+			});
 	}
 
 	getNotifications(){

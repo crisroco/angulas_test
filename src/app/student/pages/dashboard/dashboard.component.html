@@ -14,6 +14,7 @@
 						Universidad Científica del Sur						
 					</p>
 					<a href="https://vimeo.com/295459246/6e1168f864" target="_blank" class="btn btn-lg btn-block btn-black"> Video instructivo </a>
+					<a *ngIf="fidelityLink" [href]="fidelityLink" target="_blank" class="btn btn-lg btn-block btn-black"> Encuesta de FIDELIDAD 2020-2 </a>
 					<div *ngIf="nextClassLink" class="btn btn-lg btn-block btn-black"> Tu clase ahora: </div>
 					<div *ngIf="nextClassLink" class="btn btn-block next_class my-2 text-center">
 						<a [href]="nextClassLink" target="_blank" class="my-0 text-{{company}}"> <span style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px" src="./assets/img/icon/zoom.png" alt=""></a>

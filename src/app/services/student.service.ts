@@ -124,4 +124,8 @@ export class StudentService {
         return this.http.get("https://aulavirtualcpe.cientifica.edu.pe/mod/zoom/client/zoom_link.php?strm=" + cicle + '&nbr=' + myclass + '&date=' + date, {responseType: 'text'}).toPromise();
     }
 
+    public getFidelityLink(emplid): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getFidelitySurvey/' + emplid).toPromise();
+    }
+
 }
