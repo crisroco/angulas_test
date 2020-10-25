@@ -128,4 +128,12 @@ export class StudentService {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getFidelitySurvey/' + emplid).toPromise();
     }
 
+    public getMoodleList(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getMoodleList').toPromise();
+    }
+
+    public saveMoodleLink(emplid): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/saveMoodle/' + emplid, {}).toPromise();
+    }
+
 }

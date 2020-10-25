@@ -224,4 +224,19 @@
 	</div>
 </ngx-smart-modal>
 
+<ngx-smart-modal #ModdleLinkModal  identifier="ModdleLinkModal" [escapable]="false" [dismissable]="false" [closable]="false" [customClass]="'fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		<div class="btn-close-float p-3">
+			<a (click)="ModdleLinkModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-left p-2 px-5">
+		<h4 class="text-{{company}} font-weight-bold text-center">Ingresa a la prueba de Cultura Financiera</h4>
+	</div>
+	<div class="fullModal px-2">
+		<!-- <a target="_blank" href="https://sedd.cientifica.edu.pe/login/ingresar"><img class="w-100" src="./assets/img/encuesta_3.png"></a> -->
+		<p class="mt-2 text-center moodleLink" (click)="goMoodle()">Ingresa Aquí</p>
+	</div>
+</ngx-smart-modal>
+
 <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

@@ -6,6 +6,7 @@ import { NgxSmartModalService } from 'ngx-smart-modal';
 import { StudentService } from '../../../services/student.service';
 import { SessionService } from '../../../services/session.service';
 import { ValidationService } from '../../../services/validation.service';
+import { GeneralService } from '../../../services/general.service';
 import { InputsService } from '../../../services/inputs.service';
 import { FormService } from '../../../services/form.service';
 import { Broadcaster } from '../../../services/broadcaster';
@@ -13,6 +14,7 @@ import { IntentionService } from '../../../services/intention.service';
 import { AppSettings } from '../../../app.settings';
 import { RealDate } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +28,7 @@ export class DashboardComponent implements OnInit {
 	@ViewChild('FinancialConditionModal') FinancialConditionModal: any;
 	@ViewChild('AnnouncementModal') AnnouncementModal: any;
 	@ViewChild('HolidayModal') HolidayModal: any;
+	@ViewChild('ModdleLinkModal') ModdleLinkModal: any;
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	student: any = {};
@@ -57,6 +60,7 @@ export class DashboardComponent implements OnInit {
 		private formS: FormService,
 		private broadcaster: Broadcaster,
 		private router: Router,
+		public generalS:GeneralService,
     	private toastr: ToastrService,
     	public ngxSmartModalService: NgxSmartModalService,
 		private intentionS: IntentionService) { }
@@ -65,6 +69,13 @@ export class DashboardComponent implements OnInit {
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
 		this.AnnouncementModal.open();
+		this.studentS.getMoodleList()
+			.then((res) => {
+				let inList = res['data'].filter(alumn => alumn['emplid'] == this.user.codigoAlumno)[0];
+				if (inList) {
+					this.ModdleLinkModal.open();
+				}
+			});
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
@@ -119,7 +130,7 @@ export class DashboardComponent implements OnInit {
 		})
 		this.studentS.getFidelityLink(this.user.codigoAlumno)
 			.then((res) => {
-				if (res) {
+				if (res['data']) {
 					this.fidelityLink = res['data']['link'];
 				}
 			});
@@ -198,19 +209,21 @@ export class DashboardComponent implements OnInit {
 	nextClass(arrClass){
 		var dt = new Date();
   		var secs = dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60 * dt.getHours());
-		for (let i = 0; i < arrClass.length; i++) {
-			let actualC = arrClass[i];
-			var hour = actualC['MEETING_TIME_START'].split(':')[0]*60*60;
-			var minute = actualC['MEETING_TIME_START'].split(':')[1]*60;
-			var total = hour + minute;
-			var hour2 = actualC['MEETING_TIME_END'].split(':')[0]*60*60;
-			var minute2 = actualC['MEETING_TIME_END'].split(':')[1]*60;
-			var total2 = hour2 + minute2;
-			if (total-600 < secs && secs < total2 - 600) {
-				this.currentNextClass = actualC;
-				this.getLink(actualC);
+  		if (arrClass) {
+  			for (let i = 0; i < arrClass.length; i++) {
+				let actualC = arrClass[i];
+				var hour = actualC['MEETING_TIME_START'].split(':')[0]*60*60;
+				var minute = actualC['MEETING_TIME_START'].split(':')[1]*60;
+				var total = hour + minute;
+				var hour2 = actualC['MEETING_TIME_END'].split(':')[0]*60*60;
+				var minute2 = actualC['MEETING_TIME_END'].split(':')[1]*60;
+				var total2 = hour2 + minute2;
+				if (total-600 < secs && secs < total2 - 600) {
+					this.currentNextClass = actualC;
+					this.getLink(actualC);
+				}
 			}
-		}
+  		}
 	}
 
 	getLink(cls){
@@ -224,6 +237,16 @@ export class DashboardComponent implements OnInit {
 		this.studentS.getLinkZoom(cls['STRM'], cls['CLASS_NBR2'], Number(timeStamp))
 			.then((res) => {
 				this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
+			});
+	}
+
+	goMoodle(){
+		this.studentS.saveMoodleLink(this.user.codigoAlumno)
+			.then((res) => {
+				var emplid = this.student.codigoAlumno;
+				var rdate = Math.floor(Date.now() / 1000);
+				emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', {format: this.generalS.formatJsonCrypto}).toString());
+				window.open('https://aulavirtualcpe.cientifica.edu.pe/local/wseducad/auth/sso.php?strm=' + '3789' + '&class=6378' + '&emplid=' + emplid, '_self');
 			});
 	}
 
