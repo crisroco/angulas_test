@@ -69,13 +69,6 @@ export class DashboardComponent implements OnInit {
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
 		this.AnnouncementModal.open();
-		this.studentS.getMoodleList()
-			.then((res) => {
-				let inList = res['data'].filter(alumn => alumn['emplid'] == this.user.codigoAlumno)[0];
-				if (inList) {
-					this.ModdleLinkModal.open();
-				}
-			});
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
@@ -237,16 +230,6 @@ export class DashboardComponent implements OnInit {
 		this.studentS.getLinkZoom(cls['STRM'], cls['CLASS_NBR2'], Number(timeStamp))
 			.then((res) => {
 				this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
-			});
-	}
-
-	goMoodle(){
-		this.studentS.saveMoodleLink(this.user.codigoAlumno)
-			.then((res) => {
-				var emplid = this.student.codigoAlumno;
-				var rdate = Math.floor(Date.now() / 1000);
-				emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', {format: this.generalS.formatJsonCrypto}).toString());
-				window.open('https://aulavirtualcpe.cientifica.edu.pe/local/wseducad/auth/sso.php?strm=' + '3789' + '&class=6378' + '&emplid=' + emplid, '_self');
 			});
 	}
 
