@@ -68,7 +68,6 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
-		this.AnnouncementModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
@@ -125,6 +124,9 @@ export class DashboardComponent implements OnInit {
 			.then((res) => {
 				if (res['data']) {
 					this.fidelityLink = res['data']['link'];
+					if (this.fidelityLink) {
+						this.AnnouncementModal.open();
+					}
 				}
 			});
 	}
