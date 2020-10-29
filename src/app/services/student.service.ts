@@ -127,4 +127,8 @@ export class StudentService {
     public getFidelityLink(emplid): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getFidelitySurvey/' + emplid).toPromise();
     }
+
+    public getListOfStudentsJson(): Promise<any> {
+       return this.http.get("assets/students.json").toPromise();
+    }
 }
