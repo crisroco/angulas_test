@@ -270,6 +270,7 @@ export class StudentComponent implements OnInit {
 
 	@ViewChild('UpdatePersonalDataModal') UpdatePersonalDataModal: any;
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
+	@ViewChild('humanityModal') humanityModal: any;
 
 	constructor( private formBuilder: FormBuilder,
 		private session: SessionService,
@@ -290,6 +291,7 @@ export class StudentComponent implements OnInit {
 			this.getParameters();
 		}
 		this.initUpdatePersonalData();
+		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -300,7 +302,7 @@ export class StudentComponent implements OnInit {
 			}
 			else if (message && message.intensiveModal && message.intensiveModal == '2') {
 				this.enrollmentIntensiveStatus = message.intensiveData;
-				if(this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process != 'SI') this.IntensiveEnrollmentModal.open();
+				// if(this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process != 'SI') this.IntensiveEnrollmentModal.open();
 			}
 			else if(message && message.enroll){
 				this.enroll = message.enroll;
@@ -384,6 +386,10 @@ export class StudentComponent implements OnInit {
 		});
 	}
 
+	openHumanityModal(){
+		this.humanityModal.open();
+	}
+
 	saveWorkingData(){
 		if(this.workinglDataForm.invalid){
 			let data = this.workinglDataForm.value;
@@ -461,6 +467,22 @@ export class StudentComponent implements OnInit {
 		this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
 		this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
 		this.broadcaster.sendMessage({initSocket: 'Y'});
+	}
+
+	sendDataStudent(inst){
+		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
+		this.broadcaster.sendMessage({code: this.user.codigoAlumno, institution: inst.institucion, date: rDate});
+	}
+
+	checkInList(){
+		this.student = this.session.getObject('student');
+		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
+			.then((res) => {
+				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
+				var one = units.filter(item => item.institucion == 'PREGR');
+				var inst = one.length?one[0]:null;
+				this.sendDataStudent(inst);
+			});
 	}
 
 	getQueueEnroll(){

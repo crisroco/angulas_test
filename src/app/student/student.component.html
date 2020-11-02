@@ -30,7 +30,6 @@
 			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
 		</div>
 	</div>
-	<div class="bg-black py-2">	</div>
 </div>
 
 <ngx-smart-modal #libraryModal identifier="libraryModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
@@ -60,10 +59,27 @@
 								<img [style.width]="librarySub.width" src="{{librarySub.img}}">
 								{{librarySub.description}}
 							</a>
+							<div *ngIf="subtypelibrary.name == 'Ciencias de la Salud'" role="button" (click)="openHumanityModal()" [style.width]="103" class="row text-center ml-3">
+								<img style="width: 103px;" src="assets/img/biblioteca/2-3.png">
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #humanityModal identifier="humanityModal" [closable]="false" [customClass]="''">
+	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+		<h5 class=""> <strong> Complete Anatomy </strong> </h5>
+		<a (click)="humanityModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+	</div>
+
+  	<div class="mb-3 rounded-1 scroll h-m bd-1 text-container">
+		<div class="text p-3">
+			<p>Herramienta de uso exclusivo para los alumnos y docentes de los cursos Anatomía General y Morfofisiología de las carreras de Ciencias de la Salud.
+			Para mayor información comunicarse al correo: biblioteca@cientifica.edu.pe</p>
 		</div>
 	</div>
 </ngx-smart-modal>
