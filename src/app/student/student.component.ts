@@ -49,6 +49,7 @@ export class StudentComponent implements OnInit {
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	enrollmentStatus: any;
+	enrollmentIntentionStatus: any;
 	enrollmentIntensiveStatus: any;
 	typeLibraries: any = [
 		{
@@ -410,6 +411,7 @@ export class StudentComponent implements OnInit {
 		.then(res => {
 			this.enrollmentStatus = res.data && res.data?res.data:[];
 			this.enrollmentStatus.forEach((item) => {
+				if(item.type == 'PM') this.enrollmentIntentionStatus = item;
 				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO'){
 					if(open) this.openIntentionEnrollment();
 					this.noClosed = rDate > item.end_date || rDate < item.start_date?true:false;

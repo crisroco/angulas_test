@@ -22,7 +22,7 @@
 <div class="footer">
 	<div class="row bg-{{company}}-a">
 		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
-			<a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
+			<a (click)="openIntentionEnrollment()" *ngIf="enrollmentIntentionStatus && enrollmentIntentionStatus.enrollment_intention_status == 'A' && enrollmentIntentionStatus.authorizacion && enrollmentIntentionStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
 			<a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
 			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
 			<!-- <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a> -->
@@ -172,15 +172,15 @@
 <ngx-smart-modal #IntentionEnrollmentModal identifier="IntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
-			<a *ngIf="!noClosed || (this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.authorizacion.ended_process == 'SI')" (click)="IntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+			<a *ngIf="!noClosed || (this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI')" (click)="IntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
 		</div>
 	</div>
 	<div class="text-center p-2 px-5">
 		<h5 class="text-{{company}} font-weight-bold text-sd">Intención de Matricula</h5>
-		<p class="text-m">Queremos adaptar nuestros servicios a tus necesidades.  Por favor llena el siguiente formulario, te tomará menos de dos minutos. </p>
+		<p class="text-m">Queremos abrir los cursos que ustedes necesiten, por eso, es importante que respondas.  Por favor llena el siguiente formulario, te tomará menos de dos minutos. </p>
 
 		<div class="bg-gray p-2 text-center mb-2">
-			¿Te matricularás en el 2020-II?
+			¿Te matricularás en el Verano 2021?
 		</div>
 
 		<div class="row justify-content-center mb-3">
@@ -192,7 +192,7 @@
 
 <ngx-smart-modal #NotIntentionEnrollmentModal identifier="NotIntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3" *ngIf="this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.authorizacion.ended_process == 'SI'">
+		<div class="btn-close-float p-3" *ngIf="this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI'">
 			<a (click)="NotIntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
 		</div>
 	</div>
@@ -213,12 +213,12 @@
 
 <ngx-smart-modal #YesIntentionEnrollmentModal identifier="YesIntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3" *ngIf="this.enrollmentStatus && this.enrollmentStatus.enrollment_intention_status == 'A' && this.enrollmentStatus.authorizacion && this.enrollmentStatus.authorizacion.ended_process == 'SI'">
+		<div class="btn-close-float p-3" *ngIf="this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI'">
 			<a (click)="YesIntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
 		</div>
 	</div>
 	<div class="text-left p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-l">Cursos</h5>
+		<h5 class="text-{{company}} font-weight-bold text-l">Verano 2021</h5>
 		<p> Elige tu intención de matrícula </p>
 		<div class="form-group scroll h-s">
 		    <table id="table-students" class="w-100">
@@ -245,7 +245,7 @@
 			<textarea class="form-control" [(ngModel)]="comment" placeholder="¿Te falta algún curso?"> </textarea>
 		</div>	
 		<div class="bg-gray p-2 mb-2">
-			La intención de matricula no asegura un cupo en el curso elegido
+			La intención de matricula no asegura un cupo en el curso elegido. Recuerda que los cursos son 100% virtuales.
 		</div>	
 	</div>
 	<div class="row justify-content-center mb-3 px-5">

@@ -128,15 +128,15 @@ export class DashboardComponent implements OnInit {
 			// this.broadcaster.sendMessage({ getEnroll: 'Y' });
 			// this.btnEnroll = true;
 		})
-		this.studentS.getFidelityLink(this.user.codigoAlumno)
-			.then((res) => {
-				if (res['data']) {
-					this.fidelityLink = res['data']['link'];
-					if (this.fidelityLink) {
-						this.AnnouncementModal.open();
-					}
-				}
-			});
+		// this.studentS.getFidelityLink(this.user.codigoAlumno)
+		// .then((res) => {
+		// 	if (res['data']) {
+		// 		this.fidelityLink = res['data']['link'];
+		// 		if (this.fidelityLink) {
+		// 			this.AnnouncementModal.open();
+		// 		}
+		// 	}
+		// });
 	}
 
 	getNotifications(){
