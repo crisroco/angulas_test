@@ -324,6 +324,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		this.realModal = modal;
 		this.realClass = event.meta;
 		this.realHourStart = RealDate(event.start);
+		console.log(event.start);
 		this.realHourEnd = RealDate(event.end);
 		console.log(event);
 		console.log(this.realHourEnd);

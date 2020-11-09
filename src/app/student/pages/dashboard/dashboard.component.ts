@@ -11,6 +11,7 @@ import { InputsService } from '../../../services/inputs.service';
 import { FormService } from '../../../services/form.service';
 import { Broadcaster } from '../../../services/broadcaster';
 import { IntentionService } from '../../../services/intention.service';
+import { AssistanceService } from '../../../services/assistance.service';
 import { AppSettings } from '../../../app.settings';
 import { RealDate } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
@@ -45,6 +46,8 @@ export class DashboardComponent implements OnInit {
 	fidelityLink: any = '';
 	imagesAcadConditions = new Array(29);
 	imagesFinaConditions = new Array(25);
+	realHourStart;
+	realHourEnd;
 	timeoutEnroll: boolean = false;
 	crossdata: any;
 	notifications: Array<any>;
@@ -52,15 +55,19 @@ export class DashboardComponent implements OnInit {
 	currentNextClass:any = {
 		limit : 0
 	};
+	offsetHour = 1000*60*10;
 	nextClassLink:any;
 
+	realDevice = this.deviceS.getDeviceInfo();
 	constructor( private formBuilder: FormBuilder,
 		private session: SessionService,
 		private studentS: StudentService,
 		public inputsS: InputsService,
 		private formS: FormService,
+		private assistanceS: AssistanceService,
 		private broadcaster: Broadcaster,
 		private router: Router,
+		private deviceS: DeviceDetectorService,
 		public generalS:GeneralService,
     	private toastr: ToastrService,
     	public ngxSmartModalService: NgxSmartModalService,
@@ -229,6 +236,58 @@ export class DashboardComponent implements OnInit {
   		}
 	}
 
+	checkAssist(){
+		window.open(this.nextClassLink, '_blank');
+	}
+
+	preGoMoodle(){
+		var realClass = JSON.parse(JSON.stringify(this.currentNextClass));
+		realClass.CLASS_ATTEND_DT = realClass.FECH_INI;
+		let dates = this.getDates(realClass.FECH_INI, realClass.MEETING_TIME_START, realClass.MEETING_TIME_END);
+		this.realHourStart = RealDate(dates.start);
+		this.realHourEnd = RealDate(dates.end);
+		this.assistanceS.getAssistanceNBR(realClass)
+		.then(res => {
+			this.realDate = RealDate();
+			var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0]?res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR:'';
+            var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
+            var realHourStart = this.realHourStart.year + '-' + this.realHourStart.month + '-' + this.realHourStart.day;
+			realClass.EMPLID = this.user.codigoAlumno;
+            realClass.ATTEND_TMPLT_NBR = templt_nbr;
+            realClass.ATTEND_PRESENT = 'Y';
+        	realClass.ATTEND_LEFT_EARLY = 'N';
+            realClass.ATTEND_TARDY = 'N';
+            realClass.ATTEND_REASON = '';
+            realClass.platform = this.realDevice.os + ' - ' + this.realDevice.browser;
+            var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
+            var difference2 = (this.realHourEnd.timeseconds - this.realHourStart.timeseconds)/2;
+            var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
+			if(templt_nbr && (realDate == realHourStart || Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0))){
+	            if(this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute){
+	            	realClass.STATUS = 'P';
+	            }
+	            else if(difference <= this.offsetHour && difference > 0){
+	            	realClass.ATTEND_LEFT_EARLY = 'Y';
+	            	realClass.STATUS = 'E';
+	            }
+	            else if((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)){
+            		realClass.ATTEND_TARDY = 'Y';
+	            	realClass.STATUS = 'L';
+	            }
+	            else{
+	            	realClass.STATUS = 'ER';
+	            }
+			}
+			else{
+	            realClass.STATUS = 'ER';
+			}
+            this.assistanceS.saveAssistance(realClass)
+            .then(res => {
+            	this.checkAssist();
+            }, error => { this.checkAssist(); });
+		}, error => { this.checkAssist(); });
+	}
+
 	getLink(cls){
 		let d = new Date();
 		var hour = cls.MEETING_TIME_START.split(':')[0];
@@ -248,6 +307,75 @@ export class DashboardComponent implements OnInit {
 		var rdate = Math.floor(Date.now() / 1000);
 		emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', {format: this.generalS.formatJsonCrypto}).toString());
 		window.open('https://aulavirtualcpe.cientifica.edu.pe/local/wseducad/auth/sso.php?strm=9999&class=9999&emplid=' + emplid, '_self');
+	}
+
+	getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
+		let start: Date;
+		let end: Date;
+		const ua = navigator.userAgent.toLowerCase();
+		if (ua.indexOf('safari') !== -1) {
+			if (ua.indexOf('chrome') > -1) {
+				start = new Date(rDay + 'T' + MEETING_TIME_START);
+				end = new Date(rDay + 'T' + MEETING_TIME_END);
+			} else {
+				start = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_START)));
+				end = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_END)));
+			}
+		} else {
+			start = new Date(rDay + 'T' + MEETING_TIME_START);
+			end = new Date(rDay + 'T' + MEETING_TIME_END);
+		}
+
+		return { start, end };
+	}
+
+	getHour(pHour: string): string {
+
+		const arrHour = pHour.split(':');
+		let hour =  Number(arrHour[0]);
+		hour += 5;
+		const hourModified = this.pad(hour, 2);
+		const minute =  arrHour[1];
+		const second =  arrHour[2];
+
+		return `${hourModified}:${minute}:${second}`;
+	}
+
+	getDay(pDay: string, pHour: string): string {
+
+		let rDate = `${pDay}T${pHour}`;
+
+		const arrHour = pHour.split(':');
+		let hour =  Number(arrHour[0]);
+		if (hour > 23) {
+
+			const arrDate = pDay.split('-'); // 2020-07-06
+
+			let day =  Number(arrDate[2]);
+			day += 1;
+
+			const dayModified = this.pad(day, 2);
+			const month =  arrDate[1];
+			const year =  arrDate[0];
+
+			const vDate = `${year}-${month}-${dayModified}`;
+
+			hour -= 24;
+			const hourModified = this.pad(hour, 2);
+			const minute =  arrHour[1];
+			const second =  arrHour[2];
+
+			const vHour = `${hourModified}:${minute}:${second}`;
+
+			rDate = `${vDate}T${vHour}`;
+		}
+		return rDate;
+	}
+
+	pad(num: number, size: number): string {
+		let s = num + '';
+		while (s.length < size) { s = '0' + s; }
+		return s;
 	}
 
 }
