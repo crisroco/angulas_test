@@ -83,13 +83,6 @@ export class DashboardComponent implements OnInit {
 			this.getParameters();
 			this.getNotifications();
 		}, error => { });
-		this.studentS.getListOfStudentsJson()
-			.then((res) => {
-				let finded = res.filter(stu => stu == this.user.codigoAlumno)[0]
-				if (finded) {
-					this.ModdleLinkModal2.open();
-				}
-			});
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enroll_conditions) {
 				this.enroll_conditions = message.enroll_conditions;
@@ -232,8 +225,8 @@ export class DashboardComponent implements OnInit {
 					this.currentNextClass = actualC;
 					this.getLink(actualC);
 				}
-				this.currentNextClass = actualC;
-				this.getLink(actualC);
+				// this.currentNextClass = actualC;
+				// this.getLink(actualC);
 			}
   		}
 	}
