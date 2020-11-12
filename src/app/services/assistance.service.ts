@@ -20,4 +20,8 @@ export class AssistanceService {
         return this.http.post(AppSettings.BASE + AppSettings.ASSISTANCE + '/saveAssistance', data, { headers: this.generalS.makeHeaderNormal()}).toPromise();
     }
 
+    public getAllClassNbrByCourse(data: any): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.ASSISTANCE + '/getAllClassNbrByCourse', data, { headers: this.generalS.makeHeaderNormal()}).toPromise();
+    }
+
 }
