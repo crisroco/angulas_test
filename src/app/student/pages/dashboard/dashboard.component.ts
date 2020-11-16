@@ -31,6 +31,8 @@ export class DashboardComponent implements OnInit {
 	@ViewChild('HolidayModal') HolidayModal: any;
 	@ViewChild('ModdleLinkModal') ModdleLinkModal: any;
 	@ViewChild('ModdleLinkModal2') ModdleLinkModal2: any;
+	@ViewChild('postEnrollmentModal') postEnrollmentModal: any;
+
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	student: any = {};
@@ -76,6 +78,7 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
+		this.postEnrollmentModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
