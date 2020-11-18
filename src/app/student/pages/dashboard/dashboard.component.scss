@@ -14,3 +14,18 @@
 	cursor: pointer;
 	font-weight: bold;
 }
+
+.buttonsAfiche {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	.btn-afiche {
+		color: #FFFFFF;
+		font-weight: bold;
+		background: #ee8e27;
+		a {
+			color: #FFFFFF;
+		}
+	}
+
+}
