@@ -131,4 +131,8 @@ export class StudentService {
     public getListOfStudentsJson(): Promise<any> {
        return this.http.get("assets/students.json").toPromise();
     }
+
+    public medicineStudents(): Promise<any> {
+       return this.http.get("assets/medicine_students.json").toPromise();
+    }
 }
