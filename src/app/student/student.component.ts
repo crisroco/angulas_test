@@ -198,7 +198,7 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'https://docs.cientifica.edu.pe/general_pdf/calendario-acad%C3%A9mico-PRGR-2020-2.pdf',
+					url: 'assets/pdfjs/calendario_academico.pdf',
 					description: 'CALENDARIO ACADÉMICO PREGRADO 2020-2'
 				},
 			],
@@ -209,13 +209,13 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'https://docs.cientifica.edu.pe/general_pdf/calendario_CPE_2020-2_ATE.pdf',
+					url: 'assets/pdfjs/calendario_ate.PDF',
 					description: 'CALENDARIO ACADÉMICO 2020-2 CAMPUS ATE'
 				},
 				{
 					img: '',
 					url: 'https://docs.cientifica.edu.pe/general_pdf/calendario_CPE_2020-2_VILLA.pdf',
-					description: 'CALENDARIO ACADÉMICO 2020-2 CAMPUS VILLA'
+					description: 'CALENDARIO ACADÉMICO 2020-2 CAMPUS VILLA - NORTE'
 				},
 			],
 			isOpen: true,
