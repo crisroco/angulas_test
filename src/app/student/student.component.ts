@@ -214,7 +214,7 @@ export class StudentComponent implements OnInit {
 				},
 				{
 					img: '',
-					url: 'https://docs.cientifica.edu.pe/general_pdf/calendario_CPE_2020-2_VILLA.pdf',
+					url: 'assets/pdfjs/calendario_villa.PDF',
 					description: 'CALENDARIO ACADÉMICO 2020-2 CAMPUS VILLA - NORTE'
 				},
 			],
