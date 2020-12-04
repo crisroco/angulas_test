@@ -76,7 +76,7 @@ export class StudentComponent implements OnInit {
 							img: 'http://www.e-libro.com/Content/images/logo-dark@2x.png',
 							url: 'https://elibro.net/es/lc/ucsur/inicio',
 							width: '100px',
-							description: ''
+							description: 'user: correo institucional \n pass: Código de usuario'
 						},
 						{
 							img: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/56/JSTOR_vector_logo.svg/1200px-JSTOR_vector_logo.svg.png',
@@ -110,9 +110,9 @@ export class StudentComponent implements OnInit {
 						},
 						{
 							img: 'http://ardi.wipo.int/content/images/ardi_header_es.png',
-							url: 'http://ardi.wipo.int/content/es/journals.php',
+							url: 'https://login.research4life.org/tacgw/login.cshtml',
 							width: '150px',
-							description: ''
+							description: 'user: PER044 \n pass: NgSHXazQ'
 						}
 					],
 					isOpen: true,
@@ -128,7 +128,13 @@ export class StudentComponent implements OnInit {
 						},
 						{
 							img: 'assets/img/biblioteca/2-2.jpg',
-							url: 'http://extranet.who.int/hinari/es/journals.php',
+							url: 'https://login.research4life.org/tacgw/login.cshtml',
+							width: '103px',
+							description: 'user: PER044 \n pass: NgSHXazQ'
+						},
+						{
+							img: 'assets/img/biblioteca/2-4.png',
+							url: 'https://www.nejm.org',
 							width: '103px',
 							description: ''
 						}
@@ -164,15 +170,15 @@ export class StudentComponent implements OnInit {
 						},
 						{
 							img: 'assets/img/biblioteca/oare_header_es.png',
-							url: 'http://oare.research4life.org/content/es/journals.php',
+							url: 'https://login.research4life.org/tacgw/login.cshtml',
 							width: '130px',
-							description: ''
+							description: 'user: PER044 \n pass: NgSHXazQ'
 						},
 						{
 							img: 'assets/img/biblioteca/agora_header_es.png',
-							url: 'http://agora-journals.fao.org/content/es/journals.php',
+							url: 'https://login.research4life.org/tacgw/login.cshtml',
 							width: '130px',
-							description: ''
+							description: 'user: PER044 \n pass: NgSHXazQ'
 						}
 					],
 					isOpen: true,
@@ -184,7 +190,7 @@ export class StudentComponent implements OnInit {
 							img: 'assets/img/biblioteca/5-1.jpg',
 							url: 'http://goali.ilo.org/content/es/journals.php',
 							width: '130px',
-							description: ''
+							description: 'user: PER044 \n pass: NgSHXazQ'
 						},
 					],
 					isOpen: true,

@@ -48,6 +48,12 @@
 						<img [style.width]="library.width" src="{{library.img}}">
 						{{library.description}}
 					</a>
+					<div class="my_box mx-2">
+						<a href="https://info.cientifica.edu.pe/manuales" target="_blank">Manuales de uso Biblioteca Virtual</a>
+					</div>
+					<div class="my_box mx-2">
+						<a href="https://info.cientifica.edu.pe/contactenos" target="_blank">Consulta en Línea</a>
+					</div>
 				</div>
 				<div *ngIf="typelibrary.subtypes">
 					<div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" *ngFor="let subtypelibrary of typelibrary.subtypes">
@@ -57,7 +63,7 @@
 						<div [@openClose]="subtypelibrary.isOpen ? 'open' : 'closed'" class="pd-3 row nowrap align-items-center scroll" >
 							<a [style.width]="librarySub.width" href="{{librarySub.url}}" target="_blank" class="row text-center {{ls > 0?'ml-3':''}}" *ngFor="let librarySub of subtypelibrary.libraries; let ls = 'index'">
 								<img [style.width]="librarySub.width" src="{{librarySub.img}}">
-								{{librarySub.description}}
+								<span *ngIf="librarySub.description" class="description"> {{librarySub.description}}</span>
 							</a>
 							<div *ngIf="subtypelibrary.name == 'Ciencias de la Salud'" role="button" (click)="openHumanityModal()" [style.width]="103" class="row text-center ml-3">
 								<img style="width: 103px;" src="assets/img/biblioteca/2-3.png">
