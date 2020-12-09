@@ -14,7 +14,8 @@ import { RealDate } from '../helpers/dates';
 import { DynamicSort } from '../helpers/arrays';
 import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from '../app.settings';
-
+import { WebsocketService } from '../services/websocket.service';
+import { QueueService } from '../services/queue.service';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -265,6 +266,8 @@ export class StudentComponent implements OnInit {
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
 	student: any;
+	notifications: any;
+  notifications_read: number = 0;
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
@@ -279,7 +282,9 @@ export class StudentComponent implements OnInit {
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
 	@ViewChild('humanityModal') humanityModal: any;
 
-	constructor( private formBuilder: FormBuilder,
+	constructor( private wsService: WebsocketService,
+		private queueS: QueueService,
+		private formBuilder: FormBuilder,
 		private session: SessionService,
 		private router: Router,
 		private intentionS: IntentionService,
@@ -317,8 +322,54 @@ export class StudentComponent implements OnInit {
 			else if(message && message.getEnroll && message.getEnroll == 'Y'){
 				this.getQueueEnroll();
 			}
-	    });
+			});
+			this.initSocket();
 	}
+
+	initSocket(){
+				this.wsService.enroll(this.user.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
+		    .then( (res: any) => {
+		      if (res.ok) {
+		      }
+		    })
+		    .catch( err => {
+		      console.log('catch!', err);
+				});
+				
+				this.queueS.notification( this.user.codigoAlumno )
+						.subscribe( (res: any) => {
+							this.notifications = res.data;
+							let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
+							this.notifications_read = filtered.length;
+							// console.log('this.notifications_read', this.notifications_read)
+						});
+		
+				this.wsService.listenNotification()
+					.subscribe( (res: any) => {
+						this.toastr.info('Se actualizó su nota del curso ' + this.titleCase(res.course), "Nueva Notificación",{
+							timeOut: 5000,
+						});
+						if( localStorage.getItem('user') != null ) {
+							this.queueS.notification( this.user.codigoAlumno )
+							.subscribe( (res: any) => {
+								this.notifications = res.data;
+								let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
+								this.notifications_read = filtered.length;
+							});
+						}
+					});
+			}
+		
+			notificationRead(){
+				this.queueS.notificationRead( this.user.codigoAlumno )
+						.subscribe( (res: any) => {
+							console.log('Leyendo')
+							this.notifications_read = 0;
+						}, (err: any) => {
+							console.log('error', err)
+						})
+			 }
+		 
 
 	initUpdatePersonalData(){
 		this.personalDataForm = this.formBuilder.group({
@@ -762,6 +813,14 @@ export class StudentComponent implements OnInit {
 				this.loading = false;
 			}, error => { this.loading = false; })
 		}
+	}
+
+	titleCase(string: string) {
+			var sentence = string.toLowerCase().split(" ");
+			for(var i = 0; i< sentence.length; i++) {
+				sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+			}
+			return sentence.join(" ");
 	}
 
 }

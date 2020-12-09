@@ -5,10 +5,13 @@
 		<div class="row position-relative">
 			<div class="circle-q bg-white-a pointer" (click)="menus = !menus">
 				<img src="./assets/img/icon/user.png" class="img-q"> 
+				<span *ngIf="notifications_read > 0" class="badge-student"> {{ notifications_read }} </span>
+
 			</div>
 			<div class="bg-white drop" *ngIf="menus">
 				<!-- <a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-{{company}} p-2 px-3 bd-b-1 bd-{{company}}"> <i class="fa fa-lock"></i> Cambiar contraseña</a> -->
 				<a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+				<a (click)="notificationModal.open(); notificationRead();" class="d-block m-0 text-{{company}} p-2 px-3 pointer"> <i class="fa fa-circle text-danger"></i> Notificaciones</a>
 			</div>
 		</div>
 			
@@ -481,4 +484,16 @@
 	</div>
 </ngx-smart-modal>
 
+<ngx-smart-modal #notificationModal identifier="notificationModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall p-post-header'">
+		<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+			<h5 class="text-ucs"> <strong> Notificaciones </strong> </h5>
+			<a (click)="notificationModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+		</div>
+		<div class="scroll">
+			<a class="d-block m-0 p-2 px-3 pointer" *ngFor="let notification of notifications"> 
+				<i class="fa fa-circle text-success"></i> Se actualizó su nota del curso <strong>{{ notification.course | titlecase}}</strong> ({{ notification.date | date:'short' }}).
+			</a>
+		</div>
+	</ngx-smart-modal>
+	
 <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
