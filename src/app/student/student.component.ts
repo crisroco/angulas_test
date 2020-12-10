@@ -265,6 +265,7 @@ export class StudentComponent implements OnInit {
 	queueEnroll: any;
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
+	personalUpdateForm: FormGroup;
 	student: any;
 	notifications: any;
   notifications_read: number = 0;
@@ -277,7 +278,8 @@ export class StudentComponent implements OnInit {
 	@ViewChild('YesIntentionEnrollmentModal') YesIntentionEnrollmentModal: any;
 	@ViewChild('FinalIntentionEnrollmentModal') FinalIntentionEnrollmentModal: any;
 	@ViewChild('EnrollScheduleModal') EnrollScheduleModal: any;
-
+	
+	@ViewChild('UpdateDataAlumnoModal') UpdateDataAlumnoModal: any;
 	@ViewChild('UpdatePersonalDataModal') UpdatePersonalDataModal: any;
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
 	@ViewChild('humanityModal') humanityModal: any;
@@ -390,23 +392,55 @@ export class StudentComponent implements OnInit {
 			company_name: ['', Validators.required],
 			company_position: ['', Validators.required],
 		});
-		// this.getPersonalData();
-
+		this.personalUpdateForm = this.formBuilder.group({
+			email: ['', ValidationService.emailValidator],
+			phone: ['', [Validators.required, Validators.pattern("(9)[0-9]{8}")]]
+		});
+		this.getPersonalData();
 	}
 
 	getPersonalData(){
 		this.studentS.getPersonalData(this.user.codigoAlumno)
-		.then(res => {
-			// if(!res.data){
-			// 	this.UpdatePersonalDataModal.open();
-			// }
-			this.setClient(res.data);
-		});
+		.then(res => this.setClient(res.data || {}));
 	}
 
 	openPersonalDataModal(){
 		this.getPersonalData();
-		this.UpdatePersonalDataModal.open();
+		this.UpdateDataAlumnoModal.open();
+	}
+	
+	saveDatosAlumno(){		
+		if(this.personalUpdateForm.invalid){
+			let data = this.personalUpdateForm.value;
+			this.formS.controlErrors(this.personalUpdateForm);
+			return;
+		}
+		let data = this.personalUpdateForm.value;
+		data.emplid = this.user.codigoAlumno;
+		this.loading = true;
+		this.studentS.updEmailData(data)
+		.then(res => {
+			let {UCS_RES_EMAIL} = res;
+			data.result_email = UCS_RES_EMAIL.UCS_COM_EMAIL[0].Mensaje;	
+			
+			this.studentS.updPhoneData(data)
+			.then(res => {
+			    let {UCS_RES_PHONE} = res;
+				data.result_phone = UCS_RES_PHONE.UCS_COM_PHONE[0].Mensaje;		
+				
+				this.studentS.savePersonalData(data)
+				.then(res => {
+					this.loading = false;
+					this.UpdateDataAlumnoModal.close();
+					this.FinalIntentionEnrollmentModal.open();
+				});
+
+			});
+
+		}).catch(error => {
+			this.loading = false;
+			console.log(error.message, 'Mensaje de error');
+		});
 	}
 
 	setClient(data){
@@ -421,7 +455,10 @@ export class StudentComponent implements OnInit {
 		this.workinglDataForm.controls['company_email'].setValue(data.company_email?data.company_email:'');
 		this.workinglDataForm.controls['company_name'].setValue(data.company_name?data.company_name:'');
 		this.workinglDataForm.controls['company_position'].setValue(data.company_position?data.company_position:'');
-  	}
+		
+		this.personalUpdateForm.controls['email'].setValue(data.email?data.email:'');
+		this.personalUpdateForm.controls['phone'].setValue(data.phone?data.phone:'');
+	}
 
 	savePersonalData(){
 		if(this.personalDataForm.invalid){
