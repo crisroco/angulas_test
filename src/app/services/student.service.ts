@@ -69,7 +69,7 @@ export class StudentService {
     }
 
     public getFinalGrades(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getFinalGrades', data).toPromise();
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getFinalGrades2', data).toPromise();
     }
 
     public getVirtualClass(data): Promise<any> {

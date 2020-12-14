@@ -51,12 +51,11 @@ export class FinalGradesComponent implements OnInit {
 	}
 
 	getFinalGrades(){
-		this.studentS.getFinalGrades({code: this.user.codigoAlumno, career: this.ACAD_CAREER})
+		this.studentS.getFinalGrades({code: this.user.codigoAlumno, career: this.ACAD_CAREER, cycle: this.STRM})
 		.then(res => {
-			this.courses = res.response && res.response.UcsMetodoDatosHoraDetalle?res.response.UcsMetodoDatosHoraDetalle:[];
+			this.courses = res.UcsMetodoDatosHoraRespuesta_V2 && res.UcsMetodoDatosHoraRespuesta_V2.UcsMetodoDatosHoraDetalle_V2?res.UcsMetodoDatosHoraRespuesta_V2.UcsMetodoDatosHoraDetalle_V2:[];
 			var rCourse = this.courses.filter(item => item.codigoCurso == this.CRSE_ID);
 			this.realCourse = rCourse?rCourse[0]:null;
-			console.log(this.realCourse);
 		}, error => { });
 	}
 
