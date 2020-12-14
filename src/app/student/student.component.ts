@@ -14,7 +14,8 @@ import { RealDate } from '../helpers/dates';
 import { DynamicSort } from '../helpers/arrays';
 import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from '../app.settings';
-
+import { WebsocketService } from '../services/websocket.service';
+import { QueueService } from '../services/queue.service';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -264,7 +265,10 @@ export class StudentComponent implements OnInit {
 	queueEnroll: any;
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
+	personalUpdateForm: FormGroup;
 	student: any;
+	notifications: any;
+  notifications_read: number = 0;
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
@@ -274,12 +278,15 @@ export class StudentComponent implements OnInit {
 	@ViewChild('YesIntentionEnrollmentModal') YesIntentionEnrollmentModal: any;
 	@ViewChild('FinalIntentionEnrollmentModal') FinalIntentionEnrollmentModal: any;
 	@ViewChild('EnrollScheduleModal') EnrollScheduleModal: any;
-
+	
+	@ViewChild('UpdateDataAlumnoModal') UpdateDataAlumnoModal: any;
 	@ViewChild('UpdatePersonalDataModal') UpdatePersonalDataModal: any;
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
 	@ViewChild('humanityModal') humanityModal: any;
 
-	constructor( private formBuilder: FormBuilder,
+	constructor( private wsService: WebsocketService,
+		private queueS: QueueService,
+		private formBuilder: FormBuilder,
 		private session: SessionService,
 		private router: Router,
 		private intentionS: IntentionService,
@@ -317,8 +324,54 @@ export class StudentComponent implements OnInit {
 			else if(message && message.getEnroll && message.getEnroll == 'Y'){
 				this.getQueueEnroll();
 			}
-	    });
+			});
+			this.initSocket();
 	}
+
+	initSocket(){
+				this.wsService.enroll(this.user.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
+		    .then( (res: any) => {
+		      if (res.ok) {
+		      }
+		    })
+		    .catch( err => {
+		      console.log('catch!', err);
+				});
+				
+				this.queueS.notification( this.user.codigoAlumno )
+						.subscribe( (res: any) => {
+							this.notifications = res.data;
+							let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
+							this.notifications_read = filtered.length;
+							// console.log('this.notifications_read', this.notifications_read)
+						});
+		
+				this.wsService.listenNotification()
+					.subscribe( (res: any) => {
+						this.toastr.info('Se actualizó su nota del curso ' + this.titleCase(res.course), "Nueva Notificación",{
+							timeOut: 5000,
+						});
+						if( localStorage.getItem('user') != null ) {
+							this.queueS.notification( this.user.codigoAlumno )
+							.subscribe( (res: any) => {
+								this.notifications = res.data;
+								let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
+								this.notifications_read = filtered.length;
+							});
+						}
+					});
+			}
+		
+			notificationRead(){
+				this.queueS.notificationRead( this.user.codigoAlumno )
+						.subscribe( (res: any) => {
+							console.log('Leyendo')
+							this.notifications_read = 0;
+						}, (err: any) => {
+							console.log('error', err)
+						})
+			 }
+		 
 
 	initUpdatePersonalData(){
 		this.personalDataForm = this.formBuilder.group({
@@ -339,23 +392,55 @@ export class StudentComponent implements OnInit {
 			company_name: ['', Validators.required],
 			company_position: ['', Validators.required],
 		});
-		// this.getPersonalData();
-
+		this.personalUpdateForm = this.formBuilder.group({
+			email: ['', ValidationService.emailValidator],
+			phone: ['', [Validators.required, Validators.pattern("(9)[0-9]{8}")]]
+		});
+		this.getPersonalData();
 	}
 
 	getPersonalData(){
 		this.studentS.getPersonalData(this.user.codigoAlumno)
-		.then(res => {
-			// if(!res.data){
-			// 	this.UpdatePersonalDataModal.open();
-			// }
-			this.setClient(res.data);
-		});
+		.then(res => this.setClient(res.data || {}));
 	}
 
 	openPersonalDataModal(){
 		this.getPersonalData();
-		this.UpdatePersonalDataModal.open();
+		this.UpdateDataAlumnoModal.open();
+	}
+	
+	saveDatosAlumno(){		
+		if(this.personalUpdateForm.invalid){
+			let data = this.personalUpdateForm.value;
+			this.formS.controlErrors(this.personalUpdateForm);
+			return;
+		}
+		let data = this.personalUpdateForm.value;
+		data.emplid = this.user.codigoAlumno;
+		this.loading = true;
+		this.studentS.updEmailData(data)
+		.then(res => {
+			let {UCS_RES_EMAIL} = res;
+			data.result_email = UCS_RES_EMAIL.UCS_COM_EMAIL[0].Mensaje;	
+			
+			this.studentS.updPhoneData(data)
+			.then(res => {
+			    let {UCS_RES_PHONE} = res;
+				data.result_phone = UCS_RES_PHONE.UCS_COM_PHONE[0].Mensaje;		
+				
+				this.studentS.savePersonalData(data)
+				.then(res => {
+					this.loading = false;
+					this.UpdateDataAlumnoModal.close();
+					this.FinalIntentionEnrollmentModal.open();
+				});
+
+			});
+
+		}).catch(error => {
+			this.loading = false;
+			console.log(error.message, 'Mensaje de error');
+		});
 	}
 
 	setClient(data){
@@ -370,7 +455,10 @@ export class StudentComponent implements OnInit {
 		this.workinglDataForm.controls['company_email'].setValue(data.company_email?data.company_email:'');
 		this.workinglDataForm.controls['company_name'].setValue(data.company_name?data.company_name:'');
 		this.workinglDataForm.controls['company_position'].setValue(data.company_position?data.company_position:'');
-  	}
+		
+		this.personalUpdateForm.controls['email'].setValue(data.email?data.email:'');
+		this.personalUpdateForm.controls['phone'].setValue(data.phone?data.phone:'');
+	}
 
 	savePersonalData(){
 		if(this.personalDataForm.invalid){
@@ -762,6 +850,14 @@ export class StudentComponent implements OnInit {
 				this.loading = false;
 			}, error => { this.loading = false; })
 		}
+	}
+
+	titleCase(string: string) {
+			var sentence = string.toLowerCase().split(" ");
+			for(var i = 0; i< sentence.length; i++) {
+				sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
+			}
+			return sentence.join(" ");
 	}
 
 }

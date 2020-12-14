@@ -16,4 +16,14 @@ export class QueueService {
 	public authDecrypt(data) {
 		return this.http.post( AppSettings.WSURL + 'api/alumno/auth/decrypt', data);
 	}
+
+	
+	public notification(code) {
+		return this.http.get( AppSettings.WSURL + 'api/notification/get/' + code);
+	}
+
+	public notificationRead(code) {
+		return this.http.get( AppSettings.WSURL + 'api/notification/read/' + code);
+	}
+	
 }

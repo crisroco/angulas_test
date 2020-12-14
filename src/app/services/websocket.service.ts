@@ -9,7 +9,9 @@ export class WebsocketService {
   public socketStatus = false;
 
   constructor( public socket: Socket) {
-    this.checkStatus();
+    if( this.socketStatus == false) {
+      this.checkStatus();
+    }
   }
 
   checkStatus() {
@@ -73,4 +75,9 @@ export class WebsocketService {
       this.updateEnroll(student.codigoAlumno);
     }
   }
+
+    listenNotification() {
+        return this.listen('app:notification');
+      }
+    
 }

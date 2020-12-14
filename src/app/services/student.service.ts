@@ -115,6 +115,14 @@ export class StudentService {
     public savePersonalData(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.PERSONAL_DATA + '/savePersonalData', data).toPromise();
     }
+    
+    public updPhoneData(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/updPhoneData', data).toPromise();
+    }
+
+    public updEmailData(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/updEmailData', data).toPromise();
+    }
 
     public getAllClasses(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAllClass', data ).toPromise();
