@@ -208,6 +208,11 @@ export class StudentComponent implements OnInit {
 					url: 'assets/pdfjs/calendario_academico.pdf',
 					description: 'CALENDARIO ACADÉMICO PREGRADO 2020-2'
 				},
+				{
+					img: '',
+					url: 'assets/pdfjs/calendario_verano_2021.pdf',
+					description: 'CALENDARIO PREGRADO VERANO 2021'
+				}
 			],
 			isOpen: true,
 		},
@@ -223,6 +228,11 @@ export class StudentComponent implements OnInit {
 					img: '',
 					url: 'assets/pdfjs/calendario_villa.PDF',
 					description: 'CALENDARIO ACADÉMICO 2020-2 CAMPUS VILLA - NORTE'
+				},
+				{
+					img: '',
+					url: 'assets/pdfjs/calendario_verano_cpe_2021.pdf',
+					description: 'CALENDARIO ACADÉMICO VERANO 2021'
 				},
 			],
 			isOpen: true,
