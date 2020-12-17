@@ -212,6 +212,11 @@ export class StudentComponent implements OnInit {
 					img: '',
 					url: 'assets/pdfjs/calendario_verano_2021.pdf',
 					description: 'CALENDARIO PREGRADO VERANO 2021'
+				},
+				{
+					img: '',
+					url: 'assets/pdfjs/cursos_verano_pregrado_2021.xlsx',
+					description: 'CURSOS HABILITADOS VERANO 2021'
 				}
 			],
 			isOpen: true,
@@ -234,6 +239,11 @@ export class StudentComponent implements OnInit {
 					url: 'assets/pdfjs/calendario_verano_cpe_2021.pdf',
 					description: 'CALENDARIO ACADÉMICO VERANO 2021'
 				},
+				{
+					img: '',
+					url: 'assets/pdfjs/cursos_verano_cpe_2021.xlsx',
+					description: 'CURSOS HABILITADOS VERANO 2021'
+				}
 			],
 			isOpen: true,
 		},
