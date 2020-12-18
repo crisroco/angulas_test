@@ -215,8 +215,8 @@ export class StudentComponent implements OnInit {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/cursos_verano_pregrado_2021.xlsx',
-					description: 'CURSOS HABILITADOS VERANO 2021'
+					url: 'assets/pdfjs/cursos_verano_2O21.xlsx',
+					description: 'HORARIO VERANO 2021'
 				}
 			],
 			isOpen: true,
@@ -241,8 +241,8 @@ export class StudentComponent implements OnInit {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/cursos_verano_cpe_2021.xlsx',
-					description: 'CURSOS HABILITADOS VERANO 2021'
+					url: 'assets/pdfjs/cursos_verano_2O21.xlsx',
+					description: 'HORARIO VERANO 2021'
 				}
 			],
 			isOpen: true,
