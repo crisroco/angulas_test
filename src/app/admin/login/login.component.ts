@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
         username: data.email,
         password: data.password,
         client_id: 6,
-        client_secret: "0IQYU1wXVKM7s4OB7URhvUcNEno7LrWDxS7r2MYl",
+              client_secret: "0IQYU1wXVKM7s4OB7URhvUcNEno7LrWDxS7r2MYl",
         grant_type: "password" 
       }).then((res) => {
         this.session.setObject('oauth', res);
