@@ -22,13 +22,15 @@ export class AppSettings {
     }
     public static NAMES_DAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     public static NAMES_MONTH = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    public static BASE = "https://back-miportal.cientifica.edu.pe";
     // public static BASE = "https://back-miportal-dev.cientifica.edu.pe";
     //public static BASE = "http://cientifica.br";
     // public static BASE = "https://back-miportal.sise.edu.pe";
     // public static BASE = "http://localhost:8040";
     // public static BASE = "https://backdev-miportal.cientifica.edu.pe";
+    public static BASE = "https://back-miportal-dev.cientifica.edu.pe";
+    // public static BASE = "https://back2-miportal-dev.cientifica.edu.pe";
     // public static BASE = "https://backdev03-miportal.cientifica.edu.pe";
+    public static CLIENT = '/api/client/parameters';
     public static STUDENT = '/student';
     public static INTENTION = '/intention';
     public static ASSISTANCE = '/assistance';
@@ -37,4 +39,11 @@ export class AppSettings {
     // public static PEOPLE_LOGIN = 'http://testmatricula.cientifica.edu.pe/psp/CS90PD/?cmd=login&languageCd=ESP&';
     public static WSURL = 'https://backdev-colas.cientifica.edu.pe:5000/';
     // public static WSURL = 'https://backdev03-colas.cientifica.edu.pe:5001/';
+    // BackOffice
+    public static ACCESS_VAC = { "action": "login", "name": "admin", "pass": "aic37896" };
+    public static ACCESS_PS = `http://educanet.back.educad.pe/resources_portal/access_ps`;
+    public static BASE_SISE_CODEIGNITER = 'http://proyectos.educad.pe';
+    public static LOGIN_TOKEN = 'http://educanet.back.educad.pe/ucsur_token/access';
+    public static WS_DRUPAL_GENERARTOKEN = 'http://educanet.back.educad.pe/session/token';
+    public static WS_DRUPAL_LOGINVACACIONES = 'http://educanet.back.educad.pe/vacaciones/user';
 }

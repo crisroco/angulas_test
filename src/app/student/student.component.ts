@@ -52,6 +52,7 @@ export class StudentComponent implements OnInit {
 	enrollmentStatus: any;
 	enrollmentIntentionStatus: any;
 	enrollmentIntensiveStatus: any;
+	public innewEnrollment:boolean = false;
 	typeLibraries: any = [
 		{
 			name: 'Sistema de Biblioteca',
@@ -281,7 +282,7 @@ export class StudentComponent implements OnInit {
 	comment: string = '';
 	enroll: any = null;
 	enrollCycles: Array<any>;
-	enroll_conditions: any;
+	enroll_conditions: any = null;
 	queueEnroll: any;
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
@@ -325,7 +326,7 @@ export class StudentComponent implements OnInit {
 			this.getParameters();
 		}
 		this.initUpdatePersonalData();
-		this.checkInList();
+		// this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -344,54 +345,56 @@ export class StudentComponent implements OnInit {
 			else if(message && message.getEnroll && message.getEnroll == 'Y'){
 				this.getQueueEnroll();
 			}
-			});
-			this.initSocket();
+			else if(message && message.hideFooter){
+				this.innewEnrollment = true;
+			}
+		});
+		this.initSocket();
 	}
 
 	initSocket(){
-				this.wsService.enroll(this.user.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
-		    .then( (res: any) => {
-		      if (res.ok) {
-		      }
-		    })
-		    .catch( err => {
-		      console.log('catch!', err);
-				});
-				
-				this.queueS.notification( this.user.codigoAlumno )
+			this.wsService.enroll(this.user.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
+	    .then( (res: any) => {
+	      if (res.ok) {
+	      }
+	    })
+	    .catch( err => {
+	      console.log('catch!', err);
+			});
+			
+			this.queueS.notification( this.user.codigoAlumno )
+					.subscribe( (res: any) => {
+						this.notifications = res.data;
+						let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
+						this.notifications_read = filtered.length;
+						// console.log('this.notifications_read', this.notifications_read)
+					});
+	
+			this.wsService.listenNotification()
+				.subscribe( (res: any) => {
+					this.toastr.info('Se actualizó su nota del curso ' + this.titleCase(res.course), "Nueva Notificación",{
+						timeOut: 5000,
+					});
+					if( localStorage.getItem('user') != null ) {
+						this.queueS.notification( this.user.codigoAlumno )
 						.subscribe( (res: any) => {
 							this.notifications = res.data;
 							let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
 							this.notifications_read = filtered.length;
-							// console.log('this.notifications_read', this.notifications_read)
 						});
+					}
+				});
+		}
 		
-				this.wsService.listenNotification()
+		notificationRead(){
+			this.queueS.notificationRead( this.user.codigoAlumno )
 					.subscribe( (res: any) => {
-						this.toastr.info('Se actualizó su nota del curso ' + this.titleCase(res.course), "Nueva Notificación",{
-							timeOut: 5000,
-						});
-						if( localStorage.getItem('user') != null ) {
-							this.queueS.notification( this.user.codigoAlumno )
-							.subscribe( (res: any) => {
-								this.notifications = res.data;
-								let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
-								this.notifications_read = filtered.length;
-							});
-						}
-					});
-			}
-		
-			notificationRead(){
-				this.queueS.notificationRead( this.user.codigoAlumno )
-						.subscribe( (res: any) => {
-							console.log('Leyendo')
-							this.notifications_read = 0;
-						}, (err: any) => {
-							console.log('error', err)
-						})
-			 }
-		 
+						console.log('Leyendo')
+						this.notifications_read = 0;
+					}, (err: any) => {
+						console.log('error', err)
+					})
+		}
 
 	initUpdatePersonalData(){
 		this.personalDataForm = this.formBuilder.group({
@@ -533,6 +536,9 @@ export class StudentComponent implements OnInit {
 				if(item && item.enrollment_intention_status == 'A' && item.type == 'M'){
 					this.broadcaster.sendMessage({ enrollTab: 'Y' });
 				}
+				if(item && item.enrollment_intention_status == 'A' && item.type == 'NM'){
+					this.broadcaster.sendMessage({ enrollTab: 'Y' });
+				}
 			});
 		})
 	}
@@ -540,9 +546,9 @@ export class StudentComponent implements OnInit {
 	getEnrollSchedule(){
 		this.enrollCycles = null;
 		this.EnrollScheduleModal.open();
-		this.studentS.getEnrollSchedule(this.enroll.OPRID + '/' + this.enroll.INSTITUTION + '/' + this.enroll.ACAD_CAREER + '/' + this.enroll.ACAD_PROG + '/' + this.enroll.codigoPlan + '/' + this.enroll.EMPLID + '/' + this.enroll.STRM)
+		this.studentS.getEnrollSchedule(this.enroll.OPRID + '/' + this.enroll.INSTITUTION + '/' + this.enroll.ACAD_CAREER + '/' + this.enroll.ACAD_PROG + '/' + this.enroll.codigoPlan + '/' + this.enroll.EMPLID + '/0992')
 		.then(res => {
-			let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
+			let allData: Array<any> = res.UCS_REST_HORARIOV2_RES && res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM?res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM:[];
 			var objCycles = {};
 			allData.forEach( (item)  => {
 				if(!objCycles[item.UCS_CICLO]){
@@ -578,6 +584,52 @@ export class StudentComponent implements OnInit {
 		});
 	}
 
+	showEnrollmentSchedule(){
+		this.enrollCycles = null;
+		this.EnrollScheduleModal.open();
+		this.studentS.getActiveStrm({ EMPLID: this.enroll.EMPLID})
+			.then((res) => {
+				let activeData = res.UCS_CICLOALU_RSP.UCS_CICLOALU_COM[0];
+				this.studentS.getEnrollSchedule(this.enroll.OPRID + '/' + activeData.INSTITUCION + '/' + this.enroll.ACAD_CAREER + '/' + activeData.PROGRAMA + '/' + activeData.PLAN + '/' + this.enroll.EMPLID + '/' + activeData.CICLO)
+					.then(res => {
+						let allData: Array<any> = res.UCS_REST_HORARIOV2_RES && res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM?res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM:[];
+						// let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
+						var objCycles = {};
+						allData.forEach( (item)  => {
+							if(!objCycles[item.UCS_CICLO]){
+								objCycles[item.UCS_CICLO] = {
+									name: item.UCS_CICLO,
+									isOpen: true,
+									courses: {}
+								}
+							}
+							if(!objCycles[item.UCS_CICLO].courses[item.DESCR]){
+								objCycles[item.UCS_CICLO].courses[item.DESCR] = {
+									name: item.DESCR,
+									isOpen: true,
+									type: item.UCS_OBLIGATORIEDAD,
+									schedule: []
+								}
+							}
+							objCycles[item.UCS_CICLO].courses[item.DESCR].schedule.push(item);
+						});
+						this.enrollCycles = [];
+						for(var kcycle in objCycles){
+							var courses = [];
+							for(var kcourse in objCycles[kcycle].courses){
+								courses.push(objCycles[kcycle].courses[kcourse]);
+							}
+							objCycles[kcycle].courses = courses;
+							if(kcycle > '0'){
+								this.enrollCycles.push(objCycles[kcycle]);
+							}
+						}
+						objCycles[0].name = 'Electivo';
+						this.enrollCycles.push(objCycles[0]);
+					});
+			});
+	}
+
 	sendEnroll(){
 		this.broadcaster.sendMessage({enroll: this.enroll});
 		this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
@@ -607,6 +659,7 @@ export class StudentComponent implements OnInit {
 		}
 		else{
 			this.student = this.session.getObject('student');
+			this.user = this.session.getObject('user');
 			this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
 			.then(res => {
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];

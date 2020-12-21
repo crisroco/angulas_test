@@ -1,0 +1,85 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { AppSettings } from '../app.settings';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NewEnrollmentService {
+
+	constructor(private http: HttpClient) { }
+
+    public getAcademicData(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getAcademicData', data).toPromise();
+    }
+
+	public getSchedule(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSchedule', data).toPromise();
+    }
+
+    public getSkillfullLoad(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillfulLoad', data).toPromise();
+    }
+
+    public getDebt(data): Promise<any> {
+    	return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDebt', data).toPromise();
+    }
+
+    public getSchoolCycle(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSchoolCycle', data).toPromise();
+    }
+
+    public getScheduleStudent(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleStudent', data).toPromise();
+    }
+
+    public getAditionalCourses(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getAditionalCourses', data).toPromise();
+    }
+
+    public saveAditionalCourses(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/saveAditionalCourses', data).toPromise();
+    }
+
+    public saveCourseClass(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/saveCourseClass', data).toPromise();
+    }
+
+    public getCourseClass(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getCourseClass', data).toPromise();
+    }
+
+    public getEquivalentsCourses(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getEquivalentsCourses', data).toPromise();
+    }
+
+    public deleteCourseClass(own_id): Promise<any> {
+        return this.http.delete(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClass/' + own_id).toPromise();
+    }
+
+    public deleteCourseClassByCrseId(crs_id): Promise<any> {
+        return this.http.delete(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClassByCrseId/' + crs_id).toPromise();
+    }
+
+    public updateCourseClass(own_id, data): Promise<any> {
+        return this.http.put(AppSettings.BASE + AppSettings.CLIENT + '/updateCourseClass/' + own_id, data).toPromise();
+    }
+
+    public processEnrollment(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/processEnrollment', data).toPromise();
+    }
+
+    public getScheduleAutoservice(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleAutoservice', data).toPromise();
+    }
+
+    public getDataStudentEnrollment(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDataStudentEnrollment', data).toPromise();
+    }
+
+    public massiveUpload(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/massiveUpload', data).toPromise();
+    }
+
+}

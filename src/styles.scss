@@ -1,4 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+// @font-face {
+// 	font-family: 'Gotham';
+// 	font-weight: 300;
+// 	font-style: normal;
+// 	src: url("./assets/fonts/GothamMedium.ttf") format('truetype'),
+// 	url("./assets/fonts/OpenSans.eot?#iefix") format('embedded-opentype'),
+// 	url("./assets/fonts/OpenSans.woff") format('woff'),
+// 	url("./assets/fonts/OpenSans.svg#svgOpenSans") format('svg');
+// }
 
 *, .row{
 	margin: 0;
@@ -39,6 +48,12 @@ li a:hover, li a:not([href]):hover, .pointer{
 
 .disabled{
 	cursor: not-allowed;
+}
+
+.disabled2{
+	cursor: not-allowed !important;
+	pointer-events: none;
+	opacity: 0.65;
 }
 
 .full-content{
@@ -443,12 +458,16 @@ li a:hover, li a:not([href]):hover, .pointer{
 	height: auto;
 }
 
+.h-s-enrollment {
+	max-height: 500px;
+}
+
 .h-m{
 	max-height: 470px;
 }
 
 .h-s{
-	max-height: 270px;
+	max-height: 380px;
 }
 
 .h-fm{
@@ -560,6 +579,10 @@ li a:hover, li a:not([href]):hover, .pointer{
 .container-2{
 	max-width: 1200px;
 	width: 100%;
+}
+
+.btn:focus, .btn.focus {
+	box-shadow: none;
 }
 
 /*.active-link{
@@ -698,6 +721,11 @@ a.text-black:hover{
 	padding: 0;
 }
 
+.extralargeModal{
+	max-width: 1500px;
+	width: 100%;
+}
+
 .largeModal{
 	max-width: 1000px;
 	width: 100%;
@@ -815,13 +843,14 @@ mwl-calendar-event-title{
 	display: block;
 	width: 100%;
 	padding-top: 5px;
+	height: 100%;
 }
 
 mwl-calendar-event-title span{
 	display: block;
 	width: 100%;
-    height: auto;
-    white-space: initial;
+    height: 100%;
+    white-space: break-spaces;
     line-height: normal;
 }
 
@@ -874,7 +903,94 @@ mwl-calendar-event-title span{
     padding: 6px;
 }
 
+/* NEW ENROLLMENT EDMUNDO */
+
+.docente {
+	text-transform: uppercase;
+}
+
+.firstScheduleIndex div.overlay{
+	z-index: 2000 !important;
+}
+
+// .cal-week-view .cal-day-headers {
+// 	position: absolute;
+// 	width: 100%;
+// 	z-index: 9999;
+// 	padding-right: 15px;
+// 	.cal-header {
+// 		background: white;
+// 		&.cal-today {
+// 			background: #e8fde7;
+// 		}
+// 	}
+// }
+
+// .cal-week-view .cal-time-events {
+// 	margin-top: 53px;
+// }
+
+.ucs_color {
+	color: #204491;
+}
+
+div.TEO div.cal-event{
+	color: green;
+	border-color: green;
+	background-color: #92efa7;
+}
+
+div.PRA div.cal-event{
+	color: #1e90ff;
+	border-color: #1e90ff;
+	background-color: #d1e8ff;
+}
+
+div.RED div.cal-event{
+	color: red;
+	border-color: red;
+	background-color: #ce8c8c;
+}
+
+div.extra div.cal-event{
+	color: #ffc107;
+	border-color: #ffc107;
+	background-color: #ffffb1;
+}
+
+.icon_container {
+	position: relative;
+}
+
+@media (max-width: 480px) {
+	div.user-info {
+		div.circle-x {
+			display: none;
+		}
+		div.text-student {
+			margin: 5px 0;
+		}
+	}
+	div.in_new_enrollment {
+		display: none;
+	}
+	div.new_enrollment_container div.text-right {
+		text-align: center !important;
+	}
+	i.arrow_icon {
+		right: 0px !important;
+	}
+}
+
 @media (max-width: 991px) {
+	div.user-info {
+		div.text-student {
+			word-break: break-all;
+		}
+	}
+	i.arrow_icon {
+		right: 5px !important;
+	}
 	li a, li a:not([href]){
 		display: block;
 		color: #3f3f3f;

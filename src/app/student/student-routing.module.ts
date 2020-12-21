@@ -13,6 +13,10 @@ import { CourseAssistanceComponent } from './pages/action/course-assistance/cour
 import { EnrollComponent } from './pages/action/enroll/enroll.component';
 import { StudentComponent } from './student.component';
 
+import { EnrollmentComponent } from './pages/enrollment/enrollment.component';
+import { DashboardEnrollComponent } from './pages/enrollment/dashboard-enroll/dashboard-enroll.component';
+import { CoursesEnrollmentComponent } from './pages/enrollment/courses-enrollment/courses-enrollment.component';
+
 const routes: Routes = [
 	{
 		path: '',
@@ -57,6 +61,21 @@ const routes: Routes = [
 					{
 						path: 'matricula',
 						component: EnrollComponent
+					}
+				]
+			},
+			{
+				path: 'matricula',
+				component: EnrollmentComponent,
+				children: [
+					{ path: '', redirectTo: '/disponibles', pathMatch: 'full' },
+					{
+						path: 'disponibles',
+						component: DashboardEnrollComponent
+					},
+					{
+						path: 'cursos-elegidos',
+						component: CoursesEnrollmentComponent
 					}
 				]
 			}

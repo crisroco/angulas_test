@@ -1,0 +1,219 @@
+<div class="p-post-header row bg-imageplot">
+	<div class="py-3 container">
+		<div class="enrollment-menu">
+			<div class="home-icon">
+				<a (click)="reload()"><i class="fa fa-home" aria-hidden="true"></i></a>
+			</div>
+			<div class="buttons">
+				<button class="btn" [routerLink]="'/estudiante/matricula/disponibles'" routerLinkActive="active-link">1. Cursos Disponibles</button>
+				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Matriculados</button>
+			</div>
+		</div>
+	</div>
+	<div class="container-2 mx-auto">
+		<div class="row py-2">
+			<div class="col-md-2 p-2">
+				<div class="user-info bg-gray-a p-4">
+					<div class="circle-x bg-white-a2">
+						<img class="w-100" src="./assets/img/icon/user.png">
+					</div>
+					<div class="text-student"><b>{{student?student.nombreAlumno:''}}</b></div>
+					<div class="text-student"><b>{{student?student.codigoAlumno:''}}</b></div>
+					<div class="text-student"><b>{{allData?allData.ACAD_PROG:''}}/{{allData?allData.ACAD_PLAN:''}}</b></div>
+					<div class="text-student" *ngIf="schoolCycle"><b>{{schoolCycle.CICLO_LECTIVO}}</b></div>
+				</div>
+			</div>
+			<div class="col-md-10 p-2">
+				<router-outlet></router-outlet>
+			</div>
+		</div>
+		<div class="row">
+			<div class="mb-6 col-md-12 py-2 text-center">
+				<button (click)="openAditionalCoursesModal()" class="btn btn-schedule m-2">Solicitud Cursos Adicionales</button>
+				<button (click)="openEquivalentModal()" class="btn btn-schedule m-2">Cursos Equivalentes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ngx-smart-modal class="firstScheduleIndex" #schedulePreview identifier="schedulePreview" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'firstModalSchedule largeModal fullModal'">
+	<div class="py-2 row justify-content-around align-items-center">
+		<p class="m-0 mr-2">HORARIO ELEGIDO</p>
+		<div class="d-flex align-items-center">
+			<p class="m-0 mr-2">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en':1 }}</p>
+			<div
+				class="btn btn-transparent"
+				mwlCalendarPreviousView
+				[view]="view"
+				[(viewDate)]="viewDate"
+				(viewDateChange)="closeOpenMonthViewDay()"
+				>
+				<i class="fa fa-chevron-left"></i>
+			</div>
+			<div
+				class="btn btn-outline-secondary"
+				mwlCalendarToday
+				[(viewDate)]="viewDate"
+				(viewDateChange)="closeOpenMonthViewDay()"
+				>
+				Hoy
+			</div>
+			<div
+				class="btn btn-transparent"
+				mwlCalendarNextView
+				[view]="view"
+				[(viewDate)]="viewDate"
+				(viewDateChange)="closeOpenMonthViewDay()"
+				>
+				<i class="fa fa-chevron-right"></i>
+			</div>
+		</div>
+		<div class="btn-close">
+			<a (click)="schedulePreview.close()" class="pointer"><i class="fa fa-times text-black text-l"></i></a>
+		</div>
+    </div>
+	<div class="scroll ">
+		<mwl-calendar-week-view
+	      [viewDate]="viewDate"
+	      [events]="events"
+	      (eventClicked)="eventClicked($event.event)"
+	      [dayStartHour]="6"
+	      [weekStartsOn]="1"
+	    >
+	    </mwl-calendar-week-view>
+	</div>
+	<div class="mt-2 d-flex align-items-center justify-content-around">
+		<div class="legend d-flex flex-column align-items-center">
+			<div class="dot"></div>
+			<p>Matriculado</p>
+		</div>
+		<div *ngIf="moreData && moreData.length > 1" class="legend d-flex flex-column align-items-center">
+			<div class="dot"></div>
+			<p>Por procesar</p>
+		</div>
+		<div class="legend d-flex flex-column align-items-center">
+			<div class="dot"></div>
+			<p>Bloqueado</p>
+		</div>
+	</div>
+	<div class="mt-2 mb-3">
+    	<div class="bg-blue text-white p-2"> CLASES VIRTUALES </div>
+    	<div class="p-2 ">
+    		<table class="w-100">
+				<thead class="">
+					<tr class="text-center text-s">
+						<th class="px-1 py-2 align-middle text-left text-m">Curso</th>
+						<th class="px-1 py-2 align-middle text-m">Descripción</th>
+						<th class="px-1 py-2 align-middle text-m">Inicio</th>
+						<th class="px-1 py-2 align-middle text-m">Fin</th>
+						<th class="px-1 py-2 align-middle text-m">Horas semanales</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center text-s" *ngFor="let vclass of myVirtualClasses; let s = 'index'">
+						<td class="line p-1 text-left"><span class="circle" [ngClass]="{'pending': vclass.extra, 'done': !vclass.extra}"></span> {{ vclass.name }}</td>
+						<td class="p-1">{{ vclass.descr_ciclo }}</td>
+						<td class="p-1">{{ vclass.fech_ini }}</td>
+						<td class="p-1">{{ vclass.fech_fin }}</td>
+						<td class="p-1">{{ vclass.hrs_acad }}</td>
+					</tr>
+				</tbody>
+			</table>
+    	</div>
+    </div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #aditionalCoursesModal identifier="aditionalCoursesModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'largeModal fullModal p-post-header'">
+	<div class="p-2 header-modal">
+		<div class="title">
+			<p>CURSOS ADICIONALES</p>
+		</div>
+		<div class="btn-close">
+			<a (click)="aditionalCoursesModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-center">
+		<div class="form-group scroll h-s">
+		    <table id="table-students" class="table table-striped w-100">
+			  	<thead class="theader">
+			    	<tr>
+				      	<th class="py-2 text-left text-m">Cursos</th>
+				      	<th class="py-2 text-left text-m">Créditos</th>
+				      	<th class="py-2 text-left text-m">Codigo</th>
+				      	<th class="py-2 text-left text-m">Turno</th>
+			    	</tr>
+			  	</thead>
+			  	<tbody>
+				    <tr class="text-s" *ngFor="let course of aditionalCourses">
+				      	<td class="text-left">
+			      			<div [ngClass]="{'form-check': course.extra}">
+			      				<i *ngIf="!course.extra" class="fa fa-check-circle-o text-green text-l mr-2" aria-hidden="true"></i>
+								<input *ngIf="course.extra" class="form-check-input" type="checkbox" id="{{course.DESCR}}" [(ngModel)]="course.value" value="{{course.DESCR}}">
+								<label class="form-check-label docente" for="{{course.DESCR}}">{{course.NOMBRE_CURSO?course.NOMBRE_CURSO:course.DESCR}}</label>
+						    </div>
+				      	</td>
+				      	<td class="text-left">{{course.CREDITOS?course.CREDITOS:course.UNITS_REPEAT_LIMIT | number: '1.0-0'}}</td>
+				      	<td class="text-left">{{course.MATERIA?course.MATERIA:course.SUBJECT}}  {{course.NRO_CATALOGO?course.NRO_CATALOGO:course.CATALOG_NBR}}</td>
+				      	<td class="text-left">
+				      		<select [disabled]="!course.extra" [(ngModel)]="course.TURNO" name="turn" id="">
+				      			<option value="">Seleccione</option>
+				      			<option value="M">Mañana</option>
+				      			<option value="T">Tarde</option>
+				      			<option value="N">Noche</option>
+				      		</select>
+				      		<i *ngIf="!course.extra" (click)="deleteAditionalCourse(course)" class="pointer fa fa-trash text-red text-l ml-4" aria-hidden="true"></i>
+				      	</td>
+				    </tr>
+			  	</tbody>
+			</table>
+	  	</div>
+	  	<div class="row justify-content-center mb-3">
+			<button (click)="confirmAditional()" class="btn btn-orange">Grabar</button>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #equivalentCoursesModal identifier="equivalentCoursesModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'largeModal fullModal p-post-header'">
+	<div class="p-2 header-modal">
+		<div class="title">
+			<p>CURSOS Equivalentes - Programa / Plan: {{allData?allData.ACAD_PROG:''}}/{{allData?allData.ACAD_PLAN:''}} </p>
+		</div>
+		<div class="btn-close">
+			<a (click)="equivalentCoursesModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-center">
+		<div class="form-group scroll h-s">
+		    <table id="table-students" class="table table-striped w-100">
+			  	<thead class="theader">
+			    	<tr>
+				      	<th class="py-2 text-left text-m">Cursos</th>
+				      	<th class="py-2 text-left text-m">Créditos</th>
+				      	<th class="py-2 text-left text-m">Nivel</th>
+				      	<th class="py-2 text-left text-m">Oblg/Elec</th>
+				      	<th class="py-2 text-center text-m">Equivalentes</th>
+			    	</tr>
+			  	</thead>
+			  	<tbody>
+				    <ng-container *ngFor="let course of equivalentCourses">
+				    	<tr *ngIf="course.COM_LST_D_CRSE_EQUIV && course.COM_LST_D_CRSE_EQUIV.length > 0" class="text-s">
+					      	<td class="text-left">
+				      			<div class="form-check">
+									<label class="form-check-label docente" for="{{course.CRSE_ID}}">{{course.DESCRLONG}} ({{course.CRSE_ID}})</label>
+							    </div>
+					      	</td>
+					      	<td>{{course.CREDITOS}}</td>
+					      	<td>{{course.UCS_CICLO}}</td>
+					      	<td>{{course.OB_EL}}</td>
+					      	<td>
+					      		<p class="equivalent-p docente" *ngFor="let equ of course.COM_LST_D_CRSE_EQUIV">{{equ.DESCR}} ({{equ.CRSE_ID2}})</p>
+					      	</td>
+					    </tr>
+				    </ng-container>
+			  	</tbody>
+			</table>
+	  	</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

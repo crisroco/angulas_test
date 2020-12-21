@@ -12,6 +12,7 @@ import { FormService } from '../../../services/form.service';
 import { Broadcaster } from '../../../services/broadcaster';
 import { IntentionService } from '../../../services/intention.service';
 import { AssistanceService } from '../../../services/assistance.service';
+import { NewEnrollmentService } from '../../../services/newenrollment.service';
 import { AppSettings } from '../../../app.settings';
 import { RealDate } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
@@ -43,7 +44,7 @@ export class DashboardComponent implements OnInit {
 	realDate: any = RealDate();
 	noClosed: boolean;
 	enroll: any;
-	enroll_conditions: any;
+	enroll_conditions: any = '';
 	queueEnroll: any;
 	showwsp: boolean = false;
 	fidelityLink: any = '';
@@ -60,6 +61,8 @@ export class DashboardComponent implements OnInit {
 	};
 	offsetHour = 1000*60*10;
 	nextClassLink:any;
+	realProgram;
+	showEnrollment:boolean = false;
 
 	realDevice = this.deviceS.getDeviceInfo();
 	constructor( private formBuilder: FormBuilder,
@@ -73,6 +76,7 @@ export class DashboardComponent implements OnInit {
 		private deviceS: DeviceDetectorService,
 		public generalS:GeneralService,
     	private toastr: ToastrService,
+    	public newEnrollmentS: NewEnrollmentService,
     	public ngxSmartModalService: NgxSmartModalService,
 		private intentionS: IntentionService) { }
 
@@ -88,6 +92,20 @@ export class DashboardComponent implements OnInit {
 			this.getParameters();
 			this.getNotifications();
 		}, error => { });
+		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
+		.then(res => {
+			var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
+			this.enroll = units.filter(item => item.institucion == 'PREGR');
+			this.enroll = this.enroll.length?this.enroll[0]:null;
+			if(this.enroll){
+				this.enroll.OPRID = this.user.email;
+				this.enroll.INSTITUTION = this.enroll.institucion;
+				this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
+				this.enroll.STRM = this.enroll.cicloAdmision;
+				this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
+				this.enroll.EMPLID = this.user.codigoAlumno;
+			}
+		});
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enroll_conditions) {
 				this.enroll_conditions = message.enroll_conditions;
@@ -128,6 +146,10 @@ export class DashboardComponent implements OnInit {
 				}
 				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N'){
 					if(open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
+				}
+				if (item && item.enrollment_intention_status == 'A' && item.type == 'NM') {
+					this.broadcaster.sendMessage({ getEnroll: 'Y' });
+					this.btnEnroll = true;
 				}
 			})
 			// this.broadcaster.sendMessage({ getEnroll: 'Y' });
@@ -346,7 +368,7 @@ export class DashboardComponent implements OnInit {
 				this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
 			});
 	}
-
+	
 	goMoodle(){
 		var emplid = this.student.codigoAlumno;
 		var rdate = Math.floor(Date.now() / 1000);
@@ -421,6 +443,20 @@ export class DashboardComponent implements OnInit {
 		let s = num + '';
 		while (s.length < size) { s = '0' + s; }
 		return s;
+	}
+
+	goEnrollment(){
+		let myFlags = this.enroll_conditions.FLAG_ACADEMICO == 'Y' && this.enroll_conditions.FLAG_FINANCIERO == 'Y';
+		this.session.setObject('conditionsToEnrollment', { turn: this.realDate.timeseconds >= this.queueEnroll.date.timeseconds, conditions: myFlags});
+		this.newEnrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+			.then((res)=> {
+				let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+				if (notdeuda) {
+					this.router.navigate(['/estudiante/matricula/disponibles']);
+				} else {
+					this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.')
+				}
+			});
 	}
 
 }

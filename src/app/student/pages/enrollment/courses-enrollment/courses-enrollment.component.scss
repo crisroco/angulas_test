@@ -1,0 +1,99 @@
+.btn-schedule {
+	background: #0088c5;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.myscheduleperclass {
+	font-size: 13px;
+	margin: 5px 0;
+}
+
+.text-ucs {
+	font-size: 18px;
+}
+
+.btn-orange {
+	background: #F68D2E;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+table th:first-child{
+  border-radius: 7px 0 0 0;
+}
+
+table th:last-child{
+  border-radius:0 7px 0 0;
+}
+
+table i.fa:hover {
+	cursor: pointer;
+}
+
+.table .thead-dark th {
+	border: none;
+}
+
+.table .thead-dark th {
+	background-color: #0088C5;
+}
+
+table tbody td {
+	background-color: #fdfdfe
+}
+
+div.scroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+div.scroll::-webkit-scrollbar:vertical {
+    width:12px;
+}
+
+div.scroll::-webkit-scrollbar-button:increment,div.scroll::-webkit-scrollbar-button {
+    display: none;
+}
+
+div.scroll::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+}
+
+div.scroll::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
+
+.enrollment_all {
+	align-items: center;
+	border-radius: 7px;
+	background: #FFFFFF;
+	justify-content: space-between;
+	padding: 0.75rem;
+	margin-right: 5px;
+}
+
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
+.orange {
+	color: orange;
+}
+
+.header-modal {
+	display: flex;
+	border-radius: 1rem 1rem 0 0;
+	color: #FFFFFF;
+	align-items: center;
+	justify-content: flex-end;
+	font-weight: bold;
+	background-color: red;
+	p {
+		margin: 0;
+	}
+}
