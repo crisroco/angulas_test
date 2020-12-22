@@ -23,6 +23,7 @@ export class CoursesEnrollmentComponent implements OnInit {
   goingToDelete:Array<any> = [];
   showToDelete:Array<any> = [];
   public myCredits = 0;
+  public maxCreditsEnrollment = this.session.getItem('MaxCreditsEnrollment');
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
 
   constructor(public broadcaster: Broadcaster,
@@ -121,11 +122,7 @@ export class CoursesEnrollmentComponent implements OnInit {
       }
       if (!filteredArray[array[i].DESCR]) {
         filteredArray[array[i].DESCR] = [];
-        // if (array[i]['SSR_COMPONENT'] == 'TEO') {
-        //   filteredArray[array[i].DESCR].push(array[i]);
-        // } else {
         filteredArray[array[i].DESCR].push(array[i]);
-        // }
       } else {
         if (filteredArray[array[i].DESCR].length < 2) {
           if (array[i]['SSR_COMPONENT'] == 'PRA' && filteredArray[array[i].DESCR][0]['SSR_COMPONENT'] == 'TEO') {
@@ -210,23 +207,22 @@ export class CoursesEnrollmentComponent implements OnInit {
 
   delete(){
     this.loading = true;
+    this.session.destroy('mySchedule');
     if (this.goingToDelete.length > 1) {
-      this.newEnrollmentS.deleteCourseClassByCrseId(this.goingToDelete[0]['CRSE_ID'])
+      this.newEnrollmentS.deleteCourseClassByCrseId(this.user.codigoAlumno, this.goingToDelete[0]['CRSE_ID'])
       .then((res) => {
         this.loading = false;
         this.deleteConfirmationModal.close();
-        this.session.destroy('mySchedule');
-        this.toastS.warning('Cursos Removidos');
         this.loadDataStudentCourses();
+        this.toastS.warning('Cursos Removidos');
       });
     } else {
       this.newEnrollmentS.deleteCourseClass(this.goingToDelete[0].own_enrollment_id)
       .then((res) => {
         this.loading = false;
         this.deleteConfirmationModal.close();
-        this.session.destroy('mySchedule');
-        this.toastS.warning('Cursos Removidos');
         this.loadDataStudentCourses();
+        this.toastS.warning('Cursos Removidos');
       });
     }
   }

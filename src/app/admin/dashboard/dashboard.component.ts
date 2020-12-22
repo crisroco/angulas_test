@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('schedulePreview') schedulePreview:any;
 
   myVirtualClasses:Array<any> = [];
-  viewDate: Date = new Date();
+  viewDate: Date = new Date(2021,0,11);
   events:CalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Week;

@@ -36,7 +36,7 @@ export class DashboardEnrollComponent implements OnInit {
   dataStudent:any;
   crossdata: any;
   cycleSTRMSelected: any;
-  maxCredits = 24;
+  maxCredits = 0;
   myCredits = 0;
   constructor(
     public session: SessionService,
@@ -175,6 +175,8 @@ export class DashboardEnrollComponent implements OnInit {
       this.availableCourses = res.sort((a,b) => {
         return a.UCS_CICLO - b.UCS_CICLO
       });
+      this.maxCredits = Math.round(this.availableCourses[0]['FT_MAX_TOTAL_UNIT']);
+      this.session.setItem('MaxCreditsEnrollment', this.maxCredits)
       this.loadCoursesAlready();
     });
   }
@@ -372,13 +374,9 @@ export class DashboardEnrollComponent implements OnInit {
   checkCrosses(pickedCourse){
     for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
       if (this.myCoursesinEnrollment[i].STRM == pickedCourse.STRM) {
-        console.log(1);
         if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse['CRSE_ATTR'] != 'VIRT') {
-          console.log(2);
           if (BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'],this.myCoursesinEnrollment[i]['END_DT_DO'], RealDate(new Date(pickedCourse['START_DT_DO'] + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'],this.myCoursesinEnrollment[i]['END_DT_DO'], RealDate(new Date(pickedCourse['END_DT_DO'] + ' 00:00:00')))) {
-            console.log(3);
             if (this.myCoursesinEnrollment[i]['DAY_OF_WEEK'] == pickedCourse['DAY_OF_WEEK']) {
-              console.log(4);
               if ((this.timeToSeconds(pickedCourse['MEETING_TIME_START']) >= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_START']) < this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END'])) || (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) > this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END']))) {
                 // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
                   // console.log(this.myCoursesinEnrollment);
