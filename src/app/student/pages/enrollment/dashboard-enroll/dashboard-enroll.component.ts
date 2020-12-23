@@ -252,6 +252,7 @@ export class DashboardEnrollComponent implements OnInit {
         }
       };
     }
+    console.log(data);
     this.broadcaster.sendMessage({openModal: true, selectedOnHold: data});
   }
 
@@ -375,7 +376,7 @@ export class DashboardEnrollComponent implements OnInit {
     for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
       if (this.myCoursesinEnrollment[i].STRM == pickedCourse.STRM) {
         if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse['CRSE_ATTR'] != 'VIRT') {
-          if (BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'],this.myCoursesinEnrollment[i]['END_DT_DO'], RealDate(new Date(pickedCourse['START_DT_DO'] + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'],this.myCoursesinEnrollment[i]['END_DT_DO'], RealDate(new Date(pickedCourse['END_DT_DO'] + ' 00:00:00')))) {
+          if (BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'] + ' 00:00:00',this.myCoursesinEnrollment[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse['START_DT_DO'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'] + ' 00:00:00',this.myCoursesinEnrollment[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse['END_DT_DO'].replaceAll('-', '/') + ' 00:00:00')))) {
             if (this.myCoursesinEnrollment[i]['DAY_OF_WEEK'] == pickedCourse['DAY_OF_WEEK']) {
               if ((this.timeToSeconds(pickedCourse['MEETING_TIME_START']) >= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_START']) < this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END'])) || (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) > this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END']))) {
                 // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {

@@ -29,7 +29,7 @@ export class DisponiblesComponent implements OnInit {
 	studentCode:any;
 	myData:any;
 	myCredits:number = 0;
-  maxCredits = 24;
+  maxCredits = 0;
   selectedCourse = {
     DESCR: '',
     value: false

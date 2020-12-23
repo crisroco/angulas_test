@@ -329,6 +329,7 @@ export class EnrollmentComponent implements OnInit {
   getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
     let start: Date;
     let end: Date;
+    console.log(rDay);
     const ua = navigator.userAgent.toLowerCase();
     if (ua.indexOf('safari') !== -1) {
       if (ua.indexOf('chrome') > -1) {
