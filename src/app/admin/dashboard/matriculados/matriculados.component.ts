@@ -24,6 +24,7 @@ export class MatriculadosComponent implements OnInit {
   	showToDelete:Array<any> = [];
   	public myData = this.session.getObject('acadmicData');
   	public myCredits = 0;
+    public maxCreditsEnrollment = this.session.getItem('MaxCreditsEnrollment');
   	@ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
 
   constructor(public broadcaster: Broadcaster,
@@ -172,7 +173,7 @@ export class MatriculadosComponent implements OnInit {
   delete(){
     this.loading = true;
     if (this.goingToDelete.length > 1) {
-      this.newEnrollmentS.deleteCourseClassByCrseId(this.goingToDelete[0]['CRSE_ID'])
+      this.newEnrollmentS.deleteCourseClassByCrseId(this.myData.EMPLID, this.goingToDelete[0]['CRSE_ID'])
       .then((res) => {
         this.loading = false;
         this.deleteConfirmationModal.close();

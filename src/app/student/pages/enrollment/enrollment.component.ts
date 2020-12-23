@@ -218,8 +218,8 @@ export class EnrollmentComponent implements OnInit {
                     cssClass: classD.CICLO_LECTIVO!=this.schoolCycle.CICLO_LECTIVO?'RED':'normal',
                     allDay: false,
                     resizable: {
-                      beforeStart: true,
-                      afterEnd: true,
+                      beforeStart: false,
+                      afterEnd: false,
                     },
                     meta: clase,
                   });
