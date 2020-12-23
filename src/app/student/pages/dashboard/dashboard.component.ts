@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
-		// this.postEnrollmentModal.open();
+		this.postEnrollmentModal.open();
 		// this.aficheModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
@@ -133,12 +133,6 @@ export class DashboardComponent implements OnInit {
 			// this.broadcaster.sendMessage({ getEnroll: 'Y' });
 			// this.btnEnroll = true;
 		})
-		this.studentS.medicineStudents()
-			.then((res) => {
-				if (res.filter(el => el == this.user.codigoAlumno)[0]) {
-					this.medicineModal.open();
-				}
-			});
 		// this.studentS.getFidelityLink(this.user.codigoAlumno)
 		// .then((res) => {
 		// 	console.log(res)
