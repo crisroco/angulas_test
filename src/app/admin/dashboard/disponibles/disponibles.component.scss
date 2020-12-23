@@ -1,0 +1,89 @@
+.btn-orange {
+	background: #F68D2E;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.arrow_icon {
+	position: absolute;
+	right: 12px;
+}
+
+.arrow_down {
+	color: #0088C5;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.selectedRow td{
+	background: #ffffb1 !important;
+}
+
+.in td {
+	color: red;
+}
+
+tr.notAvailable td{
+	background-color: #CCCCCC !important;
+	color: #6c757d;
+}
+
+table th:first-child{
+  border-radius: 7px 0 0 0;
+}
+
+table th:last-child{
+  border-radius:0 7px 0 0;
+}
+
+table tbody td {
+	background-color: #fdfdfe
+}
+
+.table .thead-dark th {
+	border: none;
+}
+
+.table .thead-dark th {
+	background-color: #0088C5;
+}
+div.scroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+div.scroll::-webkit-scrollbar:vertical {
+    width:12px;
+}
+
+div.scroll::-webkit-scrollbar-button:increment,div.scroll::-webkit-scrollbar-button {
+    display: none;
+}
+
+div.scroll::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+}
+
+div.scroll::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
+
+.header-modal {
+	display: flex;
+	border-radius: 1rem 1rem 0 0;
+	color: #FFFFFF;
+	align-items: center;
+	justify-content: space-between;
+	font-weight: bold;
+	background-color: #0088C5;
+	p {
+		margin: 0;
+	}
+}
+
+#table-students {
+	.theader {
+		color: #204491;
+		background: rgba(111, 197, 232, 0.5);
+	}
+}

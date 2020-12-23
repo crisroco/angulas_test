@@ -60,7 +60,21 @@ export class LoginComponent implements OnInit {
 					// this.session.setItem('data', Encrypt(JSON.stringify(data), 'miportal&ucs'));
 					this.student.email = data.email;
 					this.session.setObject('user', this.student);
-					this.router.navigate(['estudiante']);
+					this.loginS.oauthToken({
+						username: data.email,
+					    password: data.password,
+					    // client_id: 16, tst
+					    // client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
+					    // client_id: 16,
+					    // client_secret: "YuVuaUbO73GDhi78ao8pPiXv7FXqVUrgvkTcPVrU",
+					    client_id: 6,
+					    client_secret: "0IQYU1wXVKM7s4OB7URhvUcNEno7LrWDxS7r2MYl",
+					    grant_type: "password"
+					})
+						.then((res) => {
+							this.session.setObject('oauth', res);
+							this.router.navigate(['estudiante']);
+						});
 			});
 		}, error => { this.loading = false; });
 	}

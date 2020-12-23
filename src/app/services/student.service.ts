@@ -72,6 +72,10 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getFinalGrades2', data).toPromise();
     }
 
+    public getActiveStrm(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getActiveStrm', data).toPromise();
+    }
+
     public getVirtualClass(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getVirtualClass', data).toPromise();
     }
@@ -131,7 +135,6 @@ export class StudentService {
     public getLinkZoom(cicle, myclass, date): Promise<any> {
         return this.http.get("https://aulavirtualcpe.cientifica.edu.pe/mod/zoom/client/zoom_link.php?strm=" + cicle + '&nbr=' + myclass + '&date=' + date, {responseType: 'text'}).toPromise();
     }
-
     public getFidelityLink(emplid): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getFidelitySurvey/' + emplid).toPromise();
     }
@@ -142,5 +145,9 @@ export class StudentService {
 
     public medicineStudents(): Promise<any> {
        return this.http.get("assets/medicine_students.json").toPromise();
+    }
+
+    public getDeuda(code): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getDeuda/' + code).toPromise();
     }
 }

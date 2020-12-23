@@ -1,0 +1,76 @@
+<div class="row new_enrollment_container">
+	<div class="col-md-10">
+		<div class="bg-gray-a p-4">
+			<div class="mt-2 text-{{company}}"><b>Total de Créditos: {{ myCredits }} / {{maxCreditsEnrollment}}</b></div>
+			<div class="scroll h-fm">
+				<table class="table w-100">
+				  	<thead class="thead-dark">
+				    	<tr>
+					      	<th class="py-2 text-left text-m">Cursos</th>
+					      	<th class="py-2 text-left text-m">Créditos</th>
+					      	<th class="py-2 text-left text-m">Oblg/Elec</th>
+					      	<th class="py-2 text-left text-m">N° Clase</th>
+					      	<th class="py-2 text-left text-m">Periodo</th>
+					      	<th class="py-2 text-left text-m"></th>
+				    	</tr>
+				  	</thead>
+				  	<tbody>
+					    <ng-container *ngFor="let item of availableCourses">
+					    	<tr class="text-s">
+					      		<ng-container>
+						      		<td class="text-left docente">
+						      			{{item.DESCR}} ({{item.SSR_COMPONENT}})
+							      	</td>
+							      	<td class="text-center" *ngIf="!item.showLine">{{(item.units_repeat_limit2?item.units_repeat_limit2:item.UNITS_REPEAT_LIMIT) | number: '1.0-0'}}
+							      	</td>
+							      	<td class="text-center" *ngIf="item.showLine">-</td>
+							      	<td>{{item.LVF_CARACTER}}</td>
+							      	<td>{{item.CLASS_NBR}} - {{item.CLASS_SECTION}}</td>
+							      	<td>{{item.DESCRSHORT}}</td>
+							      	<td class="text-right">
+							      		<i ngxTooltip tooltipContent="Eliminar" *ngIf="item.trash" (click)="remove(item)" class="red fa fa-trash text-black text-l" aria-hidden="true"></i>
+						      			<i *ngIf="!item.trash" class="red fa fa-lock text-black text-l" aria-hidden="true"></i>
+							      	</td>
+					      		</ng-container>
+					    	</tr>
+					    </ng-container>
+					    <ng-container *ngIf="showMessage">
+					    	<tr>
+					    		<td colspan="6">Aún no tienes cursos elegidos.</td>
+					    	</tr>
+					    </ng-container>
+				  	</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="my-2 text-right">
+			<button (click)="callModal()" class="btn btn-orange">Vista del Horario</button>
+		</div>
+	</div>
+</div>
+
+<ngx-smart-modal #deleteConfirmationModal identifier="deleteConfirmationModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="p-2 header-modal">
+		<div class="btn-close">
+			<a (click)="deleteConfirmationModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-left p-2 px-5 mb-3">
+		<h5 class="text-red font-weight-bold text-center">Confirmación a eliminar</h5>
+		<div> Se eliminaran los siguientes cursos:</div>
+		<ul>
+			<li class="myscheduleperclass" *ngFor="let course of showToDelete">
+				<span class="docente">{{course.DESCR}} - ({{course.SSR_COMPONENT}})</span><br>
+				<span>{{course.DAY_OF_WEEK }}: {{removeSeconds(course.MEETING_TIME_START)}} - {{removeSeconds(course.MEETING_TIME_END)}}</span><br>
+				<span>{{course.START_DT_DO | date:'dd/MM'}} - {{course.END_DT_DO | date:'dd/MM'}}</span>
+			</li>
+		</ul>
+	</div>
+	<div class="row justify-content-center mb-3">
+		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="delete()">Confirmar</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

@@ -1,0 +1,176 @@
+// _::-webkit-full-page-media, _:future, :root .safari_only {
+//   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+// }
+
+// *:not(i) {
+// 	font-family: "Gotham", Arial, sans-serif;
+// }
+td.line {
+	display: flex;
+	align-items: center;
+	span.circle {
+		margin-right: 4px;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		display: block;
+		&.pending {
+			background-color: #ffc107;
+		}
+		&.done {
+			background-color: #1e90ff;
+		}
+	}
+}
+.equivalent-p {
+	margin: 5px 0;
+}
+
+.class-vir-box {
+	color: #1e90ff;
+	border-color: #1e90ff;
+	border: 1px solid;
+	background-color: #d1e8ff;
+	border-radius: 5px;
+	padding: 0px 5px;
+	margin: 1rem;
+	p {
+		margin: 0;
+		font-size: 12px;
+		font-family: "Gotham",Arial,sans-serif;
+	}
+}
+
+
+.legend {
+	.dot {
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+	}
+	&:first-child {
+		.dot {
+			background-color: #1e90ff;
+		}
+	}
+	&:nth-child(2) {
+		.dot {
+			background-color: #ffc107;
+		}
+	}
+	&:last-child {
+		.dot {
+			background-color: #ce8c8c;
+		}
+	}
+}
+
+.btn.active-link {
+	color: #204491;
+	font-weight: bold;
+	border-bottom: 2px solid #F68D2E;
+	outline: none;
+}
+
+.btn-schedule {
+	background: #0088C5;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.btn-orange {
+	background: #F68D2E;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+div.enrollment-menu .btn {
+	color: #1D428A;
+}
+
+.enrollment-menu {
+	width: 100%;
+    background: white;
+    display: flex;
+    align-items: center;
+}
+
+.table .thead-dark th {
+	border: none;
+}
+
+.table .thead-dark th {
+	background-color: #0088C5;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.header-modal {
+	display: flex;
+	border-radius: 1rem 1rem 0 0;
+	color: #FFFFFF;
+	align-items: center;
+	justify-content: space-between;
+	font-weight: bold;
+	background-color: #0088C5;
+	p {
+		margin: 0;
+	}
+}
+
+.home-icon {
+	width: 10%;
+	font-size: 26px;
+}
+
+.buttons {
+	width: 80%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.text-student {
+	color: #1D428A;
+}
+
+.dot_color {
+	display: flex;
+	p {
+		display: flex;
+		align-items: center;
+		&::before {
+			content: "";
+			display: block;
+			width: 5px;
+			height: 5px;
+			margin-right: 3px;
+			background-color: red;
+			border-radius: 50%;
+		}
+		&.pra_color::before {
+			background-color: green;
+		}
+		&.vir_color::before {
+			background-color: orange;
+		}
+	}
+}
+
+#table-students {
+	.theader {
+		color: #204491;
+		background: rgba(111, 197, 232, 0.5);
+	}
+}
+
+@media (max-width: 480px) {
+	div.footer {
+		display: none;
+	}
+}

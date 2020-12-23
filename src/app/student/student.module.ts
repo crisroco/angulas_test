@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxLoadingModule } from 'ngx-loading';
@@ -28,10 +27,14 @@ import { CourseAssistanceComponent } from './pages/action/course-assistance/cour
 import { EnrollComponent } from './pages/action/enroll/enroll.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
+import { EnrollmentComponent } from './pages/enrollment/enrollment.component';
+import { DashboardEnrollComponent } from './pages/enrollment/dashboard-enroll/dashboard-enroll.component';
+import { CoursesEnrollmentComponent } from './pages/enrollment/courses-enrollment/courses-enrollment.component';
+
 const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
 
 @NgModule({
-  declarations: [StudentComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent],
+  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,

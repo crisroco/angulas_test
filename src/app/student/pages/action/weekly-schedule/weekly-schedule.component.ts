@@ -82,7 +82,6 @@ export class WeeklyScheduleComponent implements OnInit {
 				this.getData();
 			}
 		}, error => { });
-		console.log(this.realDevice);
 	}
 
 	getData(){
@@ -333,5 +332,4 @@ export class WeeklyScheduleComponent implements OnInit {
 	ngOnDestroy() {
 		if(this.realModal) this.realModal.close();
 	}
-
 }

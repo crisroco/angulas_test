@@ -1,0 +1,145 @@
+<div class="row new_enrollment_container">
+	<div class="col-md-10">
+		<div class="bg-gray-a p-4">
+			<div class="mt-2 text-{{company}}"><b>Total de Creditos: {{ myCredits }} / {{maxCredits}}</b></div>
+			<div class="form-group scroll h-fm">
+				<table class="table w-100">
+				  	<thead class="thead-dark">
+				    	<tr>
+					      	<th class="py-2 text-left text-m">Cursos</th>
+					      	<th class="py-2 text-left text-m">Créditos</th>
+					      	<th class="py-2 text-left text-m">Oblg/Elec</th>
+					      	<th class="py-2 text-left text-m">Catálogo</th>
+					      	<th class="py-2 text-left text-m">Nivel</th>
+				    	</tr>
+				  	</thead>
+				  	<tbody>
+					    <tr class="text-s" *ngFor="let course of availableCourses">
+					    	<ng-container *ngIf="course.number == 0">
+				    			<td class="text-left">
+					      			<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" (change)='onChangeAvailable(course, $event)' value="{{course.CRSE_ID}}">
+										<label class="docente form-check-label" for="{{course.CRSE_ID}}">{{course.DESCR}}</label>
+								    </div>
+						      	</td>
+						      	<td>{{course.UNITS_REPEAT_LIMIT | number}}</td>
+						      	<td>{{course.LVF_CARACTER}}</td>
+						      	<td>{{course.SUBJECT}}{{course.CATALOG_NBR}}</td>
+						      	<td>{{course.UCS_CICLO}}</td>
+					    	</ng-container>
+					    </tr>
+				  	</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="my-2 text-right">
+			<button (click)="callModal()" class="btn btn-orange">Vista del Horario</button>
+		</div>
+	</div>
+</div>
+
+<ngx-smart-modal #scheduleSelection identifier="scheduleSelection" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'extralargeModal fullModal p-post-header'">
+	<div class="p-2 header-modal">
+		<div class="title">
+			<p>SECCIONES DISPONIBLES - {{selectedCourse.DESCR}}<span *ngIf="scheduleAvailables.length > 0 && scheduleAvailables[0]['FLAG2']=='Y'"> (Equivalente a={{scheduleAvailables[0]['CRSE_ID']}}-{{scheduleAvailables[0]['DESCR']}}*)</span></p>
+		</div>
+		<div class="btn-close d-flex">
+			<p *ngIf="cicleSelected" class="mr-3">Ciclo lectivo: {{cicleSelected.CICLO_LECTIVO}}</p>
+			<a (click)="closeModal(scheduleSelection)" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-center">
+		<div class="form-group scroll h-s">
+		    <table id="table-students" class="table w-100">
+				<thead class="theader">
+					<tr class="text-center text-s">
+						<th class="px-1 py-2 text-left text-m">Sección</th>
+						<th class="px-1 py-2 text-left text-m">Docente</th>
+						<th class="px-1 py-2 align-middle text-m">Ini-Fin</th>
+						<th class="px-1 py-2 align-middle text-m">Horario</th>
+						<th class="px-1 py-2 align-middle text-m">Aula</th>
+						<th class="px-1 py-2 align-middle text-m">Sede</th>
+						<th class="px-1 py-2 align-middle text-m">Cupos</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center text-s" *ngFor="let section of scheduleAvailables" [ngClass]="{'selectedRow': section.value, 'in': section.FLAG1=='I'}">
+						<ng-container *ngIf="section.show || section.more">
+							<td class="p-1 text-left">
+								<div class="form-check">
+									<input *ngIf="section.show" class="form-check-input" [disabled]="checkCap(section)" type="checkbox" id="{{section.UCS_FACILITY_DESC + section.CLASS_NBR}}" [(ngModel)]="section.value" (change)='changeSchedule(section, $event)' value="{{section.UCS_FACILITY_DESC + section.CLASS_NBR}}" [checked]="section.value">
+									<label class="form-check-label" for="{{section.UCS_FACILITY_DESC + section.CLASS_NBR}}"> {{section.CLASS_SECTION}}-{{section.SSR_COMPONENT}}({{section.CLASS_NBR}}) <span *ngIf="section.FLAG2=='Y'">{{section.CRSE_ID}}-{{section.DESCR}}*</span></label>
+							    </div>
+							</td>
+							<td class="p-1 text-left docente">{{section.NAME}}</td>
+							<td class="p-1 text-center">{{section.START_DT_DO | date:'dd/MM' }} - {{section.END_DT_DO | date:'dd/MM'}}</td>
+							<td class="p-1 text-center" *ngIf="section.CRSE_ATTR!='VIRT'">{{section.DAY_OF_WEEK}}: {{removeSeconds(section.MEETING_TIME_START)}} - {{removeSeconds(section.MEETING_TIME_END)}}</td>
+							<td class="p-1 text-center" *ngIf="section.CRSE_ATTR=='VIRT'">Virtual</td>
+							<td class="p-1 text-center">{{section.CRSE_ATTR=='VIRT'?'-':section.ROOM}}</td>
+							<td class="p-1 text-center">{{section.CRSE_ATTR=='VIRT'?'-':section.UCS_LOCATION_DESC}}</td>
+							<td class="icon_container p-1 text-center"><span class="mr-3">{{section.ENRL_CAP - section.number}} </span><i ngxTooltip [tooltipContent]="!section.up?'Ver detalle':''" *ngIf="section.show && countASS(section)" (click)="showMore(section)"   [ngClass]="{'fa-caret-down': !section.up,'fa-caret-up': section.up}" class="fa arrow_down arrow_icon" aria-hidden="true"></i></td>
+							<!--<i class="fa fa-caret-up" aria-hidden="true"></i>-->
+						</ng-container>
+					</tr>
+					<tr *ngIf="scheduleAvailables.length == 0">
+						<td colspan="7">No hay Horarios programado para el Curso</td>
+					</tr>
+				</tbody>
+			</table>
+	  	</div>
+
+		<div class="row justify-content-center mb-3">
+			<button [disabled]="scheduleAvailables.length == 0" (click)="confirmEnroll()" class="btn btn-orange m-2">Matricular</button>
+			<button [disabled]="scheduleAvailables.length == 0" (click)="callModal(true)" class="btn btn-orange m-2">Vista previa del Horario</button>
+		</div>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #IntentionEnrollmentBack identifier="IntentionEnrollmentBack" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="bg-{{company}} p-4 rounded-t-1"> </div>
+	<div class="text-left p-2 px-5 mb-3">
+		<h5 class="text-{{company}} font-weight-bold text-center">Estimado Alumno</h5>
+		<div> Tus fechas de inscripción ya culminaron. </div>
+	</div>
+	<div class="row justify-content-center mb-3">
+		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="goDashboard()">FINALIZAR</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #selectCycleModal identifier="selectCycleModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
+	<div class="bg-{{company}} p-4 rounded-t-1">
+		
+	</div>
+	<div class="text-left p-2">
+		<h5 class="text-{{company}} font-weight-bold text-l">Ciclos</h5>
+		<p> Elige tu Ciclo de matricula </p>
+		<div class="form-group scroll h-s">
+		    <table id="table-students" class="w-100">
+				<thead class="">
+					<tr class="text-center text-s">
+						<th class="px-1 py-2 text-{{company}} text-left text-m">Ciclo Lectivo</th>
+						<th class="px-1 py-2 text-{{company}} align-middle text-m">Descripción</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center text-s" *ngFor="let cycle of cycles">
+						<td class="p-1 text-left">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="{{cycle.CICLO_LECTIVO}}" [(ngModel)]="cycle.value" value="{{cycle.CICLO_LECTIVO}}" (change)='changeCycle(cycle)'>
+								<label class="form-check-label" for="{{cycle.CICLO_LECTIVO}}"> {{cycle.CICLO_LECTIVO}} </label>
+						    </div>
+						</td>
+						<td class="p-1 text-center"> {{cycle.DESCR_CICLO }} </td>
+					</tr>
+				</tbody>
+			</table>
+	  	</div>
+	</div>
+	<div class="row justify-content-center mb-3 px-5">
+		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveCycle()">Seleccionar</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

@@ -1,0 +1,15 @@
+<div class="row bg-{{company}} header">
+	<div class="row container-2 mx-auto px-3 align-items-center justify-content-between">
+		<img src="./assets/img//logo.png" class="img-hs">
+		<div class="row position-relative">
+			<div class="circle-q bg-white-a pointer" (click)="menus = !menus">
+				<img src="./assets/img/icon/user.png" class="img-q"> 
+			</div>
+			<div class="bg-white drop" *ngIf="menus">
+				<a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+			</div>
+		</div>
+			
+	</div>
+</div>
+<router-outlet></router-outlet>
