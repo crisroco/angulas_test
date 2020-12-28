@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   data_browser: any;
   variable: string = '';
   student: any;
-  public available = ["100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377"];
+  public available = ["100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377", "100075396", "100064384","100070412","100040451","100075372","100083509"];
   public cientifica_data = {
     empresa_url : 'ucientifica.edu.pe',
     cod_empresa : '002',
@@ -74,8 +74,8 @@ export class LoginComponent implements OnInit {
       this.loginS.oauthToken({
         username: data.email,
         password: data.password,
-        client_id: 6,
-        client_secret: "0IQYU1wXVKM7s4OB7URhvUcNEno7LrWDxS7r2MYl",
+        client_id: 2,
+        client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
         grant_type: "password" 
       }).then((res) => {
         this.session.setObject('oauth', res);

@@ -25,9 +25,10 @@ export class AppSettings {
     //public static BASE = "https://back-miportal-dev.cientifica.edu.pe";
     //public static BASE = "http://cientifica.br";
     // public static BASE = "https://back-miportal.sise.edu.pe";
+    public static BASE = "https://back-miportal.cientifica.edu.pe";
     // public static BASE = "http://localhost:8040";
     // public static BASE = "https://backdev-miportal.cientifica.edu.pe";
-     public static BASE = "https://back2-miportal-dev.cientifica.edu.pe";
+    //public static BASE = "https://back2-miportal-dev.cientifica.edu.pe";
     // public static BASE = "https://backdev03-miportal.cientifica.edu.pe";
     public static CLIENT = '/api/client/parameters';
     public static STUDENT = '/student';
