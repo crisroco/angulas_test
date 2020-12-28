@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 	loginForm: FormGroup;
 	student: any;
 	code_company = AppSettings.COMPANY;
-
+	@ViewChild('piezaModal') piezaModal: any;
 	constructor(private formBuilder: FormBuilder,
     	private toastr: ToastrService,
     	private loginS: LoginService,
@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
     	private deviceS: DeviceDetectorService) { }
 
 	ngOnInit() {
+		this.piezaModal.open();
 		this.loginForm = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],

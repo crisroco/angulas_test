@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxSmartModalModule } from 'ngx-smart-modal';
 
 import { SessionService } from './services/session.service';
 import { HttpConfigInterceptor } from './services/httpconfig.interceptor';
@@ -22,6 +23,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgxSmartModalModule.forRoot(),
     NgxLoadingModule.forRoot({}),
     ToastrModule.forRoot(),
     DeviceDetectorModule.forRoot(),
