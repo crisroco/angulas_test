@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('aditionalCoursesModal') aditionalCoursesModal:any;
   @ViewChild('equivalentCoursesModal') equivalentCoursesModal:any;
   @ViewChild('schedulePreview') schedulePreview:any;
-
+  @ViewChild('confirmationUploadModal') confirmationUploadModal:any;
   myVirtualClasses:Array<any> = [];
   viewDate: Date = new Date(2021,0,11);
   events:CalendarEvent[] = [];
@@ -125,6 +125,14 @@ export class DashboardComponent implements OnInit {
 
   eventClicked(event){
 
+  }
+
+  openConfirmation() {
+    if (!this.studentCode) {
+      this.toastr.error("Ingresa un codigo de alumno");
+      return
+    }
+    this.confirmationUploadModal.open();
   }
 
 
@@ -433,12 +441,15 @@ export class DashboardComponent implements OnInit {
   uploadData(){
     let myData = this.session.getObject('acadmicData');
     let cycle = this.session.getObject('schoolCycle');
-    this.newEnrollmentS.getScheduleAutoservice({EMPLID: myData.EMPLID})
+    this.newEnrollmentS.getDataStudentEnrollment({EMPLID: this.studentCode})
       .then((res) => {
-        this.toastr.success('Carga del Alumno Actualizada');
-        setTimeout(() => {
-          location.reload();
-        }, 1000)
+        this.newEnrollmentS.getScheduleAutoservice({EMPLID: this.studentCode, CAMPUS: res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0].CAMPUS})
+        .then((res) => {
+          this.toastr.success('Carga del Alumno Actualizada');
+          // setTimeout(() => {
+          //   location.reload();
+          // }, 1000)
+        });
       });
   }
 

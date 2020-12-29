@@ -31,7 +31,6 @@
 		<div class="row">
 			<div class="mb-6 col-md-12 py-2 text-center">
 				<button (click)="openEquivalentModal()" class="btn btn-schedule m-2">Cursos Equivalentes</button>
-				<button (click)="uploadData()" class="btn btn-schedule m-2">Carga del Alumno</button>
 			</div>
 		</div>
 	</div>
@@ -88,7 +87,7 @@
 			<div class="dot"></div>
 			<p>Matriculados</p>
 		</div>
-		<div *ngIf="moreData.length > 1" class="legend d-flex flex-column align-items-center">
+		<div *ngIf="moreData && moreData.length > 1" class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
 			<p>Por Procesar</p>
 		</div>
@@ -230,8 +229,17 @@
 	<div class="mx-2">
 		<p *ngIf="isthisStudent">Alumno: {{isthisStudent.NAME}}</p>
 	</div>
-	<div class="row justify-content-center mb-3 px-5">
-		<button [disabled]="!isthisStudent" class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="select()">Seleccionar</button>
+	<div class="row d-flex justify-content-center mb-3 px-5">
+		<button [disabled]="!isthisStudent" class="btn rounded-1 btn-{{company}} mr-3" (click)="select()">Seleccionar</button>
+		<button class="btn rounded-1 btn-{{company}} ml-3" (click)="openConfirmation()">Carga del Alumno</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #confirmationUploadModal identifier="confirmationUploadModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
+	<div class="row d-flex justify-content-center my-3 px-5">
+		<h5 class="text-center text-ucs">¿Estas seguro que quieres actualizar toda la data del Alumno?</h5>
+		<button class="btn rounded-1 btn-{{company}} mr-3" (click)="uploadData()">Continuar</button>
+		<button class="btn rounded-1 btn-danger ml-3" (click)="confirmationUploadModal.close()">Cancelar</button>
 	</div>
 </ngx-smart-modal>
 

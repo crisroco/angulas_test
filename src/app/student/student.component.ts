@@ -674,7 +674,7 @@ export class StudentComponent implements OnInit {
 					this.enroll.EMPLID = this.student.codigoAlumno;
 					this.studentS.getSTRM(this.enroll)
 					.then(res => {
-						this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
+						// this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
 						this.broadcaster.sendMessage({enroll: this.enroll});
 						this.studentS.getCompleteConditions(this.enroll)
 						.then(res => {
