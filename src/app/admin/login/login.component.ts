@@ -69,6 +69,11 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         return;
       }
+      if(!res['UcsMetodoLoginRespuesta'] || res['UcsMetodoLoginRespuesta']['valor'] != 'Y'){
+        this.toastr.error(res['UcsMetodoLoginRespuesta'] && res['UcsMetodoLoginRespuesta'].descripcion?res['UcsMetodoLoginRespuesta'].descripcion:'No pudo loguearse, vuelva a intentarlo en unos minutos.');
+        this.loading = false;
+        return;
+      }
       this.session.setObject('user', res.UcsMetodoLoginRespuesta);
       this.session.setItem('cod_company', "002");
       this.loginS.oauthToken({

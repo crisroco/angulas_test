@@ -173,7 +173,7 @@ export class MatriculadosComponent implements OnInit {
   delete(){
     this.loading = true;
     if (this.goingToDelete.length > 1) {
-      this.newEnrollmentS.deleteCourseClassByCrseId(this.myData.EMPLID, this.goingToDelete[0]['CRSE_ID'])
+      this.newEnrollmentS.deleteCourseClassByCrseIdAdmin(this.myData.EMPLID, this.goingToDelete[0]['CRSE_ID'], this.session.getObject('user').codigoAlumno)
       .then((res) => {
         this.loading = false;
         this.deleteConfirmationModal.close();
@@ -181,7 +181,7 @@ export class MatriculadosComponent implements OnInit {
         this.loadDataStudentCourses();
       });
     } else {
-      this.newEnrollmentS.deleteCourseClass(this.goingToDelete[0].own_enrollment_id)
+      this.newEnrollmentS.deleteCourseClassAdmin(this.goingToDelete[0].own_enrollment_id, this.session.getObject('user').codigoAlumno)
       .then((res) => {
         this.loading = false;
         this.deleteConfirmationModal.close();

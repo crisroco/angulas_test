@@ -459,7 +459,8 @@ export class DisponiblesComponent implements OnInit {
       }
     }
     this.newEnrollmentS.saveCourseClass({
-      courses: result
+      courses: result,
+      emplid_admin: this.session.getObject('user').codigoAlumno
     }).then((res) => {
       if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
         let index = this.availableCourses.findIndex(val => val['own_enrollment_skillful_load_id'] == this.selectedCourse['own_enrollment_skillful_load_id']);
