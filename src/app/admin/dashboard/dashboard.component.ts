@@ -431,8 +431,9 @@ export class DashboardComponent implements OnInit {
   }
 
   uploadData(){
-    this.allData = this.session.getObject('acadmicData');
-    this.newEnrollmentS.getScheduleAutoservice({EMPLID:this.allData['EMPLID'], CAMPUS: this.allData.CAMPUS})
+    let myData = this.session.getObject('acadmicData');
+    let cycle = this.session.getObject('schoolCycle');
+    this.newEnrollmentS.getScheduleAutoservice({EMPLID: myData.EMPLID, INSTITUTION: myData.INSTITUTION, ACAD_CAREER: myData.ACAD_CAREER, STRM: cycle.CICLO_LECTIVO, CAMPUS: myData.CAMPUS})
       .then((res) => {
         this.toastr.success('Carga del Alumno Actualizada');
         setTimeout(() => {
