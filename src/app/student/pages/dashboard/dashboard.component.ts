@@ -81,6 +81,7 @@ export class DashboardComponent implements OnInit {
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
+		console.log(this.realDevice);
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
 		this.postEnrollmentModal.open();

@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from '../app.settings';
 import { WebsocketService } from '../services/websocket.service';
 import { QueueService } from '../services/queue.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -313,6 +314,7 @@ export class StudentComponent implements OnInit {
 		private intentionS: IntentionService,
 		private studentS: StudentService,
     	private broadcaster: Broadcaster,
+    	private deviceS: DeviceDetectorService,
     	private toastr: ToastrService,
 		public inputsS: InputsService,
 		private formS: FormService,
@@ -683,8 +685,14 @@ export class StudentComponent implements OnInit {
 						});
 						this.studentS.getEnrollQueueNumber(this.enroll)
 						.then(res => {
+							console.log(res);
 							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
 							var parts = this.queueEnroll.fecha_ing.split('/');
+							if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
+								var partsHour = this.queueEnroll.hora_ing.split(':');
+								var hour = Number(partsHour[0] - 5)<10?'0' + Number(partsHour[0] - 5).toString():Number(partsHour[0] - 5).toString();
+								this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
+							}
 							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.hora_ing + ':00'));
 							this.queueEnroll.date = enrollDate;
 							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});

@@ -439,6 +439,7 @@ export class DashboardComponent implements OnInit {
   }
 
   uploadData(){
+    this.loading = true;
     let myData = this.session.getObject('acadmicData');
     let cycle = this.session.getObject('schoolCycle');
     this.newEnrollmentS.getDataStudentEnrollment({EMPLID: this.studentCode})
@@ -446,9 +447,10 @@ export class DashboardComponent implements OnInit {
         this.newEnrollmentS.getScheduleAutoservice({EMPLID: this.studentCode, CAMPUS: res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0].CAMPUS})
         .then((res) => {
           this.toastr.success('Carga del Alumno Actualizada');
-          // setTimeout(() => {
-          //   location.reload();
-          // }, 1000)
+          setTimeout(() => {
+            this.loading = false;
+            location.reload();
+          }, 1000)
         });
       });
   }
