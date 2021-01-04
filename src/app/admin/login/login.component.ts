@@ -53,10 +53,6 @@ export class LoginComponent implements OnInit {
 
   login(){
     if (this.loginForm.invalid) { this.toastr.error('Complete todos los campos.'); return;}
-    // if (!this.available.includes(this.loginForm.value.email)) {
-    //   this.toastr.error('No cuentas con los accesos necesarios');
-    //   return;
-    // }
     let data = this.loginForm.value;
     this.loading = true;
     this.variable = btoa(this.cientifica_data.empresa_url + "&&" + data.email.toUpperCase() + "&&" + data.password);

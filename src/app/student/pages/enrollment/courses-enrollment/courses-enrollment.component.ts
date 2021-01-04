@@ -61,18 +61,6 @@ export class CoursesEnrollmentComponent implements OnInit {
         return
       }, 1500)
     }
-    this.newEnrollmentS.getDataStudentEnrollment({EMPLID: this.user.codigoAlumno})
-      .then((res) => {
-        let std = res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0];
-        if (std.COND_ACAD != 'Y' || std.COND_FINAN != 'Y') {
-          std = '';
-          this.toastS.error('No aceptaste las Condiciones Académicas y/o Financieras')
-          setTimeout(() => {
-          this.router.navigate(['/estudiante']);
-            return
-          }, 1500)
-        }
-      });
     this.loadDataStudentCourses();
   }
 
