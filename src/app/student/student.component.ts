@@ -594,8 +594,8 @@ export class StudentComponent implements OnInit {
 				let activeData = res.UCS_CICLOALU_RSP.UCS_CICLOALU_COM[0];
 				this.studentS.getEnrollSchedule(this.enroll.OPRID + '/' + activeData.INSTITUCION + '/' + this.enroll.ACAD_CAREER + '/' + activeData.PROGRAMA + '/' + activeData.PLAN + '/' + this.enroll.EMPLID + '/' + activeData.CICLO)
 					.then(res => {
-						// let allData: Array<any> = res.UCS_REST_HORARIOV2_RES && res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM?res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM:[];
-						let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
+						let allData: Array<any> = res.UCS_REST_HORARIOV2_RES && res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM?res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM:[];
+						// let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
 						var objCycles = {};
 						allData.forEach( (item)  => {
 							if(!objCycles[item.UCS_CICLO]){
