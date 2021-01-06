@@ -105,12 +105,6 @@ export class DashboardComponent implements OnInit {
           this.toastr.error('El alumno no existe');
           return;
         }
-        if (this.isthisStudent.COND_ACAD != 'Y' || this.isthisStudent.COND_FINAN != 'Y') {
-          this.isthisStudent = '';
-          this.studentCode = '';
-          this.toastr.error('El alumno aun no acepta las Condiciones Académicas y/o Financieras')
-          return;
-        }
       });
   }
 
