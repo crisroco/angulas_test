@@ -85,7 +85,8 @@ export class DashboardComponent implements OnInit {
               this.selecStudentModal.close();
             });
         } else {
-          this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.')
+          this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+          this.loading = false;
         }
       });
   }
