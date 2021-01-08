@@ -182,9 +182,6 @@ export class WeeklyScheduleComponent implements OnInit {
 			else{
 	            realClass.STATUS = 'ER';
 			}
-			console.log(difference2);
-			console.log(difference3)
-			console.log(realClass);
 
             this.assistanceS.saveAssistance(realClass)
             .then(res => {
@@ -323,10 +320,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		this.realModal = modal;
 		this.realClass = event.meta;
 		this.realHourStart = RealDate(event.start);
-		console.log(event.start);
 		this.realHourEnd = RealDate(event.end);
-		console.log(event);
-		console.log(this.realHourEnd);
 	}
 
 	ngOnDestroy() {

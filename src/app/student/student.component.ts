@@ -328,7 +328,7 @@ export class StudentComponent implements OnInit {
 			this.getParameters();
 		}
 		this.initUpdatePersonalData();
-		// this.checkInList();
+		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();

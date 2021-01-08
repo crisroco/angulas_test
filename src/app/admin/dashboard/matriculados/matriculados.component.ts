@@ -55,6 +55,7 @@ export class MatriculadosComponent implements OnInit {
         let example = res.sort(this.dynamicSortMultiple(["CRSE_ID"]));
         let credits = 0;
         let oneTimeCourse;
+        console.log(example);
         for (let i = 0; i < example.length; i++) {
           if (oneTimeCourse == example[i]['CRSE_ID']) {
           } else {
@@ -64,6 +65,7 @@ export class MatriculadosComponent implements OnInit {
             if (example[i].trash) {
               credits += number;
             }
+            console.log(credits);
           }
         }
         this.myCredits = credits;

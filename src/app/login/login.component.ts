@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     	private deviceS: DeviceDetectorService) { }
 
 	ngOnInit() {
-		this.piezaModal.open();
+		// this.piezaModal.open();
 		this.loginForm = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],

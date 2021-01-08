@@ -81,7 +81,6 @@ export class DashboardComponent implements OnInit {
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
-		console.log(this.realDevice);
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
 		this.postEnrollmentModal.open();
@@ -254,8 +253,6 @@ export class DashboardComponent implements OnInit {
 					this.currentNextClass = actualC;
 					this.getLink(actualC);
 				}
-				// this.currentNextClass = actualC;
-				// this.getLink(actualC);
 			}
   		}
 	}
@@ -280,71 +277,73 @@ export class DashboardComponent implements OnInit {
 			var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
 			var realHourStart = this.realHourStart.year + '-' + this.realHourStart.month + '-' + this.realHourStart.day;
 			let clases = res['RES_INST_CRSE_MAT_NBR']['COM_INST_CRSE_MAT_NBR'];
-			for (let i = 0; i < clases.length; i++) {
-				let sending = 0;
-		        let data3 = {
-		            INSTITUTION : clases[i]['INSTITUTION'],
-		            ACAD_CAREER : clases[i]['ACAD_CAREER'],
-		            CLASS_ATTEND_DT: realClass.FECH_INI,
-		            STRM : realClass.STRM,
-		            CRSE_ID: clases[i]['CRSE_ID'],
-		            CLASS_NBR : clases[i]['CLASS_NBR'],
-		            CLASS_MTG_NBR: clases[i]['CLASS_MTG_NBR'],
-		            EMPLID :  this.student.codigoAlumno,
-		            ATTEND_TMPLT_NBR : '0',
-		            ATTEND_PRESENT : 'Y',
-		            ATTEND_LEFT_EARLY :'N',
-		            ATTEND_TARDY : 'N',
-		            ATTEND_REASON : "",
-		            platform : 'Moodle',
-		            STATUS : 'ER'
-		        };
-		        var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
-            	var difference2 = (this.realHourEnd.timesecond - this.realHourStart.timeseconds)/2;
-            	var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
-            	if(Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0) || (this.realHourStart.timeseconds  < this.realDate.timeseconds && this.realDate.timeseconds < this.realHourEnd.timesecond)){
-		            tclassNbr = clases[i];
-		            sending = 1;
-		            if(this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute){
-		            	realClass.STATUS = 'P';
-		            }
-		            else if(difference <= this.offsetHour && difference > 0){
-		            	realClass.ATTEND_LEFT_EARLY = 'Y';
-		            	realClass.STATUS = 'E';
-		            }
-		            else if((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)){
-	            		realClass.ATTEND_TARDY = 'Y';
-		            	realClass.STATUS = 'L';
-		            }
-		            else{
-		            	realClass.STATUS = 'ER';
-		            	tclassNbr = 0;
-                        sending = 0;
-		            }
-		        } else {
-		        	if(clases[i]['SESSION_CODE'] == 2){
-		        		if (tclassNbr) {
-		        			var partTime = tclassNbr['MEETING_TIME_END'].split(':');
-							var partMinute = parseInt(partTime[1]) + 10;
-							var partHour = parseInt(partTime[0])
-							if(partMinute >= 60){
-								partHour++;
-								partMinute = partMinute%60;
-							} if(clases[i]['MEETING_TIME_START'] == tclassNbr['MEETING_TIME_END'] || (clases[i]['MEETING_TIME_START'] > tclassNbr['MEETING_TIME_END'] && clases[i]['MEETING_TIME_START'] <= partHour + ':'  + partMinute )){
-		                        sending = 1;
-		                        data3['STATUS'] = 'P';
-		                    }
-		        		}
-		            }
-		        }
-		        if (sending) {
-		        	this.assistanceS.getAssistanceNBR(data3)
-						.then(res => {
-				            this.assistanceS.saveAssistance(data3)
-				            .then(res => {
-				            });
-						});
-		        }
+			if (clases) {
+				for (let i = 0; i < clases.length; i++) {
+					let sending = 0;
+			        let data3 = {
+			            INSTITUTION : clases[i]['INSTITUTION'],
+			            ACAD_CAREER : clases[i]['ACAD_CAREER'],
+			            CLASS_ATTEND_DT: realClass.FECH_INI,
+			            STRM : realClass.STRM,
+			            CRSE_ID: clases[i]['CRSE_ID'],
+			            CLASS_NBR : clases[i]['CLASS_NBR'],
+			            CLASS_MTG_NBR: clases[i]['CLASS_MTG_NBR'],
+			            EMPLID :  this.student.codigoAlumno,
+			            ATTEND_TMPLT_NBR : '0',
+			            ATTEND_PRESENT : 'Y',
+			            ATTEND_LEFT_EARLY :'N',
+			            ATTEND_TARDY : 'N',
+			            ATTEND_REASON : "",
+			            platform : 'Moodle',
+			            STATUS : 'ER'
+			        };
+			        var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
+	            	var difference2 = (this.realHourEnd.timesecond - this.realHourStart.timeseconds)/2;
+	            	var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
+	            	if(Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0) || (this.realHourStart.timeseconds  < this.realDate.timeseconds && this.realDate.timeseconds < this.realHourEnd.timesecond)){
+			            tclassNbr = clases[i];
+			            sending = 1;
+			            if(this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute){
+			            	realClass.STATUS = 'P';
+			            }
+			            else if(difference <= this.offsetHour && difference > 0){
+			            	realClass.ATTEND_LEFT_EARLY = 'Y';
+			            	realClass.STATUS = 'E';
+			            }
+			            else if((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)){
+		            		realClass.ATTEND_TARDY = 'Y';
+			            	realClass.STATUS = 'L';
+			            }
+			            else{
+			            	realClass.STATUS = 'ER';
+			            	tclassNbr = 0;
+	                        sending = 0;
+			            }
+			        } else {
+			        	if(clases[i]['SESSION_CODE'] == 2){
+			        		if (tclassNbr) {
+			        			var partTime = tclassNbr['MEETING_TIME_END'].split(':');
+								var partMinute = parseInt(partTime[1]) + 10;
+								var partHour = parseInt(partTime[0])
+								if(partMinute >= 60){
+									partHour++;
+									partMinute = partMinute%60;
+								} if(clases[i]['MEETING_TIME_START'] == tclassNbr['MEETING_TIME_END'] || (clases[i]['MEETING_TIME_START'] > tclassNbr['MEETING_TIME_END'] && clases[i]['MEETING_TIME_START'] <= partHour + ':'  + partMinute )){
+			                        sending = 1;
+			                        data3['STATUS'] = 'P';
+			                    }
+			        		}
+			            }
+			        }
+			        if (sending) {
+			        	this.assistanceS.getAssistanceNBR(data3)
+							.then(res => {
+					            this.assistanceS.saveAssistance(data3)
+					            .then(res => {
+					            });
+							});
+			        }
+				}
 			}
 			this.checkAssist();
 		});
@@ -358,9 +357,11 @@ export class DashboardComponent implements OnInit {
 		d.setMinutes(minute);
 		d.setSeconds(0);
 		let timeStamp = d.getTime().toString().slice(0, -3);
-		this.studentS.getLinkZoom(cls['STRM'], cls['CLASS_NBR2'], Number(timeStamp))
+		this.studentS.getLinkZoom(cls['STRM'], cls['CLASS_NBR2'], Number(timeStamp), cls['DOCENTE'], cls['CLASS_SECTION'])
 			.then((res) => {
-				this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
+				if (!res.includes('false')) {
+					this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
+				}
 			});
 	}
 	

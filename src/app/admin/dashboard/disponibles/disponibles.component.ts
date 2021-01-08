@@ -292,17 +292,20 @@ export class DisponiblesComponent implements OnInit {
         this.myCoursesinEnrollment = res.sort((a,b) => {
           return a.CRSE_ID - b.CRSE_ID
         });
+        let example = res.sort(this.dynamicSortMultiple(["CRSE_ID"]));
         let credits = 0;
         let oneTimeCourse;
-        for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
-          if (oneTimeCourse == this.myCoursesinEnrollment[i]['CRSE_ID']) {
+        console.log(example);
+        for (let i = 0; i < example.length; i++) {
+          if (oneTimeCourse == example[i]['CRSE_ID']) {
           } else {
-            oneTimeCourse = this.myCoursesinEnrollment[i]['CRSE_ID'];
-            let existInfo = this.myCoursesinEnrollment[i]['status'] == 'B' && !this.myCoursesinEnrollment[i]['units_repeat_limit2'];
-            let number = existInfo?Number(this.myCoursesinEnrollment[i]['UNITS_REPEAT_LIMIT']):Number(this.myCoursesinEnrollment[i]['units_repeat_limit2']);
-            if ((this.myCoursesinEnrollment[i].status == 'I' && this.myCoursesinEnrollment[i].units_repeat_limit2) || (this.myCoursesinEnrollment[i].status == 'B')) {
+            oneTimeCourse = example[i]['CRSE_ID'];
+            let existInfo = example[i]['status'] == 'B' && !example[i]['units_repeat_limit2'];
+            let number = existInfo?Number(example[i]['UNITS_REPEAT_LIMIT']):Number(example[i]['units_repeat_limit2']);
+            if ((example[i].status == 'I' && example[i].units_repeat_limit2) || (example[i].status == 'B')) {
               credits += number;
             }
+            console.log(credits);
           }
         }
         this.myCredits = credits;
