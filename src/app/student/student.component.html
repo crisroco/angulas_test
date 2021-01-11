@@ -30,8 +30,8 @@
 			<a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
 			<a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
 			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
-			<!-- <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a> -->
-			<a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
+			<a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a>
+			<!-- <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a> -->
 			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
 		</div>
 	</div>
