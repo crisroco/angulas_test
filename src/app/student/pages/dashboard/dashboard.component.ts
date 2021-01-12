@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		// this.SurveyModal.open();
 		// this.SurveyModal2.open();
-		this.postEnrollmentModal.open();
+		// this.postEnrollmentModal.open();
 		// this.aficheModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
