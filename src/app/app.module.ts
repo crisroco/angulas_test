@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ToastrModule } from 'ngx-toastr';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     DeviceDetectorModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxDropzoneModule
   ],
   providers: [
     SessionService

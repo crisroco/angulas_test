@@ -1,454 +1,577 @@
 <div class="row bg-{{company}} header">
-	<div class="row container-2 mx-auto px-3 align-items-center justify-content-between">
-		<img src="./assets/img//logo.png" class="img-hs">
-		<a href="/estudiante" class="text-m text-white py-3 bd-b-5 bd-black"> <h5 class="m-0"> <strong> INICIO </strong> </h5> </a>
-		<div class="row position-relative">
-			<div class="circle-q bg-white-a pointer" (click)="menus = !menus">
-				<img src="./assets/img/icon/user.png" class="img-q"> 
-			</div>
-			<div class="bg-white drop" *ngIf="menus">
-				<!-- <a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-{{company}} p-2 px-3 bd-b-1 bd-{{company}}"> <i class="fa fa-lock"></i> Cambiar contraseña</a> -->
-				<a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
-			</div>
-		</div>
-			
-	</div>
+    <div class="row container-2 mx-auto px-3 align-items-center justify-content-between">
+        <img src="./assets/img//logo.png" class="img-hs">
+        <a href="/estudiante" class="text-m text-white py-3 bd-b-5 bd-black">
+            <h5 class="m-0"> <strong> INICIO </strong> </h5>
+        </a>
+        <div class="row position-relative">
+            <div class="circle-q bg-white-a pointer" (click)="menus = !menus">
+                <img src="./assets/img/icon/user.png" class="img-q">
+            </div>
+            <div class="bg-white drop" *ngIf="menus">
+                <!-- <a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-{{company}} p-2 px-3 bd-b-1 bd-{{company}}"> <i class="fa fa-lock"></i> Cambiar contraseña</a> -->
+                <a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <!-- <div class="post-header "> -->
-	<router-outlet></router-outlet>
+<router-outlet></router-outlet>
 <!-- </div> -->
 
 <div class="footer">
-	<div class="row bg-{{company}}-a">
-		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
-			<a (click)="openIntentionEnrollment()" *ngIf="enrollmentIntentionStatus && enrollmentIntentionStatus.enrollment_intention_status == 'A' && enrollmentIntentionStatus.authorizacion && enrollmentIntentionStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
-			<a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
-			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
-			<!-- <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a> -->
-			<a *ngIf="enroll" (click)="getEnrollSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
-			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
-		</div>
-	</div>
+    <div class="row bg-{{company}}-a">
+        <div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
+            <a (click)="openIntentionEnrollment()" *ngIf="enrollmentIntentionStatus && enrollmentIntentionStatus.enrollment_intention_status == 'A' && enrollmentIntentionStatus.authorizacion && enrollmentIntentionStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
+            <a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
+            <a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
+            <!-- <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a> -->
+            <a (click)="vacunaModal.open()" class="text-m text-white pointer"> Control de vacunas </a>
+            <a *ngIf="enroll" (click)="getEnrollSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
+            <a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
+        </div>
+    </div>
 </div>
 
 <ngx-smart-modal #libraryModal identifier="libraryModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
-	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
-		<h5 class=""> <strong> BIBLIOTECA EN LÍNEA </strong> </h5>
-		<a (click)="libraryModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
-	</div>
-	<div class="scroll">
-		<div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let typelibrary of typeLibraries">
-			<div (click)="toggle(typelibrary)" class="bg-{{company}} p-2 text-white pointer">
-				{{typelibrary.name}}
-			</div>
-			<div [@openClose]="typelibrary.isOpen ? 'open' : 'closed'" class="pd-3 {{typelibrary.subtypes?'':'scroll'}}">
-				<div *ngIf="!typelibrary.subtypes" class="row nowrap align-items-center">
-					<a [style.width]="library.width" href="{{library.url}}" target="_blank" class="row text-center {{l > 0?'ml-3':''}}" *ngFor="let library of typelibrary.libraries; let l = 'index'">
-						<img [style.width]="library.width" src="{{library.img}}">
-						{{library.description}}
-					</a>
-				</div>
-				<div *ngIf="typelibrary.subtypes">
-					<div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" *ngFor="let subtypelibrary of typelibrary.subtypes">
-						<div (click)="toggle(subtypelibrary)" class="bg-gray p-2 pointer">
-							{{subtypelibrary.name}}
-						</div>
-						<div [@openClose]="subtypelibrary.isOpen ? 'open' : 'closed'" class="pd-3 row nowrap align-items-center scroll" >
-							<a [style.width]="librarySub.width" href="{{librarySub.url}}" target="_blank" class="row text-center {{ls > 0?'ml-3':''}}" *ngFor="let librarySub of subtypelibrary.libraries; let ls = 'index'">
-								<img [style.width]="librarySub.width" src="{{librarySub.img}}">
-								{{librarySub.description}}
-							</a>
-							<div *ngIf="subtypelibrary.name == 'Ciencias de la Salud'" role="button" (click)="openHumanityModal()" [style.width]="103" class="row text-center ml-3">
-								<img style="width: 103px;" src="assets/img/biblioteca/2-3.png">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+        <h5 class=""> <strong> BIBLIOTECA EN LÍNEA </strong> </h5>
+        <a (click)="libraryModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+    </div>
+    <div class="scroll">
+        <div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let typelibrary of typeLibraries">
+            <div (click)="toggle(typelibrary)" class="bg-{{company}} p-2 text-white pointer">
+                {{typelibrary.name}}
+            </div>
+            <div [@openClose]="typelibrary.isOpen ? 'open' : 'closed'" class="pd-3 {{typelibrary.subtypes?'':'scroll'}}">
+                <div *ngIf="!typelibrary.subtypes" class="row nowrap align-items-center">
+                    <a [style.width]="library.width" href="{{library.url}}" target="_blank" class="row text-center {{l > 0?'ml-3':''}}" *ngFor="let library of typelibrary.libraries; let l = 'index'">
+                        <img [style.width]="library.width" src="{{library.img}}"> {{library.description}}
+                    </a>
+                </div>
+                <div *ngIf="typelibrary.subtypes">
+                    <div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" *ngFor="let subtypelibrary of typelibrary.subtypes">
+                        <div (click)="toggle(subtypelibrary)" class="bg-gray p-2 pointer">
+                            {{subtypelibrary.name}}
+                        </div>
+                        <div [@openClose]="subtypelibrary.isOpen ? 'open' : 'closed'" class="pd-3 row nowrap align-items-center scroll">
+                            <a [style.width]="librarySub.width" href="{{librarySub.url}}" target="_blank" class="row text-center {{ls > 0?'ml-3':''}}" *ngFor="let librarySub of subtypelibrary.libraries; let ls = 'index'">
+                                <img [style.width]="librarySub.width" src="{{librarySub.img}}"> {{librarySub.description}}
+                            </a>
+                            <div *ngIf="subtypelibrary.name == 'Ciencias de la Salud'" role="button" (click)="openHumanityModal()" [style.width]="103" class="row text-center ml-3">
+                                <img style="width: 103px;" src="assets/img/biblioteca/2-3.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #humanityModal identifier="humanityModal" [closable]="false" [customClass]="''">
-	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
-		<h5 class=""> <strong> Complete Anatomy </strong> </h5>
-		<a (click)="humanityModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
-	</div>
+    <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+        <h5 class=""> <strong> Complete Anatomy </strong> </h5>
+        <a (click)="humanityModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+    </div>
 
-  	<div class="mb-3 rounded-1 scroll h-m bd-1 text-container">
-		<div class="text p-3">
-			<p>Herramienta para uso de los alumnos y docentes de los cursos Anatomía y Morfofisiología de las carreras de Ciencias de la Salud.
-			Para mayor información comunicarse al correo: biblioteca@cientifica.edu.pe</p>
-		</div>
-	</div>
+    <div class="mb-3 rounded-1 scroll h-m bd-1 text-container">
+        <div class="text p-3">
+            <p>Herramienta para uso de los alumnos y docentes de los cursos Anatomía y Morfofisiología de las carreras de Ciencias de la Salud. Para mayor información comunicarse al correo: biblioteca@cientifica.edu.pe</p>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #linkModal identifier="linkModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
-	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
-		<h5 class=""> <strong> MIS LINKS </strong> </h5>
-		<a (click)="linkModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
-	</div>
-	<div class="scroll">
-		<div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let typeLink of typeLinks">
-			<div (click)="toggle(typeLink)" class="bg-{{company}} p-2 text-white pointer">
-				{{typeLink.name}}
-			</div>
-			<div [@openClose]="typeLink.isOpen ? 'open' : 'closed'" class="pd-3">
-				<div class="" *ngFor="let link of typeLink.links; let l = 'index'">
-					<a [style.width]="link.width" href="{{link.url}}" target="_blank" class="text-center text-black">
+    <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+        <h5 class=""> <strong> MIS LINKS </strong> </h5>
+        <a (click)="linkModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+    </div>
+    <div class="scroll">
+        <div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let typeLink of typeLinks">
+            <div (click)="toggle(typeLink)" class="bg-{{company}} p-2 text-white pointer">
+                {{typeLink.name}}
+            </div>
+            <div [@openClose]="typeLink.isOpen ? 'open' : 'closed'" class="pd-3">
+                <div class="" *ngFor="let link of typeLink.links; let l = 'index'">
+                    <a [style.width]="link.width" href="{{link.url}}" target="_blank" class="text-center text-black">
 						{{link.description}}
 					</a>
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #vacunaModal identifier="vacunaModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
+    <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+        <h5 class=""> <strong> CONTROL DE VACUNAS </strong> </h5>
+        <a (click)="vacunaModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+    </div>
+    <div class="scroll">
+
+
+        <div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray">
+            <div class="bg-{{company}} p-2 text-m text-white">
+                <b>Subir Archivos</b>
+            </div>
+            <div class="pd-2 row nowrap align-items-center">
+                <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
+                    <ngx-dropzone (change)="onSelect($event)">
+                        <ngx-dropzone-label>sube ó arrastra tus archivos aqui!</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded-s scroll h-auto">
+            <table class="w-100">
+                <thead class="bg-{{company}} text-white">
+                    <tr class="text-center text-s">
+                        <th class="px-1 py-2 align-middle text-left text-m">#</th>
+                        <th class="px-1 py-2 align-middle text-left text-m">Archivo</th>
+                        <th class="px-1 py-2 align-middle text-m">Estado</th>
+                        <th class="px-1 py-2 align-middle text-m">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center text-m" *ngIf="datafile.length==0">
+                        <td class="text-center" colspan="100%">
+                            <div class="alert alert-danger" role="alert">
+                                No existen adjunto(s) almacenado(s)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="text-center text-m" *ngFor="let item of datafile;let s=index">
+                        <td class="p-1 text-left">{{s +1}}</td>
+                        <td class="p-1 text-left">{{item.original_name}}</td>
+                        <td class="p-1">
+                            <span class="badge badge-pill badge-secondary" *ngIf="item.estado!='1'">Pendiente</span>
+                            <span class="badge badge-pill badge-success" *ngIf="item.estado=='1'">Aceptado</span>
+                        </td>
+                        <td class="p-1">
+                            <button class="btn btn-sm btn-danger" [disabled]="item.estado=='1'" (click)="preDeleteUpload(item.id)"><i class="fa fa-trash-o"></i></button>&nbsp;
+                            <a class="btn btn-sm btn-primary" target="_blank" href="{{item.ruta_file}}"><i class="fa fa-eye"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p></p>
+    <div class="modal-footer">
+        <button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="upload()"><i class="fa fa-floppy-o"></i> Cargar Adjuntos</button>
+        <button class="btn rounded-1 px-4 btn-{{company}} mr-3" [disabled]="this.flagSendUpload" (click)="ConfirmSendUploadModal.open()"><i class="fa fa-check"></i> Aceptar declaración Jurada</button>
+    </div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #ConfirmSendUploadModal identifier="ConfirmSendUploadModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a (click)="ConfirmSendUploadModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Declaración Jurada</h5>
+        <div class="bg-gray p-2 text-center mb-2">
+            ¿Estás seguro de aceptar la declaración jurada?
+        </div>
+
+        <div class="row mb-2" style="margin-bottom:15px;">
+            <a style="text-decoration: underline;" target="_blank" href="">descargue la declaración jurada aquí <i class="fa fa-paperclip"></i></a>
+        </div>
+
+        <div class="row" style="margin-bottom:15px;">
+
+            <div class="input-group">
+                <input type="file" #file placeholder="Choose file" style="display:none;" />
+                <label class="form-control bg-gray p-2 text-center mb-2" for="customFile" id="lblfile">seleccione archivo</label>
+                <span class="input-group-btn">                     
+                     <button type="button" class="btn btn-dark" style="border-radius: 0rem !important">Upload File</button>                  
+                  </span>
+            </div>
+
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <button (click)="sendUploadPS()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+            <button (click)="ConfirmSendUploadModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #ConfirmEliminadUploadModal identifier="ConfirmEliminadUploadModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a (click)="ConfirmEliminadUploadModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Eliminar Adjunto</h5>
+        <div class="bg-gray p-2 text-center mb-2">
+            ¿Estás seguro de eliminar adjunto?
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <button (click)="deleteUpload(this.idfile)" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+            <button (click)="ConfirmEliminadUploadModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #EnrollScheduleModal identifier="EnrollScheduleModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'largeModal p-post-header'">
-	<div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
-		<h5 class=""> <strong> CONSULTA DE HORARIOS </strong> </h5>
-		<a (click)="EnrollScheduleModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
-	</div>
-	<div class="scroll">
-		<div *ngIf="enrollCycles && enrollCycles.length">
-			<div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let cycles of enrollCycles">
-				<div (click)="toggle(cycles)" class="bg-{{company}} p-2 text-white pointer">
-					Ciclo {{cycles.name}}
-				</div>
-				<div [@openClose]="cycles.isOpen ? 'open' : 'closed'" class="pd-3">
-					<div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" *ngFor="let course of cycles.courses">
-						<div (click)="toggle(course)" class="bg-gray p-2 pointer">
-							<strong> Curso: {{course.name}} - {{course.type}} </strong>
-						</div>
-						<div [@openClose]="course.isOpen ? 'open' : 'closed'" class="pd-2">
-							<div class="scroll h-auto">
-								<table class="w-100">
-									<thead class="">
-										<tr class="text-center text-xs bg-{{company}}-a text-white">
-											<th class="px-2 py-2 align-middle text-left">TIPO</th>
-											<th class="px-2 py-2 align-middle">SECCIÓN</th>
-											<th class="px-2 py-2 align-middle">DÍA</th>
-											<th class="px-2 py-2 align-middle">AULA - LOCAL</th>
-											<th class="px-2 py-2 align-middle">FECHA INICIO</th>
-											<th class="px-2 py-2 align-middle">HORA INICIO</th>
-											<th class="px-2 py-2 align-middle">HORA FIN</th>
-											<th class="px-2 py-2 align-middle">DOCENTE</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="text-center text-s" *ngFor="let vclass of course.schedule; let s = 'index'">
-											<td class="px-2 py-1 text-left">{{ vclass.SSR_COMPONENT }}</td>
-											<td class="px-2 py-1">{{ vclass.CLASS_SECTION }}</td>
-											<td class="px-2 py-1">{{ vclass.UCS_DIA }}</td>
-											<td class="px-2 py-1">{{ vclass.FACILITY_ID + ' / ' + vclass.UCS_FACILITY_DESC + ' ' + vclass.UCS_BLDG_DESC }}</td>
-											<td class="px-2 py-1">{{ vclass.UCS_FECHA_INICIO }}</td>
-											<td class="px-2 py-1">{{ vclass.UCS_HORA_INCIO }}</td>
-											<td class="px-2 py-1">{{ vclass.UCS_HORA_FIN }}</td>
-											<td class="px-2 py-1">{{ vclass.UCS_PROFESOR }}</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div *ngIf="enrollCycles && !enrollCycles.length">
-			<div class="p-2">
-				Los horarios no se encuentran actualmente disponibles
-			</div>
-		</div>
-		<div *ngIf="!enrollCycles">
-			<div class="p-2">
-				Cargando Horario...
-			</div>
-		</div>
-	</div>
+    <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+        <h5 class=""> <strong> CONSULTA DE HORARIOS </strong> </h5>
+        <a (click)="EnrollScheduleModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+    </div>
+    <div class="scroll">
+        <div *ngIf="enrollCycles && enrollCycles.length">
+            <div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let cycles of enrollCycles">
+                <div (click)="toggle(cycles)" class="bg-{{company}} p-2 text-white pointer">
+                    Ciclo {{cycles.name}}
+                </div>
+                <div [@openClose]="cycles.isOpen ? 'open' : 'closed'" class="pd-3">
+                    <div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" *ngFor="let course of cycles.courses">
+                        <div (click)="toggle(course)" class="bg-gray p-2 pointer">
+                            <strong> Curso: {{course.name}} - {{course.type}} </strong>
+                        </div>
+                        <div [@openClose]="course.isOpen ? 'open' : 'closed'" class="pd-2">
+                            <div class="scroll h-auto">
+                                <table class="w-100">
+                                    <thead class="">
+                                        <tr class="text-center text-xs bg-{{company}}-a text-white">
+                                            <th class="px-2 py-2 align-middle text-left">TIPO</th>
+                                            <th class="px-2 py-2 align-middle">SECCIÓN</th>
+                                            <th class="px-2 py-2 align-middle">DÍA</th>
+                                            <th class="px-2 py-2 align-middle">AULA - LOCAL</th>
+                                            <th class="px-2 py-2 align-middle">FECHA INICIO</th>
+                                            <th class="px-2 py-2 align-middle">HORA INICIO</th>
+                                            <th class="px-2 py-2 align-middle">HORA FIN</th>
+                                            <th class="px-2 py-2 align-middle">DOCENTE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="text-center text-s" *ngFor="let vclass of course.schedule; let s = 'index'">
+                                            <td class="px-2 py-1 text-left">{{ vclass.SSR_COMPONENT }}</td>
+                                            <td class="px-2 py-1">{{ vclass.CLASS_SECTION }}</td>
+                                            <td class="px-2 py-1">{{ vclass.UCS_DIA }}</td>
+                                            <td class="px-2 py-1">{{ vclass.FACILITY_ID + ' / ' + vclass.UCS_FACILITY_DESC + ' ' + vclass.UCS_BLDG_DESC }}</td>
+                                            <td class="px-2 py-1">{{ vclass.UCS_FECHA_INICIO }}</td>
+                                            <td class="px-2 py-1">{{ vclass.UCS_HORA_INCIO }}</td>
+                                            <td class="px-2 py-1">{{ vclass.UCS_HORA_FIN }}</td>
+                                            <td class="px-2 py-1">{{ vclass.UCS_PROFESOR }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="enrollCycles && !enrollCycles.length">
+            <div class="p-2">
+                Los horarios no se encuentran actualmente disponibles
+            </div>
+        </div>
+        <div *ngIf="!enrollCycles">
+            <div class="p-2">
+                Cargando Horario...
+            </div>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #IntentionEnrollmentModal identifier="IntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3">
-			<a *ngIf="!noClosed || (this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI')" (click)="IntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-		</div>
-	</div>
-	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Intención de Matricula</h5>
-		<p class="text-m">Queremos abrir los cursos que ustedes necesiten, por eso, es importante que respondas.  Por favor llena el siguiente formulario, te tomará menos de dos minutos. </p>
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a *ngIf="!noClosed || (this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI')" (click)="IntentionEnrollmentModal.close()"
+                class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Intención de Matricula</h5>
+        <p class="text-m">Queremos abrir los cursos que ustedes necesiten, por eso, es importante que respondas. Por favor llena el siguiente formulario, te tomará menos de dos minutos. </p>
 
-		<div class="bg-gray p-2 text-center mb-2">
-			¿Te matricularás en el Verano 2021?
-		</div>
+        <div class="bg-gray p-2 text-center mb-2">
+            ¿Te matricularás en el Verano 2021?
+        </div>
 
-		<div class="row justify-content-center mb-3">
-			<button (click)="openYesMofal()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
-			<button (click)="openNotModal()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
-		</div>
-	</div>
+        <div class="row justify-content-center mb-3">
+            <button (click)="openYesMofal()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+            <button (click)="openNotModal()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #NotIntentionEnrollmentModal identifier="NotIntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3" *ngIf="this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI'">
-			<a (click)="NotIntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-		</div>
-	</div>
-	<div class="text-left p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-l">Por favor indica las razones de tu elección</h5>
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3" *ngIf="this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI'">
+            <a (click)="NotIntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-left p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-l">Por favor indica las razones de tu elección</h5>
 
-		<div class="form-group">
-		    <div class="form-check" *ngFor="let motive of motives">
-				<input class="form-check-input" type="checkbox" id="{{motive.MOTIVO_COD}}" [(ngModel)]="motive.value" value="{{motive.MOTIVO_COD}}">
-				<label class="form-check-label" for="{{motive.MOTIVO_COD}}"> {{motive.MOTIVO_DESC}} </label>
-		    </div>
-	  	</div>
-	</div>
-	<div class="row justify-content-center mb-3">
-		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveNotIntention()">GRABAR</button>
-	</div>
+        <div class="form-group">
+            <div class="form-check" *ngFor="let motive of motives">
+                <input class="form-check-input" type="checkbox" id="{{motive.MOTIVO_COD}}" [(ngModel)]="motive.value" value="{{motive.MOTIVO_COD}}">
+                <label class="form-check-label" for="{{motive.MOTIVO_COD}}"> {{motive.MOTIVO_DESC}} </label>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mb-3">
+        <button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveNotIntention()">GRABAR</button>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #YesIntentionEnrollmentModal identifier="YesIntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3" *ngIf="this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI'">
-			<a (click)="YesIntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-		</div>
-	</div>
-	<div class="text-left p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-l">Verano 2021</h5>
-		<p> Elige tu intención de matrícula </p>
-		<div class="form-group scroll h-s">
-		    <table id="table-students" class="w-100">
-				<thead class="">
-					<tr class="text-center text-s">
-						<th class="px-1 py-2 text-{{company}} text-left text-m">Curso</th>
-						<th class="px-1 py-2 text-{{company}} align-middle text-m">Créditos</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="text-center text-s" *ngFor="let course of courses">
-						<td class="p-1 text-left">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" value="{{course.CRSE_ID}}">
-								<label class="form-check-label" for="{{course.CRSE_ID}}"> {{course.CRSE_DESC}} </label>
-						    </div>
-						</td>
-						<td class="p-1 text-center"> {{course.CREDITO}} </td>
-					</tr>
-				</tbody>
-			</table>
-	  	</div>
-		<div class="mb-2">
-			<textarea class="form-control" [(ngModel)]="comment" placeholder="¿Te falta algún curso?"> </textarea>
-		</div>	
-		<div class="bg-gray p-2 mb-2">
-			La intención de matricula no asegura un cupo en el curso elegido. Recuerda que los cursos son 100% virtuales.
-		</div>	
-	</div>
-	<div class="row justify-content-center mb-3 px-5">
-		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveYesIntention()">GRABAR</button>
-	</div>
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3" *ngIf="this.enrollmentIntentionStatus && this.enrollmentIntentionStatus.enrollment_intention_status == 'A' && this.enrollmentIntentionStatus.authorizacion && this.enrollmentIntentionStatus.authorizacion.ended_process == 'SI'">
+            <a (click)="YesIntentionEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-left p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-l">Verano 2021</h5>
+        <p> Elige tu intención de matrícula </p>
+        <div class="form-group scroll h-s">
+            <table id="table-students" class="w-100">
+                <thead class="">
+                    <tr class="text-center text-s">
+                        <th class="px-1 py-2 text-{{company}} text-left text-m">Curso</th>
+                        <th class="px-1 py-2 text-{{company}} align-middle text-m">Créditos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center text-s" *ngFor="let course of courses">
+                        <td class="p-1 text-left">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" value="{{course.CRSE_ID}}">
+                                <label class="form-check-label" for="{{course.CRSE_ID}}"> {{course.CRSE_DESC}} </label>
+                            </div>
+                        </td>
+                        <td class="p-1 text-center"> {{course.CREDITO}} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mb-2">
+            <textarea class="form-control" [(ngModel)]="comment" placeholder="¿Te falta algún curso?"> </textarea>
+        </div>
+        <div class="bg-gray p-2 mb-2">
+            La intención de matricula no asegura un cupo en el curso elegido. Recuerda que los cursos son 100% virtuales.
+        </div>
+    </div>
+    <div class="row justify-content-center mb-3 px-5">
+        <button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveYesIntention()">GRABAR</button>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #FinalIntentionEnrollmentModal identifier="FinalIntentionEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1"> </div>
-	<div class="text-left p-2 px-5 mb-3">
-		<h5 class="text-{{company}} font-weight-bold text-center">¡Gracias!</h5>
-		<div> Tu respuesta es importante para nosotros, mejoras tú, mejora el mundo. </div>
-	</div>
-	<div class="row justify-content-center mb-3">
-		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="FinalIntentionEnrollmentModal.close()">FINALIZAR</button>
-	</div>
+    <div class="bg-{{company}} p-4 rounded-t-1"> </div>
+    <div class="text-left p-2 px-5 mb-3">
+        <h5 class="text-{{company}} font-weight-bold text-center">¡Gracias!</h5>
+        <div> Tu respuesta es importante para nosotros, mejoras tú, mejora el mundo. </div>
+    </div>
+    <div class="row justify-content-center mb-3">
+        <button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="FinalIntentionEnrollmentModal.close()">FINALIZAR</button>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #IntensiveEnrollmentModal identifier="IntensiveEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3">
-			<a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="IntensiveEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-		</div>
-	</div>
-	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
-		<p class="text-m">Ponemos a tu disposición cursos a fin de adelantar o recuperar los mismos de acuerdo a tu plan. Revisa la disponibilidad de los mismos</p>
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="IntensiveEnrollmentModal.close()"
+                class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
+        <p class="text-m">Ponemos a tu disposición cursos a fin de adelantar o recuperar los mismos de acuerdo a tu plan. Revisa la disponibilidad de los mismos</p>
 
-		<div class="bg-gray p-2 text-center mb-2">
-			¿Te Inscribirás en el Ciclo Intensivo?
-		</div>
+        <div class="bg-gray p-2 text-center mb-2">
+            ¿Te Inscribirás en el Ciclo Intensivo?
+        </div>
 
-		<div class="row justify-content-center mb-3">
-			<button (click)="openYesIntensiveMofal()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
-			<button (click)="openNotIntensiveModal()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
-		</div>
-	</div>
+        <div class="row justify-content-center mb-3">
+            <button (click)="openYesIntensiveMofal()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+            <button (click)="openNotIntensiveModal()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #YesIntensiveEnrollmentModal identifier="YesIntensiveEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'largeModal fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3">
-			<a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="YesIntensiveEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-		</div>
-	</div>
-	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
-		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez guardado el mismo no podrás modificarlo.</p>
-		<p class="text-m m-0">Al guardar la inscripción se generará el cargo respectivo, de no cancelar el mismo la inscripción será revocada.</p>
-		<p class="text-m">Al finalizar tu inscripción puedes realizar tus pagos por los canales disponibles hasta el 01/08.</p>
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="YesIntensiveEnrollmentModal.close()"
+                class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
+        <p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez guardado el mismo no podrás modificarlo.</p>
+        <p class="text-m m-0">Al guardar la inscripción se generará el cargo respectivo, de no cancelar el mismo la inscripción será revocada.</p>
+        <p class="text-m">Al finalizar tu inscripción puedes realizar tus pagos por los canales disponibles hasta el 01/08.</p>
 
-		<div *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process == 'SI'" class="bg-gray p-2 text-center mb-2">
-			Tu solicitud esta registrada
-		</div>
-		
-		<div *ngIf="coursesIntensive && !coursesIntensive.length" class="bg-gray p-2 text-center mb-2">
-			No hay cursos disponibles en tu plan para el Programa Intensivo
-		</div>
-		<div *ngIf="coursesIntensive && coursesIntensive.length" class="form-group scroll h-s">
-		    <table id="table-students" class="w-100">
-				<thead class="">
-					<tr class="text-center text-s">
-						<th class="px-1 py-2 text-{{company}} text-left text-m">Curso</th>
-						<th class="px-1 py-2 text-{{company}} align-middle text-m">Horario</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="text-center text-s" *ngFor="let course of coursesIntensive">
-						<td class="p-1 text-left">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID2}}" [(ngModel)]="course.value" (change)='changeCourseIntensive(course)' value="{{course.CRSE_ID2}}" [attr.disabled]="!(enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process != 'SI')?true:null">
-								<label class="form-check-label" for="{{course.CRSE_ID2}}"> {{course.CRSE_DESC2}} </label>
-						    </div>
-						</td>
-						<td class="p-1 text-center"> {{course.schedule}} </td>
-					</tr>
-				</tbody>
-			</table>
-	  	</div>
+        <div *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process == 'SI'" class="bg-gray p-2 text-center mb-2">
+            Tu solicitud esta registrada
+        </div>
 
-		<div *ngIf="coursesIntensive && coursesIntensive.length && enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process != 'SI'" class="row justify-content-center mb-3">
-			<button (click)="confirmIntensive()" class="btn rounded-1 px-4 btn-{{company}}">Guardar</button>
-			<!-- <button (click)="YesIntensiveEnrollmentModal.close()" class="btn rounded-1 px-4 btn-{{company}}">Cancelar</button> -->
-		</div>
-	</div>
+        <div *ngIf="coursesIntensive && !coursesIntensive.length" class="bg-gray p-2 text-center mb-2">
+            No hay cursos disponibles en tu plan para el Programa Intensivo
+        </div>
+        <div *ngIf="coursesIntensive && coursesIntensive.length" class="form-group scroll h-s">
+            <table id="table-students" class="w-100">
+                <thead class="">
+                    <tr class="text-center text-s">
+                        <th class="px-1 py-2 text-{{company}} text-left text-m">Curso</th>
+                        <th class="px-1 py-2 text-{{company}} align-middle text-m">Horario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center text-s" *ngFor="let course of coursesIntensive">
+                        <td class="p-1 text-left">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="{{course.CRSE_ID2}}" [(ngModel)]="course.value" (change)='changeCourseIntensive(course)' value="{{course.CRSE_ID2}}" [attr.disabled]="!(enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process != 'SI')?true:null">
+                                <label class="form-check-label" for="{{course.CRSE_ID2}}"> {{course.CRSE_DESC2}} </label>
+                            </div>
+                        </td>
+                        <td class="p-1 text-center"> {{course.schedule}} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="coursesIntensive && coursesIntensive.length && enrollmentIntensiveStatus && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.authorizacion.ended_process != 'SI'" class="row justify-content-center mb-3">
+            <button (click)="confirmIntensive()" class="btn rounded-1 px-4 btn-{{company}}">Guardar</button>
+            <!-- <button (click)="YesIntensiveEnrollmentModal.close()" class="btn rounded-1 px-4 btn-{{company}}">Cancelar</button> -->
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #ConfirmIntensiveEnrollmentModal identifier="ConfirmIntensiveEnrollmentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3">
-			<a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="ConfirmIntensiveEnrollmentModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-		</div>
-	</div>
-	<div class="text-center p-2 px-5">
-		<h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
-		<p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez guardado el mismo no podrás modificarlo.</p>
-		<p class="text-m m-0">Al guardar la inscripción se generará el cargo respectivo, de no cancelar el mismo la inscripción será revocada.</p>
-		<p class="text-m">Al finalizar tu inscripción puedes realizar tus pagos por los canales disponibles hasta el 01/08.</p>
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a *ngIf="!noClosed || (this.enrollmentIntensiveStatus && this.enrollmentIntensiveStatus.enrollment_intention_status == 'A' && this.enrollmentIntensiveStatus.authorizacion && this.enrollmentIntensiveStatus.authorizacion.ended_process == 'SI')" (click)="ConfirmIntensiveEnrollmentModal.close()"
+                class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Inscripción Programa Intensivo</h5>
+        <p class="text-m m-0">Recuerda que sólo podrás elegir un curso, una vez guardado el mismo no podrás modificarlo.</p>
+        <p class="text-m m-0">Al guardar la inscripción se generará el cargo respectivo, de no cancelar el mismo la inscripción será revocada.</p>
+        <p class="text-m">Al finalizar tu inscripción puedes realizar tus pagos por los canales disponibles hasta el 01/08.</p>
 
-		<div class="bg-gray p-2 text-center mb-2">
-			¿Estás seguro que deseas matricularte?
-		</div>
+        <div class="bg-gray p-2 text-center mb-2">
+            ¿Estás seguro que deseas matricularte?
+        </div>
 
-		<div class="row justify-content-center mb-3">
-			<button (click)="saveYesIntensive()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
-			<button (click)="ConfirmIntensiveEnrollmentModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
-		</div>
-	</div>
+        <div class="row justify-content-center mb-3">
+            <button (click)="saveYesIntensive()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+            <button (click)="ConfirmIntensiveEnrollmentModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #UpdatePersonalDataModal identifier="UpdatePersonalDataModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<div class="btn-close-float p-3">
-			<a (click)="UpdatePersonalDataModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-		</div>
-	</div>
-	<div class="p-2 px-5">
-		<h5 class="text-center text-{{company}} font-weight-bold text-m">Ayúdanos a mantenerte actualizado(a) completando esta breve encuesta:</h5>
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a (click)="UpdatePersonalDataModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="p-2 px-5">
+        <h5 class="text-center text-{{company}} font-weight-bold text-m">Ayúdanos a mantenerte actualizado(a) completando esta breve encuesta:</h5>
 
-		<form [formGroup]="personalDataForm" class="form">
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">Fecha de nacimiento <span class="text-red">*</span></label>
-				<input class="col-sm-9 form-control" type="date" formControlName="birth_date">
-			</div>
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">Celular <span class="text-red">*</span></label>
-				<input (keypress)="inputsS.OnlyNumbers($event)" class="col-sm-9 form-control" type="text" formControlName="phone" maxlength="9" placeholder="Celular">
-			</div>
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">E-mail Personal <span class="text-red">*</span></label>
-				<input class="col-sm-9 form-control" type="text" formControlName="email" placeholder="E-mail Personal">
-			</div>
-			<!-- <div class="form-group row mb-2">
+        <form [formGroup]="personalDataForm" class="form">
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Fecha de nacimiento <span class="text-red">*</span></label>
+                <input class="col-sm-9 form-control" type="date" formControlName="birth_date">
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Celular <span class="text-red">*</span></label>
+                <input (keypress)="inputsS.OnlyNumbers($event)" class="col-sm-9 form-control" type="text" formControlName="phone" maxlength="9" placeholder="Celular">
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">E-mail Personal <span class="text-red">*</span></label>
+                <input class="col-sm-9 form-control" type="text" formControlName="email" placeholder="E-mail Personal">
+            </div>
+            <!-- <div class="form-group row mb-2">
 				<label class="col-sm-3 m-0 form-label">Departamento <span class="text-red">*</span></label>
 				<input class="col-sm-9 form-control" type="text" formControlName="department" placeholder="Departamento">
 			</div> -->
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">Provincia <span class="text-red">*</span></label>
-				<input class="col-sm-9 form-control" type="text" formControlName="province" placeholder="Provincia">
-			</div>
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">Distrito <span class="text-red">*</span></label>
-				<input class="col-sm-9 form-control" type="text" formControlName="district" placeholder="Distrito">
-			</div>
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">¿Quién financia tus estudios?</label>
-				<select class="col-sm-9 form-control" formControlName="who_finances">
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Provincia <span class="text-red">*</span></label>
+                <input class="col-sm-9 form-control" type="text" formControlName="province" placeholder="Provincia">
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Distrito <span class="text-red">*</span></label>
+                <input class="col-sm-9 form-control" type="text" formControlName="district" placeholder="Distrito">
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">¿Quién financia tus estudios?</label>
+                <select class="col-sm-9 form-control" formControlName="who_finances">
 					<option value="">Selecciona</option>
 					<option value="Yo mismo">Yo mismo</option>
 					<option value="Padre">Padre</option>
 					<option value="Empresa">Empresa</option>
 					<option value="Otro">Otro</option>
 				</select>
-			</div>
-			<div class="form-group row mb-3">
-				<label class="col-sm-3 m-0 form-label">¿Actualmente trabajas? <span class="text-red">*</span></label>
-				<div class="col-sm-9">
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" formControlName="working" id="actr1" value="SI">
-					  <label class="form-check-label" for="actr1">SI</label>
-					</div>
-					<div class="form-check form-check-inline">
-					  <input class="form-check-input" type="radio" formControlName="working" id="actr2" value="NO">
-					  <label class="form-check-label" for="actr2">NO</label>
-					</div>
-				</div>
-			</div>
+            </div>
+            <div class="form-group row mb-3">
+                <label class="col-sm-3 m-0 form-label">¿Actualmente trabajas? <span class="text-red">*</span></label>
+                <div class="col-sm-9">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="working" id="actr1" value="SI">
+                        <label class="form-check-label" for="actr1">SI</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" formControlName="working" id="actr2" value="NO">
+                        <label class="form-check-label" for="actr2">NO</label>
+                    </div>
+                </div>
+            </div>
 
-			<div class="form-group row mb-3">
-				<div class="form-check form-check-inline p-2">
-				  <input class="form-check-input mr-2" type="checkbox" id="policy" formControlName="privacy_policy" value="SI">
-				  <label class="form-check-label" for="policy">Declaro conocer la política de privacidad de la Universidad Científica del Sur y doy mi consentimiento para el tratamiento de los datos personales consignados en este formulario. <span class="text-red">*</span> </label> 
-				</div>
-			</div>
-		</form>
+            <div class="form-group row mb-3">
+                <div class="form-check form-check-inline p-2">
+                    <input class="form-check-input mr-2" type="checkbox" id="policy" formControlName="privacy_policy" value="SI">
+                    <label class="form-check-label" for="policy">Declaro conocer la política de privacidad de la Universidad Científica del Sur y doy mi consentimiento para el tratamiento de los datos personales consignados en este formulario. <span class="text-red">*</span> </label>
+                </div>
+            </div>
+        </form>
 
-		<div class="bg-gray p-2 mb-2">
-			<span class="text-red">*</span> Campo obligatorio
-		</div>
+        <div class="bg-gray p-2 mb-2">
+            <span class="text-red">*</span> Campo obligatorio
+        </div>
 
-		<div class="row justify-content-center mb-3">
-			<button (click)="savePersonalData()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SIGUIENTE</button>
-		</div>
-	</div>
+        <div class="row justify-content-center mb-3">
+            <button (click)="savePersonalData()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SIGUIENTE</button>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #UpdateWorkingDataModal identifier="UpdateWorkingDataModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-		<!-- <div class="btn-close-float p-3">
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <!-- <div class="btn-close-float p-3">
 			<a (click)="UpdateWorkingDataModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
 		</div> -->
-	</div>
-	<div class="p-2 px-5">
-		<h5 class="text-center text-{{company}} font-weight-bold text-m">Información Laboral:</h5>
+    </div>
+    <div class="p-2 px-5">
+        <h5 class="text-center text-{{company}} font-weight-bold text-m">Información Laboral:</h5>
 
-		<form [formGroup]="workinglDataForm" class="form">
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">Nombre Empresa <span class="text-red">*</span></label>
-				<input class="col-sm-9 form-control" type="text" formControlName="company_name" placeholder="Nombre Empresa">
-			</div>
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">Cargo <span class="text-red">*</span></label>
-				<select class="col-sm-9 form-control" formControlName="company_position">
+        <form [formGroup]="workinglDataForm" class="form">
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Nombre Empresa <span class="text-red">*</span></label>
+                <input class="col-sm-9 form-control" type="text" formControlName="company_name" placeholder="Nombre Empresa">
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Cargo <span class="text-red">*</span></label>
+                <select class="col-sm-9 form-control" formControlName="company_position">
 					<option value="">Selecciona</option>
 					<option value="Practicante / Auxiliar">Practicante / Auxiliar</option>
 					<option value="Asistente">Asistente</option>
@@ -458,21 +581,21 @@
 					<option value="Sub-gerente / Gerente">Sub-gerente / Gerente</option>
 					<option value="Director / Alta dirección">Director / Alta dirección</option>
 				</select>
-			</div>
-			<div class="form-group row mb-2">
-				<label class="col-sm-3 m-0 form-label">E-mail Laboral <span class="text-red">*</span></label>
-				<input class="col-sm-9 form-control" type="text" formControlName="company_email" placeholder="E-mail Laboral">
-			</div>
-		</form>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">E-mail Laboral <span class="text-red">*</span></label>
+                <input class="col-sm-9 form-control" type="text" formControlName="company_email" placeholder="E-mail Laboral">
+            </div>
+        </form>
 
-		<div class="bg-gray p-2 mb-2">
-			<span class="text-red">*</span> Campo obligatorio
-		</div>
+        <div class="bg-gray p-2 mb-2">
+            <span class="text-red">*</span> Campo obligatorio
+        </div>
 
-		<div class="row justify-content-center mb-3">
-			<button (click)="saveWorkingData()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SIGUIENTE</button>
-		</div>
-	</div>
+        <div class="row justify-content-center mb-3">
+            <button (click)="saveWorkingData()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SIGUIENTE</button>
+        </div>
+    </div>
 </ngx-smart-modal>
 
 <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
