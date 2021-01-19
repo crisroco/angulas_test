@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
 					    // client_id: 16,
 					    // client_secret: "YuVuaUbO73GDhi78ao8pPiXv7FXqVUrgvkTcPVrU",
 					    client_id: 2,
-					    client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
+					    client_secret: "l8XZwiSPzaDB1YplVcIYEaVYCbsJ5CxNKEl7Ie9I",
 					    grant_type: "password"
 					})
 						.then((res) => {

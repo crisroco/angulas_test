@@ -14,6 +14,7 @@
                 <!-- <a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-{{company}} p-2 px-3 bd-b-1 bd-{{company}}"> <i class="fa fa-lock"></i> Cambiar contraseña</a> -->
                 <a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
                 <a (click)="notificationModal.open(); notificationRead();" class="d-block m-0 text-{{company}} p-2 px-3 pointer"> <i class="fa fa-circle text-danger"></i> Notificaciones</a>
+
             </div>
         </div>
 
@@ -24,17 +25,19 @@
 <router-outlet></router-outlet>
 <!-- </div> -->
 
+
 <div class="footer" [ngClass]="{'in_new_enrollment':innewEnrollment}">
-	<div class="row bg-{{company}}-a">
-		<div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
-			<a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
-			<a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
-			<a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
-			<a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a>
-			<!-- <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a> -->
-			<a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
-		</div>
-	</div>
+    <div class="row bg-{{company}}-a">
+        <div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
+            <a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
+            <a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
+            <a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
+            <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a>
+            <a (click)="vacunaModal.open()" class="text-m text-white pointer"> Control de vacunas </a>
+            <!-- <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a> -->
+            <a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
+        </div>
+    </div>
 </div>
 
 <ngx-smart-modal #libraryModal identifier="libraryModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
@@ -110,6 +113,126 @@
 					</a>
                 </div>
             </div>
+        </div>
+    </div>
+
+</ngx-smart-modal>
+
+<ngx-smart-modal #vacunaModal identifier="vacunaModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
+    <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
+        <h5 class=""> <strong> CONTROL DE VACUNAS </strong> </h5>
+        <a (click)="vacunaModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
+    </div>
+    <div class="scroll">
+
+
+        <div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray">
+            <div class="bg-{{company}} p-2 text-m text-white">
+                <b>Subir Archivos</b>
+            </div>
+            <div class="pd-2 row nowrap align-items-center">
+                <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
+                    <ngx-dropzone (change)="onSelect($event)">
+                        <ngx-dropzone-label>sube ó arrastra tus archivos aqui!</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+            </div>
+        </div>
+
+        <div class="rounded-s scroll h-auto">
+            <table class="w-100">
+                <thead class="bg-{{company}} text-white">
+                    <tr class="text-center text-s">
+                        <th class="px-1 py-2 align-middle text-left text-m">#</th>
+                        <th class="px-1 py-2 align-middle text-left text-m">Archivo</th>
+                        <th class="px-1 py-2 align-middle text-m">Estado</th>
+                        <th class="px-1 py-2 align-middle text-m">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center text-m" *ngIf="datafile.length==0">
+                        <td class="text-center" colspan="100%">
+                            <div class="alert alert-danger" role="alert">
+                                No existen adjunto(s) almacenado(s)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="text-center text-m" *ngFor="let item of datafile;let s=index">
+                        <td class="p-1 text-left">{{s +1}}</td>
+                        <td class="p-1 text-left">{{item.original_name}}</td>
+                        <td class="p-1">
+                            <span class="badge badge-pill badge-secondary" *ngIf="item.estado!='1'">Pendiente</span>
+                            <span class="badge badge-pill badge-success" *ngIf="item.estado=='1'">Aceptado</span>
+                        </td>
+                        <td class="p-1">
+                            <button class="btn btn-sm btn-danger" [disabled]="item.estado=='1'" (click)="preDeleteUpload(item.id)"><i class="fa fa-trash-o"></i></button>&nbsp;
+                            <a class="btn btn-sm btn-primary" target="_blank" href="{{item.ruta_file}}"><i class="fa fa-eye"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p></p>
+    <div class="modal-footer">
+        <button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="upload()"><i class="fa fa-floppy-o"></i> Cargar Adjuntos</button>
+        <button class="btn rounded-1 px-4 btn-{{company}} mr-3" [disabled]="this.flagSendUpload" (click)="ConfirmSendUploadModal.open()"><i class="fa fa-check"></i> Aceptar declaración Jurada</button>
+    </div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #ConfirmSendUploadModal identifier="ConfirmSendUploadModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a (click)="ConfirmSendUploadModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Declaración Jurada</h5>
+        <div class="bg-gray p-2 text-center mb-2">
+            ¿Estás seguro de aceptar la declaración jurada?
+        </div>
+
+        <div class="row mb-2" style="margin-bottom:15px;">
+            <a style="text-decoration: underline;" target="_blank" href="">descargue la declaración jurada aquí <i class="fa fa-paperclip"></i></a>
+        </div>
+
+        <div class="row" style="margin-bottom:15px;">
+
+            <div class="input-group">
+                <input type="file" #file placeholder="Choose file" style="display:none;" />
+                <label class="form-control bg-gray p-2 text-center mb-2" for="customFile" id="lblfile">seleccione archivo</label>
+                <span class="input-group-btn">                     
+                     <button type="button" class="btn btn-dark" style="border-radius: 0rem !important">Upload File</button>                  
+                  </span>
+            </div>
+
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <button (click)="sendUploadPS()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+            <button (click)="ConfirmSendUploadModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #ConfirmEliminadUploadModal identifier="ConfirmEliminadUploadModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a (click)="ConfirmEliminadUploadModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Eliminar Adjunto</h5>
+        <div class="bg-gray p-2 text-center mb-2">
+            ¿Estás seguro de eliminar adjunto?
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <button (click)="deleteUpload(this.idfile)" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+            <button (click)="ConfirmEliminadUploadModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
         </div>
     </div>
 </ngx-smart-modal>

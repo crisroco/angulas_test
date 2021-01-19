@@ -26,6 +26,7 @@ import { FinalGradesComponent } from './pages/action/final-grades/final-grades.c
 import { CourseAssistanceComponent } from './pages/action/course-assistance/course-assistance.component';
 import { EnrollComponent } from './pages/action/enroll/enroll.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { EnrollmentComponent } from './pages/enrollment/enrollment.component';
 import { DashboardEnrollComponent } from './pages/enrollment/dashboard-enroll/dashboard-enroll.component';
@@ -38,6 +39,7 @@ const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    NgxDropzoneModule,
     NgxSmartModalModule.forRoot(),
     ToastrModule.forRoot(),
     NgxLoadingModule.forRoot({}),

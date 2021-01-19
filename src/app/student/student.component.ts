@@ -17,6 +17,10 @@ import { AppSettings } from '../app.settings';
 import { WebsocketService } from '../services/websocket.service';
 import { QueueService } from '../services/queue.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+
+import { HttpClient } from '@angular/common/http';
+import { fi } from 'date-fns/locale';
+
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -275,6 +279,9 @@ export class StudentComponent implements OnInit {
 	enrollCycles: Array<any>;
 	enroll_conditions: any = null;
 	queueEnroll: any;
+	idfile: any;
+	datafile = [];
+	flagSendUpload: boolean = true;
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
 	personalUpdateForm: FormGroup;
@@ -284,6 +291,8 @@ export class StudentComponent implements OnInit {
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
+	@ViewChild('ConfirmSendUploadModal') ConfirmSendUploadModal: any;	
+	@ViewChild('ConfirmEliminadUploadModal') ConfirmEliminadUploadModal: any;		
 
 	@ViewChild('IntentionEnrollmentModal') IntentionEnrollmentModal: any;
 	@ViewChild('NotIntentionEnrollmentModal') NotIntentionEnrollmentModal: any;
@@ -308,7 +317,7 @@ export class StudentComponent implements OnInit {
     	private toastr: ToastrService,
 		public inputsS: InputsService,
 		private formS: FormService,
-		public ngxSmartModalService: NgxSmartModalService) { }
+		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) { }
 
 	ngOnInit() {
 		if(!this.user){
@@ -337,11 +346,14 @@ export class StudentComponent implements OnInit {
 			else if(message && message.getEnroll && message.getEnroll == 'Y'){
 				this.getQueueEnroll();
 			}
+
 			else if(message && message.hideFooter){
 				this.innewEnrollment = true;
 			}
 		});
 		this.initSocket();
+		this.getFileUpload();
+		this.getFlagSendUpload();
 	}
 
 	initSocket(){
@@ -929,6 +941,119 @@ export class StudentComponent implements OnInit {
 				sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
 			}
 			return sentence.join(" ");
+	}
+
+	files: File[] = [];
+
+	onSelect(event) {
+		let filename = event.addedFiles[0].name;
+		let flag = false;
+		
+		if(this.files.length > 0){
+			for (var i = 0; i < this.files.length; i++) { 				
+				if(this.files[i].name == filename) {
+					flag = true;
+				}		
+			}	
+			if(!flag){
+				this.files.push(...event.addedFiles);
+			}			
+		}else{
+			this.files.push(...event.addedFiles);
+		}		
+	}
+	
+	upload() {
+		if(this.files.length > 0){
+			this.loading = true;
+			const formData = new FormData();
+			for (var i = 0; i < this.files.length; i++) { 
+				formData.append("file[]", this.files[i]); 
+			}
+		
+			this.http.post('http://cientifica.br/student/uploadControlVacuna/' + this.user.codigoAlumno, formData)
+		
+			.subscribe(res => {				
+				this.getFileUpload();
+				this.getFlagSendUpload();
+				setTimeout(()=>{ 
+					this.loading = false;
+					this.files.splice(0);
+					this.toastr.success('archivo(s) subido(s) correctamente!');
+				}, 3000);				
+			},
+			error => {
+				this.toastr.success(error);
+			});
+		}else{
+			this.toastr.error('no hay archivos a subir');
+		}		
+	}
+
+	getFileUpload(){	
+		this.studentS.getFileUpload(this.user.codigoAlumno)
+		.then((res) => {	
+			console.log(res.data.length);	
+			this.datafile = res.data; 
+		});
+	}
+
+	preDeleteUpload(id){
+		this.ConfirmEliminadUploadModal.open();
+		this.idfile=id;		
+	}
+
+	deleteUpload(id){
+		this.loading = true;	
+		this.studentS.deleteUpload(id)
+		.then((res) => {
+			this.ConfirmEliminadUploadModal.close();	
+			this.getFileUpload();	
+			this.getFlagSendUpload();
+			setTimeout(()=>{ 
+				this.loading = false;
+				this.toastr.success('archivo eliminado correctamente!');	
+			}, 3000);
+		},
+		error => {
+				this.toastr.error(error);
+		});
+	}
+
+	sendUploadPS(){	
+		this.loading = true;
+		this.studentS.sendUploadPS({emplid: this.user.codigoAlumno})
+		.then((res) => {
+			if(res.UCS_REG_VAC_DET_RES.Estado == 'Y'){
+				this.ConfirmSendUploadModal.close();					
+				this.getFileUpload();
+				this.getFlagSendUpload();	
+				setTimeout(()=>{ 
+					this.loading = false;
+					this.toastr.success('declaración confirmada correctamente!');		
+				}, 3000);			
+			}else{
+				this.toastr.error('ocurrio un error!');
+			}
+		},
+		error => {
+			this.loading = false;	
+			this.toastr.error(error);
+		});
+	}
+
+	getFlagSendUpload(){	
+		this.studentS.getFlagSendUpload(this.user.codigoAlumno)
+		.then((res) => {
+			console.log(res.status);			
+			this.flagSendUpload = res.status;
+		});
+	}
+
+	onRemove(event) {
+		console.log(event);
+		this.files.splice(this.files.indexOf(event), 1);
+
 	}
 
 }
