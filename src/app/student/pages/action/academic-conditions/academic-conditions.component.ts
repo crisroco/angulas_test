@@ -201,7 +201,6 @@ export class AcademicConditionsComponent implements OnInit {
 		this.loading = true;
 		this.studentS.getAcademicStatus({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
-			console.log(res);
 			var objSemester = {};
 			var arSemester = [];
 			let academicStatus: Array<any> = res.UCS_REST_RECORD_ACAD_RES && res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM?res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM:[];
@@ -286,7 +285,7 @@ export class AcademicConditionsComponent implements OnInit {
 		var requiredsAprobe = 0;
 		var requiredsDisaprobe = 0;
 		var requiredsUnd = 0;
-		var objCourses = {}; 
+		var objCourses = {};
 		arr.forEach( (item, index) => {
 			var offset = 35;
 			var offset2 = 45;
@@ -296,6 +295,8 @@ export class AcademicConditionsComponent implements OnInit {
 			}
 			var body = []
 			var totalCredits = 0;
+			var higherProm = 0;
+			console.log(item);
 			item.courses.forEach(item => {
 				body.push([item.ID_Curso, item.Descr, (item.Caracter == 0?'Obligatorio':'Electivo'), item.Ciclo, item.Uni_Matrd, item.GRADE, item.Comentario]);
 				totalCredits += parseInt(item.Uni_Matrd);
@@ -306,6 +307,9 @@ export class AcademicConditionsComponent implements OnInit {
 					objCourses[item.ID_Curso] = true;
 					if(item.Caracter == 0) item.GRADE >= 13? requiredsAprobe += parseInt(item.Uni_Matrd): requiredsDisaprobe += parseInt(item.Uni_Matrd);
 					else item.GRADE >= 13? electivesAprobe += parseInt(item.Uni_Matrd): electivesDisaprobe += parseInt(item.Uni_Matrd);
+				}
+				if (item.N_Med > higherProm) {
+					higherProm = item.N_Med;
 				}
 			})
 			doc.setFontSize(14);
@@ -330,7 +334,7 @@ export class AcademicConditionsComponent implements OnInit {
 				theme: 'striped'
 			});
 			doc.autoTable({
-				head: [['Total Cursos = ' + item.courses.length + ' Total Unidades = ' + totalCredits + ' Promedio Ponderado Ciclo Lectivo = ' + item.courses[0].N_Med]],
+				head: [['Total Cursos = ' + item.courses.length + ' Total Unidades = ' + totalCredits + ' Promedio Ponderado Ciclo Lectivo = ' + higherProm]],
 				startY: doc.autoTableEndPosY(),
 				afterPageContent: footer,
 				margin: { horizontal: 30 },
