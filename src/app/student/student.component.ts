@@ -244,7 +244,7 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'https://docs.cientifica.edu.pe/general_pdf/Manual-de-Usuario-Portal-Alumno-UCSUR.pptx',
+					url: 'assets/pdfjs/portal_alumno.pptx',
 					description: 'MANUAL DE USUARIO PORTAL ALUMNO – CIENTIFICA'
 				},
 			],
