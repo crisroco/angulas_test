@@ -85,13 +85,29 @@ export class AcademicConditionsComponent implements OnInit {
 				},
 				'11': {
 					courses: [],
-					name: 'Cursos Electivos'
-				}
+					name: 'Ciclo: 11'
+				},
+				'12': {
+					courses: [],
+					name: 'Ciclo: 12'
+				},
+				'13': {
+					courses: [],
+					name: 'Ciclo: 13'
+				},
+				'14': {
+					courses: [],
+					name: 'Ciclo: 14'
+				},
+				'15': {
+					courses: [],
+					name: 'Ciclo: 15'
+				},
 			};
 			var tcycles = res.RES_COND_ACAD && res.RES_COND_ACAD.RES_COND_ACAD_DET?res.RES_COND_ACAD.RES_COND_ACAD_DET:[];
 			if(tcycles.length){
 				for (var i = tcycles.length - 1; i >= 0; i--) {
-					tcycles[i].UCS_CICLO = (tcycles[i].UCS_CICLO > 10? 11 : tcycles[i].UCS_CICLO);
+					// tcycles[i].UCS_CICLO = (tcycles[i].UCS_CICLO > 10? 11 : tcycles[i].UCS_CICLO);
 					if(objCycles[tcycles[i].UCS_CICLO]){
 						objCycles[tcycles[i].UCS_CICLO].courses.push(tcycles[i]);
 					}
@@ -128,7 +144,6 @@ export class AcademicConditionsComponent implements OnInit {
 	getRequirements(){
 		this.studentS.getRequirements({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
-			console.log(res);
 			this.requirements = res.UCS_REST_VAL_REQ_EGRE_RES && res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM && res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM[0]?res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM[0]:null;
 			if(this.requirements){
 				var ingReq = 0;
@@ -165,7 +180,6 @@ export class AcademicConditionsComponent implements OnInit {
 	getWeightedAverage(){
 		this.studentS.getWeightedAverage(this.user.codigoAlumno, this.realProgram.codigoGrado, this.realProgram.codigoPrograma)
 		.then(res => {
-			console.log(res);
 			this.weightedAverage = res.UCS_REST_PROMEDIO_RSP && res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM && res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM[0]?res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM[0]:0;
 		}, error => { });
 	}
