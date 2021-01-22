@@ -27,10 +27,12 @@
 					</thead>
 					<tbody>
 						<tr class="text-center text-s" *ngFor="let assis of assistances; let s = 'index'">
-							<td class="p-1 text-left">{{ assis.CLASS_ATTEND_DT }}</td>
-							<td class="p-1">{{ assis.ATTEND_FROM_TIME }}</td>
-							<td class="p-1">{{ assis.ATTEND_TO_TIME }}</td>
-							<td class="p-1 text-{{assis.ATTEND_PRESENT == 'Y'?'green':'danger'}}">{{ assis.ATTEND_PRESENT == 'Y'?'Asistió':'No Asistió' }}</td>
+							<ng-container *ngIf="!assis.notShow">
+								<td class="p-1 text-left">{{ assis.CLASS_ATTEND_DT }}</td>
+								<td class="p-1">{{ assis.ATTEND_FROM_TIME }}</td>
+								<td class="p-1">{{ assis.ATTEND_TO_TIME }}</td>
+								<td class="p-1 text-{{assis.ATTEND_PRESENT == 'Y'?'green':'danger'}}">{{ assis.ATTEND_PRESENT == 'Y'?'Asistió':'No Asistió' }}</td>
+							</ng-container>
 						</tr>
 					</tbody>
 				</table>
