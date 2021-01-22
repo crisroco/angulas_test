@@ -395,7 +395,7 @@ export class AcademicConditionsComponent implements OnInit {
 			theme: 'striped'
 		});
 			
-		doc.save("este.pdf");
+		doc.save("record_" + this.user.codigoAlumno + '.pdf');
 	}
 
 	open(){
