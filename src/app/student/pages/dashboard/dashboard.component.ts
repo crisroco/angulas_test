@@ -32,9 +32,10 @@ export class DashboardComponent implements OnInit {
 	@ViewChild('HolidayModal') HolidayModal: any;
 	@ViewChild('ModdleLinkModal') ModdleLinkModal: any;
 	@ViewChild('ModdleLinkModal2') ModdleLinkModal2: any;
-	@ViewChild('postEnrollmentModal') postEnrollmentModal: any;
 	@ViewChild('aficheModal') aficheModal: any;
 	@ViewChild('medicineModal') medicineModal: any;
+	@ViewChild('postModal') postModal: any;
+	@ViewChild('preModal') preModal: any;
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	student: any = {};
@@ -81,10 +82,6 @@ export class DashboardComponent implements OnInit {
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
-		// this.SurveyModal.open();
-		// this.SurveyModal2.open();
-		// this.postEnrollmentModal.open();
-		// this.aficheModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
@@ -155,16 +152,22 @@ export class DashboardComponent implements OnInit {
 			// this.broadcaster.sendMessage({ getEnroll: 'Y' });
 			// this.btnEnroll = true;
 		})
-		// this.studentS.getFidelityLink(this.user.codigoAlumno)
-		// .then((res) => {
-		// 	console.log(res)
-		// 	// if (res['data']) {
-		// 	// 	this.fidelityLink = res['data']['link'];
-		// 	// 	if (this.fidelityLink) {
-		// 	// 		this.AnnouncementModal.open();
-		// 	// 	}
-		// 	// }
-		// });
+		this.studentS.getListOfStudentsJson()
+		.then((res) => {
+			if (res.find(std => std == this.user.codigoAlumno)) {
+				console.log('finded');
+				this.postModal.open();
+			} else {
+				console.log('not finded');
+				this.preModal.open();
+			}
+			// if (res['data']) {
+			// 	this.fidelityLink = res['data']['link'];
+			// 	if (this.fidelityLink) {
+			// 		this.AnnouncementModal.open();
+			// 	}
+			// }
+		});
 	}
 
 	getNotifications(){
