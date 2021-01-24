@@ -103,13 +103,21 @@ export class AcademicConditionsComponent implements OnInit {
 					courses: [],
 					name: 'Ciclo: 15'
 				},
+				'ELECTIVOS': {
+					courses: [],
+					name: 'Cursos Electivos'
+				}
 			};
 			var tcycles = res.RES_COND_ACAD && res.RES_COND_ACAD.RES_COND_ACAD_DET?res.RES_COND_ACAD.RES_COND_ACAD_DET:[];
 			if(tcycles.length){
 				for (var i = tcycles.length - 1; i >= 0; i--) {
 					// tcycles[i].UCS_CICLO = (tcycles[i].UCS_CICLO > 10? 11 : tcycles[i].UCS_CICLO);
-					if(objCycles[tcycles[i].UCS_CICLO]){
-						objCycles[tcycles[i].UCS_CICLO].courses.push(tcycles[i]);
+					if (objCycles[tcycles[i].LVF_CARACTER]) {
+						objCycles['ELECTIVOS'].courses.push(tcycles[i]);
+					} else {
+						if(objCycles[tcycles[i].UCS_CICLO]){
+							objCycles[tcycles[i].UCS_CICLO].courses.push(tcycles[i]);
+						}
 					}
 				}
 				for( var kcycle in objCycles){
@@ -127,7 +135,6 @@ export class AcademicConditionsComponent implements OnInit {
 		this.loading = true;
 		this.studentS.getGlobalStatistics({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
-			console.log(res);
 			this.globalStatistics = res.UCS_REST_VAL_UNID_EGRE_RES && res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM && res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM[0]?res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM[0]:null;
 			if(this.globalStatistics){
 				this.globalStatistics.UNITS_REPEAT_LIMIT = parseInt(this.globalStatistics.UNITS_REPEAT_LIMIT);

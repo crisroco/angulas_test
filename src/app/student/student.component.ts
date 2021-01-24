@@ -228,13 +228,8 @@ export class StudentComponent implements OnInit {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/calendario_academico_cpe_ate.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021 CAMPUS ATE'
-				},
-				{
-					img: '',
 					url: 'assets/pdfjs/calendario_academico_cpe_villa.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021 CAMPUS VILLA - NORTE'
+					description: 'CALENDARIO ACADÉMICO 2021 CAMPUS VILLA'
 				}
 			],
 			isOpen: true,
