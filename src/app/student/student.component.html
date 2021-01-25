@@ -119,36 +119,73 @@
 </ngx-smart-modal>
 
 <ngx-smart-modal #vacunaModal identifier="vacunaModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
+    
     <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
         <h5 class=""> <strong> CONTROL DE VACUNAS </strong> </h5>
         <a (click)="vacunaModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
     </div>
-    <div class="scroll">
 
+    <button class="btn rounded-1 px-4 btn-{{company}} mr-3" [ngStyle]="{'cursor': !botonesvacuna ? 'no-drop' : 'pointer'}"  (click)="cartilla()"  [ngClass]="(!showCartilla)? 'btn-vacuna ':''" >
+        <i class="fa fa-clone"></i> 
+        Cartilla
+    </button>
 
-        <div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray">
-            <div class="bg-{{company}} p-2 text-m text-white">
-                <b>Subir Archivos</b>
-            </div>
-            <div class="pd-2 row nowrap align-items-center">
+    <button class="btn rounded-1 px-4 btn-{{company}} mr-3"  [ngStyle]="{'cursor': !botonesvacuna ? 'no-drop' : 'pointer'}" (click)="declaracion()" [ngClass]="(!showDeclaracion)? 'btn-vacuna ':''">
+        <i class="fa fa-file-pdf-o"></i> 
+        Declaración Jurada
+    </button>
+
+    <button class="btn rounded-1 px-4 btn-{{company}} mr-3"  [ngStyle]="{'cursor': !botonesvacuna ? 'no-drop' : 'pointer'}" (click)="exoneracion()" [ngClass]="(!showExoneracion)? 'btn-vacuna ':''">
+        <i class="fa fa-ban"></i> 
+        Exoneración
+    </button>
+    <br>
+    <div class="scroll" style="margin-top: 10px;">
+
+        <div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" >
+            
+            <div class=" row nowrap align-items-center acordion-student" [ngClass]="(!showCartilla)? 'hide-acordion':'pd-2'">
                 <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
-                    <ngx-dropzone (change)="onSelect($event)">
-                        <ngx-dropzone-label>sube ó arrastra tus archivos aqui!</ngx-dropzone-label>
-                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone (change)="onSelectCartilla($event)"  [accept]="'image/*'">
+                        <ngx-dropzone-label>sube ó arrastra tus archivos de Cartilla aqui!</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of filesCartilla" [removable]="true" (removed)="onRemoveCartilla(f)">
                             <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                         </ngx-dropzone-preview>
                     </ngx-dropzone>
                 </div>
             </div>
+
+            <div class=" row nowrap align-items-center acordion-student" [ngClass]="(!showDeclaracion)? 'hide-acordion':'pd-2'" >
+                <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
+                    <ngx-dropzone (change)="onSelectDeclaracion($event)">
+                        <ngx-dropzone-label>sube ó arrastra tu archivo de Declaración Jurada aqui!</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of filesDeclaracion" [removable]="true" (removed)="onRemoveDeclaracion(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+            </div>
+
+            <div class=" row nowrap align-items-center acordion-student" [ngClass]="(!showExoneracion)? 'hide-acordion':'pd-2'" >
+                <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
+                    <ngx-dropzone (change)="onSelectExoneracion($event)">
+                        <ngx-dropzone-label>sube ó arrastra tu archivo de Exoneración aqui!</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of filesExoneracion" [removable]="true" (removed)="onRemoveExoneracion(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+            </div>
+
         </div>
 
-        <div class="rounded-s scroll h-auto">
+        <div class="rounded-s scroll h-auto"  *ngIf="datafile.length > 0 " >
             <table class="w-100">
                 <thead class="bg-{{company}} text-white">
                     <tr class="text-center text-s">
                         <th class="px-1 py-2 align-middle text-left text-m">#</th>
                         <th class="px-1 py-2 align-middle text-left text-m">Archivo</th>
-                        <th class="px-1 py-2 align-middle text-m">Estado</th>
+                        <th class="px-1 py-2 align-middle text-m">Tipo</th>
                         <th class="px-1 py-2 align-middle text-m">Acción</th>
                     </tr>
                 </thead>
@@ -163,10 +200,11 @@
                     <tr class="text-center text-m" *ngFor="let item of datafile;let s=index">
                         <td class="p-1 text-left">{{s +1}}</td>
                         <td class="p-1 text-left">{{item.original_name}}</td>
-                        <td class="p-1">
+                        <td class="p-1 text-left">{{item.tipo}}</td>
+                        <!-- <td class="p-1">
                             <span class="badge badge-pill badge-secondary" *ngIf="item.estado!='1'">Pendiente</span>
                             <span class="badge badge-pill badge-success" *ngIf="item.estado=='1'">Aceptado</span>
-                        </td>
+                        </td> -->
                         <td class="p-1">
                             <button class="btn btn-sm btn-danger" [disabled]="item.estado=='1'" (click)="preDeleteUpload(item.id)"><i class="fa fa-trash-o"></i></button>&nbsp;
                             <a class="btn btn-sm btn-primary" target="_blank" href="{{item.ruta_file}}"><i class="fa fa-eye"></i></a>
@@ -177,9 +215,19 @@
         </div>
     </div>
     <p></p>
+    <div class="row mb-2" style="margin-bottom:15px;" *ngIf="showDeclaracion">
+        <a target="_blank" href="assets/pdfjs/DECLARACIÓN_JURADAD_DE_CUMPLIMIENTO_DE_VACUNACIÓN.docx" style="font-size: 16px;font-weight: 700;text-decoration: underline;">Descargue el formato de la Declaración Jurada aquí <i class="fa fa-paperclip"></i></a>
+    </div>
+    <div class="row mb-2" style="margin-bottom:15px;" *ngIf="showExoneracion">
+        <a target="_blank" href="assets/pdfjs/DOCUMENTO_DE_EXONERACIÓN_DE_RESPONSABILIDAD_FRENTE_A_NEGACIÓN_DE_VACUNARSE.docx" style="font-size: 16px;font-weight: 700;text-decoration: underline;">Descargue el formato de Exoneración aquí <i class="fa fa-paperclip"></i></a>
+    </div>
     <div class="modal-footer">
+
         <button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="upload()"><i class="fa fa-floppy-o"></i> Cargar Adjuntos</button>
-        <button class="btn rounded-1 px-4 btn-{{company}} mr-3" [disabled]="this.flagSendUpload" (click)="ConfirmSendUploadModal.open()"><i class="fa fa-check"></i> Aceptar declaración Jurada</button>
+        <!-- <button class="btn rounded-1 px-4 btn-{{company}} mr-3" [disabled]="datafile.length == 0" (click)="ConfirmSendVacunacionModal.open()">
+            <i class="fa fa-check"></i> Enviar
+        </button> -->
+        <!-- <button class="btn rounded-1 px-4 btn-{{company}} mr-3" [disabled]="this.flagSendUpload" (click)="ConfirmSendUploadModal.open()"><i class="fa fa-check"></i> Aceptar declaración Jurada</button> -->
     </div>
 </ngx-smart-modal>
 
@@ -196,7 +244,7 @@
         </div>
 
         <div class="row mb-2" style="margin-bottom:15px;">
-            <a style="text-decoration: underline;" target="_blank" href="">descargue la declaración jurada aquí <i class="fa fa-paperclip"></i></a>
+            <a target="_blank" href="" style="text-decoration: underline;">descargue la declaración jurada aquí <i class="fa fa-paperclip"></i></a>
         </div>
 
         <div class="row" style="margin-bottom:15px;">
@@ -214,6 +262,26 @@
         <div class="row justify-content-center mb-3">
             <button (click)="sendUploadPS()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
             <button (click)="ConfirmSendUploadModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
+        </div>
+    </div>
+</ngx-smart-modal>
+
+
+<ngx-smart-modal #ConfirmSendVacunacionModal identifier="ConfirmSendVacunacionModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+    <div class="bg-{{company}} p-4 rounded-t-1">
+        <div class="btn-close-float p-3">
+            <a (click)="ConfirmSendVacunacionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        </div>
+    </div>
+    <div class="text-center p-2 px-5">
+        <h5 class="text-{{company}} font-weight-bold text-sd">Declaración Jurada</h5>
+        <div class="bg-gray p-2 text-center mb-2">
+            ¿Estás seguro de aceptar la declaración jurada?
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <button (click)="sendUploadPS()" class="btn rounded-1 px-4 btn-{{company}} mr-3">SI</button>
+            <button (click)="ConfirmSendVacunacionModal.close()" class="btn rounded-1 px-4 btn-{{company}}">NO</button>
         </div>
     </div>
 </ngx-smart-modal>
@@ -651,5 +719,54 @@
         <div class="row justify-content-center mb-3">
             <button (click)="saveDatosAlumno()" class="btn rounded-1 px-4 btn-{{company}} mr-3">GUARDAR</button>
         </div>
+    </div>
+</ngx-smart-modal>
+
+
+<ngx-smart-modal #AvisoVacunaModal identifier="AvisoVacunaModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+    <div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
+        <h5 class="modal-title " style="    padding-left: 30%;">CONTROL DE VACUNAS</h5>
+        <a (click)="AvisoVacunaModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        
+    </div>
+
+    <div class="p-2 px-5" style="padding-bottom: 25px !important;">
+
+        <h4 class="text-{{company}} font-weight-bold text-center">NUEVO REQUISITO PARA MATRÍCULA SEMESTRE 2021-1
+            CARRERA DE MEDICINA HUMANA
+        </h4>
+        <p class="text-m m-0">Pensando en el bienestar de nuestra comunidad estudiantil y con el fin de evitar el riesgo de contraer enfermedades infecciosas e inmunoprevenibles, los estudiantes de la Carrera de Medicina Humana deberán tener su carnet de vacunas actualizado* para ser habilitados para el proceso de matrícula del semestre 2021-1. Siendo estos <b>Tétanos, Hepatitis B, Influenza, Antiamarílica (AMA) y Difteria</b>.</p>
+        <small>*Según esquema Nacional de Vacunación del Ministerio de Salud vigente</small>
+        <br>
+
+        <h6 style="padding-top: 15px; font-weight: 700;">PASOS PARA SEGUIR</h6>
+        <p style="margin-bottom: 2px;">
+            Del <b>20 de enero al 5 de marzo de 2021</b>  y según sea su caso, subir a través de este portal:
+        </p>
+        <ul style="padding-left: 10px;">
+            <li>
+                •	El carnet o constancia de vacunación.
+            </li>
+            <li>
+                •	De no contar con un carnet o constancia de vacunación, presentar una Declaración Jurada de cumplimiento de vacunación (<a target="_blank" href="assets/pdfjs/DECLARACIÓN_JURADAD_DE_CUMPLIMIENTO_DE_VACUNACIÓN.docx" style="text-decoration: underline;">formato sugerido</a>).
+            </li>
+            <li>
+                •	De no desear vacunarse, presentar una documento de exoneración de responsabilidad frente a negación de vacunarse (<a target="_blank" href="assets/pdfjs/DECLARACIÓN_JURADAD_DE_CUMPLIMIENTO_DE_VACUNACIÓN.docx" style="text-decoration: underline;">formato sugerido</a>) .
+            </li>
+        </ul>
+
+        <div class="row justify-content-center mb-3">
+            <button (click)="AvisoVacunaModal.close();vacunaModal.open();" style="width: 30%" class="btn rounded-1 px-4 btn-{{company}} mr-3">INICIAR PROCESO
+                <span>(Descarga y carga de formatos)</span>
+            </button>
+        </div>
+
+        <h6 style="padding-top: 15px; font-weight: 700;">INFORMACIÓN DE LA NORMA Y LINEAMIENTOS</h6>
+        <p> </p>
+        <a style="text-decoration: underline;" target="_blank" href="https://www.cientifica.edu.pe/sites/default/files/2020-10/Lineamiento-de-Vacunacion-para-los-estudiantes-personal-y-docentes-de-la-carrera-de-medicina-humana.pdf">
+            Lineamientos para la vacunación de estudiantes, personal y docentes de la carrera de Medicina Humana
+        </a>
+
+        <br>
     </div>
 </ngx-smart-modal>

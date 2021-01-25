@@ -52,6 +52,16 @@ import { fi } from 'date-fns/locale';
 })
 
 export class StudentComponent implements OnInit {
+
+	showCartilla = false;
+	showDeclaracion = false;
+	showExoneracion = false;
+	botonCartilla = false;
+	botonDeclaracion = false;
+	botonExoneracion = false;
+	botonCerrar = true;
+	botonesvacuna = false;
+
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	enrollmentStatus: any;
@@ -305,6 +315,8 @@ export class StudentComponent implements OnInit {
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
 	@ViewChild('humanityModal') humanityModal: any;
 
+	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
+	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
 		private formBuilder: FormBuilder,
@@ -353,7 +365,8 @@ export class StudentComponent implements OnInit {
 		});
 		this.initSocket();
 		this.getFileUpload();
-		this.getFlagSendUpload();
+		// this.getFlagSendUpload();
+		this.AvisoVacunaModal.open();
 	}
 
 	initSocket(){
@@ -943,48 +956,174 @@ export class StudentComponent implements OnInit {
 			return sentence.join(" ");
 	}
 
-	files: File[] = [];
+	filesCartilla: File[] = [];
+	filesDeclaracion: File[] = [];
+	filesExoneracion: File[] = [];
 
-	onSelect(event) {
+	onSelectCartilla(event) {
 		let filename = event.addedFiles[0].name;
 		let flag = false;
 		
-		if(this.files.length > 0){
-			for (var i = 0; i < this.files.length; i++) { 				
-				if(this.files[i].name == filename) {
+		if(this.filesCartilla.length > 0){
+			for (var i = 0; i < this.filesCartilla.length; i++) { 				
+				if(this.filesCartilla[i].name == filename) {
 					flag = true;
 				}		
 			}	
 			if(!flag){
-				this.files.push(...event.addedFiles);
+				this.filesCartilla.push(...event.addedFiles);
 			}			
 		}else{
-			this.files.push(...event.addedFiles);
+			this.filesCartilla.push(...event.addedFiles);
+		}
+
+		this.validarBotonesFile();
+		this.botonCerrar = false;
+	}
+
+	onSelectDeclaracion(event) {
+		let filename = event.addedFiles[0].name;
+		let flag = false;
+		
+		if (event.addedFiles.length > 1) {
+			this.toastr.error('Solo puede subir un archivo en la sección de Declaración Jurada');
+			return
+		}
+		else if((this.filesDeclaracion.length + this.datafile.length ) == 1) {
+			this.toastr.error('Solo puede subir un archivo en la sección de Declaración Jurada');
+		}
+		else if(this.filesDeclaracion.length > 0){
+			for (var i = 0; i < this.filesDeclaracion.length; i++) { 				
+				if(this.filesDeclaracion[i].name == filename) {
+					flag = true;
+				}		
+			}	
+			if(!flag){
+				this.filesDeclaracion.push(...event.addedFiles);
+			}			
+		}else{
+			this.filesDeclaracion.push(...event.addedFiles);
 		}		
+		this.validarBotonesFile();
+		this.botonCerrar = false;
+	}
+
+	onSelectExoneracion(event) {
+		let filename = event.addedFiles[0].name;
+		let flag = false;
+		
+		if (event.addedFiles.length > 1) {
+			this.toastr.error('Solo puede subir un archivo en la sección de Exoneración');
+			return
+		}
+		else if((this.filesExoneracion.length + this.datafile.length) == 1) {
+			this.toastr.error('Solo puede subir un archivo en la sección de Exoneración');
+		}
+		else if(this.filesExoneracion.length > 0){
+			for (var i = 0; i < this.filesExoneracion.length; i++) { 				
+				if(this.filesExoneracion[i].name == filename) {
+					flag = true;
+				}		
+			}	
+			if(!flag){
+				this.filesExoneracion.push(...event.addedFiles);
+			}			
+		}else{
+			this.filesExoneracion.push(...event.addedFiles);
+		}	
+		this.validarBotonesFile()	
+		this.botonCerrar = false;
 	}
 	
+	
+	validarBotonesFile() {
+		if( this.filesCartilla.length >0 ) {
+			this.botonCartilla = true;
+			this.botonDeclaracion = false;
+			this.botonExoneracion = false;
+		} else if ( this.filesDeclaracion.length >0 ) {
+			this.botonCartilla = false;
+			this.botonDeclaracion = true;
+			this.botonExoneracion = false;
+		} else {
+			this.botonCartilla = false;
+			this.botonDeclaracion = false;
+			this.botonExoneracion = true;
+		}
+	}
+
+	validarBotonesBD(tipo: string) {
+		if( tipo == 'Cartilla' ) {
+			this.botonCartilla = true;
+			this.showCartilla = true;
+			this.botonDeclaracion = false;
+			this.showDeclaracion = false;
+			this.botonExoneracion = false;
+			this.showExoneracion = false;
+		} else if ( tipo == 'Declaración' ) {
+			this.botonCartilla = false;
+			this.showCartilla = false;
+			this.botonDeclaracion = true;
+			this.showDeclaracion = true;
+			this.botonExoneracion = false;
+			this.showExoneracion = false;
+		} else {
+			this.botonCartilla = false;
+			this.showCartilla = false;
+			this.botonDeclaracion = false;
+			this.showDeclaracion = false;
+			this.botonExoneracion = true;
+			this.showExoneracion = true;
+		}
+	}
+
 	upload() {
-		if(this.files.length > 0){
+		if(this.filesCartilla.length > 0 || this.filesDeclaracion.length > 0 || this.filesExoneracion.length > 0){
 			this.loading = true;
 			const formData = new FormData();
-			for (var i = 0; i < this.files.length; i++) { 
-				formData.append("file[]", this.files[i]); 
+
+			let file: any = [];
+			let tipo: string;
+			if( this.filesCartilla.length >0 ) {
+				file = this.filesCartilla;
+				tipo = "Cartilla";
+			} else if ( this.filesDeclaracion.length >0 ) {
+				file = this.filesDeclaracion;
+				tipo = "Declaración";
+			} else {
+				file = this.filesExoneracion;
+				tipo = "Exoneración";
 			}
-		
-			this.http.post('http://cientifica.br/student/uploadControlVacuna/' + this.user.codigoAlumno, formData)
-		
-			.subscribe(res => {				
-				this.getFileUpload();
-				this.getFlagSendUpload();
-				setTimeout(()=>{ 
-					this.loading = false;
-					this.files.splice(0);
-					this.toastr.success('archivo(s) subido(s) correctamente!');
-				}, 3000);				
-			},
-			error => {
-				this.toastr.success(error);
-			});
+
+			for (var i = 0; i < file.length; i++) { 
+				formData.append("file[]", file[i]); 
+			}
+
+			formData.append("tipo", tipo); 
+			formData.append("nombres", this.student.nombreAlumno + ' ' + this.student.apellidoAlumno );
+
+			let requestOptions: any = {
+				method: 'POST',
+				body: formData,
+				redirect: 'follow'
+			};
+			
+			fetch("http://localhost:8000/student/uploadControlVacuna/" + this.user.codigoAlumno + "?file[]", requestOptions)
+				.then(response => response.text())
+				.then(result => {
+					this.getFileUpload();
+					this.getFlagSendUpload();
+					setTimeout(()=>{ 
+						this.loading = false;
+						this.botonCerrar = true;
+						this.filesCartilla.splice(0);
+						this.filesDeclaracion.splice(0);
+						this.filesExoneracion.splice(0);
+						this.toastr.success('archivo(s) subido(s) correctamente!');
+					}, 3000);	
+				})
+				.catch(error => this.toastr.success(error));
+
 		}else{
 			this.toastr.error('no hay archivos a subir');
 		}		
@@ -993,14 +1132,27 @@ export class StudentComponent implements OnInit {
 	getFileUpload(){	
 		this.studentS.getFileUpload(this.user.codigoAlumno)
 		.then((res) => {	
-			console.log(res.data.length);	
+			this.botonesvacuna = true;
+			// console.log(res.data.length);	
 			this.datafile = res.data; 
+
+			if(res.data.length == 0) {
+				this.botonCartilla = true;
+				this.botonDeclaracion = true;
+				this.botonExoneracion = true;
+			} else {
+				this.datafile.forEach((item) => {
+					this.validarBotonesBD(item.tipo)
+				})
+			}			
+
 		});
 	}
 
 	preDeleteUpload(id){
 		this.ConfirmEliminadUploadModal.open();
 		this.idfile=id;		
+		
 	}
 
 	deleteUpload(id){
@@ -1050,10 +1202,59 @@ export class StudentComponent implements OnInit {
 		});
 	}
 
-	onRemove(event) {
+	onRemoveCartilla(event) {
 		console.log(event);
-		this.files.splice(this.files.indexOf(event), 1);
-
+		this.filesCartilla.splice(this.filesCartilla.indexOf(event), 1);
+		this.habilitarbotonesVacunacion();
 	}
+	onRemoveDeclaracion(event) {
+		console.log(event);
+		this.filesDeclaracion.splice(this.filesDeclaracion.indexOf(event), 1);
+		this.habilitarbotonesVacunacion();
+	}
+	onRemoveExoneracion(event) {
+		console.log(event);
+		this.filesExoneracion.splice(this.filesExoneracion.indexOf(event), 1);
+		this.habilitarbotonesVacunacion();
+	}
+
+	habilitarbotonesVacunacion() {
+		if( this.filesExoneracion.length == 0) {
+			this.botonDeclaracion = true
+			this.botonCartilla = true
+			this.botonExoneracion = true
+		}
+	}
+
+	cartilla(){
+		if(this.botonCartilla) {
+			this.showExoneracion = false;
+			this.showCartilla = true;
+			this.showDeclaracion = false;
+		}else {
+			this.toastr.info('Los documentos solo pueden pertencer a una sección.');
+		}
+	}
+
+	declaracion(){
+		if(this.botonDeclaracion) {
+			this.showExoneracion = false;
+			this.showCartilla = false;
+			this.showDeclaracion = true;
+		}else {
+			this.toastr.info('Los documentos solo pueden pertencer a una sección.');
+		}
+	}
+
+	exoneracion(){
+		if(this.botonExoneracion) {
+			this.showExoneracion = true;
+			this.showCartilla = false;
+			this.showDeclaracion = false;
+		} else {
+			this.toastr.info('Los documentos solo pueden pertencer a una sección.');
+		}
+	}
+
 
 }
