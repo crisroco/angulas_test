@@ -85,15 +85,39 @@ export class AcademicConditionsComponent implements OnInit {
 				},
 				'11': {
 					courses: [],
+					name: 'Ciclo: 11'
+				},
+				'12': {
+					courses: [],
+					name: 'Ciclo: 12'
+				},
+				'13': {
+					courses: [],
+					name: 'Ciclo: 13'
+				},
+				'14': {
+					courses: [],
+					name: 'Ciclo: 14'
+				},
+				'15': {
+					courses: [],
+					name: 'Ciclo: 15'
+				},
+				'ELECTIVOS': {
+					courses: [],
 					name: 'Cursos Electivos'
 				}
 			};
 			var tcycles = res.RES_COND_ACAD && res.RES_COND_ACAD.RES_COND_ACAD_DET?res.RES_COND_ACAD.RES_COND_ACAD_DET:[];
 			if(tcycles.length){
 				for (var i = tcycles.length - 1; i >= 0; i--) {
-					tcycles[i].UCS_CICLO = (tcycles[i].UCS_CICLO > 10? 11 : tcycles[i].UCS_CICLO);
-					if(objCycles[tcycles[i].UCS_CICLO]){
-						objCycles[tcycles[i].UCS_CICLO].courses.push(tcycles[i]);
+					// tcycles[i].UCS_CICLO = (tcycles[i].UCS_CICLO > 10? 11 : tcycles[i].UCS_CICLO);
+					if (objCycles[tcycles[i].LVF_CARACTER]) {
+						objCycles['ELECTIVOS'].courses.push(tcycles[i]);
+					} else {
+						if(objCycles[tcycles[i].UCS_CICLO]){
+							objCycles[tcycles[i].UCS_CICLO].courses.push(tcycles[i]);
+						}
 					}
 				}
 				for( var kcycle in objCycles){
@@ -111,7 +135,6 @@ export class AcademicConditionsComponent implements OnInit {
 		this.loading = true;
 		this.studentS.getGlobalStatistics({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
-			console.log(res);
 			this.globalStatistics = res.UCS_REST_VAL_UNID_EGRE_RES && res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM && res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM[0]?res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM[0]:null;
 			if(this.globalStatistics){
 				this.globalStatistics.UNITS_REPEAT_LIMIT = parseInt(this.globalStatistics.UNITS_REPEAT_LIMIT);
@@ -128,7 +151,6 @@ export class AcademicConditionsComponent implements OnInit {
 	getRequirements(){
 		this.studentS.getRequirements({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
-			console.log(res);
 			this.requirements = res.UCS_REST_VAL_REQ_EGRE_RES && res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM && res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM[0]?res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM[0]:null;
 			if(this.requirements){
 				var ingReq = 0;
@@ -165,7 +187,6 @@ export class AcademicConditionsComponent implements OnInit {
 	getWeightedAverage(){
 		this.studentS.getWeightedAverage(this.user.codigoAlumno, this.realProgram.codigoGrado, this.realProgram.codigoPrograma)
 		.then(res => {
-			console.log(res);
 			this.weightedAverage = res.UCS_REST_PROMEDIO_RSP && res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM && res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM[0]?res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM[0]:0;
 		}, error => { });
 	}
@@ -201,7 +222,6 @@ export class AcademicConditionsComponent implements OnInit {
 		this.loading = true;
 		this.studentS.getAcademicStatus({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
-			console.log(res);
 			var objSemester = {};
 			var arSemester = [];
 			let academicStatus: Array<any> = res.UCS_REST_RECORD_ACAD_RES && res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM?res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM:[];
@@ -286,7 +306,7 @@ export class AcademicConditionsComponent implements OnInit {
 		var requiredsAprobe = 0;
 		var requiredsDisaprobe = 0;
 		var requiredsUnd = 0;
-		var objCourses = {}; 
+		var objCourses = {};
 		arr.forEach( (item, index) => {
 			var offset = 35;
 			var offset2 = 45;
@@ -296,6 +316,8 @@ export class AcademicConditionsComponent implements OnInit {
 			}
 			var body = []
 			var totalCredits = 0;
+			var higherProm = 0;
+			console.log(item);
 			item.courses.forEach(item => {
 				body.push([item.ID_Curso, item.Descr, (item.Caracter == 0?'Obligatorio':'Electivo'), item.Ciclo, item.Uni_Matrd, item.GRADE, item.Comentario]);
 				totalCredits += parseInt(item.Uni_Matrd);
@@ -306,6 +328,9 @@ export class AcademicConditionsComponent implements OnInit {
 					objCourses[item.ID_Curso] = true;
 					if(item.Caracter == 0) item.GRADE >= 13? requiredsAprobe += parseInt(item.Uni_Matrd): requiredsDisaprobe += parseInt(item.Uni_Matrd);
 					else item.GRADE >= 13? electivesAprobe += parseInt(item.Uni_Matrd): electivesDisaprobe += parseInt(item.Uni_Matrd);
+				}
+				if (item.N_Med > higherProm) {
+					higherProm = item.N_Med;
 				}
 			})
 			doc.setFontSize(14);
@@ -330,7 +355,7 @@ export class AcademicConditionsComponent implements OnInit {
 				theme: 'striped'
 			});
 			doc.autoTable({
-				head: [['Total Cursos = ' + item.courses.length + ' Total Unidades = ' + totalCredits + ' Promedio Ponderado Ciclo Lectivo = ' + item.courses[0].N_Med]],
+				head: [['Total Cursos = ' + item.courses.length + ' Total Unidades = ' + totalCredits + ' Promedio Ponderado Ciclo Lectivo = ' + higherProm]],
 				startY: doc.autoTableEndPosY(),
 				afterPageContent: footer,
 				margin: { horizontal: 30 },
@@ -391,7 +416,7 @@ export class AcademicConditionsComponent implements OnInit {
 			theme: 'striped'
 		});
 			
-		doc.save("este.pdf");
+		doc.save("record_" + this.user.codigoAlumno + '.pdf');
 	}
 
 	open(){

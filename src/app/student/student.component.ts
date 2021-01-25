@@ -232,13 +232,8 @@ export class StudentComponent implements OnInit {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/calendario_academico_cpe_ate.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021 CAMPUS ATE'
-				},
-				{
-					img: '',
 					url: 'assets/pdfjs/calendario_academico_cpe_villa.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021 CAMPUS VILLA - NORTE'
+					description: 'CALENDARIO ACADÉMICO 2021 CAMPUS VILLA'
 				}
 			],
 			isOpen: true,
@@ -248,7 +243,7 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'https://docs.cientifica.edu.pe/general_pdf/Manual-de-Usuario-Portal-Alumno-UCSUR.pptx',
+					url: 'assets/pdfjs/portal_alumno.pptx',
 					description: 'MANUAL DE USUARIO PORTAL ALUMNO – CIENTIFICA'
 				},
 			],

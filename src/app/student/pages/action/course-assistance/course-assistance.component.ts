@@ -44,17 +44,26 @@ export class CourseAssistanceComponent implements OnInit {
 	ngOnInit() {
 		this.studentS.getAssistanceHistory(this.INSTITUTION + "," + this.STRM  + "," + this.CLASS_NBR  + "," + this.user.codigoAlumno)
 		.then(res => {
-			console.log(res);
+			var timeNowSeconds = (Number(this.realDate.hour)*60*60) + (Number(this.realDate.minute)*60);
 			this.assistances = res.UCS_REST_LSTALU_ASIS_RES && res.UCS_REST_LSTALU_ASIS_RES.UCS_REST_LSTALU_ASIS_COM?res.UCS_REST_LSTALU_ASIS_RES.UCS_REST_LSTALU_ASIS_COM: [];
 			var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
 			this.assistances = this.assistances.filter(item => item.CLASS_ATTEND_DT <= rDate);
 			this.assistances.forEach(item => {
-				if(item.ATTEND_PRESENT == 'Y') this.yesAssistance++;
-				else this.notAssistance++;
+				if (item.CLASS_ATTEND_DT == rDate && this.hourToSeconds(item.ATTEND_FROM_TIME) > timeNowSeconds) {
+					item.notShow = true;
+				}
+				if (!item.notShow) {
+					if(item.ATTEND_PRESENT == 'Y') this.yesAssistance++;
+					else this.notAssistance++;
+				}
 			});
-			this.percentYesAssistance = this.assistances.length && this.yesAssistance?Math.round(this.yesAssistance/this.assistances.length*100):0;
-			this.percentNotAssistance = this.assistances.length && this.notAssistance?Math.round(this.notAssistance/this.assistances.length*100):0;
+			this.percentYesAssistance = this.assistances.length && this.yesAssistance?Math.round(this.yesAssistance/this.assistances.filter(el => !el.notShow).length*100):0;
+			this.percentNotAssistance = this.assistances.length && this.notAssistance?Math.round(this.notAssistance/this.assistances.filter(el => !el.notShow).length*100):0;
 		})
+	}
+
+	hourToSeconds(time){
+		return time.split(':')[0]*60*60 + time.split(':')[1]*60;
 	}
 
 }

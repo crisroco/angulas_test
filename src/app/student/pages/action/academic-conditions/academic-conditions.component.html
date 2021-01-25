@@ -11,29 +11,31 @@
 <div class="row bg-gray-a p-3">
 	<div *ngIf="cycles && cycles.length" class="scroll h-m col-md-12">
 		<div class="col-md-12 mb-2" *ngFor="let cycle of cycles">
-			<div class="bg-purple text-white p-2 px-3"> {{cycle.name}} </div>
-			<div class="p-3 bg-white">
-				<div class="scroll h-auto">
-					<table id="table-cycle-{{cycle.name}}" class="w-100">
-						<thead class="">
-							<tr class="text-center text-s">
-								<th class="px-1 py-2 align-middle text-left text-m">Curso</th>
-								<th class="px-1 py-2 align-middle text-left text-m">Descripción</th>
-								<th class="px-1 py-2 align-middle text-m">Creditos</th>
-								<th class="px-1 py-2 align-middle text-m">Nota</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="text-center text-s" *ngFor="let course of cycle.courses; let s = 'index'">
-								<td class="p-1 text-left"><p ngxTooltip tooltipContent="{{course.Condicion?'<b>' + course.DESCR1 + ' - Pre-requisitos:</b> <br>' + course.Condicion:''}}" tooltipMaxWidth="400px" style="display: initial;">{{ course.DESCR1 }}</p></td>
-								<td class="p-1 text-left">{{ course.DESCR2 + (course.TIPO?(course.TIPO == 'E'?' (Equivalente)':(course.TIPO == 'C'?' (Convalidado)':'')):'') }}</td>
-								<td class="p-1">{{ course.UNITS_REPEAT_LIMIT?course.UNITS_REPEAT_LIMIT:0 }}</td>
-								<td class="p-1">{{ course.NOTAS }}</td>
-							</tr>
-						</tbody>
-					</table>
+			<ng-container *ngIf="cycle.courses.length > 0">
+				<div class="bg-purple text-white p-2 px-3"> {{cycle.name}} </div>
+				<div class="p-3 bg-white">
+					<div class="scroll h-auto">
+						<table id="table-cycle-{{cycle.name}}" class="w-100">
+							<thead class="">
+								<tr class="text-center text-s">
+									<th class="px-1 py-2 align-middle text-left text-m">Curso</th>
+									<th class="px-1 py-2 align-middle text-left text-m">Descripción</th>
+									<th class="px-1 py-2 align-middle text-m">Creditos</th>
+									<th class="px-1 py-2 align-middle text-m">Nota</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="text-center text-s" *ngFor="let course of cycle.courses; let s = 'index'">
+									<td class="p-1 text-left"><p ngxTooltip tooltipContent="{{course.Condicion?'<b>' + course.DESCR1 + ' - Pre-requisitos:</b> <br>' + course.Condicion:''}}" tooltipMaxWidth="400px" style="display: initial;">{{ course.DESCR1 }}</p></td>
+									<td class="p-1 text-left">{{ course.DESCR2 + (course.TIPO?(course.TIPO == 'E'?' (Equivalente)':(course.TIPO == 'C'?' (Convalidado)':'')):'') }}</td>
+									<td class="p-1">{{ course.UNITS_REPEAT_LIMIT?course.UNITS_REPEAT_LIMIT:0 }}</td>
+									<td class="p-1">{{ course.NOTAS }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
+			</ng-container>
 		</div>
 
 		<div class="col-md-12">
@@ -79,7 +81,7 @@
 					<table id="table-students" class="w-100">
 						<thead class="">
 							<tr class="text-center text-s">
-								<th class="px-3 py-2 align-middle text-left text-m">Condiciones de Egreso/Bachiller</th>
+								<th class="px-3 py-2 align-middle text-left text-m"><p class="title-table-student-pink">Condiciones de Bachiller</p></th>
 								<th class="px-3 py-2 align-middle text-m bg-purple-a3 text-white">Requerido</th>
 								<th class="px-3 py-2 align-middle text-m bg-purple-a2 text-white">Logro</th>
 								<th class="px-3 py-2 align-middle text-m bg-purple-a text-white">% de Avance</th>
@@ -104,6 +106,18 @@
 								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.NIV_TER_IDI_REG?((requirements.NIV_TER_IDI_REG[0]=='Y'?'A1 ':'') + (requirements.NIV_TER_IDI_REG[1]=='Y'?'A2 ':'') + (requirements.NIV_TER_IDI_REG[2]=='Y'?'B1 ':'') + (requirements.NIV_TER_IDI_REG[3]=='Y'?'B2 ':' ')):'---'}}</td>
 								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements?requirements.secondProgress:0}}%</td>
 							</tr>
+						</tbody>
+					</table>
+					<table id="table-students" class="w-100">
+						<thead class="">
+							<tr class="text-center text-s">
+								<th class="px-3 py-2 align-middle text-left text-m"><p class="title-table-student-pink">Condiciones de Egresado</p></th>
+								<th class="px-3 py-2 align-middle text-m bg-purple-a3 text-white">Requerido</th>
+								<th class="px-3 py-2 align-middle text-m bg-purple-a2 text-white">Logro</th>
+								<th class="px-3 py-2 align-middle text-m bg-purple-a text-white">% de Avance</th>
+							</tr>
+						</thead>
+						<tbody>
 							<tr class="text-center text-s">
 								<td class="px-3 py-2 align-middle text-left">Practicas Pre-Profesionales</td>
 								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.PRAC_PRE_PROF?(requirements.PRAC_PRE_PROF[0]=='Y'?'Si':'No'):'---'}}</td>
