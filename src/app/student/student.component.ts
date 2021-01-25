@@ -112,7 +112,7 @@ export class StudentComponent implements OnInit {
 							description: ''
 						},
 						{
-							img: 'http://ardi.wipo.int/content/images/ardi_header_es.png',
+							img: 'https://docs.cientifica.edu.pe/biblioteca/imagenes/ardi.png',
 							url: 'https://login.research4life.org/tacgw/login.cshtml',
 							width: '150px',
 							description: 'user: PER044 \n pass: NgSHXazQ'
