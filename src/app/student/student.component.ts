@@ -10,7 +10,7 @@ import { Broadcaster } from '../services/broadcaster';
 import { ValidationService } from '../services/validation.service';
 import { InputsService } from '../services/inputs.service';
 import { FormService } from '../services/form.service';
-import { RealDate } from '../helpers/dates';
+import { RealDate, AddDay } from '../helpers/dates';
 import { DynamicSort } from '../helpers/arrays';
 import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from '../app.settings';
@@ -982,6 +982,7 @@ export class StudentComponent implements OnInit {
 	}
 
 	onSelectDeclaracion(event) {
+		debugger
 		let filename = event.addedFiles[0].name;
 		let flag = false;
 		
@@ -993,6 +994,7 @@ export class StudentComponent implements OnInit {
 			this.toastr.error('Solo puede subir un archivo en la sección de Declaración Jurada');
 		}
 		else if(this.filesDeclaracion.length > 0){
+
 			for (var i = 0; i < this.filesDeclaracion.length; i++) { 				
 				if(this.filesDeclaracion[i].name == filename) {
 					flag = true;
@@ -1002,7 +1004,15 @@ export class StudentComponent implements OnInit {
 				this.filesDeclaracion.push(...event.addedFiles);
 			}			
 		}else{
-			this.filesDeclaracion.push(...event.addedFiles);
+			let name = event.addedFiles[0].name
+			let arrName = name.split('.')
+			let tipo = arrName[arrName.length-1].toLocaleLowerCase()
+			if (tipo == 'docx' || tipo == 'doc' || tipo == 'pdf') {
+				this.filesDeclaracion.push(...event.addedFiles);
+			}else {
+				this.toastr.error('Solo puede subir archivos de tipo PDF o Word');
+			}
+
 		}		
 		this.validarBotonesFile();
 		this.botonCerrar = false;
@@ -1029,7 +1039,14 @@ export class StudentComponent implements OnInit {
 				this.filesExoneracion.push(...event.addedFiles);
 			}			
 		}else{
-			this.filesExoneracion.push(...event.addedFiles);
+			let name = event.addedFiles[0].name
+			let arrName = name.split('.')
+			let tipo = arrName[arrName.length-1].toLocaleLowerCase()
+			if (tipo == 'docx' || tipo == 'doc' || tipo == 'pdf') {
+				this.filesDeclaracion.push(...event.addedFiles);
+			}else {
+				this.toastr.error('Solo puede subir archivos de tipo PDF o Word');
+			}
 		}	
 		this.validarBotonesFile()	
 		this.botonCerrar = false;
