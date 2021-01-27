@@ -80,7 +80,7 @@ export class StudentComponent implements OnInit {
 					name: 'Multidisciplinaria',
 					libraries: [
 						{
-							img: 'http://www.e-libro.com/Content/images/logo-dark@2x.png',
+							img: 'https://docs.cientifica.edu.pe/biblioteca/imagenes/elibro%20(2).png',
 							url: 'https://elibro.net/es/lc/ucsur/inicio',
 							width: '100px',
 							description: 'user: correo institucional \n pass: Código de usuario'
@@ -98,7 +98,7 @@ export class StudentComponent implements OnInit {
 							description: ''
 						},
 						{
-							img: 'http://biblioteca.uoc.edu/sites/default/files/styles/public/Wiley%20Online%20Library_2.png',
+							img: 'https://docs.cientifica.edu.pe/biblioteca/imagenes/Wiley%20Online%20Library_2.png',
 							url: 'https://aplicaciones2.cientifica.edu.pe/biblioteca/databookw.php',
 							width: '100px',
 							description: 'user: UCSUR \n pass: UCSUR'
