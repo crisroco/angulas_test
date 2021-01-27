@@ -146,10 +146,10 @@
             
             <div class=" row nowrap align-items-center acordion-student" [ngClass]="(!showCartilla)? 'hide-acordion':'pd-2'">
                 <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
-                    <ngx-dropzone (change)="onSelectCartilla($event)"  [accept]="'image/*'">
+                    <ngx-dropzone (change)="onSelectCartilla($event)">
                         <ngx-dropzone-label>sube ó arrastra tus archivos de Cartilla aqui!</ngx-dropzone-label>
                         <ngx-dropzone-preview *ngFor="let f of filesCartilla" [removable]="true" (removed)="onRemoveCartilla(f)">
-                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                            <ngx-dropzone-label>{{ f.name }} </ngx-dropzone-label>
                         </ngx-dropzone-preview>
                     </ngx-dropzone>
                 </div>
@@ -160,7 +160,7 @@
                     <ngx-dropzone (change)="onSelectDeclaracion($event)">
                         <ngx-dropzone-label>sube ó arrastra tu archivo de Declaración Jurada aqui!</ngx-dropzone-label>
                         <ngx-dropzone-preview *ngFor="let f of filesDeclaracion" [removable]="true" (removed)="onRemoveDeclaracion(f)">
-                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                            <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
                         </ngx-dropzone-preview>
                     </ngx-dropzone>
                 </div>
@@ -171,7 +171,7 @@
                     <ngx-dropzone (change)="onSelectExoneracion($event)">
                         <ngx-dropzone-label>sube ó arrastra tu archivo de Exoneración aqui!</ngx-dropzone-label>
                         <ngx-dropzone-preview *ngFor="let f of filesExoneracion" [removable]="true" (removed)="onRemoveExoneracion(f)">
-                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                            <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
                         </ngx-dropzone-preview>
                     </ngx-dropzone>
                 </div>
