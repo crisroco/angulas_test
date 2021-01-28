@@ -977,7 +977,7 @@ export class StudentComponent implements OnInit {
 	}
 
 	onSelectDeclaracion(event) {
-		debugger
+		// debugger
 		let filename = event.addedFiles[0].name;
 		let flag = false;
 		
@@ -1038,7 +1038,7 @@ export class StudentComponent implements OnInit {
 			let arrName = name.split('.')
 			let tipo = arrName[arrName.length-1].toLocaleLowerCase()
 			if (tipo == 'docx' || tipo == 'doc' || tipo == 'pdf') {
-				this.filesDeclaracion.push(...event.addedFiles);
+				this.filesExoneracion.push(...event.addedFiles);
 			}else {
 				this.toastr.error('Solo puede subir archivos de tipo PDF o Word');
 			}
@@ -1120,7 +1120,7 @@ export class StudentComponent implements OnInit {
 				redirect: 'follow'
 			};
 			
-			fetch("http://localhost:8000/student/uploadControlVacuna/" + this.user.codigoAlumno + "?file[]", requestOptions)
+			fetch("https://back-miportal-dev.cientifica.edu.pe/student/uploadControlVacuna/" + this.user.codigoAlumno + "?file[]", requestOptions)
 				.then(response => response.text())
 				.then(result => {
 					this.getFileUpload();
