@@ -1120,7 +1120,7 @@ export class StudentComponent implements OnInit {
 				redirect: 'follow'
 			};
 			
-			fetch("https://back-miportal-dev.cientifica.edu.pe/student/uploadControlVacuna/" + this.user.codigoAlumno + "?file[]", requestOptions)
+			fetch("https://back-miportal.cientifica.edu.pe/student/uploadControlVacuna/" + this.user.codigoAlumno + "?file[]", requestOptions)
 				.then(response => response.text())
 				.then(result => {
 					this.getFileUpload();
