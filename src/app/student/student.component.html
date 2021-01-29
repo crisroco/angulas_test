@@ -146,8 +146,9 @@
             
             <div class=" row nowrap align-items-center acordion-student" [ngClass]="(!showCartilla)? 'hide-acordion':'pd-2'">
                 <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
-                    <ngx-dropzone (change)="onSelectCartilla($event)">
-                        <ngx-dropzone-label>sube ó arrastra tus archivos de Cartilla aqui!</ngx-dropzone-label>
+                    <ngx-dropzone (change)="onSelectCartilla($event)" style="display: grid;">
+                        <ngx-dropzone-label>Sube ó arrastra tus archivos de Cartilla aquí!</ngx-dropzone-label>
+                        <ngx-dropzone-label>Solo es posible subir archivos de tipo imagen, Pdf y Word</ngx-dropzone-label>
                         <ngx-dropzone-preview *ngFor="let f of filesCartilla" [removable]="true" (removed)="onRemoveCartilla(f)">
                             <ngx-dropzone-label>{{ f.name }} </ngx-dropzone-label>
                         </ngx-dropzone-preview>
@@ -157,8 +158,9 @@
 
             <div class=" row nowrap align-items-center acordion-student" [ngClass]="(!showDeclaracion)? 'hide-acordion':'pd-2'" >
                 <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
-                    <ngx-dropzone (change)="onSelectDeclaracion($event)">
-                        <ngx-dropzone-label>sube ó arrastra tu archivo de Declaración Jurada aqui!</ngx-dropzone-label>
+                    <ngx-dropzone (change)="onSelectDeclaracion($event)" style="display: grid;">
+                        <ngx-dropzone-label>Sube ó arrastra tu archivo de Declaración Jurada aquí!</ngx-dropzone-label>
+                        <ngx-dropzone-label>Solo es posible subir un archivo de tipo Pdf ó Word</ngx-dropzone-label>
                         <ngx-dropzone-preview *ngFor="let f of filesDeclaracion" [removable]="true" (removed)="onRemoveDeclaracion(f)">
                             <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
                         </ngx-dropzone-preview>
@@ -168,8 +170,9 @@
 
             <div class=" row nowrap align-items-center acordion-student" [ngClass]="(!showExoneracion)? 'hide-acordion':'pd-2'" >
                 <div class="col-md-12" style="padding-right: 0px; padding-left: 0px;">
-                    <ngx-dropzone (change)="onSelectExoneracion($event)">
-                        <ngx-dropzone-label>sube ó arrastra tu archivo de Exoneración aqui!</ngx-dropzone-label>
+                    <ngx-dropzone (change)="onSelectExoneracion($event)" style="display: grid;">
+                        <ngx-dropzone-label>Sube ó arrastra tu archivo de Exoneración aquí!</ngx-dropzone-label>
+                        <ngx-dropzone-label>Solo es posible subir un archivo de tipo Pdf ó Word!</ngx-dropzone-label>
                         <ngx-dropzone-preview *ngFor="let f of filesExoneracion" [removable]="true" (removed)="onRemoveExoneracion(f)">
                             <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
                         </ngx-dropzone-preview>
