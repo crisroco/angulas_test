@@ -10,13 +10,17 @@ import { Broadcaster } from '../services/broadcaster';
 import { ValidationService } from '../services/validation.service';
 import { InputsService } from '../services/inputs.service';
 import { FormService } from '../services/form.service';
-import { RealDate } from '../helpers/dates';
+import { RealDate, AddDay } from '../helpers/dates';
 import { DynamicSort } from '../helpers/arrays';
 import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from '../app.settings';
 import { WebsocketService } from '../services/websocket.service';
 import { QueueService } from '../services/queue.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+
+import { HttpClient } from '@angular/common/http';
+import { fi } from 'date-fns/locale';
+
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -48,6 +52,16 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 
 export class StudentComponent implements OnInit {
+
+	showCartilla = false;
+	showDeclaracion = false;
+	showExoneracion = false;
+	botonCartilla = false;
+	botonDeclaracion = false;
+	botonExoneracion = false;
+	botonCerrar = true;
+	botonesvacuna = false;
+
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	enrollmentStatus: any;
@@ -270,6 +284,9 @@ export class StudentComponent implements OnInit {
 	enrollCycles: Array<any>;
 	enroll_conditions: any = null;
 	queueEnroll: any;
+	idfile: any;
+	datafile = [];
+	flagSendUpload: boolean = true;
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
 	personalUpdateForm: FormGroup;
@@ -279,6 +296,8 @@ export class StudentComponent implements OnInit {
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
+	@ViewChild('ConfirmSendUploadModal') ConfirmSendUploadModal: any;	
+	@ViewChild('ConfirmEliminadUploadModal') ConfirmEliminadUploadModal: any;		
 
 	@ViewChild('IntentionEnrollmentModal') IntentionEnrollmentModal: any;
 	@ViewChild('NotIntentionEnrollmentModal') NotIntentionEnrollmentModal: any;
@@ -291,6 +310,8 @@ export class StudentComponent implements OnInit {
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
 	@ViewChild('humanityModal') humanityModal: any;
 
+	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
+	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
 		private formBuilder: FormBuilder,
@@ -303,7 +324,7 @@ export class StudentComponent implements OnInit {
     	private toastr: ToastrService,
 		public inputsS: InputsService,
 		private formS: FormService,
-		public ngxSmartModalService: NgxSmartModalService) { }
+		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) { }
 
 	ngOnInit() {
 		if(!this.user){
@@ -332,11 +353,15 @@ export class StudentComponent implements OnInit {
 			else if(message && message.getEnroll && message.getEnroll == 'Y'){
 				this.getQueueEnroll();
 			}
+
 			else if(message && message.hideFooter){
 				this.innewEnrollment = true;
 			}
 		});
 		this.initSocket();
+		this.getFileUpload();
+		// this.getFlagSendUpload();
+		this.AvisoVacunaModal.open();
 	}
 
 	initSocket(){
@@ -925,5 +950,323 @@ export class StudentComponent implements OnInit {
 			}
 			return sentence.join(" ");
 	}
+
+	filesCartilla: File[] = [];
+	filesDeclaracion: File[] = [];
+	filesExoneracion: File[] = [];
+
+	onSelectCartilla(event) {
+		let filename = event.addedFiles[0].name;
+		let flag = false;
+		
+		if(this.filesCartilla.length > 0){
+			for (var i = 0; i < this.filesCartilla.length; i++) { 				
+				if(this.filesCartilla[i].name == filename) {
+					flag = true;
+				}		
+			}	
+			if(!flag){
+				this.filesCartilla.push(...event.addedFiles);
+			}			
+		}else{
+			this.filesCartilla.push(...event.addedFiles);
+		}
+
+		this.validarBotonesFile();
+		this.botonCerrar = false;
+	}
+
+	onSelectDeclaracion(event) {
+		// debugger
+		let filename = event.addedFiles[0].name;
+		let flag = false;
+		
+		if (event.addedFiles.length > 1) {
+			this.toastr.error('Solo puede subir un archivo en la sección de Declaración Jurada');
+			return
+		}
+		else if((this.filesDeclaracion.length + this.datafile.length ) == 1) {
+			this.toastr.error('Solo puede subir un archivo en la sección de Declaración Jurada');
+		}
+		else if(this.filesDeclaracion.length > 0){
+
+			for (var i = 0; i < this.filesDeclaracion.length; i++) { 				
+				if(this.filesDeclaracion[i].name == filename) {
+					flag = true;
+				}		
+			}	
+			if(!flag){
+				this.filesDeclaracion.push(...event.addedFiles);
+			}			
+		}else{
+			let name = event.addedFiles[0].name
+			let arrName = name.split('.')
+			let tipo = arrName[arrName.length-1].toLocaleLowerCase()
+			if (tipo == 'docx' || tipo == 'doc' || tipo == 'pdf') {
+				this.filesDeclaracion.push(...event.addedFiles);
+			}else {
+				this.toastr.error('Solo puede subir archivos de tipo PDF o Word');
+			}
+
+		}		
+		this.validarBotonesFile();
+		this.botonCerrar = false;
+	}
+
+	onSelectExoneracion(event) {
+		let filename = event.addedFiles[0].name;
+		let flag = false;
+		
+		if (event.addedFiles.length > 1) {
+			this.toastr.error('Solo puede subir un archivo en la sección de Exoneración');
+			return
+		}
+		else if((this.filesExoneracion.length + this.datafile.length) == 1) {
+			this.toastr.error('Solo puede subir un archivo en la sección de Exoneración');
+		}
+		else if(this.filesExoneracion.length > 0){
+			for (var i = 0; i < this.filesExoneracion.length; i++) { 				
+				if(this.filesExoneracion[i].name == filename) {
+					flag = true;
+				}		
+			}	
+			if(!flag){
+				this.filesExoneracion.push(...event.addedFiles);
+			}			
+		}else{
+			let name = event.addedFiles[0].name
+			let arrName = name.split('.')
+			let tipo = arrName[arrName.length-1].toLocaleLowerCase()
+			if (tipo == 'docx' || tipo == 'doc' || tipo == 'pdf') {
+				this.filesExoneracion.push(...event.addedFiles);
+			}else {
+				this.toastr.error('Solo puede subir archivos de tipo PDF o Word');
+			}
+		}	
+		this.validarBotonesFile()	
+		this.botonCerrar = false;
+	}
+	
+	
+	validarBotonesFile() {
+		if( this.filesCartilla.length >0 ) {
+			this.botonCartilla = true;
+			this.botonDeclaracion = false;
+			this.botonExoneracion = false;
+		} else if ( this.filesDeclaracion.length >0 ) {
+			this.botonCartilla = false;
+			this.botonDeclaracion = true;
+			this.botonExoneracion = false;
+		} else {
+			this.botonCartilla = false;
+			this.botonDeclaracion = false;
+			this.botonExoneracion = true;
+		}
+	}
+
+	validarBotonesBD(tipo: string) {
+		if( tipo == 'Cartilla' ) {
+			this.botonCartilla = true;
+			this.showCartilla = true;
+			this.botonDeclaracion = false;
+			this.showDeclaracion = false;
+			this.botonExoneracion = false;
+			this.showExoneracion = false;
+		} else if ( tipo == 'Declaración' ) {
+			this.botonCartilla = false;
+			this.showCartilla = false;
+			this.botonDeclaracion = true;
+			this.showDeclaracion = true;
+			this.botonExoneracion = false;
+			this.showExoneracion = false;
+		} else {
+			this.botonCartilla = false;
+			this.showCartilla = false;
+			this.botonDeclaracion = false;
+			this.showDeclaracion = false;
+			this.botonExoneracion = true;
+			this.showExoneracion = true;
+		}
+	}
+
+	upload() {
+		if(this.filesCartilla.length > 0 || this.filesDeclaracion.length > 0 || this.filesExoneracion.length > 0){
+			this.loading = true;
+			const formData = new FormData();
+
+			let file: any = [];
+			let tipo: string;
+			if( this.filesCartilla.length >0 ) {
+				file = this.filesCartilla;
+				tipo = "Cartilla";
+			} else if ( this.filesDeclaracion.length >0 ) {
+				file = this.filesDeclaracion;
+				tipo = "Declaración";
+			} else {
+				file = this.filesExoneracion;
+				tipo = "Exoneración";
+			}
+
+			for (var i = 0; i < file.length; i++) { 
+				formData.append("file[]", file[i]); 
+			}
+
+			formData.append("tipo", tipo); 
+			formData.append("nombres", this.student.nombreAlumno + ' ' + this.student.apellidoAlumno );
+
+			let requestOptions: any = {
+				method: 'POST',
+				body: formData,
+				redirect: 'follow'
+			};
+			
+			fetch("https://back-miportal.cientifica.edu.pe/student/uploadControlVacuna/" + this.user.codigoAlumno + "?file[]", requestOptions)
+				.then(response => response.text())
+				.then(result => {
+					this.getFileUpload();
+					this.getFlagSendUpload();
+					setTimeout(()=>{ 
+						this.loading = false;
+						this.botonCerrar = true;
+						this.filesCartilla.splice(0);
+						this.filesDeclaracion.splice(0);
+						this.filesExoneracion.splice(0);
+						this.toastr.success('archivo(s) subido(s) correctamente!');
+					}, 3000);	
+				})
+				.catch(error => this.toastr.success(error));
+
+		}else{
+			this.toastr.error('no hay archivos a subir');
+		}		
+	}
+
+	getFileUpload(){	
+		this.studentS.getFileUpload(this.user.codigoAlumno)
+		.then((res) => {	
+			this.botonesvacuna = true;
+			// console.log(res.data.length);	
+			this.datafile = res.data; 
+
+			if(res.data.length == 0) {
+				this.botonCartilla = true;
+				this.botonDeclaracion = true;
+				this.botonExoneracion = true;
+			} else {
+				this.datafile.forEach((item) => {
+					this.validarBotonesBD(item.tipo)
+				})
+			}			
+
+		});
+	}
+
+	preDeleteUpload(id){
+		this.ConfirmEliminadUploadModal.open();
+		this.idfile=id;		
+		
+	}
+
+	deleteUpload(id){
+		this.loading = true;	
+		this.studentS.deleteUpload(id)
+		.then((res) => {
+			this.ConfirmEliminadUploadModal.close();	
+			this.getFileUpload();	
+			this.getFlagSendUpload();
+			setTimeout(()=>{ 
+				this.loading = false;
+				this.toastr.success('archivo eliminado correctamente!');	
+			}, 3000);
+		},
+		error => {
+				this.toastr.error(error);
+		});
+	}
+
+	sendUploadPS(){	
+		this.loading = true;
+		this.studentS.sendUploadPS({emplid: this.user.codigoAlumno})
+		.then((res) => {
+			if(res.UCS_REG_VAC_DET_RES.Estado == 'Y'){
+				this.ConfirmSendUploadModal.close();					
+				this.getFileUpload();
+				this.getFlagSendUpload();	
+				setTimeout(()=>{ 
+					this.loading = false;
+					this.toastr.success('declaración confirmada correctamente!');		
+				}, 3000);			
+			}else{
+				this.toastr.error('ocurrio un error!');
+			}
+		},
+		error => {
+			this.loading = false;	
+			this.toastr.error(error);
+		});
+	}
+
+	getFlagSendUpload(){	
+		this.studentS.getFlagSendUpload(this.user.codigoAlumno)
+		.then((res) => {
+			console.log(res.status);			
+			this.flagSendUpload = res.status;
+		});
+	}
+
+	onRemoveCartilla(event) {
+		console.log(event);
+		this.filesCartilla.splice(this.filesCartilla.indexOf(event), 1);
+		this.habilitarbotonesVacunacion();
+	}
+	onRemoveDeclaracion(event) {
+		console.log(event);
+		this.filesDeclaracion.splice(this.filesDeclaracion.indexOf(event), 1);
+		this.habilitarbotonesVacunacion();
+	}
+	onRemoveExoneracion(event) {
+		console.log(event);
+		this.filesExoneracion.splice(this.filesExoneracion.indexOf(event), 1);
+		this.habilitarbotonesVacunacion();
+	}
+
+	habilitarbotonesVacunacion() {
+		if( this.filesExoneracion.length == 0) {
+			this.botonDeclaracion = true
+			this.botonCartilla = true
+			this.botonExoneracion = true
+		}
+	}
+
+	cartilla(){
+		if(this.botonCartilla) {
+			this.showExoneracion = false;
+			this.showCartilla = true;
+			this.showDeclaracion = false;
+		}else {
+			this.toastr.info('Los documentos solo pueden pertencer a una sección.');
+		}
+	}
+
+	declaracion(){
+		if(this.botonDeclaracion) {
+			this.showExoneracion = false;
+			this.showCartilla = false;
+			this.showDeclaracion = true;
+		}else {
+			this.toastr.info('Los documentos solo pueden pertencer a una sección.');
+		}
+	}
+
+	exoneracion(){
+		if(this.botonExoneracion) {
+			this.showExoneracion = true;
+			this.showCartilla = false;
+			this.showDeclaracion = false;
+		} else {
+			this.toastr.info('Los documentos solo pueden pertencer a una sección.');
+		}
+	}
+
 
 }

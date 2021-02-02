@@ -19,3 +19,26 @@ span.description {
 	  line-height: 1;
 	  font-weight: 700;
 	}
+
+.hide-acordion {
+	visibility: hidden;
+	// display: none;
+	opacity: 0;
+	height: 0px;
+	// padding: 0px;
+}
+
+.acordion-student {
+	// transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+	transition: all .35s;
+}
+
+.btn-vacuna {
+	background: #fff;
+	border: 1px #0021d7 solid;
+	color: #2224a2;
+}
+
+.btn-wait {
+	cursor: no-drop;
+}

@@ -150,4 +150,20 @@ export class StudentService {
     public getDeuda(code): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getDeuda/' + code).toPromise();
     }
+
+    public getFileUpload(code): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getUploadbyEmplid/' + code).toPromise();
+    }
+
+    public getFlagSendUpload(code): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getFlagSendUpload/' + code).toPromise();
+    }
+
+    public deleteUpload(code): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/deleteUpload/' + code).toPromise();
+    }
+
+    public sendUploadPS(data: any): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/sendUploadPS', data).toPromise();
+    }
 }
