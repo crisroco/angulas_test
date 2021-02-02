@@ -361,7 +361,7 @@ export class StudentComponent implements OnInit {
 		this.initSocket();
 		this.getFileUpload();
 		// this.getFlagSendUpload();
-		// this.AvisoVacunaModal.open();
+		this.AvisoVacunaModal.open();
 	}
 
 	initSocket(){
