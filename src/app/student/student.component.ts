@@ -228,6 +228,11 @@ export class StudentComponent implements OnInit {
 					img: '',
 					url: 'assets/pdfjs/calendario_academico_pregrado.pdf',
 					description: 'CALENDARIO ACADÉMICO 2021'
+				},
+				{
+					img: '',
+					url: 'assets/pdfjs/ROTACIONES_EXTERNADO_2021.pdf',
+					description: 'ROTACIONES DE EXTERNADO DE MEDICINA HUMANA 2021 '
 				}
 			],
 			isOpen: true,
@@ -275,6 +280,7 @@ export class StudentComponent implements OnInit {
 	menus = false;
 	noClosed: boolean = false;
 	crossdata: any;
+	showVacunation:boolean = false;
 	loading: boolean = false;
 	motives: Array<any>;
 	courses: Array<any>;
@@ -361,7 +367,12 @@ export class StudentComponent implements OnInit {
 		this.initSocket();
 		this.getFileUpload();
 		// this.getFlagSendUpload();
-		this.AvisoVacunaModal.open();
+		this.studentS.medicineStudents().then((res) => {
+			if (res.find(emp => emp == this.user.codigoAlumno)) {
+				this.AvisoVacunaModal.open();
+				this.showVacunation = true;
+			}
+		});
 	}
 
 	initSocket(){

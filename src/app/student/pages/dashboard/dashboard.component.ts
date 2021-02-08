@@ -152,22 +152,6 @@ export class DashboardComponent implements OnInit {
 			// this.broadcaster.sendMessage({ getEnroll: 'Y' });
 			// this.btnEnroll = true;
 		})
-		this.studentS.getListOfStudentsJson()
-		.then((res) => {
-			if (res.find(std => std == this.user.codigoAlumno)) {
-				console.log('finded');
-				this.postModal.open();
-			} else {
-				console.log('not finded');
-				this.preModal.open();
-			}
-			// if (res['data']) {
-			// 	this.fidelityLink = res['data']['link'];
-			// 	if (this.fidelityLink) {
-			// 		this.AnnouncementModal.open();
-			// 	}
-			// }
-		});
 	}
 
 	getNotifications(){
