@@ -95,6 +95,7 @@ export class DashboardEnrollComponent implements OnInit {
     this.enrollmentS.getAcademicData({EMPLID: this.user.codigoAlumno})
       .then((res) => {
         if (res.length == 0) {
+          console.log(res);
           this.toastS.error('Tu matricula no esta habilitada, comunicate con planificación');
           setTimeout(() => {
             this.router.navigate(['/estudiante']);
@@ -142,9 +143,7 @@ export class DashboardEnrollComponent implements OnInit {
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {
       if (res.length > 0) {
-        this.myCoursesinEnrollment = res.sort((a,b) => {
-          return a.CRSE_ID - b.CRSE_ID
-        });
+        this.myCoursesinEnrollment = res.reverse().sort(this.dynamicSortMultiple(["CRSE_ID"]));
         let credits = 0;
         let oneTimeCourse;
         for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
@@ -154,7 +153,11 @@ export class DashboardEnrollComponent implements OnInit {
             let existInfo = this.myCoursesinEnrollment[i]['status'] == 'B' && !this.myCoursesinEnrollment[i]['units_repeat_limit2'];
             let number = existInfo?Number(this.myCoursesinEnrollment[i]['UNITS_REPEAT_LIMIT']):Number(this.myCoursesinEnrollment[i]['units_repeat_limit2']);
             if ((this.myCoursesinEnrollment[i].status == 'I' && this.myCoursesinEnrollment[i].units_repeat_limit2) || (this.myCoursesinEnrollment[i].status == 'B')) {
-              credits += number;
+              if (this.myCoursesinEnrollment[i].FLAG2 == 'Y') {
+                credits += Number(this.myCoursesinEnrollment[i]['UNITS_REQUIRED']);
+              } else {
+                credits += number;
+              }
             }
           }
         }
@@ -454,7 +457,8 @@ export class DashboardEnrollComponent implements OnInit {
       }
     }
     this.enrollmentS.saveCourseClass({
-      courses: result
+      courses: result,
+      emplid_admin: this.user.email
     }).then((res) => {
       if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
         let index = this.availableCourses.findIndex(val => val['own_enrollment_skillful_load_id'] == this.selectedCourse['own_enrollment_skillful_load_id']);

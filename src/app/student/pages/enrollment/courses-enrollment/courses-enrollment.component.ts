@@ -89,7 +89,11 @@ export class CoursesEnrollmentComponent implements OnInit {
             let existInfo = example[i]['status'] == 'B' && !example[i]['units_repeat_limit2'];
             let number = existInfo?Number(example[i]['UNITS_REPEAT_LIMIT']):Number(example[i]['units_repeat_limit2']);
             if (example[i].trash) {
-              credits += number;
+              if (example[i].FLAG2 == 'Y') {
+                credits += Number(example[i]['UNITS_REQUIRED']);
+              } else {
+                credits += number;
+              }
             }
           }
         }
