@@ -63,9 +63,12 @@ export class MatriculadosComponent implements OnInit {
             let existInfo = example[i]['status'] == 'B' && !example[i]['units_repeat_limit2'];
             let number = existInfo?Number(example[i]['UNITS_REPEAT_LIMIT']):Number(example[i]['units_repeat_limit2']);
             if (example[i].trash) {
-              credits += number;
+              if (example[i].FLAG2 == 'Y') {
+                credits += Number(example[i]['UNITS_REQUIRED']);
+              } else {
+                credits += number;
+              }
             }
-            console.log(credits);
           }
         }
         this.myCredits = credits;
@@ -96,6 +99,8 @@ export class MatriculadosComponent implements OnInit {
             filteredArray[array[i].DESCR].push(array[i]);
           } else if (array[i]['SSR_COMPONENT'] == 'TEO' && filteredArray[array[i].DESCR][0]['SSR_COMPONENT'] == 'PRA') {
             filteredArray[array[i].DESCR].push(array[i]);
+          } else if (array[i]['SSR_COMPONENT'] == 'SEM') {
+            filteredArray[array[i].DESCR].push(array[i]);
           }
         }
       }
@@ -103,7 +108,7 @@ export class MatriculadosComponent implements OnInit {
     }
     for(var el in filteredArray) {
       filteredArray[el].forEach(value => {
-        if (filteredArray[el].length == 2 && value.SSR_COMPONENT == 'PRA') {
+        if (filteredArray[el].length == 2 && (value.SSR_COMPONENT == 'PRA' || value.SSR_COMPONENT == 'SEM')) {
           value.showLine = true;
           finalArray.push(value);
         } else {

@@ -336,6 +336,9 @@ export class DashboardEnrollComponent implements OnInit {
             if (el.SSR_COMPONENT == 'PRA') {
               el.value = false;
             }
+            if (el.SSR_COMPONENT == 'SEM') {
+              el.value = course.value;
+            }
             if (numberOfPRA > 1) {
               
             } else {
