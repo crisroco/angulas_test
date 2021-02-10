@@ -97,7 +97,7 @@ export class MatriculadosComponent implements OnInit {
         if (filteredArray[array[i].DESCR].length < 2) {
           if (array[i]['SSR_COMPONENT'] == 'PRA' && filteredArray[array[i].DESCR][0]['SSR_COMPONENT'] == 'TEO') {
             filteredArray[array[i].DESCR].push(array[i]);
-          } else if (array[i]['SSR_COMPONENT'] == 'TEO' && filteredArray[array[i].DESCR][0]['SSR_COMPONENT'] == 'PRA') {
+          } else if (array[i]['SSR_COMPONENT'] == 'TEO' && (filteredArray[array[i].DESCR][0]['SSR_COMPONENT'] == 'PRA' || filteredArray[array[i].DESCR][0]['SSR_COMPONENT'] == 'SEM')) {
             filteredArray[array[i].DESCR].push(array[i]);
           } else if (array[i]['SSR_COMPONENT'] == 'SEM') {
             filteredArray[array[i].DESCR].push(array[i]);
