@@ -64,7 +64,7 @@ export class DashboardComponent implements OnInit {
 	nextClassLink:any;
 	realProgram;
 	showEnrollment:boolean = false;
-
+	showTurn:boolean = false;
 	realDevice = this.deviceS.getDeviceInfo();
 	constructor( private formBuilder: FormBuilder,
 		private session: SessionService,
@@ -82,6 +82,12 @@ export class DashboardComponent implements OnInit {
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
+		this.studentS.getListOfStudentsJson()
+			.then((res) => {
+				if( res.find(emp => emp == this.user.codigoAlumno)) {
+					this.showTurn = true;
+				}
+			});
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;

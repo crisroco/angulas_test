@@ -18,30 +18,32 @@
 					<div *ngIf="nextClassLink" class="btn btn-block next_class my-2 text-center">
 						<a (click)="preGoMoodle()" target="_blank" class="my-0 text-{{company}}"> <span style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px" src="./assets/img/icon/zoom.png" alt=""></a>
 					</div>
-					<!-- <div *ngIf="enroll && queueEnroll" class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}"> {{queueEnroll.ind_grupo == 'N' && !queueEnroll.fecha_ing?'Aún no tienes Turno de Matricula':'Turno: ' + queueEnroll.date.day + ' de ' + queueEnroll.date.nmonth + ' ' + queueEnroll.date.hour + ':' + queueEnroll.date.minute + queueEnroll.date.thour}} </div>
+					<ng-container *ngIf="showTurn">
+						<div *ngIf="enroll && queueEnroll" class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}"> {{queueEnroll.ind_grupo == 'N' && !queueEnroll.fecha_ing?'Aún no tienes Turno de Matricula':'Turno: ' + queueEnroll.date.day + ' de ' + queueEnroll.date.nmonth + ' ' + queueEnroll.date.hour + ':' + queueEnroll.date.minute + queueEnroll.date.thour}} </div>
 
-					<div class="row justify-content-center align-items-center mb-2 mt-3">
-						<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="AcademicConditionModal.open()">
-							<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
-							<div class="bg-black text-white p-2 text-s">
-								<p class="m-0">Condiciones</p>
-								<p class="m-0">Académicas</p>
+						<div class="row justify-content-center align-items-center mb-2 mt-3">
+							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="AcademicConditionModal.open()">
+								<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
+								<div class="bg-black text-white p-2 text-s">
+									<p class="m-0">Condiciones</p>
+									<p class="m-0">Académicas</p>
+								</div>
+								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO" class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
+									<p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+								</div>
 							</div>
-							<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO" class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
-								<p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="FinancialConditionModal.open()">
+								<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
+								<div class="bg-black text-white p-2 text-s">
+									<p class="m-0">Condiciones</p>
+									<p class="m-0">Financieras</p>
+								</div>
+								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO" class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
+									<p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+								</div>
 							</div>
 						</div>
-						<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="FinancialConditionModal.open()">
-							<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
-							<div class="bg-black text-white p-2 text-s">
-								<p class="m-0">Condiciones</p>
-								<p class="m-0">Financieras</p>
-							</div>
-							<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO" class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
-								<p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}</p>
-							</div>
-						</div>
-					</div> -->
+					</ng-container>
 				</div>
 			</div>
 			<div class="col-md-8 p-2 mb-6">
