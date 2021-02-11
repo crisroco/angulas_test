@@ -143,6 +143,10 @@ export class StudentService {
        return this.http.get("assets/students.json").toPromise();
     }
 
+    public getListOfInterStudentsJson(): Promise<any> {
+       return this.http.get("assets/inter_students.json").toPromise();
+    }
+
     public medicineStudents(): Promise<any> {
        return this.http.get("assets/medicine_students.json").toPromise();
     }

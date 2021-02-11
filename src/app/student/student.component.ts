@@ -293,6 +293,7 @@ export class StudentComponent implements OnInit {
 	idfile: any;
 	datafile = [];
 	flagSendUpload: boolean = true;
+	showScheduleLink: boolean = false;
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
 	personalUpdateForm: FormGroup;
@@ -373,6 +374,11 @@ export class StudentComponent implements OnInit {
 				this.showVacunation = true;
 			}
 		});
+		this.studentS.getListOfInterStudentsJson().then((res) => {
+			if (res.find(emp => emp == this.user.codigoAlumno)) {
+				this.showScheduleLink = true;
+			}
+		})
 	}
 
 	initSocket(){
