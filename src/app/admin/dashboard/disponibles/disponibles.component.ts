@@ -180,6 +180,9 @@ export class DisponiblesComponent implements OnInit {
             if (el.SSR_COMPONENT == 'PRA') {
               el.value = false;
             }
+            if (el.SSR_COMPONENT == 'SEM') {
+              el.value = course.value;
+            }
             if (numberOfPRA > 1) {
               
             } else {
@@ -295,7 +298,6 @@ export class DisponiblesComponent implements OnInit {
         let example = res.sort(this.dynamicSortMultiple(["CRSE_ID"]));
         let credits = 0;
         let oneTimeCourse;
-        console.log(example);
         for (let i = 0; i < example.length; i++) {
           if (oneTimeCourse == example[i]['CRSE_ID']) {
           } else {
@@ -303,9 +305,12 @@ export class DisponiblesComponent implements OnInit {
             let existInfo = example[i]['status'] == 'B' && !example[i]['units_repeat_limit2'];
             let number = existInfo?Number(example[i]['UNITS_REPEAT_LIMIT']):Number(example[i]['units_repeat_limit2']);
             if ((example[i].status == 'I' && example[i].units_repeat_limit2) || (example[i].status == 'B')) {
-              credits += number;
+              if (example[i].FLAG2 == 'Y') {
+                credits += Number(example[i]['UNITS_REQUIRED']);
+              } else {
+                credits += number;
+              }
             }
-            console.log(credits);
           }
         }
         this.myCredits = credits;
@@ -463,7 +468,7 @@ export class DisponiblesComponent implements OnInit {
     }
     this.newEnrollmentS.saveCourseClass({
       courses: result,
-      emplid_admin: this.session.getObject('user').codigoAlumno
+      emplid_admin: this.session.getItem('adminOprid')
     }).then((res) => {
       if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
         let index = this.availableCourses.findIndex(val => val['own_enrollment_skillful_load_id'] == this.selectedCourse['own_enrollment_skillful_load_id']);

@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         return;
       }
+      this.session.setItem('adminOprid', this.loginForm.controls.email.value);
       this.session.setObject('user', res.UcsMetodoLoginRespuesta);
       this.session.setItem('cod_company', "002");
       this.loginS.oauthToken({

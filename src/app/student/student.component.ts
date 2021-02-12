@@ -712,7 +712,6 @@ export class StudentComponent implements OnInit {
 						});
 						this.studentS.getEnrollQueueNumber(this.enroll)
 						.then(res => {
-							console.log(res);
 							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
 							var parts = this.queueEnroll.fecha_ing.split('/');
 							if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {

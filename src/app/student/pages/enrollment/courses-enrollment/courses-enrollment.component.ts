@@ -89,7 +89,11 @@ export class CoursesEnrollmentComponent implements OnInit {
             let existInfo = example[i]['status'] == 'B' && !example[i]['units_repeat_limit2'];
             let number = existInfo?Number(example[i]['UNITS_REPEAT_LIMIT']):Number(example[i]['units_repeat_limit2']);
             if (example[i].trash) {
-              credits += number;
+              if (example[i].FLAG2 == 'Y') {
+                credits += Number(example[i]['UNITS_REQUIRED']);
+              } else {
+                credits += number;
+              }
             }
           }
         }
@@ -117,6 +121,8 @@ export class CoursesEnrollmentComponent implements OnInit {
             filteredArray[array[i].DESCR].push(array[i]);
           } else if (array[i]['SSR_COMPONENT'] == 'TEO' && filteredArray[array[i].DESCR][0]['SSR_COMPONENT'] == 'PRA') {
             filteredArray[array[i].DESCR].push(array[i]);
+          } else if (array[i]['SSR_COMPONENT'] == 'SEM') {
+            filteredArray[array[i].DESCR].push(array[i]);
           }
         }
       }
@@ -124,7 +130,7 @@ export class CoursesEnrollmentComponent implements OnInit {
     }
     for(var el in filteredArray) {
       filteredArray[el].forEach(value => {
-        if (filteredArray[el].length == 2 && value.SSR_COMPONENT == 'PRA') {
+        if (filteredArray[el].length == 2 && (value.SSR_COMPONENT == 'PRA' || value.SSR_COMPONENT == 'SEM')) {
           value.showLine = true;
           finalArray.push(value);
         } else {
@@ -176,6 +182,8 @@ export class CoursesEnrollmentComponent implements OnInit {
           this.goingToDelete.push(this.availableCourses[o]);
         }
       }
+      console.log(this.availableCourses);
+      console.log(this.goingToDelete);
       let dateToCompare = this.goingToDelete[0].DAY_OF_WEEK + this.goingToDelete[0].MEETING_TIME_START + this.goingToDelete[0].MEETING_TIME_END;
       let changed = true;
       for (let z = 0; z < this.goingToDelete.length; z++) {
