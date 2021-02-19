@@ -216,4 +216,20 @@
 	</div>
 </ngx-smart-modal>
 
+<ngx-smart-modal #showModalEmailSend identifier="showModalEmailSend" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
+	<div class="bg-ucs p-4 rounded-t-1">
+		
+	</div>
+	<div class="text-left p-2">
+		<h4 class="text-ucs font-weight-bold text-center">Enviar mi horario al siguiente correo:</h4>
+		<div class="form-group scroll h-s">
+		    <input name="email" type="text" class="form-control" [(ngModel)]="emailToSend" placeholder="Correo">
+	  	</div>
+	</div>
+	<div class="row d-flex justify-content-center mb-3 px-5">
+		<button [disabled]="!emailToSend" class="btn rounded-1 btn-ucs mr-3" (click)="sendScheduleToMail()">Enviar</button>
+		<button class="btn rounded-1 btn-ucs ml-3" (click)="showModalEmailSend.close()">Cancelar</button>
+	</div>
+</ngx-smart-modal>
+
 <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

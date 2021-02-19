@@ -39,7 +39,6 @@ export class DashboardComponent implements OnInit {
   isthisStudent;
   enroll: any = null;
   enrollCycles: Array<any>;
-  enroll_conditions: any = null;
   constructor(public newEnrollmentS: NewEnrollmentService,
     public toastr: ToastrService,
     public studentS: StudentService,
@@ -96,14 +95,23 @@ export class DashboardComponent implements OnInit {
       this.toastr.error("Ingresa un codigo de alumno");
       return
     }
-    this.newEnrollmentS.getDataStudentEnrollment({EMPLID: this.studentCode})
+    this.newEnrollmentS.checkConditions(this.studentCode)
       .then((res) => {
-        this.isthisStudent = res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0];
-        if (!this.isthisStudent.NAME) {
+        if (res.FLAG_ACADEMICO =='Y' && res.FLAG_FINANCIERO=='Y') {
+          this.newEnrollmentS.getDataStudentEnrollment({EMPLID: this.studentCode})
+            .then((res) => {
+              this.isthisStudent = res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0];
+              if (!this.isthisStudent.NAME) {
+                this.isthisStudent = '';
+                this.studentCode = '';
+                this.toastr.error('El alumno no existe');
+                return;
+              }
+            });
+        } else {
           this.isthisStudent = '';
           this.studentCode = '';
-          this.toastr.error('El alumno no existe');
-          return;
+          this.toastr.error('El alumno no ha aceptado las condiciones academicas y/o financieras');
         }
       });
   }

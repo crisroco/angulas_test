@@ -255,8 +255,11 @@ export class DashboardEnrollComponent implements OnInit {
         }
       };
     }
-    console.log(data);
     this.broadcaster.sendMessage({openModal: true, selectedOnHold: data});
+  }
+
+  callSendEmail(){
+    this.broadcaster.sendMessage({sendEmailModal: true, myCredits: this.myCredits});
   }
 
   equivalentCourses(){

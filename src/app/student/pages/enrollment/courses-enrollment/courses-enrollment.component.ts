@@ -170,6 +170,10 @@ export class CoursesEnrollmentComponent implements OnInit {
     this.broadcaster.sendMessage({openModal: true});
   }
 
+  callSendEmail(){
+    this.broadcaster.sendMessage({sendEmailModal: true, myCredits: this.myCredits});
+  }
+
   remove(first){
     if (!first.trash) {
       // this.toastS.error('Este curso no se puede eliminar');

@@ -133,7 +133,7 @@ export class DisponiblesComponent implements OnInit {
     this.session.setObject('schoolCycle', this.cicleSelected);
     this.broadcaster.sendMessage({cycleSelected: this.cicleSelected})
     this.loadDataStudentCourses();
-    this.newEnrollmentS.getSkillfullLoad({EMPLID: this.studentCode, CAMPUS: this.myData.CAMPUS})
+    this.newEnrollmentS.getSkillfulLoadBoffice({EMPLID: this.studentCode})
     .then((res) => {
       this.availableCourses = res.sort((a,b) => {
         return a.UCS_CICLO - b.UCS_CICLO
@@ -329,7 +329,7 @@ export class DisponiblesComponent implements OnInit {
     this.loading = true;
     this.newEnrollmentS.getSchedule({
       EMPLID: this.studentCode,
-      CAMPUS: this.myData.CAMPUS,
+      CAMPUS: course.CAMPUS,
       CRSE_ID: parseInt(course.CRSE_ID),
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {

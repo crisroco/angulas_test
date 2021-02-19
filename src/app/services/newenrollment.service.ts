@@ -22,6 +22,10 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillfulLoad', data).toPromise();
     }
 
+    public getSkillfulLoadBoffice(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillfulLoadBoffice', data).toPromise();
+    }
+
     public getDebt(data): Promise<any> {
     	return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDebt', data).toPromise();
     }
@@ -92,6 +96,14 @@ export class NewEnrollmentService {
 
     public checkConditions(id): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/checkConditions/' + id).toPromise();
+    }
+
+    public saveConditions(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/saveConditions', data).toPromise();
+    }
+
+    public sendEmailSchedule(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/sendEmailSchedule', data).toPromise();
     }
 
 }
