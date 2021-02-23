@@ -327,9 +327,8 @@ export class DisponiblesComponent implements OnInit {
       return
     }
     this.loading = true;
-    this.newEnrollmentS.getSchedule({
+    this.newEnrollmentS.getScheduleBoffice({
       EMPLID: this.studentCode,
-      CAMPUS: course.CAMPUS,
       CRSE_ID: parseInt(course.CRSE_ID),
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {

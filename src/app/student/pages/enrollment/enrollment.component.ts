@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SessionService } from '../../../services/session.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { RealDate, AddDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../helpers/dates';
-
+import { ValidateEmail } from '../../../helpers/general';
 @Component({
   selector: 'app-enrollment',
   templateUrl: './enrollment.component.html',
@@ -87,24 +87,29 @@ export class EnrollmentComponent implements OnInit {
   }
 
   sendScheduleToMail(){
-    this.loading = true;
-    this.dataEnrollment = this.session.getObject('dataEnrollment');
-    this.enrollmentS.sendEmailSchedule({
-      EMPLID: this.user.codigoAlumno,
-      EMAIL: this.emailToSend,
-      NAME: this.student.nombreAlumno + ' ' + this.student.apellidoAlumno,
-      INSTITUTION: this.dataEnrollment['INSTITUTION'],
-      ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
-      PROG_PLAN: this.allData.ACAD_PROG + ' / ' + this.allData.ACAD_PLAN,
-      STRM1: this.schoolCycle.CICLO_LECTIVO,
-      TOTAL_CREDITS: this.myCredits,
-      STRM2: this.session.getObject('otherCicle')?this.session.getObject('otherCicle').CICLO_LECTIVO:null
-    })
-      .then((res) => {
-        this.toastT.success('Correo enviado');
-        this.showModalEmailSend.close();
-        this.loading = false;
-      });
+    if (ValidateEmail(this.emailToSend)) {
+      this.loading = true;
+      this.dataEnrollment = this.session.getObject('dataEnrollment');
+      this.enrollmentS.sendEmailSchedule({
+        EMPLID: this.user.codigoAlumno,
+        EMAIL: this.emailToSend,
+        NAME: this.student.nombreAlumno + ' ' + this.student.apellidoAlumno,
+        INSTITUTION: this.dataEnrollment['INSTITUTION'],
+        ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
+        PROG_PLAN: this.allData.ACAD_PROG + ' / ' + this.allData.ACAD_PLAN,
+        STRM1: this.schoolCycle.CICLO_LECTIVO,
+        TOTAL_CREDITS: this.myCredits,
+        STRM2: this.session.getObject('otherCicle')?this.session.getObject('otherCicle').CICLO_LECTIVO:null
+      })
+        .then((res) => {
+          this.toastT.success('Correo enviado');
+          this.showModalEmailSend.close();
+          this.loading = false;
+        });
+    } else {
+      this.emailToSend = '';
+      this.toastT.error('Ingresa un correo valido!');
+    }
   }
 
   openEquivalentModal(){

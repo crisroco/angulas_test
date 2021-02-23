@@ -18,7 +18,7 @@
 					<div *ngIf="nextClassLink" class="btn btn-block next_class my-2 text-center">
 						<a (click)="preGoMoodle()" target="_blank" class="my-0 text-{{company}}"> <span style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px" src="./assets/img/icon/zoom.png" alt=""></a>
 					</div>
-					<ng-container *ngIf="showTurn">
+					<ng-container>
 						<div *ngIf="enroll && queueEnroll" class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}"> {{queueEnroll.ind_grupo == 'N' && !queueEnroll.fecha_ing?'Aún no tienes Turno de Matricula':'Turno: ' + queueEnroll.date.day + ' de ' + queueEnroll.date.nmonth + ' ' + queueEnroll.date.hour + ':' + queueEnroll.date.minute + queueEnroll.date.thour}} </div>
 						<div class="row justify-content-center align-items-center mb-2 mt-3">
 							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="AcademicConditionModal.open()">

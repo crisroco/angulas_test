@@ -18,6 +18,10 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSchedule', data).toPromise();
     }
 
+    public getScheduleBoffice(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleBoffice', data).toPromise();
+    }
+
     public getSkillfullLoad(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillfulLoad', data).toPromise();
     }
