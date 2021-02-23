@@ -716,10 +716,10 @@ export class StudentComponent implements OnInit {
 							var dateQueue = this.queueEnroll.exactDate.split(' ');
 							var parts = dateQueue[0].split('/');
 							var partsHour = dateQueue[1].split(':');
-							if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
-								var hour = Number(partsHour[0] - 5)<10?'0' + Number(partsHour[0] - 5).toString():Number(partsHour[0] - 5).toString();
-								this.queueEnroll.exactDate = hour + ':' + partsHour[1];
-							}
+							// if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
+							// 	var hour = Number(partsHour[0] - 5)<10?'0' + Number(partsHour[0] - 5).toString():Number(partsHour[0] - 5).toString();
+							// 	this.queueEnroll.exactDate = hour + ':' + partsHour[1];
+							// }
 							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.exactDate.split(' ')[1] + ':00'));
 							this.queueEnroll.date = enrollDate;
 							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
