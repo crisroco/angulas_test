@@ -299,7 +299,7 @@ export class StudentComponent implements OnInit {
 	personalUpdateForm: FormGroup;
 	student: any;
 	notifications: any;
-  notifications_read: number = 0;
+  	notifications_read: number = 0;
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
