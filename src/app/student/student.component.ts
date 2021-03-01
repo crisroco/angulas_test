@@ -374,11 +374,11 @@ export class StudentComponent implements OnInit {
 				this.showVacunation = true;
 			}
 		});
-		this.studentS.getListOfInterStudentsJson().then((res) => {
-			if (res.find(emp => emp == this.user.codigoAlumno)) {
-				this.showScheduleLink = true;
-			}
-		})
+		// this.studentS.getListOfInterStudentsJson().then((res) => {
+		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
+		// 		this.showScheduleLink = true;
+		// 	}
+		// })
 	}
 
 	initSocket(){

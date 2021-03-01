@@ -226,6 +226,7 @@ export class DashboardEnrollComponent implements OnInit {
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {
       this.scheduleAvailables = this.checkDuplicates(res);
+      console.log(this.scheduleAvailables);
       this.selectedCourse = course;
       this.checkCap(this.scheduleAvailables);
       // setTimeout(() => {
