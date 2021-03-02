@@ -82,12 +82,12 @@ export class DashboardComponent implements OnInit {
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
-		this.studentS.getListOfStudentsJson()
-			.then((res) => {
-				if( res.find(emp => emp == this.user.codigoAlumno)) {
-					this.showTurn = true;
-				}
-			});
+		// this.studentS.getListOfStudentsJson()
+		// 	.then((res) => {
+		// 		if( res.find(emp => emp == this.user.codigoAlumno)) {
+		// 			this.showTurn = true;
+		// 		}
+		// 	});
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
