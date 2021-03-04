@@ -88,6 +88,7 @@ export class DashboardComponent implements OnInit {
 		// 			this.showTurn = true;
 		// 		}
 		// 	});
+		this.postModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
