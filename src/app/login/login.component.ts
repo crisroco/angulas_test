@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 		let deviceinfo = this.deviceS.getDeviceInfo();
 		data.origen = deviceinfo.device == 'Unknown'?'W':'M';
 		this.loading = true;
-		this.loginS.userLogin(data)
+		this.loginS.userLogin(data)		
 		.then(res => {
 			this.student = res.UcsMetodoLoginRespuesta;
 			this.loading = false;
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
 				this.toastr.error('El Acceso solo esta permitido a los ALUMNOS.');
 				return;
 			}
-
+			
 			this.queueS.authEncrypt({...data, code: this.student.codigoAlumno})
 				.subscribe( (res: any) => {
 					this.session.setItem('up', res.ciphertext);
@@ -71,8 +71,7 @@ export class LoginComponent implements OnInit {
 					    client_id: 2,
 					    client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
 					    grant_type: "password"
-					})
-						.then((res) => {
+					}).then((res) => {
 							this.session.setObject('oauth', res);
 							this.router.navigate(['estudiante']);
 						});

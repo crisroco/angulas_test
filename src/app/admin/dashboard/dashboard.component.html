@@ -217,7 +217,6 @@
 
 <ngx-smart-modal #selecStudentModal identifier="selecStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
-		
 	</div>
 	<div class="text-left p-2">
 		<p> Codigo del Alumno </p>
@@ -231,7 +230,7 @@
 	</div>
 	<div class="row d-flex justify-content-center mb-3 px-5">
 		<button [disabled]="!isthisStudent" class="btn rounded-1 btn-{{company}} mr-3" (click)="select()">Seleccionar</button>
-		<button class="btn rounded-1 btn-{{company}} ml-3" (click)="openConfirmation()">Carga del Alumno</button>
+		<!-- <button class="btn rounded-1 btn-{{company}} ml-3" (click)="openConfirmation()">Carga del Alumno</button> -->
 	</div>
 </ngx-smart-modal>
 

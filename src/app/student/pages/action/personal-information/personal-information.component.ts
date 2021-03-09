@@ -18,7 +18,7 @@ export class PersonalInformationComponent implements OnInit {
 		private studentS: StudentService) { }
 
 	ngOnInit() {
-
+		
 	}
 
 }

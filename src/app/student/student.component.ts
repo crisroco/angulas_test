@@ -17,6 +17,7 @@ import { AppSettings } from '../app.settings';
 import { WebsocketService } from '../services/websocket.service';
 import { QueueService } from '../services/queue.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { NewEnrollmentService } from '../services/newenrollment.service';
 
 import { HttpClient } from '@angular/common/http';
 import { fi } from 'date-fns/locale';
@@ -297,7 +298,7 @@ export class StudentComponent implements OnInit {
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
 	personalUpdateForm: FormGroup;
-	student: any;
+	student: any = {};
 	notifications: any;
   	notifications_read: number = 0;
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
@@ -318,6 +319,11 @@ export class StudentComponent implements OnInit {
 	@ViewChild('humanityModal') humanityModal: any;
 
 	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
+	@ViewChild('selecStudentModal') selecStudentModal: any;
+	studentCode;
+	allData: any;
+	isthisStudent;
+	admin: boolean;
 	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
@@ -331,9 +337,15 @@ export class StudentComponent implements OnInit {
     	private toastr: ToastrService,
 		public inputsS: InputsService,
 		private formS: FormService,
+		public newEnrollmentS: NewEnrollmentService,
 		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) { }
-
+		
 	ngOnInit() {
+		//validación para mostrar la búsqueda de alumno solo al 'admin'
+		if(this.session.getItem('adminOprid')){
+			this.admin = true;
+		}
+
 		if(!this.user){
 			this.router.navigate(['/login']);
 		}
@@ -380,6 +392,71 @@ export class StudentComponent implements OnInit {
 			}
 		})
 	}
+
+
+	searchStudent(){
+		this.selecStudentModal.open();
+	}
+
+	select() {
+		this.loading = true;
+		this.newEnrollmentS.getDebt({ EMPLID: this.studentCode }).then((res) => {
+		  let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
+		  if (notdeuda) {
+	
+			this.newEnrollmentS.getAcademicData({ EMPLID: this.studentCode }).then((res) => {
+			  this.allData = res[0];
+			  this.session.setObject('acadmicData', this.allData);
+			  this.session.setObject('mySelectedStudent', this.isthisStudent);
+			  this.session.setItem('emplidSelected', this.studentCode);
+			  this.loading = false;
+			  this.selecStudentModal.close();
+			  let nombreCompleto = this.session.getObject('mySelectedStudent').NAME;//
+			  let coma = nombreCompleto.indexOf(",");
+			  this.user = {
+				nombreAlumno: nombreCompleto.substring(coma + 1),
+				codigoAlumno: this.session.getItem('emplidSelected'),
+				apellidoAlumno: nombreCompleto.substring(0, coma),
+				nombre: this.session.getObject('mySelectedStudent').NAME,
+				descripcion: "Inicio de sesión correcto.",
+				ind_deuda: "",
+				res_url: "",
+				tipo_usuario: "A",
+				tipo_usuario2: "Y",
+				valor: "Y",
+				email: this.session.getObject('mySelectedStudent').OPRID
+			  },			  
+			  this.session.setObject('user', this.user);
+			  window.location.reload();
+			  this.router.navigate(['estudiante']);
+			  //this.student = this.session.getObject('user');			  
+			  			 
+			});
+		  } else {
+			this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+			this.loading = false;
+		  }
+		});
+	  }
+	
+	  search() {
+		if (!this.studentCode) {
+		  this.toastr.error("Ingresa un codigo de alumno");
+		  return
+		}
+		this.newEnrollmentS.getDataStudentEnrollment({ EMPLID: this.studentCode })
+		  .then((res) => {
+			this.isthisStudent = res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0];
+			console.log("IS THIS STUDENT: SERVICIO ACTUALIZADO");
+			console.log(this.isthisStudent);
+			if (!this.isthisStudent.NAME) {
+			  this.isthisStudent = '';
+			  this.studentCode = '';
+			  this.toastr.error('El alumno no existe');
+			  return;
+			}
+		  });
+	  }
 
 	initSocket(){
 			this.wsService.enroll(this.user.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
@@ -675,6 +752,8 @@ export class StudentComponent implements OnInit {
 		this.student = this.session.getObject('student');
 		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
 			.then((res) => {
+				//console.log("REEEEEEEEEEEEEEEES: ");
+				//console.log(res);
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 				var one = units.filter(item => item.institucion == 'PREGR');
 				var inst = one.length?one[0]:null;

@@ -15,32 +15,35 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-	student:any;
-	allData:any;
-	schoolCycle:any;
-	loading: boolean = false;
+  allData: any;
+  schoolCycle: any;
+  loading: boolean = false;
   company = AppSettings.COMPANY;
   studentCode;
-  equivalentCourses:Array<any> = [];
-  aditionalCourses:Array<any> = [];
+  equivalentCourses: Array<any> = [];
+  aditionalCourses: Array<any> = [];
   user = this.session.getObject('user');
-  @ViewChild('selecStudentModal') selecStudentModal:any;
-  @ViewChild('aditionalCoursesModal') aditionalCoursesModal:any;
-  @ViewChild('equivalentCoursesModal') equivalentCoursesModal:any;
-  @ViewChild('schedulePreview') schedulePreview:any;
-  @ViewChild('confirmationUploadModal') confirmationUploadModal:any;
-  myVirtualClasses:Array<any> = [];
-  viewDate: Date = new Date(2021,0,11);
-  events:CalendarEvent[] = [];
+  @ViewChild('selecStudentModal') selecStudentModal: any;
+  @ViewChild('aditionalCoursesModal') aditionalCoursesModal: any;
+  @ViewChild('equivalentCoursesModal') equivalentCoursesModal: any;
+  @ViewChild('schedulePreview') schedulePreview: any;
+  @ViewChild('confirmationUploadModal') confirmationUploadModal: any;
+  myVirtualClasses: Array<any> = [];
+  viewDate: Date = new Date(2021, 0, 11);
+  events: CalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Week;
   classDay: Array<any> = [];
   moreData: Array<any> = [];
   isthisStudent;
+  student: any = {};
+  userCode;
+  MyCode = {};
   enroll: any = null;
   enrollCycles: Array<any>;
   enroll_conditions: any = null;
-  constructor(public newEnrollmentS: NewEnrollmentService,
+  constructor(
+    public newEnrollmentS: NewEnrollmentService,
     public toastr: ToastrService,
     public studentS: StudentService,
     private router: Router,
@@ -48,7 +51,8 @@ export class DashboardComponent implements OnInit {
     public broadcaster: Broadcaster) { }
 
   ngOnInit() {
-    if (!this.session.getObject('acadmicData')) {
+    this.selecStudentModal.open();
+    /*if (!this.session.getObject('acadmicData')) {
       this.selecStudentModal.open();
     }
     if (this.session.getObject('mySelectedStudent')) {
@@ -66,39 +70,58 @@ export class DashboardComponent implements OnInit {
       if (msg && msg.openSelectModal) {
         this.selecStudentModal.open();
       }
+    });*/
+  }
+
+  select() {
+    this.loading = true;
+    this.newEnrollmentS.getDebt({ EMPLID: this.studentCode }).then((res) => {
+      let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
+      if (notdeuda) {
+
+        this.newEnrollmentS.getAcademicData({ EMPLID: this.studentCode }).then((res) => {
+          this.allData = res[0];
+          this.session.setObject('acadmicData', this.allData);
+          this.session.setObject('mySelectedStudent', this.isthisStudent);
+          //this.broadcaster.sendMessage({myStudent:this.studentCode});
+          this.session.setItem('emplidSelected', this.studentCode);
+          this.loading = false;
+          this.selecStudentModal.close();
+          let nombreCompleto = this.session.getObject('mySelectedStudent').NAME;//
+          let coma = nombreCompleto.indexOf(",");
+          this.user = {
+            nombreAlumno: nombreCompleto.substring(coma + 1),
+            codigoAlumno: this.session.getItem('emplidSelected'),
+            apellidoAlumno: nombreCompleto.substring(0, coma),
+            nombre: this.session.getObject('mySelectedStudent').NAME,
+            descripcion: "Inicio de sesión correcto.",
+            ind_deuda: "",
+            res_url: "",
+            tipo_usuario: "A",
+            tipo_usuario2: "Y",
+            valor: "Y",
+            email: this.session.getObject('mySelectedStudent').OPRID
+          },
+          this.session.setObject('user', this.user);
+          this.router.navigate(['estudiante']);
+        });
+      } else {
+        this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+        this.loading = false;
+      }
     });
   }
 
-  select(){
-    this.loading = true;
-    this.newEnrollmentS.getDebt({EMPLID: this.studentCode})
-      .then((res) => {
-        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
-        if (notdeuda) {
-          this.newEnrollmentS.getAcademicData({EMPLID: this.studentCode})
-            .then((res) => {
-              this.allData = res[0];
-              this.session.setObject('acadmicData', this.allData);
-              this.session.setObject('mySelectedStudent', this.isthisStudent);
-              this.broadcaster.sendMessage({myStudent:this.studentCode});
-              this.loading = false;
-              this.selecStudentModal.close();
-            });
-        } else {
-          this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-          this.loading = false;
-        }
-      });
-  }
-
-  search(){
+  search() {
     if (!this.studentCode) {
       this.toastr.error("Ingresa un codigo de alumno");
       return
     }
-    this.newEnrollmentS.getDataStudentEnrollment({EMPLID: this.studentCode})
+    this.newEnrollmentS.getDataStudentEnrollment({ EMPLID: this.studentCode })
       .then((res) => {
         this.isthisStudent = res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0];
+        console.log("IS THIS STUDENT: SERVICIO ACTUALIZADO");
+        console.log(this.isthisStudent);
         if (!this.isthisStudent.NAME) {
           this.isthisStudent = '';
           this.studentCode = '';
@@ -108,7 +131,7 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  reload(){
+  reload() {
     this.session.destroy('acadmicData');
     this.session.destroy('mySelectedStudent');
     if (this.router.url != '/admin/dashboard/disponibles') {
@@ -118,7 +141,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  eventClicked(event){
+  eventClicked(event) {
 
   }
 
@@ -131,33 +154,33 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  openAditionalCoursesModal(openModal){
+  openAditionalCoursesModal(openModal) {
     this.allData = this.session.getObject('acadmicData');
     this.schoolCycle = this.session.getObject('schoolCycle');
     this.loading = true;
     this.allData['STRM'] = this.schoolCycle.CICLO_LECTIVO;
     this.newEnrollmentS.getAditionalCourses(this.allData)
       .then((res) => {
-        this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES?res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES:[];
-        this.newEnrollmentS.getSkillfullLoad({EMPLID: this.allData['EMPLID'], CAMPUS: this.allData.CAMPUS})
-        .then((res) => {
-          res.sort((a,b) => {
-            return a.UCS_CICLO - b.UCS_CICLO
-          });
-          for (var i = 0; i < res.length; i++) {
-            if (!this.aditionalCourses.filter(el => el.CURSO_ID == res[i].CRSE_ID)[0] && res[i].number == 0) {
-              res[i].extra = true;
-              res[i].TURNO = 'M';
-              this.aditionalCourses.push(res[i]);
+        this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES ? res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES : [];
+        this.newEnrollmentS.getSkillfullLoad({ EMPLID: this.allData['EMPLID'], CAMPUS: this.allData.CAMPUS })
+          .then((res) => {
+            res.sort((a, b) => {
+              return a.UCS_CICLO - b.UCS_CICLO
+            });
+            for (var i = 0; i < res.length; i++) {
+              if (!this.aditionalCourses.filter(el => el.CURSO_ID == res[i].CRSE_ID)[0] && res[i].number == 0) {
+                res[i].extra = true;
+                res[i].TURNO = 'M';
+                this.aditionalCourses.push(res[i]);
+              }
             }
-          }
-          openModal?this.aditionalCoursesModal.open():null;
-          this.loading = false;
-        });
+            openModal ? this.aditionalCoursesModal.open() : null;
+            this.loading = false;
+          });
       })
   }
 
-  confirmAditional(){
+  confirmAditional() {
     this.allData = this.session.getObject('acadmicData');
     this.loading = true;
     let aditional = [];
@@ -189,7 +212,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  openEquivalentModal(){
+  openEquivalentModal() {
     this.loading = true;
     this.allData = this.session.getObject('acadmicData');
     this.newEnrollmentS.getEquivalentsCourses({
@@ -199,7 +222,7 @@ export class DashboardComponent implements OnInit {
       ACAD_PROG: this.allData['ACAD_PROG'],
       ACAD_PLAN: this.allData['ACAD_PLAN']
     }).then((res) => {
-      this.equivalentCourses = res['RES_LST_CRSE_EQUIV']['COM_LST_CRSE_EQUIV'].sort((a,b) => {
+      this.equivalentCourses = res['RES_LST_CRSE_EQUIV']['COM_LST_CRSE_EQUIV'].sort((a, b) => {
         return a.UCS_CICLO - b.UCS_CICLO
       });
       this.loading = false;
@@ -207,7 +230,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  openScheduleModalPreview(){
+  openScheduleModalPreview() {
     this.loading = true;
     this.allData = this.session.getObject('acadmicData');
     this.schoolCycle = this.session.getObject('schoolCycle');
@@ -216,18 +239,18 @@ export class DashboardComponent implements OnInit {
       INSTITUTION: this.allData['INSTITUTION'],
       ACAD_CAREER: this.allData['ACAD_CAREER'],
       STRM1: this.schoolCycle.CICLO_LECTIVO,
-      STRM2: this.session.getObject('otherCicle')?this.session.getObject('otherCicle').CICLO_LECTIVO:null
+      STRM2: this.session.getObject('otherCicle') ? this.session.getObject('otherCicle').CICLO_LECTIVO : null
     }).then((res) => {
       this.schedulePreview.open();
-      this.classDay = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES']?res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES']:[];
+      this.classDay = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'] ? res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'] : [];
       this.closeOpenMonthViewDay();
     });
   }
 
-  closeOpenMonthViewDay(){
+  closeOpenMonthViewDay() {
     var firstDate = GetFirstDayWeek(this.viewDate);
     var days = {
-      LUNES:  RealDate(firstDate),
+      LUNES: RealDate(firstDate),
       MARTES: RealDate(AddDay(firstDate, 1)),
       MIERCOLES: RealDate(AddDay(firstDate, 2)),
       JUEVES: RealDate(AddDay(firstDate, 3)),
@@ -238,23 +261,23 @@ export class DashboardComponent implements OnInit {
     var events = [];
     var objEvents = {};
     let dates: any = {};
-    let inverted:any = {};
+    let inverted: any = {};
     this.myVirtualClasses = [];
     this.classDay.forEach(classD => {
       classD['UCS_REST_MTG_DET_REQ'].forEach(clase => {
-        for(var kDay in days){
-          if(clase[kDay] == 'Y'){
-            if(BetweenDays(clase.INICIO_FECHA, clase.FIN_FECHA, days[kDay])){
+        for (var kDay in days) {
+          if (clase[kDay] == 'Y') {
+            if (BetweenDays(clase.INICIO_FECHA, clase.FIN_FECHA, days[kDay])) {
               if (!clase['DESCR_INSTALACION'].includes('VIRT')) {
                 var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
                 clase.date = rDay;
-                if(!objEvents[rDay + ' ' + clase.HORA_INICIO + ' ' + classD.CRSE_ID]){
+                if (!objEvents[rDay + ' ' + clase.HORA_INICIO + ' ' + classD.CRSE_ID]) {
                   dates = this.getDates(rDay, clase.HORA_INICIO, clase.HORA_FIN);
                   events.push({
                     start: dates.start,//new Date(rDay + ' ' + clase.MEETING_TIME_START),
                     end: dates.end,//new Date(rDay + ' ' + clase.HORA_FIN),
                     title: clase.HORA_INICIO + '-' + clase.HORA_FIN + '<br>' + classD.NOMBRE_CURSO + ' ' + classD.SECCION_CLASE + '<br>' + classD.DESCR_COMP + '<br>' + classD.CLASE,
-                    cssClass: classD.CICLO_LECTIVO!=this.schoolCycle.CICLO_LECTIVO?'RED':'normal',
+                    cssClass: classD.CICLO_LECTIVO != this.schoolCycle.CICLO_LECTIVO ? 'RED' : 'normal',
                     actions: "",
                     allDay: false,
                     resizable: {
@@ -292,12 +315,12 @@ export class DashboardComponent implements OnInit {
     if (this.moreData) {
       this.moreData.forEach(classD => {
         for (var kDay in days) {
-          if (kDay.substring(0,3) == classD.DAY_OF_WEEK) {
-            if(BetweenDays(classD.START_DT_DO, classD.END_DT_DO, days[kDay])){
+          if (kDay.substring(0, 3) == classD.DAY_OF_WEEK) {
+            if (BetweenDays(classD.START_DT_DO, classD.END_DT_DO, days[kDay])) {
               if (classD.CRSE_ATTR != 'VIRT') {
                 var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
                 classD.date = rDay;
-                if(!objEvents[rDay + ' ' + classD.MEETING_TIME_START.slice(0, -3) + ' ' + classD.CRSE_ID]){
+                if (!objEvents[rDay + ' ' + classD.MEETING_TIME_START.slice(0, -3) + ' ' + classD.CRSE_ID]) {
                   dates = this.getDates(rDay, classD.MEETING_TIME_START.slice(0, -3), classD.MEETING_TIME_END.slice(0, -3));
                   events.push({
                     start: dates.start,
@@ -342,26 +365,26 @@ export class DashboardComponent implements OnInit {
     this.events = events;
   }
 
-  toHours(start,end){
-    let minutes = (this.timeToSeconds(end) - this.timeToSeconds(start))/60;
-    if (this.isInteger(minutes/50)) {
-      return minutes/50
+  toHours(start, end) {
+    let minutes = (this.timeToSeconds(end) - this.timeToSeconds(start)) / 60;
+    if (this.isInteger(minutes / 50)) {
+      return minutes / 50
     } else {
-      if (this.isInteger(minutes/45)) {
-        return minutes/45
+      if (this.isInteger(minutes / 45)) {
+        return minutes / 45
       } else {
-        return (minutes/50).toFixed();
+        return (minutes / 50).toFixed();
       }
     }
   }
 
-  isInteger(number){
-    return number % 1 == 0?true:false;
+  isInteger(number) {
+    return number % 1 == 0 ? true : false;
   }
 
-  timeToSeconds(time){
+  timeToSeconds(time) {
     let inSeconds = time.split(':');
-    return inSeconds[0]*60*60 + inSeconds[1]*60
+    return inSeconds[0] * 60 * 60 + inSeconds[1] * 60
   }
 
   getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
@@ -387,11 +410,11 @@ export class DashboardComponent implements OnInit {
   getHour(pHour: string): string {
 
     const arrHour = pHour.split(':');
-    let hour =  Number(arrHour[0]);
+    let hour = Number(arrHour[0]);
     hour += 5;
     const hourModified = this.pad(hour, 2);
-    const minute =  arrHour[1];
-    const second =  arrHour[2];
+    const minute = arrHour[1];
+    const second = arrHour[2];
 
     return `${hourModified}:${minute}:${second}`;
   }
@@ -401,24 +424,24 @@ export class DashboardComponent implements OnInit {
     let rDate = `${pDay}T${pHour}`;
 
     const arrHour = pHour.split(':');
-    let hour =  Number(arrHour[0]);
+    let hour = Number(arrHour[0]);
     if (hour > 23) {
 
       const arrDate = pDay.split('-'); // 2020-07-06
 
-      let day =  Number(arrDate[2]);
+      let day = Number(arrDate[2]);
       day += 1;
 
       const dayModified = this.pad(day, 2);
-      const month =  arrDate[1];
-      const year =  arrDate[0];
+      const month = arrDate[1];
+      const year = arrDate[0];
 
       const vDate = `${year}-${month}-${dayModified}`;
 
       hour -= 24;
       const hourModified = this.pad(hour, 2);
-      const minute =  arrHour[1];
-      const second =  arrHour[2];
+      const minute = arrHour[1];
+      const second = arrHour[2];
 
       const vHour = `${hourModified}:${minute}:${second}`;
 
@@ -433,20 +456,20 @@ export class DashboardComponent implements OnInit {
     return s;
   }
 
-  uploadData(){
+  uploadData() {
     this.loading = true;
     let myData = this.session.getObject('acadmicData');
     let cycle = this.session.getObject('schoolCycle');
-    this.newEnrollmentS.getDataStudentEnrollment({EMPLID: this.studentCode})
+    this.newEnrollmentS.getDataStudentEnrollment({ EMPLID: this.studentCode })
       .then((res) => {
-        this.newEnrollmentS.getScheduleAutoservice({EMPLID: this.studentCode, CAMPUS: res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0].CAMPUS})
-        .then((res) => {
-          this.toastr.success('Carga del Alumno Actualizada');
-          setTimeout(() => {
-            this.loading = false;
-            location.reload();
-          }, 1000)
-        });
+        this.newEnrollmentS.getScheduleAutoservice({ EMPLID: this.studentCode, CAMPUS: res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0].CAMPUS })
+          .then((res) => {
+            this.toastr.success('Carga del Alumno Actualizada');
+            setTimeout(() => {
+              this.loading = false;
+              location.reload();
+            }, 1000)
+          });
       });
   }
 
