@@ -705,11 +705,11 @@ export class StudentComponent implements OnInit {
 					.then(res => {
 						// this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
 						this.broadcaster.sendMessage({enroll: this.enroll});
-						this.studentS.getCompleteConditions(this.enroll)
-						.then(res => {
-							this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
-							this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
-						});
+						// this.studentS.getCompleteConditions(this.enroll)
+						// .then(res => {
+						// 	this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
+						// 	this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
+						// });
 						this.studentS.getEnrollQueueNumber(this.enroll)
 						.then(res => {
 							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
