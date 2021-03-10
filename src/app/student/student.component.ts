@@ -368,17 +368,17 @@ export class StudentComponent implements OnInit {
 		this.initSocket();
 		this.getFileUpload();
 		// this.getFlagSendUpload();
-		this.studentS.medicineStudents().then((res) => {
-			if (res.find(emp => emp == this.user.codigoAlumno)) {
-				this.AvisoVacunaModal.open();
-				this.showVacunation = true;
-			}
-		});
-		this.studentS.getListOfInterStudentsJson().then((res) => {
-			if (res.find(emp => emp == this.user.codigoAlumno)) {
-				this.showScheduleLink = true;
-			}
-		})
+		// this.studentS.medicineStudents().then((res) => {
+		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
+		// 		this.AvisoVacunaModal.open();
+		// 		this.showVacunation = true;
+		// 	}
+		// });
+		// this.studentS.getListOfInterStudentsJson().then((res) => {
+		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
+		// 		this.showScheduleLink = true;
+		// 	}
+		// })
 	}
 
 	initSocket(){
@@ -713,13 +713,19 @@ export class StudentComponent implements OnInit {
 						this.studentS.getEnrollQueueNumber(this.enroll)
 						.then(res => {
 							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
-							var parts = this.queueEnroll.fecha_ing.split('/');
+							var dateQueue = this.queueEnroll.exactDate.split(' ');
+							var parts = dateQueue[0].split('/');
+							var partsHour = dateQueue[1].split(':');
+							console.log(this.deviceS.userAgent);
 							if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
-								var partsHour = this.queueEnroll.hora_ing.split(':');
-								var hour = Number(partsHour[0] - 5)<10?'0' + Number(partsHour[0] - 5).toString():Number(partsHour[0] - 5).toString();
-								this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
-							}
-							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.hora_ing + ':00'));
+								if ((this.deviceS.getDeviceInfo().browser == 'Chrome' || this.deviceS.getDeviceInfo().browser == 'Safari') && Number((this.deviceS.userAgent.split('_')[0]).slice(-2)) > 13) {
+									var partsHour = this.queueEnroll.hora_ing.split(':');
+									var hour = Number(partsHour[0] - 5)<10?'0' + (Number(partsHour[0]) - 5).toString():(Number(partsHour[0]) - 5).toString();
+									this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
+									this.queueEnroll.exactDate = ' ' + hour + ':' + partsHour[1];
+								}
+ 							}
+							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.exactDate.split(' ')[1] + ':00'));
 							this.queueEnroll.date = enrollDate;
 							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
 							this.broadcaster.sendMessage({initSocket: 'Y'});

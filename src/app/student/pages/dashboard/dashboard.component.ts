@@ -64,7 +64,6 @@ export class DashboardComponent implements OnInit {
 	nextClassLink:any;
 	realProgram;
 	showEnrollment:boolean = false;
-	showTurn:boolean = false;
 	realDevice = this.deviceS.getDeviceInfo();
 	constructor( private formBuilder: FormBuilder,
 		private session: SessionService,
@@ -82,12 +81,6 @@ export class DashboardComponent implements OnInit {
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
-		// this.studentS.getListOfStudentsJson()
-		// 	.then((res) => {
-		// 		if( res.find(emp => emp == this.user.codigoAlumno)) {
-		// 			this.showTurn = true;
-		// 		}
-		// 	});
 		this.postModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
@@ -110,14 +103,16 @@ export class DashboardComponent implements OnInit {
 				this.enroll.EMPLID = this.user.codigoAlumno;
 			}
 		});
+		
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
-			if (message && message.enroll_conditions) {
-				this.enroll_conditions = message.enroll_conditions;
-			}
-			else if (message && message.queueEnroll) {
+			// if (message && message.enroll_conditions) {
+			// 	this.enroll_conditions = message.enroll_conditions;
+			// }
+			if (message && message.queueEnroll) {
 				this.timeoutEnroll = true;
 				this.queueEnroll = message.queueEnroll;
 				this.setRealDateEnroll();
+				this.readConditions();
 			}
 			else if (message && message.enroll) {
 				this.enroll = message.enroll;
@@ -132,6 +127,13 @@ export class DashboardComponent implements OnInit {
 			}
 	    });
 		var ese = new Array(4);
+	}
+
+	readConditions(){
+		this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
+			.then((res) => {
+				this.enroll_conditions = res;
+			});
 	}
 
 	getParameters(open: boolean = true){
@@ -183,29 +185,41 @@ export class DashboardComponent implements OnInit {
 		}, 5000);
 	}
 
-	saveAcademicCondition(){
-		var tEnroll = JSON.parse(JSON.stringify(this.enroll));
+	saveConditions(flag, modal){
 		this.loading = true;
-		tEnroll.FLAG = 'Y';
-		this.studentS.saveAcademicCondition(tEnroll)
-		.then( res => {
-			this.loading = false;
-			this.enroll_conditions.FLAG_ACADEMICO = res.UCS_GRAB_RES_COND_ACAD && res.UCS_GRAB_RES_COND_ACAD.UCS_GRAB_COM_COND_ACAD && res.UCS_GRAB_RES_COND_ACAD.UCS_GRAB_COM_COND_ACAD[0].FLAG_ACADEMICO == 'G'?'Y':this.enroll_conditions.FLAG_ACADEMICO;
-			if(this.enroll_conditions.FLAG_ACADEMICO == 'Y') this.AcademicConditionModal.close();
-		}, error => { this.loading = false; });
+		var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
+		tEnroll[flag] = 'Y';
+		this.newEnrollmentS.saveConditions(tEnroll)
+			.then((res) => {
+				this.loading = false;
+				modal.close();
+				this.enroll_conditions = res.conditions;
+			});
 	}
 
-	saveFinancialCondition(){
-		var tEnroll = JSON.parse(JSON.stringify(this.enroll));
-		this.loading = true;
-		tEnroll.FLAG = 'Y';
-		this.studentS.saveFinancialCondition(tEnroll)
-		.then( res => {
-			this.loading = false;
-			this.enroll_conditions.FLAG_FINANCIERO = res.UCS_GRAB_RES_COND_ACAD && res.UCS_GRAB_RES_COND_ACAD.UCS_GRAB_COM_COND_ACAD && res.UCS_GRAB_RES_COND_ACAD.UCS_GRAB_COM_COND_ACAD[0].FLAG_ACADEMICO == 'G'?'Y':this.enroll_conditions.FLAG_ACADEMICO;
-			if(this.enroll_conditions.FLAG_FINANCIERO == 'Y') this.FinancialConditionModal.close();
-		}, error => { this.loading = false; });
-	}
+	// saveAcademicCondition(){
+	// 	var tEnroll = JSON.parse(JSON.stringify(this.enroll));
+	// 	this.loading = true;
+	// 	tEnroll.FLAG = 'Y';
+	// 	this.studentS.saveAcademicCondition(tEnroll)
+	// 	.then( res => {
+	// 		this.loading = false;
+	// 		this.enroll_conditions.FLAG_ACADEMICO = res.UCS_GRAB_RES_COND_ACAD && res.UCS_GRAB_RES_COND_ACAD.UCS_GRAB_COM_COND_ACAD && res.UCS_GRAB_RES_COND_ACAD.UCS_GRAB_COM_COND_ACAD[0].FLAG_ACADEMICO == 'G'?'Y':this.enroll_conditions.FLAG_ACADEMICO;
+	// 		if(this.enroll_conditions.FLAG_ACADEMICO == 'Y') this.AcademicConditionModal.close();
+	// 	}, error => { this.loading = false; });
+	// }
+
+	// saveFinancialCondition(){
+	// 	var tEnroll = JSON.parse(JSON.stringify(this.enroll));
+	// 	this.loading = true;
+	// 	tEnroll.FLAG = 'Y';
+	// 	this.studentS.saveFinancialCondition(tEnroll)
+	// 	.then( res => {
+	// 		this.loading = false;
+	// 		this.enroll_conditions.FLAG_FINANCIERO = res.UCS_GRAB_RES_COND_ACAD && res.UCS_GRAB_RES_COND_ACAD.UCS_GRAB_COM_COND_ACAD && res.UCS_GRAB_RES_COND_ACAD.UCS_GRAB_COM_COND_ACAD[0].FLAG_ACADEMICO == 'G'?'Y':this.enroll_conditions.FLAG_ACADEMICO;
+	// 		if(this.enroll_conditions.FLAG_FINANCIERO == 'Y') this.FinancialConditionModal.close();
+	// 	}, error => { this.loading = false; });
+	// }
 
 	enrollPeople(){
 		if(this.user.ind_deuda != 'N'){

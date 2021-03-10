@@ -8,6 +8,13 @@ export function Chr(codePt) {
     return String.fromCharCode(codePt);
 }
 
+export function ValidateEmail(evt) {
+ if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(evt)){
+    return true
+  }
+  return false
+}
+
 export function Encrypt(clave: any, key: any) {
     var resulta = '';
     var char = '';

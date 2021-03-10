@@ -226,6 +226,7 @@ export class DashboardEnrollComponent implements OnInit {
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {
       this.scheduleAvailables = this.checkDuplicates(res);
+      console.log(this.scheduleAvailables);
       this.selectedCourse = course;
       this.checkCap(this.scheduleAvailables);
       // setTimeout(() => {
@@ -255,8 +256,11 @@ export class DashboardEnrollComponent implements OnInit {
         }
       };
     }
-    console.log(data);
     this.broadcaster.sendMessage({openModal: true, selectedOnHold: data});
+  }
+
+  callSendEmail(){
+    this.broadcaster.sendMessage({sendEmailModal: true, myCredits: this.myCredits});
   }
 
   equivalentCourses(){
