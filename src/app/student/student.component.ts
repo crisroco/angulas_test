@@ -227,7 +227,7 @@ export class StudentComponent implements OnInit {
 				{
 					img: '',
 					url: 'assets/pdfjs/calendario_academico_pregrado.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021'
+					description: 'CALENDARIO ACADÉMICO 2021 - 1'
 				},
 				{
 					img: '',
@@ -248,7 +248,7 @@ export class StudentComponent implements OnInit {
 				{
 					img: '',
 					url: 'assets/pdfjs/calendario_academico_cpe_villa.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021 CAMPUS VILLA'
+					description: 'CALENDARIO ACADÉMICO 2021 - 1'
 				}
 			],
 			isOpen: true,
