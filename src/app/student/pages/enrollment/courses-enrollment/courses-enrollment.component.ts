@@ -25,6 +25,7 @@ export class CoursesEnrollmentComponent implements OnInit {
   public myCredits = 0;
   public maxCreditsEnrollment = this.session.getItem('MaxCreditsEnrollment');
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
+  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233'];
 
   constructor(public broadcaster: Broadcaster,
     public newEnrollmentS: NewEnrollmentService,
@@ -111,6 +112,9 @@ export class CoursesEnrollmentComponent implements OnInit {
       array[i].trash = false;
       if ((array[i].status == 'I' && array[i].units_repeat_limit2) || (array[i].status == 'B')) {
         array[i].trash = true;
+      }
+      if (this.listOfLockCourses.find(el => el == array[i]['CRSE_ID'])) {
+        array[i].trash = false;
       }
       if (!filteredArray[array[i].DESCR]) {
         filteredArray[array[i].DESCR] = [];
