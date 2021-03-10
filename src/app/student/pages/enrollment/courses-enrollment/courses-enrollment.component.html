@@ -21,7 +21,7 @@
 						      		<td class="text-left docente">
 						      			{{item.DESCR}} ({{item.SSR_COMPONENT}})
 							      	</td>
-							      	<td class="text-center" *ngIf="!item.showLine">{{item.FLAG2=='Y'?item.UNITS_REQUIRED:(item.units_repeat_limit2?item.units_repeat_limit2:item.UNITS_REPEAT_LIMIT) | number: '1.0-0'}}
+							      	<td class="text-center" *ngIf="!item.showLine">{{(item.FLAG2=='Y'?item.UNITS_REQUIRED:(item.units_repeat_limit2?item.units_repeat_limit2:item.UNITS_REPEAT_LIMIT)) | number: '1.0-0'}}
 							      	</td>
 							      	<td class="text-center" *ngIf="item.showLine">-</td>
 							      	<td>{{item.LVF_CARACTER}}</td>
