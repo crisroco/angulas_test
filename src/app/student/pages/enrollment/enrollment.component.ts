@@ -29,7 +29,7 @@ export class EnrollmentComponent implements OnInit {
   student: any = this.session.getObject('student');
   dataEnrollment: any;
   myVirtualClasses:Array<any> = [];
-  viewDate: Date = new Date();
+  viewDate: Date = new Date(2021,3,5);
   events:CalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Week;
