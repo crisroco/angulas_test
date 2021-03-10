@@ -81,7 +81,8 @@ export class LoginComponent implements OnInit {
         grant_type: "password" 
       }).then((res) => {
         this.session.setObject('oauth', res);
-        this.router.navigate(['admin/dashboard']);
+        //this.router.navigate(['admin/dashboard']);
+        this.router.navigate(['admin/home']);
       });
     }, error => { this.loading = false; });
   }

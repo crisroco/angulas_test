@@ -1,0 +1,26 @@
+<div class="row bg-imagebg full-content-h position-relative min-content-normal align-items-center justify-content-center">
+		<div class="col-md-7 col-sm-10 col-11 pt-5">
+			<!-- <img class="img-s" src="./assets/img/logo.png"> -->	
+    </div>
+	<div class="col-md-6"></div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+
+<ngx-smart-modal #selecStudentModal identifier="selecStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
+	<div class="bg-{{company}} p-3 rounded-t-1">HOLA</div>
+	<div class="text-left p-2">
+		<p> Codigo del Alumno </p>
+		<div class="form-group scroll h-s">
+		    <input name="code" type="text" class="form-group" [(ngModel)]="studentCode" placeholder="Codigo">
+		    <button class="btn rounded-1 btn-{{company}} ml-2" (click)="search()">Buscar</button>
+	  	</div>
+	</div>
+	<div class="mx-2">
+		<p *ngIf="isthisStudent">Alumno: {{isthisStudent.NAME}}</p>
+	</div>
+	<div class="row d-flex justify-content-center mb-3 px-5">
+		<button [disabled]="!isthisStudent" class="btn rounded-1 btn-{{company}} mr-3" (click)="select()">Seleccionar</button>
+		<!-- <button class="btn rounded-1 btn-{{company}} ml-3" (click)="openConfirmation()">Carga del Alumno</button> -->
+	</div>
+</ngx-smart-modal>
