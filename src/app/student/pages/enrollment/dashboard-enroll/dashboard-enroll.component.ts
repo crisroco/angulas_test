@@ -17,6 +17,7 @@ import { BetweenDays, RealDate } from '../../../../helpers/dates';
 export class DashboardEnrollComponent implements OnInit {
   company = AppSettings.COMPANY;
 	myCoursesinEnrollment:Array<any> = [];
+  myRealCoursesInEnrollment:Array<any> = [];
 	scheduleAvailables:Array<any> = [];
   numberOfCicles:Array<any> = [];
   cicleSelected:any;
@@ -144,15 +145,15 @@ export class DashboardEnrollComponent implements OnInit {
         let credits = 0;
         let oneTimeCourse;
         for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
-          if (oneTimeCourse == this.myCoursesinEnrollment[i]['CRSE_ID']) {
+          if (this.listOfLockCourses.find(el => el == this.myCoursesinEnrollment[i]['CRSE_ID'])) {
+            this.myCoursesinEnrollment[i].notCount = true;
           } else {
-            oneTimeCourse = this.myCoursesinEnrollment[i]['CRSE_ID'];
-            let existInfo = this.myCoursesinEnrollment[i]['status'] == 'B' && !this.myCoursesinEnrollment[i]['units_repeat_limit2'];
-            let number = existInfo?Number(this.myCoursesinEnrollment[i]['UNITS_REPEAT_LIMIT']):Number(this.myCoursesinEnrollment[i]['units_repeat_limit2']);
-            if ((this.myCoursesinEnrollment[i].status == 'I' && this.myCoursesinEnrollment[i].units_repeat_limit2) || (this.myCoursesinEnrollment[i].status == 'B')) {
-              if (this.listOfLockCourses.find(el => el == this.myCoursesinEnrollment[i]['CRSE_ID'])) {
-                // array[i].trash = false;
-              } else {
+            if (oneTimeCourse == this.myCoursesinEnrollment[i]['CRSE_ID']) {
+            } else {
+              oneTimeCourse = this.myCoursesinEnrollment[i]['CRSE_ID'];
+              let existInfo = this.myCoursesinEnrollment[i]['status'] == 'B' && !this.myCoursesinEnrollment[i]['units_repeat_limit2'];
+              let number = existInfo?Number(this.myCoursesinEnrollment[i]['UNITS_REPEAT_LIMIT']):Number(this.myCoursesinEnrollment[i]['units_repeat_limit2']);
+              if ((this.myCoursesinEnrollment[i].status == 'I' && this.myCoursesinEnrollment[i].units_repeat_limit2) || (this.myCoursesinEnrollment[i].status == 'B')) {
                 if (this.myCoursesinEnrollment[i].FLAG2 == 'Y') {
                   credits += Number(this.myCoursesinEnrollment[i]['UNITS_REQUIRED']);
                 } else {
@@ -164,6 +165,7 @@ export class DashboardEnrollComponent implements OnInit {
         }
         this.myCredits = credits;
       }
+      this.myRealCoursesInEnrollment = this.myCoursesinEnrollment.filter(el => el.notCount != true);
       this.loading = false;
     });
   }

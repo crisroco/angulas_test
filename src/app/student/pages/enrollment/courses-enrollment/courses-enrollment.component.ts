@@ -22,6 +22,7 @@ export class CoursesEnrollmentComponent implements OnInit {
   schoolCycle: any = this.session.getObject('schoolCycle');
   goingToDelete:Array<any> = [];
   showToDelete:Array<any> = [];
+  public allToEmail:Array<any> = [];
   public myCredits = 0;
   public maxCreditsEnrollment = this.session.getItem('MaxCreditsEnrollment');
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
@@ -96,6 +97,8 @@ export class CoursesEnrollmentComponent implements OnInit {
         }
         this.myCredits = credits;
       }
+      this.allToEmail = this.availableCourses.filter(el => el.trash != false);
+      console.log(this.allToEmail);
       this.loading = false;
     });
   }
