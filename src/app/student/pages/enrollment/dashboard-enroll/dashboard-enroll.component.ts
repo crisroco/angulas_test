@@ -38,6 +38,7 @@ export class DashboardEnrollComponent implements OnInit {
   cycleSTRMSelected: any;
   maxCredits = 0;
   myCredits = 0;
+  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233'];
   constructor(
     public session: SessionService,
     public toastS: ToastrService,
@@ -153,10 +154,14 @@ export class DashboardEnrollComponent implements OnInit {
             let existInfo = this.myCoursesinEnrollment[i]['status'] == 'B' && !this.myCoursesinEnrollment[i]['units_repeat_limit2'];
             let number = existInfo?Number(this.myCoursesinEnrollment[i]['UNITS_REPEAT_LIMIT']):Number(this.myCoursesinEnrollment[i]['units_repeat_limit2']);
             if ((this.myCoursesinEnrollment[i].status == 'I' && this.myCoursesinEnrollment[i].units_repeat_limit2) || (this.myCoursesinEnrollment[i].status == 'B')) {
-              if (this.myCoursesinEnrollment[i].FLAG2 == 'Y') {
-                credits += Number(this.myCoursesinEnrollment[i]['UNITS_REQUIRED']);
+              if (this.listOfLockCourses.find(el => el == this.myCoursesinEnrollment[i]['CRSE_ID'])) {
+                // array[i].trash = false;
               } else {
-                credits += number;
+                if (this.myCoursesinEnrollment[i].FLAG2 == 'Y') {
+                  credits += Number(this.myCoursesinEnrollment[i]['UNITS_REQUIRED']);
+                } else {
+                  credits += number;
+                }
               }
             }
           }
