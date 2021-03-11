@@ -190,6 +190,7 @@
 	</div>
 	<div class="h-fn scroll fullModal">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesFinaConditions; let ac = 'index'">
+		<!-- <img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_26.pdf"> -->
 	</div>
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Descargar PDF</a>
