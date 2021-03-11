@@ -391,13 +391,13 @@ export class StudentComponent implements OnInit {
 	      console.log('catch!', err);
 			});
 			
-			this.queueS.notification( this.user.codigoAlumno )
-					.subscribe( (res: any) => {
-						this.notifications = res.data;
-						let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
-						this.notifications_read = filtered.length;
-						// console.log('this.notifications_read', this.notifications_read)
-					});
+			// this.queueS.notification( this.user.codigoAlumno )
+			// 		.subscribe( (res: any) => {
+			// 			this.notifications = res.data;
+			// 			let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
+			// 			this.notifications_read = filtered.length;
+			// 			// console.log('this.notifications_read', this.notifications_read)
+			// 		});
 	
 			this.wsService.listenNotification()
 				.subscribe( (res: any) => {

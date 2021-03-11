@@ -58,10 +58,6 @@ export class DashboardEnrollComponent implements OnInit {
         let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
         if (!notdeuda) {
           this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-          setTimeout(() => {
-            this.router.navigate(['/estudiante']);
-            return
-          }, 1500)
         }
       });
     let myConditions = this.session.getObject('conditionsToEnrollment');
