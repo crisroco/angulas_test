@@ -22,7 +22,13 @@ export class LoginComponent implements OnInit {
   data_browser: any;
   variable: string = '';
   student: any;
-  public available = ["100075537","100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377", "100075396", "100064384","100070412","100040451","100075372","100083509", "100005682", "100055266"];
+  process1: false;
+  process2: false;
+  process3: false;
+  //public available = ["100075537","100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377", "100075396", "100064384","100070412","100040451","100075372","100083509", "100005682", "100055266"];
+  public personalMiPortal = ["100031168"];
+  public personalMatricula = ["100054525"];
+  public personalBothProcess = ["100055266", "100052377"];
   public cientifica_data = {
     empresa_url : 'ucientifica.edu.pe',
     cod_empresa : '002',
@@ -60,18 +66,28 @@ export class LoginComponent implements OnInit {
     data.origen = deviceinfo.device == 'Unknown'?'W':'M';
     this.loginS.userLogin(data)
     .then(res => {
-      if (!this.available.includes(res['UcsMetodoLoginRespuesta']['codigoAlumno'])) {
-        this.toastr.error('No cuentas con los accesos necesarios');
-        this.loading = false;
-        return;
-      }
+      
+      console.log("Codigo de alumno : ");
+      console.log(res['UcsMetodoLoginRespuesta']['codigoAlumno']);
+      let codigoUsuario = res['UcsMetodoLoginRespuesta']['codigoAlumno'];
+
       if(!res['UcsMetodoLoginRespuesta'] || res['UcsMetodoLoginRespuesta']['valor'] != 'Y'){
         this.toastr.error(res['UcsMetodoLoginRespuesta'] && res['UcsMetodoLoginRespuesta'].descripcion?res['UcsMetodoLoginRespuesta'].descripcion:'No pudo loguearse, vuelva a intentarlo en unos minutos.');
         this.loading = false;
         return;
       }
-      this.session.setItem('adminOprid', this.loginForm.controls.email.value);
-      //this.session.setObject('user', res.UcsMetodoLoginRespuesta);
+      if (this.personalMiPortal.includes(codigoUsuario)){
+        this.session.setItem('userBackOffice', "personalMiPortal");
+      } else if (this.personalMatricula.includes(codigoUsuario)) {
+        this.session.setItem('userBackOffice', "personalMatricula");
+      } else if (this.personalBothProcess.includes(codigoUsuario)) {
+        this.session.setItem('userBackOffice', "personalBothProcess");
+      } else {
+        this.toastr.error('No cuentas con los accesos necesarios');
+        this.loading = false;
+        return;
+      }
+      this.session.setItem('adminOprid', this.loginForm.controls.email.value);//campo para la validación de login del admin
       this.session.setItem('cod_company', "002");
       this.loginS.oauthToken({
         username: data.email,
@@ -81,9 +97,10 @@ export class LoginComponent implements OnInit {
         grant_type: "password" 
       }).then((res) => {
         this.session.setObject('oauth', res);
-        //this.router.navigate(['admin/dashboard']);
         this.router.navigate(['admin/home']);
       });
     }, error => { this.loading = false; });
   }
+
+
 }

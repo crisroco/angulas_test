@@ -319,7 +319,7 @@ export class StudentComponent implements OnInit {
 	@ViewChild('humanityModal') humanityModal: any;
 
 	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
-	admin: boolean;
+	userBackoffice: boolean;
 	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
@@ -338,8 +338,8 @@ export class StudentComponent implements OnInit {
 		
 	ngOnInit() {
 		
-		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'admin'
-			this.admin = true;
+		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
+			this.userBackoffice = true;
 		}
 
 		if(!this.user){
