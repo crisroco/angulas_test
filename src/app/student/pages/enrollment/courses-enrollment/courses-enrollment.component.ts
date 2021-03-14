@@ -22,9 +22,11 @@ export class CoursesEnrollmentComponent implements OnInit {
   schoolCycle: any = this.session.getObject('schoolCycle');
   goingToDelete:Array<any> = [];
   showToDelete:Array<any> = [];
+  public allToEmail:Array<any> = [];
   public myCredits = 0;
   public maxCreditsEnrollment = this.session.getItem('MaxCreditsEnrollment');
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
+  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233'];
 
   constructor(public broadcaster: Broadcaster,
     public newEnrollmentS: NewEnrollmentService,
@@ -38,10 +40,6 @@ export class CoursesEnrollmentComponent implements OnInit {
         let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
         if (!notdeuda) {
           this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-          setTimeout(() => {
-            this.router.navigate(['/estudiante']);
-            return
-          }, 1500)
         }
       });
     let myConditions = this.session.getObject('conditionsToEnrollment');
@@ -99,6 +97,8 @@ export class CoursesEnrollmentComponent implements OnInit {
         }
         this.myCredits = credits;
       }
+      this.allToEmail = this.availableCourses.filter(el => el.trash != false);
+      console.log(this.allToEmail);
       this.loading = false;
     });
   }
@@ -111,6 +111,9 @@ export class CoursesEnrollmentComponent implements OnInit {
       array[i].trash = false;
       if ((array[i].status == 'I' && array[i].units_repeat_limit2) || (array[i].status == 'B')) {
         array[i].trash = true;
+      }
+      if (this.listOfLockCourses.find(el => el == array[i]['CRSE_ID'])) {
+        array[i].trash = false;
       }
       if (!filteredArray[array[i].DESCR]) {
         filteredArray[array[i].DESCR] = [];
@@ -168,6 +171,10 @@ export class CoursesEnrollmentComponent implements OnInit {
 
   callModal(){
     this.broadcaster.sendMessage({openModal: true});
+  }
+
+  callSendEmail(){
+    this.broadcaster.sendMessage({sendEmailModal: true, myCredits: this.myCredits});
   }
 
   remove(first){

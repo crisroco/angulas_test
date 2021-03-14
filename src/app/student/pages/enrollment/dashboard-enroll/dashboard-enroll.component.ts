@@ -17,6 +17,7 @@ import { BetweenDays, RealDate } from '../../../../helpers/dates';
 export class DashboardEnrollComponent implements OnInit {
   company = AppSettings.COMPANY;
 	myCoursesinEnrollment:Array<any> = [];
+  myRealCoursesInEnrollment:Array<any> = [];
 	scheduleAvailables:Array<any> = [];
   numberOfCicles:Array<any> = [];
   cicleSelected:any;
@@ -38,6 +39,7 @@ export class DashboardEnrollComponent implements OnInit {
   cycleSTRMSelected: any;
   maxCredits = 0;
   myCredits = 0;
+  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233'];
   constructor(
     public session: SessionService,
     public toastS: ToastrService,
@@ -57,10 +59,6 @@ export class DashboardEnrollComponent implements OnInit {
         let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
         if (!notdeuda) {
           this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-          setTimeout(() => {
-            this.router.navigate(['/estudiante']);
-            return
-          }, 1500)
         }
       });
     let myConditions = this.session.getObject('conditionsToEnrollment');
@@ -147,22 +145,27 @@ export class DashboardEnrollComponent implements OnInit {
         let credits = 0;
         let oneTimeCourse;
         for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
-          if (oneTimeCourse == this.myCoursesinEnrollment[i]['CRSE_ID']) {
+          if (this.listOfLockCourses.find(el => el == this.myCoursesinEnrollment[i]['CRSE_ID'])) {
+            this.myCoursesinEnrollment[i].notCount = true;
           } else {
-            oneTimeCourse = this.myCoursesinEnrollment[i]['CRSE_ID'];
-            let existInfo = this.myCoursesinEnrollment[i]['status'] == 'B' && !this.myCoursesinEnrollment[i]['units_repeat_limit2'];
-            let number = existInfo?Number(this.myCoursesinEnrollment[i]['UNITS_REPEAT_LIMIT']):Number(this.myCoursesinEnrollment[i]['units_repeat_limit2']);
-            if ((this.myCoursesinEnrollment[i].status == 'I' && this.myCoursesinEnrollment[i].units_repeat_limit2) || (this.myCoursesinEnrollment[i].status == 'B')) {
-              if (this.myCoursesinEnrollment[i].FLAG2 == 'Y') {
-                credits += Number(this.myCoursesinEnrollment[i]['UNITS_REQUIRED']);
-              } else {
-                credits += number;
+            if (oneTimeCourse == this.myCoursesinEnrollment[i]['CRSE_ID']) {
+            } else {
+              oneTimeCourse = this.myCoursesinEnrollment[i]['CRSE_ID'];
+              let existInfo = this.myCoursesinEnrollment[i]['status'] == 'B' && !this.myCoursesinEnrollment[i]['units_repeat_limit2'];
+              let number = existInfo?Number(this.myCoursesinEnrollment[i]['UNITS_REPEAT_LIMIT']):Number(this.myCoursesinEnrollment[i]['units_repeat_limit2']);
+              if ((this.myCoursesinEnrollment[i].status == 'I' && this.myCoursesinEnrollment[i].units_repeat_limit2) || (this.myCoursesinEnrollment[i].status == 'B')) {
+                if (this.myCoursesinEnrollment[i].FLAG2 == 'Y') {
+                  credits += Number(this.myCoursesinEnrollment[i]['UNITS_REQUIRED']);
+                } else {
+                  credits += number;
+                }
               }
             }
           }
         }
         this.myCredits = credits;
       }
+      this.myRealCoursesInEnrollment = this.myCoursesinEnrollment.filter(el => el.notCount != true);
       this.loading = false;
     });
   }
@@ -226,6 +229,7 @@ export class DashboardEnrollComponent implements OnInit {
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {
       this.scheduleAvailables = this.checkDuplicates(res);
+      console.log(this.scheduleAvailables);
       this.selectedCourse = course;
       this.checkCap(this.scheduleAvailables);
       // setTimeout(() => {
@@ -255,8 +259,11 @@ export class DashboardEnrollComponent implements OnInit {
         }
       };
     }
-    console.log(data);
     this.broadcaster.sendMessage({openModal: true, selectedOnHold: data});
+  }
+
+  callSendEmail(){
+    this.broadcaster.sendMessage({sendEmailModal: true, myCredits: this.myCredits});
   }
 
   equivalentCourses(){

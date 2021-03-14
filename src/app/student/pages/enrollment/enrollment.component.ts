@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SessionService } from '../../../services/session.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { RealDate, AddDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../helpers/dates';
-
+import { ValidateEmail } from '../../../helpers/general';
 @Component({
   selector: 'app-enrollment',
   templateUrl: './enrollment.component.html',
@@ -18,6 +18,7 @@ export class EnrollmentComponent implements OnInit {
   @ViewChild('schedulePreview') schedulePreview: any;
   @ViewChild('aditionalCoursesModal') aditionalCoursesModal: any;
   @ViewChild('equivalentCoursesModal') equivalentCoursesModal: any;
+  @ViewChild('showModalEmailSend') showModalEmailSend: any;
   loading: boolean = false;
   aditionalCourses:Array<any> = [];
   equivalentCourses:Array<any> = [];
@@ -28,12 +29,14 @@ export class EnrollmentComponent implements OnInit {
   student: any = this.session.getObject('student');
   dataEnrollment: any;
   myVirtualClasses:Array<any> = [];
-  viewDate: Date = new Date(2021,0,11);
+  viewDate: Date = new Date(2021,3,5);
   events:CalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Week;
   classDay: Array<any> = [];
   moreData: Array<any> = [];
+  public emailToSend = '';
+  public myCredits = 0;
 
   constructor(private broadcaster: Broadcaster, public enrollmentS: NewEnrollmentService, public session: SessionService, private router: Router, public toastT: ToastrService) { }
 
@@ -52,6 +55,11 @@ export class EnrollmentComponent implements OnInit {
       }
       if (message && message.cycleSelected) {
         this.schoolCycle = message.cycleSelected;
+      }
+      if (message && message.sendEmailModal) {
+        this.emailToSend = '';
+        this.myCredits = message.myCredits;
+        this.showModalEmailSend.open();
       }
     });
   }
@@ -75,6 +83,32 @@ export class EnrollmentComponent implements OnInit {
         this.session.setObject('mySchedule', this.classDay);
         this.closeOpenMonthViewDay();
       });
+    }
+  }
+
+  sendScheduleToMail(){
+    if (ValidateEmail(this.emailToSend)) {
+      this.loading = true;
+      this.dataEnrollment = this.session.getObject('dataEnrollment');
+      this.enrollmentS.sendEmailSchedule({
+        EMPLID: this.user.codigoAlumno,
+        EMAIL: this.emailToSend,
+        NAME: this.student.nombreAlumno + ' ' + this.student.apellidoAlumno,
+        INSTITUTION: this.dataEnrollment['INSTITUTION'],
+        ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
+        PROG_PLAN: this.allData.ACAD_PROG + ' / ' + this.allData.ACAD_PLAN,
+        STRM1: this.schoolCycle.CICLO_LECTIVO,
+        TOTAL_CREDITS: this.myCredits,
+        STRM2: this.session.getObject('otherCicle')?this.session.getObject('otherCicle').CICLO_LECTIVO:null
+      })
+        .then((res) => {
+          this.toastT.success('Correo enviado');
+          this.showModalEmailSend.close();
+          this.loading = false;
+        });
+    } else {
+      this.emailToSend = '';
+      this.toastT.error('Ingresa un correo valido!');
     }
   }
 

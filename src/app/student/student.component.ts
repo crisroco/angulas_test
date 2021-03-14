@@ -341,7 +341,7 @@ export class StudentComponent implements OnInit {
 			this.getParameters();
 		}
 		this.initUpdatePersonalData();
-		this.checkInList();
+		// this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -368,17 +368,17 @@ export class StudentComponent implements OnInit {
 		this.initSocket();
 		this.getFileUpload();
 		// this.getFlagSendUpload();
-		this.studentS.medicineStudents().then((res) => {
-			if (res.find(emp => emp == this.user.codigoAlumno)) {
-				this.AvisoVacunaModal.open();
-				this.showVacunation = true;
-			}
-		});
-		this.studentS.getListOfInterStudentsJson().then((res) => {
-			if (res.find(emp => emp == this.user.codigoAlumno)) {
-				this.showScheduleLink = true;
-			}
-		})
+		// this.studentS.medicineStudents().then((res) => {
+		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
+		// 		this.AvisoVacunaModal.open();
+		// 		this.showVacunation = true;
+		// 	}
+		// });
+		// this.studentS.getListOfInterStudentsJson().then((res) => {
+		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
+		// 		this.showScheduleLink = true;
+		// 	}
+		// })
 	}
 
 	initSocket(){
@@ -391,13 +391,13 @@ export class StudentComponent implements OnInit {
 	      console.log('catch!', err);
 			});
 			
-			this.queueS.notification( this.user.codigoAlumno )
-					.subscribe( (res: any) => {
-						this.notifications = res.data;
-						let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
-						this.notifications_read = filtered.length;
-						// console.log('this.notifications_read', this.notifications_read)
-					});
+			// this.queueS.notification( this.user.codigoAlumno )
+			// 		.subscribe( (res: any) => {
+			// 			this.notifications = res.data;
+			// 			let filtered = res.data.filter ( ( d ) => { return d.read === 'N'; });
+			// 			this.notifications_read = filtered.length;
+			// 			// console.log('this.notifications_read', this.notifications_read)
+			// 		});
 	
 			this.wsService.listenNotification()
 				.subscribe( (res: any) => {
@@ -705,21 +705,27 @@ export class StudentComponent implements OnInit {
 					.then(res => {
 						// this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
 						this.broadcaster.sendMessage({enroll: this.enroll});
-						this.studentS.getCompleteConditions(this.enroll)
-						.then(res => {
-							this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
-							this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
-						});
+						// this.studentS.getCompleteConditions(this.enroll)
+						// .then(res => {
+						// 	this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
+						// 	this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
+						// });
 						this.studentS.getEnrollQueueNumber(this.enroll)
 						.then(res => {
 							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
-							var parts = this.queueEnroll.fecha_ing.split('/');
+							var dateQueue = this.queueEnroll.exactDate.split(' ');
+							var parts = dateQueue[0].split('/');
+							var partsHour = dateQueue[1].split(':');
+							console.log(this.deviceS.userAgent);
 							if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
-								var partsHour = this.queueEnroll.hora_ing.split(':');
-								var hour = Number(partsHour[0] - 5)<10?'0' + Number(partsHour[0] - 5).toString():Number(partsHour[0] - 5).toString();
-								this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
-							}
-							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.hora_ing + ':00'));
+								if ((this.deviceS.getDeviceInfo().browser == 'Chrome' || this.deviceS.getDeviceInfo().browser == 'Safari') && Number((this.deviceS.userAgent.split('_')[0]).slice(-2)) > 13) {
+									var partsHour = this.queueEnroll.hora_ing.split(':');
+									var hour = Number(partsHour[0] - 5)<10?'0' + (Number(partsHour[0]) - 5).toString():(Number(partsHour[0]) - 5).toString();
+									this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
+									this.queueEnroll.exactDate = ' ' + hour + ':' + partsHour[1];
+								}
+ 							}
+							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.exactDate.split(' ')[1] + ':00'));
 							this.queueEnroll.date = enrollDate;
 							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
 							this.broadcaster.sendMessage({initSocket: 'Y'});

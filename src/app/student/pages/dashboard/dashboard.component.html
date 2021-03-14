@@ -18,7 +18,7 @@
 					<div *ngIf="nextClassLink" class="btn btn-block next_class my-2 text-center">
 						<a (click)="preGoMoodle()" target="_blank" class="my-0 text-{{company}}"> <span style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px" src="./assets/img/icon/zoom.png" alt=""></a>
 					</div>
-					<!-- <ng-container *ngIf="showTurn">
+					<ng-container>
 						<div *ngIf="enroll && queueEnroll" class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}"> {{queueEnroll.ind_grupo == 'N' && !queueEnroll.fecha_ing?'Aún no tienes Turno de Matricula':'Turno: ' + queueEnroll.date.day + ' de ' + queueEnroll.date.nmonth + ' ' + queueEnroll.date.hour + ':' + queueEnroll.date.minute + queueEnroll.date.thour}} </div>
 						<div class="row justify-content-center align-items-center mb-2 mt-3">
 							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="AcademicConditionModal.open()">
@@ -42,7 +42,7 @@
 								</div>
 							</div>
 						</div>
-					</ng-container> -->
+					</ng-container>
 				</div>
 			</div>
 			<div class="col-md-8 p-2 mb-6">
@@ -175,7 +175,7 @@
 	</div>
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Descargar PDF</a>
-		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'" class="btn rounded-1 px-4 btn-{{company}}" (click)="saveAcademicCondition()">ACEPTAR</button>
+		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'" class="btn rounded-1 px-4 btn-{{company}}" (click)="saveConditions('FLAG_ACADEMICO', AcademicConditionModal)">ACEPTAR</button>
 	</div>
 </ngx-smart-modal>
 
@@ -190,11 +190,11 @@
 	</div>
 	<div class="h-fn scroll fullModal">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesFinaConditions; let ac = 'index'">
-		<!-- <ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_financieras.pdf"></ng2-pdfjs-viewer> -->
+		<!-- <img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_26.pdf"> -->
 	</div>
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Descargar PDF</a>
-		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'" class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveFinancialCondition()">ACEPTAR</button>
+		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'" class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveConditions('FLAG_FINANCIERO', FinancialConditionModal)">ACEPTAR</button>
 	</div>
 </ngx-smart-modal>
 

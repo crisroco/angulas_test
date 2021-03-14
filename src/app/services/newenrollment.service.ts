@@ -18,8 +18,16 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSchedule', data).toPromise();
     }
 
+    public getScheduleBoffice(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleBoffice', data).toPromise();
+    }
+
     public getSkillfullLoad(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillfulLoad', data).toPromise();
+    }
+
+    public getSkillfulLoadBoffice(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillfulLoadBoffice', data).toPromise();
     }
 
     public getDebt(data): Promise<any> {
@@ -88,6 +96,18 @@ export class NewEnrollmentService {
 
     public massiveUpload(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/massiveUpload', data).toPromise();
+    }
+
+    public checkConditions(id): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/checkConditions/' + id).toPromise();
+    }
+
+    public saveConditions(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/saveConditions', data).toPromise();
+    }
+
+    public sendEmailSchedule(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/sendEmailSchedule', data).toPromise();
     }
 
 }
