@@ -26,7 +26,7 @@ export class CoursesEnrollmentComponent implements OnInit {
   public myCredits = 0;
   public maxCreditsEnrollment = this.session.getItem('MaxCreditsEnrollment');
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
-  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233'];
+  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233', '666911'];
 
   constructor(public broadcaster: Broadcaster,
     public newEnrollmentS: NewEnrollmentService,

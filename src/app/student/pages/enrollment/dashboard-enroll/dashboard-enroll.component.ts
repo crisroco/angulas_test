@@ -39,7 +39,7 @@ export class DashboardEnrollComponent implements OnInit {
   cycleSTRMSelected: any;
   maxCredits = 0;
   myCredits = 0;
-  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233'];
+  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233', '666911'];
   constructor(
     public session: SessionService,
     public toastS: ToastrService,
