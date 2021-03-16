@@ -15,13 +15,14 @@ import { SessionService } from '../../services/session.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-	code_company = AppSettings.COMPANY;
-	loginForm: FormGroup;
-	loading = false;
+  code_company = AppSettings.COMPANY;
+  loginForm: FormGroup;
+  loading = false;
   ip: any;
   data_browser: any;
   variable: string = '';
   student: any;
+  public opridsList = ['BENCISO', 'EMORAN', 'AFARFANP', 'WALVA','JCRUCESP', 'TLOZANO','DALARCONU', 'BROLDANSA', 'SLEONA','CCIEZA','ACORNEJOC','BRAMIREZ','APALOMINO','BBARRIOSA', 'JSOLANOB', 'LYAYA'];
   public available = ["100075537","100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377", "100075396", "100064384","100070412","100040451","100075372","100083509", "100005682", "100055266"];
   public cientifica_data = {
     empresa_url : 'ucientifica.edu.pe',
@@ -37,10 +38,10 @@ export class LoginComponent implements OnInit {
     private loginS: LoginService) { }
 
   ngOnInit() {
-  	this.loginForm = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       empresa: ['002', Validators.required],
-		  email: ['', Validators.required],
-		  password: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required],
     });
     this.loginS.getIPAddress()
     .then(res => {
@@ -53,6 +54,11 @@ export class LoginComponent implements OnInit {
 
   login(){
     if (this.loginForm.invalid) { this.toastr.error('Complete todos los campos.'); return;}
+    if (!this.opridsList.includes(this.loginForm.controls.email.value)) {
+      this.toastr.error('No cuentas con los accesos necesarios');
+      this.loading = false;
+      return;
+    }
     let data = this.loginForm.value;
     this.loading = true;
     this.variable = btoa(this.cientifica_data.empresa_url + "&&" + data.email.toUpperCase() + "&&" + data.password);
@@ -60,11 +66,6 @@ export class LoginComponent implements OnInit {
     data.origen = deviceinfo.device == 'Unknown'?'W':'M';
     this.loginS.userLogin(data)
     .then(res => {
-      if (!this.available.includes(res['UcsMetodoLoginRespuesta']['codigoAlumno'])) {
-        this.toastr.error('No cuentas con los accesos necesarios');
-        this.loading = false;
-        return;
-      }
       if(!res['UcsMetodoLoginRespuesta'] || res['UcsMetodoLoginRespuesta']['valor'] != 'Y'){
         this.toastr.error(res['UcsMetodoLoginRespuesta'] && res['UcsMetodoLoginRespuesta'].descripcion?res['UcsMetodoLoginRespuesta'].descripcion:'No pudo loguearse, vuelva a intentarlo en unos minutos.');
         this.loading = false;
