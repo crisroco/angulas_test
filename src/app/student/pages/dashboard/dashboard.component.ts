@@ -464,8 +464,9 @@ export class DashboardComponent implements OnInit {
 				let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
 				if (!notdeuda) {
 					this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+				} else {
+					this.router.navigate(['/estudiante/matricula/disponibles']);
 				}
-				this.router.navigate(['/estudiante/matricula/disponibles']);
 			});
 	}
 
