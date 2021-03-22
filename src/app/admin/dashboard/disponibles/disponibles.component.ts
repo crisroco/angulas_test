@@ -476,6 +476,9 @@ export class DisponiblesComponent implements OnInit {
         this.loadDataStudentCourses();
         this.loading = false;
         this.scheduleSelection.close();
+      }else if(res.status == 'fail'){
+        this.toastS.error(res.message);
+        this.loading = false;
       } else {
         this.toastS.warning('No hay vacantes para este curso');
         this.loading = false;
