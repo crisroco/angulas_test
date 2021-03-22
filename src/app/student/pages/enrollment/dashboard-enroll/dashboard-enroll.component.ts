@@ -474,7 +474,7 @@ export class DashboardEnrollComponent implements OnInit {
       courses: result,
       emplid_admin: this.user.email
     }).then((res) => {
-      if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
+      if (res['UCS_REST_INSCR_RES'] && res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
         let index = this.availableCourses.findIndex(val => val['own_enrollment_skillful_load_id'] == this.selectedCourse['own_enrollment_skillful_load_id']);
         this.availableCourses.splice(index, 1);
         this.toastS.success('Curso matriculado');
@@ -482,6 +482,9 @@ export class DashboardEnrollComponent implements OnInit {
         this.loadDataStudentCourses();
         this.loading = false;
         this.scheduleSelection.close();
+      } else if(res.status == 'fail'){
+        this.toastS.error(res.message);
+        this.loading = false;
       } else {
         this.toastS.warning('No hay vacantes para este curso');
         this.loading = false;
