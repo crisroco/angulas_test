@@ -26,9 +26,9 @@ export class LoginComponent implements OnInit {
   process2: false;
   process3: false;
   //public available = ["100075537","100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377", "100075396", "100064384","100070412","100040451","100075372","100083509", "100005682", "100055266"];
-  public personalMiPortal = ["100031168"];
-  public personalMatricula = ["100054525"];
-  public personalBothProcess = ["100055266", "100052377"];
+  public usersMatricula = ["EMORAN","TLOZANO","LYAYA","DALARCONU","BROLDANSA","SLEONA","CCIEZA","ACORNEJOC","BRAMIREZ","APALOMINO","BBARRIOSA"];
+  public usersMiPortal = ["AJAUREGUIA","MFALCON"];
+  public usersAdmin = ["BENCISO","AFARFANP","WALVA","JCRUCESP","JSOLANOB"];
   public cientifica_data = {
     empresa_url : 'ucientifica.edu.pe',
     cod_empresa : '002',
@@ -63,24 +63,25 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.variable = btoa(this.cientifica_data.empresa_url + "&&" + data.email.toUpperCase() + "&&" + data.password);
     let deviceinfo = this.deviceS.getDeviceInfo();
-    data.origen = deviceinfo.device == 'Unknown'?'W':'M';
+    data.origen = deviceinfo.device == 'Unknown'?'W':'M';    
     this.loginS.userLogin(data)
     .then(res => {
       
       console.log("Codigo de alumno : ");
       console.log(res['UcsMetodoLoginRespuesta']['codigoAlumno']);
       let codigoUsuario = res['UcsMetodoLoginRespuesta']['codigoAlumno'];
+      let opridForm = this.loginForm.controls.email.value;
 
       if(!res['UcsMetodoLoginRespuesta'] || res['UcsMetodoLoginRespuesta']['valor'] != 'Y'){
         this.toastr.error(res['UcsMetodoLoginRespuesta'] && res['UcsMetodoLoginRespuesta'].descripcion?res['UcsMetodoLoginRespuesta'].descripcion:'No pudo loguearse, vuelva a intentarlo en unos minutos.');
         this.loading = false;
         return;
       }
-      if (this.personalMiPortal.includes(codigoUsuario)){
+      if (this.usersMiPortal.includes(opridForm)){
         this.session.setItem('userBackOffice', "personalMiPortal");
-      } else if (this.personalMatricula.includes(codigoUsuario)) {
+      } else if (this.usersMatricula.includes(opridForm)) {
         this.session.setItem('userBackOffice', "personalMatricula");
-      } else if (this.personalBothProcess.includes(codigoUsuario)) {
+      } else if (this.usersAdmin.includes(opridForm)) {
         this.session.setItem('userBackOffice', "personalBothProcess");
       } else {
         this.toastr.error('No cuentas con los accesos necesarios');

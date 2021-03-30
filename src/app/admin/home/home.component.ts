@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
         tipo_usuario: "A",
         tipo_usuario2: "Y",
         valor: "Y",
-        email: this.session.getObject('mySelectedStudent').OPRID
+        email: this.session.getObject('mySelectedStudent').OPRID //SERVICIO DEBE TRAER EL CORREO DEL STUDIANTE SELECCIONADO
       },
         this.session.setObject('user', this.user);
       this.router.navigate(['estudiante']);
