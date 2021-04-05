@@ -8,13 +8,29 @@ import { AppSettings } from '../app.settings';
 })
 export class NewEnrollmentService {
 
-	constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
+
+    public getCoursesExtra(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/getCoursesExtra').toPromise();
+    }
+
+/*     public getSchedulesCourse(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleExtra/1031/810204').toPromise();
+    } */
+
+    public getSchedulesCourse(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleExtra/1087/666723').toPromise();
+    }
+
+/*     public getSchedulesCourse(data): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleExtra/1031/' + data).toPromise();
+    } */
 
     public getAcademicData(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getAcademicData', data).toPromise();
     }
 
-	public getSchedule(data): Promise<any> {
+    public getSchedule(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSchedule', data).toPromise();
     }
 
@@ -31,7 +47,7 @@ export class NewEnrollmentService {
     }
 
     public getDebt(data): Promise<any> {
-    	return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDebt', data).toPromise();
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDebt', data).toPromise();
     }
 
     public getSchoolCycle(data): Promise<any> {

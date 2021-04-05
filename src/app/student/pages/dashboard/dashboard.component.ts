@@ -14,15 +14,17 @@ import { IntentionService } from '../../../services/intention.service';
 import { AssistanceService } from '../../../services/assistance.service';
 import { NewEnrollmentService } from '../../../services/newenrollment.service';
 import { AppSettings } from '../../../app.settings';
-import { RealDate } from '../../../helpers/dates';
+import { BetweenDays, RealDate } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
+import { element } from 'protractor';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+	selector: 'app-dashboard',
+	templateUrl: './dashboard.component.html',
+	styleUrls: ['./dashboard.component.scss']
 })
+
 export class DashboardComponent implements OnInit {
 	@ViewChild('SurveyModal') SurveyModal: any;
 	@ViewChild('SurveyModal2') SurveyModal2: any;
@@ -36,6 +38,12 @@ export class DashboardComponent implements OnInit {
 	@ViewChild('medicineModal') medicineModal: any;
 	@ViewChild('postModal') postModal: any;
 	@ViewChild('preModal') preModal: any;
+	@ViewChild('matriculaExtracurricularModal') matriculaExtracurricularModal: any; //MODAL : SI - NO
+	@ViewChild('cursosExtracurricularesModal') cursosExtracurricularesModal: any; //MODAL: CURSOS
+	@ViewChild('horariosModal') horariosModal: any; //MODAL : HORARIOS DEL CURSO
+	@ViewChild('eliminarMatriculaModal') eliminarMatriculaModal: any; //MODAL: CONFIRMACION DE ELIMINAR
+	
+
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	student: any = {};
@@ -57,15 +65,27 @@ export class DashboardComponent implements OnInit {
 	crossdata: any;
 	notifications: Array<any>;
 	btnEnroll: boolean = false;
-	currentNextClass:any = {
-		limit : 0
+	currentNextClass: any = {
+		limit: 0
 	};
-	offsetHour = 1000*60*10;
-	nextClassLink:any;
+	offsetHour = 1000 * 60 * 10;
+	nextClassLink: any;
 	realProgram;
-	showEnrollment:boolean = false;
+	showEnrollment: boolean = false;
 	realDevice = this.deviceS.getDeviceInfo();
-	constructor( private formBuilder: FormBuilder,
+	/////////////////////////////////////
+	courses = [];
+	arraySchedules: [];
+	schedulesOfCourse: [];
+	columTrash : boolean; //Mostrar columna de la tabla para eliminar
+	selectedCourse = {
+		TOPIC: '',
+		value: false
+	  };
+	courseForDelete: any;
+	cursosMatriculados: any;
+	/////////////////////////////////////
+	constructor(private formBuilder: FormBuilder,
 		private session: SessionService,
 		private studentS: StudentService,
 		public inputsS: InputsService,
@@ -74,43 +94,44 @@ export class DashboardComponent implements OnInit {
 		private broadcaster: Broadcaster,
 		private router: Router,
 		private deviceS: DeviceDetectorService,
-		public generalS:GeneralService,
-    	private toastr: ToastrService,
-    	public newEnrollmentS: NewEnrollmentService,
-    	public ngxSmartModalService: NgxSmartModalService,
+		public generalS: GeneralService,
+		private toastr: ToastrService,
+		public newEnrollmentS: NewEnrollmentService,
+		public ngxSmartModalService: NgxSmartModalService,
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
-		// this.studentS.getListOfStudentsJson()
-		// 	.then((res) => {
-		// 		if( res.find(emp => emp == this.user.codigoAlumno)) {
-		// 			this.showTurn = true;
-		// 		}
-		// 	});
-		// this.postModal.open();
-		// this.preModal.open();
-		this.studentS.getDataStudent({email: this.user.email})
-		.then(res => {
-			this.student = res.UcsMetodoDatosPersRespuesta;
-			this.session.setObject('student', this.student);
-			// this.getParameters();
-			// this.getNotifications();
-		}, error => { });
-		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
-		.then(res => {
-			var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
-			this.enroll = units.filter(item => item.institucion == 'PREGR');
-			this.enroll = this.enroll.length?this.enroll[0]:null;
-			if(this.enroll){
-				this.enroll.OPRID = this.user.email;
-				this.enroll.INSTITUTION = this.enroll.institucion;
-				this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
-				this.enroll.STRM = this.enroll.cicloAdmision;
-				this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-				this.enroll.EMPLID = this.user.codigoAlumno;
-			}
-		});
-		
+		this.newEnrollmentS.getCoursesExtra()
+			.then((res) => {
+				this.courses = res['data'];
+			});			
+		console.log("Todos los cursos");
+		console.log(this.courses);
+		this.matriculaExtracurricularModal.open();
+		//this.postModal.open();
+		//this.preModal.open();
+		this.studentS.getDataStudent({ email: this.user.email })
+			.then(res => {
+				this.student = res.UcsMetodoDatosPersRespuesta;
+				this.session.setObject('student', this.student);
+				// this.getParameters();
+				// this.getNotifications();
+			}, error => { });
+		this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
+			.then(res => {
+				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
+				this.enroll = units.filter(item => item.institucion == 'PREGR');
+				this.enroll = this.enroll.length ? this.enroll[0] : null;
+				if (this.enroll) {
+					this.enroll.OPRID = this.user.email;
+					this.enroll.INSTITUTION = this.enroll.institucion;
+					this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
+					this.enroll.STRM = this.enroll.cicloAdmision;
+					this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
+					this.enroll.EMPLID = this.user.codigoAlumno;
+				}
+			});
+
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			// if (message && message.enroll_conditions) {
 			// 	this.enroll_conditions = message.enroll_conditions;
@@ -126,73 +147,304 @@ export class DashboardComponent implements OnInit {
 			}
 			else if (message && message.code) {
 				if (message.institution != 'PSTRG') {
-					this.studentS.getAllClasses({code: message.code, institution: message.institution, date: message.date})
-					.then((res) => {
-						this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR);
-					});
+					this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: message.date })
+						.then((res) => {
+							this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR);
+						});
 				}
 			}
-	    });
+		});
 		var ese = new Array(4);
 	}
 
-	readConditions(){
+	onChangeAvailable(course, evt) {
+		console.log("curso checkeado");
+		console.log(course);
+		this.loading = true;
+		this.newEnrollmentS.getSchedulesCourse()
+			.then((res) => {
+				console.log(res);
+				this.arraySchedules = res['SIS_WS_HORCC_RSP']['SIS_WS_HORCC_COM'];
+				this.schedulesOfCourse = this.checkDuplicates(this.arraySchedules);
+				this.selectedCourse = course;
+				console.log(this.selectedCourse);
+				this.loading = false;				
+				this.horariosModal.open();
+				console.log("horarios del curso");
+				console.log(this.schedulesOfCourse); 	
+			}).catch(err => alert('El servicio de traer secciones de un curso, está fallando'));
+			
+	}
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////AGRUPACIÓN DE SECCIONES
+		checkDuplicates(array){
+			array.sort(this.dynamicSortMultiple(["CLASS_SECTION","CLASS_NBR",]));
+			let lastNBR;
+			for (var i = 0; i < array.length; i++) {
+			  /* if (array[i]['FLAG1'] != 'I') { */
+				if (!lastNBR) {
+				  lastNBR = array[i]['CLASS_NBR'];
+				  array[i].show = true;
+				}else if (lastNBR == array[i]['CLASS_NBR']){
+				  array[i].show = false;
+				} else {
+				  lastNBR = array[i]['CLASS_NBR'];
+				  array[i].show = true;
+				}
+			  /* } */
+			}
+			return array.filter(arr => arr.FLAG1 != 'I');
+			/* return array.filter(arr => arr.FLAG1 != 'I'); */
+		}
+	
+		dynamicSortMultiple(args) {
+			var props = args;
+			return (obj1, obj2) => {
+			  var i = 0, result = 0, numberOfProperties = props.length;
+			  while(result === 0 && i < numberOfProperties) {
+				result = this.dynamicSort(props[i])(obj1, obj2);
+				i++;
+			  }
+			  return result;
+			}
+		  }
+	
+		  dynamicSort(property) {
+			var sortOrder = 1;
+			if(property[0] === "-") {
+			  sortOrder = -1;
+			  property = property.substr(1);
+			}
+			return (a,b) => {
+			  var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+			  return result * sortOrder;
+			}
+		  }
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* 		checkCap(section){
+			if (section.btn = true) {
+				return true
+			  }
+			  return false
+		} */
+
+	changeSchedule(section, evt){
+		console.log("section checkeado");
+		console.log(section);
+		this.schedulesOfCourse.forEach(el => {
+		if (this.checkCrosses(el)) {
+			section.value = false;
+			evt.target.checked = false;
+			//el.value = false;
+			//this.blockAssociated(el, this.scheduleAvailables, el.alertMessage);
+			return
+		  }
+		});
+	}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	checkCrosses(pickedCourse){
+		for (let i = 0; i < this.courses.length; i++) {
+		  if (this.courses[i].STRM == "1087") {
+			//if (this.courses[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse['CRSE_ATTR'] != 'VIRT') {
+			  if (BetweenDays(this.courses[i]['START_DT_DO'] + ' 00:00:00',this.courses[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse['START_DT_DO'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.courses[i]['START_DT_DO'] + ' 00:00:00',this.courses[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse['END_DT_DO'].replaceAll('-', '/') + ' 00:00:00')))) {
+				if (this.courses[i]['DAY_OF_WEEK'] == pickedCourse['DAY_OF_WEEK']) {
+				  if ((this.timeToSeconds(pickedCourse['MEETING_TIME_START']) >= this.timeToSeconds(this.courses[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_START']) < this.timeToSeconds(this.courses[i]['MEETING_TIME_END'])) || (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) > this.timeToSeconds(this.courses[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.courses[i]['MEETING_TIME_END']))) {
+					  this.toastr.error('Tienes un cruce con otra clase: ' + this.courses[i]['CLASS_SECTION'] + ' ' + this.courses[i]['DESCR']);
+					  pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.courses[i]['CLASS_SECTION'] + ' ' + this.courses[i]['DESCR'];
+					  return true
+					// }
+				  }
+				}
+			  }
+			//}
+		  }
+		}
+		return false
+	  }
+
+	  timeToSeconds(time){
+		let inSeconds = time.split(':');
+		return inSeconds[0]*60*60 + inSeconds[1]*60
+	  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	matricula(){
+		this.loading = true;
+		let data = [];
+		/* this.selectedCourse['schedules'] = []; */
+		for (var i = 0; i < this.schedulesOfCourse.length; i++) {
+		  if (this.schedulesOfCourse[i]['value']) {	
+			data.push({
+				ACAD_CAREER: this.schedulesOfCourse[i]['ACAD_CAREER'],
+				ASSOCIATED_CLASS: this.schedulesOfCourse[i]['ASSOCIATED_CLASS'],
+				CLASS_NBR: this.schedulesOfCourse[i]['CLASS_NBR'],
+				CRSE_ID: this.schedulesOfCourse[i]['CRSE_ID'],
+			  	EMPLID: this.user.codigoAlumno,
+			  	INSTITUTION: this.schedulesOfCourse[i]['INSTITUTION'],
+				OFFER_NBR: this.schedulesOfCourse[i]['CLASS_NBR'],
+				SESSION_CODE: this.schedulesOfCourse[i]['SESSION_CODE'],
+				SSR_COMPONENT: this.schedulesOfCourse[i]['SSR_COMPONENT'],
+			  	STRM: this.schedulesOfCourse[i]['STRM'],
+			  	equivalent: "-"
+			});
+		  }
+		};
+		let x = new Set();
+		var result = data.reduce((acc,item)=>{
+		  if(!x.has(item.CLASS_NBR)){
+			x.add(item.CLASS_NBR)
+			acc.push(item)
+		  }
+		  return acc;
+		},[]);
+		if (data.length == 0) {
+		  this.loading = false;
+		  this.toastr.warning('No seleccionaste ninguna sección');
+		  return
+		}
+		console.log(this.user.email);
+		this.newEnrollmentS.saveCourseClass({
+		  courses: result,
+		  emplid_admin: this.user.email
+		}).then((res) => {
+			console.log(res);
+			console.log(res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES']);
+		  if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
+			this.toastr.success('Curso matriculado');
+
+			let primerCurso = this.session.getObject('cursoExtracurricular');
+			
+			if (!primerCurso){
+				console.log("1er curso");
+				this.session.setObject('cursoExtracurricular', data);
+				this.cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
+				console.log(this.cursosMatriculados);
+			} else {
+				console.log("2do curso en adelante");
+				this.cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
+				this.session.setObject('cursoExtracurricular', this.cursosMatriculados);
+				console.log(this.cursosMatriculados);
+			}
+			this.selectedCourse.value = true;
+			console.log("CURSOS MATRICULADOS HASTA AHORA");
+			console.log(this.cursosMatriculados);
+			console.log(this.selectedCourse);
+			console.log(this.courses);
+			//this.session.setObject('cursoExtracurricular', data);
+			//this.cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular'):[];
+			//let cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
+			//this.session.setObject('cursoExtracurricular', cursosMatriculados);
+			this.session.destroy('mySchedule');
+			this.loading = false;
+			this.ExistCursoMatriculado();
+			this.horariosModal.close();
+		  } else {
+			this.toastr.warning('No hay vacantes para este curso');
+			this.loading = false;
+		  }
+		});
+	  }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	ExistCursoMatriculado(){
+		if(this.cursosMatriculados){
+			console.log("existe curso matriculado");
+			this.columTrash = true;
+		} else {
+			console.log("no existe curso matriculado");
+			this.columTrash = false;
+		}
+	}
+
+	closeModalCursos(modal){
+		this.cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular'):[];
+
+		this.selectedCourse.value = false;
+		this.ExistCursoMatriculado();
+		this.cursosExtracurricularesModal.close();
+	}
+
+	closeModalSecciones(modal){
+		this.selectedCourse.value = false;
+		this.ExistCursoMatriculado();
+		this.horariosModal.close();
+	}
+
+	delete(id: number){
+		this.courseForDelete = this.courses.filter(course => course.extra_curr_id === id)[0];
+		console.log(this.courseForDelete);
+
+		console.log(this.cursosMatriculados);
+		//this.courseForDelete.CRSE_ID
+		//this.cursoElegido = this.cursos.filter(curso => curso.id == id)[0];
+		//this.selectedCourse = this.courses.filter(course => course.extra_curr_id === id);
+		this.eliminarMatriculaModal.open();
+	}
+
+	deleteEnrollment(){		
+
+		this.ExistCursoMatriculado();
+		this.toastr.warning("Curso Removido");
+		this.eliminarMatriculaModal.close();
+	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	readConditions() {
 		this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
 			.then((res) => {
 				this.enroll_conditions = res;
 			});
 	}
 
-	getParameters(open: boolean = true){
+	getParameters(open: boolean = true) {
 		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
 		this.intentionS.getParameters(this.user.codigoAlumno)
-		.then(res => {
-			this.enrollmentStatus = res.data && res.data?res.data:[];
-			this.enrollmentStatus.forEach((item) => {
-				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO'){
-					if(open) this.broadcaster.sendMessage({ intentionModal: 2 });
-					this.noClosed = rDate > item.end_date || rDate < item.start_date?true:false;
-				}
-				if(item && item.enrollment_intention_status == 'A' && item.type == 'M'){
-					this.broadcaster.sendMessage({ getEnroll: 'Y' });
-					this.btnEnroll = true;
-				}
-				if(item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N'){
-					if(open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
-				}
-				if (item && item.enrollment_intention_status == 'A' && item.type == 'NM') {
-					this.broadcaster.sendMessage({ getEnroll: 'Y' });
-					this.btnEnroll = true;
-				}
+			.then(res => {
+				this.enrollmentStatus = res.data && res.data ? res.data : [];
+				this.enrollmentStatus.forEach((item) => {
+					if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO') {
+						if (open) this.broadcaster.sendMessage({ intentionModal: 2 });
+						this.noClosed = rDate > item.end_date || rDate < item.start_date ? true : false;
+					}
+					if (item && item.enrollment_intention_status == 'A' && item.type == 'M') {
+						this.broadcaster.sendMessage({ getEnroll: 'Y' });
+						this.btnEnroll = true;
+					}
+					if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N') {
+						if (open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
+					}
+					if (item && item.enrollment_intention_status == 'A' && item.type == 'NM') {
+						this.broadcaster.sendMessage({ getEnroll: 'Y' });
+						this.btnEnroll = true;
+					}
+				})
+				// this.broadcaster.sendMessage({ getEnroll: 'Y' });
+				// this.btnEnroll = true;
 			})
-			// this.broadcaster.sendMessage({ getEnroll: 'Y' });
-			// this.btnEnroll = true;
-		})
 	}
 
-	getNotifications(){
+	getNotifications() {
 		this.studentS.getAdStudent(this.user.codigoAlumno)
-		.then( res => {
-			this.notifications = res;
-			setTimeout(() =>{
-				this.notifications.forEach((item, idx) => {
-					this.ngxSmartModalService.open('NotificationModal' + idx);
-				});
-			}, 500);
-		}, error => { });
+			.then(res => {
+				this.notifications = res;
+				setTimeout(() => {
+					this.notifications.forEach((item, idx) => {
+						this.ngxSmartModalService.open('NotificationModal' + idx);
+					});
+				}, 500);
+			}, error => { });
 	}
 
-	setRealDateEnroll(){
+	setRealDateEnroll() {
 		this.realDate = RealDate();
-		if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) this.timeoutEnroll = false;
+		if (this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) this.timeoutEnroll = false;
 		setTimeout(() => {
-			if(this.timeoutEnroll){
+			if (this.timeoutEnroll) {
 				this.setRealDateEnroll();
 			}
 		}, 5000);
 	}
 
-	saveConditions(flag, modal){
+	saveConditions(flag, modal) {
 		this.loading = true;
 		var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
 		tEnroll[flag] = 'Y';
@@ -228,55 +480,55 @@ export class DashboardComponent implements OnInit {
 	// 	}, error => { this.loading = false; });
 	// }
 
-	enrollPeople(){
-		if(this.user.ind_deuda != 'N'){
+	enrollPeople() {
+		if (this.user.ind_deuda != 'N') {
 			this.toastr.error('Por favor, regularice su deuda, contactarse con Finanzas.');
 			return;
 		}
-		if(this.enroll_conditions.FLAG_ACADEMICO == 'N' || this.enroll_conditions.FLAG_FINANCIERO == 'N'){
+		if (this.enroll_conditions.FLAG_ACADEMICO == 'N' || this.enroll_conditions.FLAG_FINANCIERO == 'N') {
 			this.toastr.error('Si no aceptas las condiciones académicas y financieras, no te permitirá ingresar a la opción de Matrícula.');
 			return;
 		}
 
-		if(this.queueEnroll.ind_grupo == 'N'){
+		if (this.queueEnroll.ind_grupo == 'N') {
 			this.toastr.error('Aún no tienes Turno de Matricula.');
 			return;
 		}
 		this.realDate = RealDate();
-		if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) {window.open('/estudiante/accion/matricula', '_self');} //this.router.navigate(['/estudiante/accion/matricula']);
-		else {this.toastr.error(this.queueEnroll.mensaje, '', {enableHtml: true})};
+		if (this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) { window.open('/estudiante/accion/matricula', '_self'); } //this.router.navigate(['/estudiante/accion/matricula']);
+		else { this.toastr.error(this.queueEnroll.mensaje, '', { enableHtml: true }) };
 	}
 
-	ngOnDestroy(){
+	ngOnDestroy() {
 		console.log('eliminado');
 		this.crossdata.unsubscribe();
 	}
 
-	nextClass(arrClass){
+	nextClass(arrClass) {
 		var dt = new Date();
-  		var secs = dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60 * dt.getHours());
-  		if (arrClass) {
-  			for (let i = 0; i < arrClass.length; i++) {
+		var secs = dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60 * dt.getHours());
+		if (arrClass) {
+			for (let i = 0; i < arrClass.length; i++) {
 				let actualC = arrClass[i];
-				var hour = actualC['MEETING_TIME_START'].split(':')[0]*60*60;
-				var minute = actualC['MEETING_TIME_START'].split(':')[1]*60;
+				var hour = actualC['MEETING_TIME_START'].split(':')[0] * 60 * 60;
+				var minute = actualC['MEETING_TIME_START'].split(':')[1] * 60;
 				var total = hour + minute;
-				var hour2 = actualC['MEETING_TIME_END'].split(':')[0]*60*60;
-				var minute2 = actualC['MEETING_TIME_END'].split(':')[1]*60;
+				var hour2 = actualC['MEETING_TIME_END'].split(':')[0] * 60 * 60;
+				var minute2 = actualC['MEETING_TIME_END'].split(':')[1] * 60;
 				var total2 = hour2 + minute2;
-				if (total-600 < secs && secs < total2 - 600) {
+				if (total - 600 < secs && secs < total2 - 600) {
 					this.currentNextClass = actualC;
 					this.getLink(actualC);
 				}
 			}
-  		}
+		}
 	}
 
-	checkAssist(){
+	checkAssist() {
 		window.open(this.nextClassLink, '_blank');
 	}
 
-	preGoMoodle(){
+	preGoMoodle() {
 		var realClass = JSON.parse(JSON.stringify(this.currentNextClass));
 		realClass.CLASS_ATTEND_DT = realClass.FECH_INI;
 		let dates = this.getDates(realClass.FECH_INI, realClass.MEETING_TIME_START, realClass.MEETING_TIME_END);
@@ -295,76 +547,76 @@ export class DashboardComponent implements OnInit {
 			if (clases) {
 				for (let i = 0; i < clases.length; i++) {
 					let sending = 0;
-			        let data3 = {
-			            INSTITUTION : clases[i]['INSTITUTION'],
-			            ACAD_CAREER : clases[i]['ACAD_CAREER'],
-			            CLASS_ATTEND_DT: realClass.FECH_INI,
-			            STRM : realClass.STRM,
-			            CRSE_ID: clases[i]['CRSE_ID'],
-			            CLASS_NBR : clases[i]['CLASS_NBR'],
-			            CLASS_MTG_NBR: clases[i]['CLASS_MTG_NBR'],
-			            EMPLID :  this.student.codigoAlumno,
-			            ATTEND_TMPLT_NBR : '0',
-			            ATTEND_PRESENT : 'Y',
-			            ATTEND_LEFT_EARLY :'N',
-			            ATTEND_TARDY : 'N',
-			            ATTEND_REASON : "",
-			            platform : 'Moodle',
-			            STATUS : 'ER'
-			        };
-			        var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
-	            	var difference2 = (this.realHourEnd.timesecond - this.realHourStart.timeseconds)/2;
-	            	var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
-	            	if(Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0) || (this.realHourStart.timeseconds  < this.realDate.timeseconds && this.realDate.timeseconds < this.realHourEnd.timesecond)){
-			            tclassNbr = clases[i];
-			            sending = 1;
-			            if(this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute){
-			            	realClass.STATUS = 'P';
-			            }
-			            else if(difference <= this.offsetHour && difference > 0){
-			            	realClass.ATTEND_LEFT_EARLY = 'Y';
-			            	realClass.STATUS = 'E';
-			            }
-			            else if((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)){
-		            		realClass.ATTEND_TARDY = 'Y';
-			            	realClass.STATUS = 'L';
-			            }
-			            else{
-			            	realClass.STATUS = 'ER';
-			            	tclassNbr = 0;
-	                        sending = 0;
-			            }
-			        } else {
-			        	if(clases[i]['SESSION_CODE'] == 2){
-			        		if (tclassNbr) {
-			        			var partTime = tclassNbr['MEETING_TIME_END'].split(':');
+					let data3 = {
+						INSTITUTION: clases[i]['INSTITUTION'],
+						ACAD_CAREER: clases[i]['ACAD_CAREER'],
+						CLASS_ATTEND_DT: realClass.FECH_INI,
+						STRM: realClass.STRM,
+						CRSE_ID: clases[i]['CRSE_ID'],
+						CLASS_NBR: clases[i]['CLASS_NBR'],
+						CLASS_MTG_NBR: clases[i]['CLASS_MTG_NBR'],
+						EMPLID: this.student.codigoAlumno,
+						ATTEND_TMPLT_NBR: '0',
+						ATTEND_PRESENT: 'Y',
+						ATTEND_LEFT_EARLY: 'N',
+						ATTEND_TARDY: 'N',
+						ATTEND_REASON: "",
+						platform: 'Moodle',
+						STATUS: 'ER'
+					};
+					var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
+					var difference2 = (this.realHourEnd.timesecond - this.realHourStart.timeseconds) / 2;
+					var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
+					if (Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0) || (this.realHourStart.timeseconds < this.realDate.timeseconds && this.realDate.timeseconds < this.realHourEnd.timesecond)) {
+						tclassNbr = clases[i];
+						sending = 1;
+						if (this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute) {
+							realClass.STATUS = 'P';
+						}
+						else if (difference <= this.offsetHour && difference > 0) {
+							realClass.ATTEND_LEFT_EARLY = 'Y';
+							realClass.STATUS = 'E';
+						}
+						else if ((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)) {
+							realClass.ATTEND_TARDY = 'Y';
+							realClass.STATUS = 'L';
+						}
+						else {
+							realClass.STATUS = 'ER';
+							tclassNbr = 0;
+							sending = 0;
+						}
+					} else {
+						if (clases[i]['SESSION_CODE'] == 2) {
+							if (tclassNbr) {
+								var partTime = tclassNbr['MEETING_TIME_END'].split(':');
 								var partMinute = parseInt(partTime[1]) + 10;
 								var partHour = parseInt(partTime[0])
-								if(partMinute >= 60){
+								if (partMinute >= 60) {
 									partHour++;
-									partMinute = partMinute%60;
-								} if(clases[i]['MEETING_TIME_START'] == tclassNbr['MEETING_TIME_END'] || (clases[i]['MEETING_TIME_START'] > tclassNbr['MEETING_TIME_END'] && clases[i]['MEETING_TIME_START'] <= partHour + ':'  + partMinute )){
-			                        sending = 1;
-			                        data3['STATUS'] = 'P';
-			                    }
-			        		}
-			            }
-			        }
-			        if (sending) {
-			        	this.assistanceS.getAssistanceNBR(data3)
+									partMinute = partMinute % 60;
+								} if (clases[i]['MEETING_TIME_START'] == tclassNbr['MEETING_TIME_END'] || (clases[i]['MEETING_TIME_START'] > tclassNbr['MEETING_TIME_END'] && clases[i]['MEETING_TIME_START'] <= partHour + ':' + partMinute)) {
+									sending = 1;
+									data3['STATUS'] = 'P';
+								}
+							}
+						}
+					}
+					if (sending) {
+						this.assistanceS.getAssistanceNBR(data3)
 							.then(res => {
-					            this.assistanceS.saveAssistance(data3)
-					            .then(res => {
-					            });
+								this.assistanceS.saveAssistance(data3)
+									.then(res => {
+									});
 							});
-			        }
+					}
 				}
 			}
 			this.checkAssist();
 		});
 	}
 
-	getLink(cls){
+	getLink(cls) {
 		let d = new Date();
 		var hour = cls.MEETING_TIME_START.split(':')[0];
 		var minute = cls.MEETING_TIME_START.split(':')[1];
@@ -379,11 +631,11 @@ export class DashboardComponent implements OnInit {
 				}
 			});
 	}
-	
-	goMoodle(){
+
+	goMoodle() {
 		var emplid = this.student.codigoAlumno;
 		var rdate = Math.floor(Date.now() / 1000);
-		emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', {format: this.generalS.formatJsonCrypto}).toString());
+		emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', { format: this.generalS.formatJsonCrypto }).toString());
 		window.open('https://aulavirtualcpe.cientifica.edu.pe/local/wseducad/auth/sso.php?strm=9999&class=9999&emplid=' + emplid, '_self');
 	}
 
@@ -410,11 +662,11 @@ export class DashboardComponent implements OnInit {
 	getHour(pHour: string): string {
 
 		const arrHour = pHour.split(':');
-		let hour =  Number(arrHour[0]);
+		let hour = Number(arrHour[0]);
 		hour += 5;
 		const hourModified = this.pad(hour, 2);
-		const minute =  arrHour[1];
-		const second =  arrHour[2];
+		const minute = arrHour[1];
+		const second = arrHour[2];
 
 		return `${hourModified}:${minute}:${second}`;
 	}
@@ -424,24 +676,24 @@ export class DashboardComponent implements OnInit {
 		let rDate = `${pDay}T${pHour}`;
 
 		const arrHour = pHour.split(':');
-		let hour =  Number(arrHour[0]);
+		let hour = Number(arrHour[0]);
 		if (hour > 23) {
 
 			const arrDate = pDay.split('-'); // 2020-07-06
 
-			let day =  Number(arrDate[2]);
+			let day = Number(arrDate[2]);
 			day += 1;
 
 			const dayModified = this.pad(day, 2);
-			const month =  arrDate[1];
-			const year =  arrDate[0];
+			const month = arrDate[1];
+			const year = arrDate[0];
 
 			const vDate = `${year}-${month}-${dayModified}`;
 
 			hour -= 24;
 			const hourModified = this.pad(hour, 2);
-			const minute =  arrHour[1];
-			const second =  arrHour[2];
+			const minute = arrHour[1];
+			const second = arrHour[2];
 
 			const vHour = `${hourModified}:${minute}:${second}`;
 
@@ -456,12 +708,12 @@ export class DashboardComponent implements OnInit {
 		return s;
 	}
 
-	goEnrollment(){
+	goEnrollment() {
 		let myFlags = this.enroll_conditions.FLAG_ACADEMICO == 'Y' && this.enroll_conditions.FLAG_FINANCIERO == 'Y';
-		this.session.setObject('conditionsToEnrollment', { turn: this.realDate.timeseconds >= this.queueEnroll.date.timeseconds, conditions: myFlags});
-		this.newEnrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
-			.then((res)=> {
-				let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+		this.session.setObject('conditionsToEnrollment', { turn: this.realDate.timeseconds >= this.queueEnroll.date.timeseconds, conditions: myFlags });
+		this.newEnrollmentS.getDebt({ EMPLID: this.user.codigoAlumno })
+			.then((res) => {
+				let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
 				if (!notdeuda) {
 					this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
 				} else {
