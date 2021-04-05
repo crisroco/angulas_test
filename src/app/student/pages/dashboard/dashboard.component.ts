@@ -93,8 +93,8 @@ export class DashboardComponent implements OnInit {
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
 			this.session.setObject('student', this.student);
-			this.getParameters();
-			this.getNotifications();
+			// this.getParameters();
+			// this.getNotifications();
 		}, error => { });
 		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
 		.then(res => {

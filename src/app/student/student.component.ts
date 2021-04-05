@@ -318,6 +318,7 @@ export class StudentComponent implements OnInit {
 	@ViewChild('humanityModal') humanityModal: any;
 
 	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
+	@ViewChild('AvisoCovid') AvisoCovid: any;
 	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
@@ -338,8 +339,9 @@ export class StudentComponent implements OnInit {
 			this.router.navigate(['/login']);
 		}
 		else{
-			this.getParameters();
+			// this.getParameters();
 		}
+		this.AvisoCovid.open();
 		this.initUpdatePersonalData();
 		// this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
@@ -366,7 +368,7 @@ export class StudentComponent implements OnInit {
 			}
 		});
 		this.initSocket();
-		this.getFileUpload();
+		// this.getFileUpload();
 		// this.getFlagSendUpload();
 		// this.studentS.medicineStudents().then((res) => {
 		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
