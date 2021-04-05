@@ -15,7 +15,7 @@ export class ActionComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.broadcaster.sendMessage({openEnroll: 'Y'});
+		// this.broadcaster.sendMessage({openEnroll: 'Y'});
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.enrollTab) {
 				console.log('llego', message.enrollTab);
