@@ -318,7 +318,6 @@ export class StudentComponent implements OnInit {
 	@ViewChild('humanityModal') humanityModal: any;
 
 	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
-	@ViewChild('AvisoCovid') AvisoCovid: any;
 	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
@@ -341,9 +340,8 @@ export class StudentComponent implements OnInit {
 		else{
 			// this.getParameters();
 		}
-		this.AvisoCovid.open();
 		this.initUpdatePersonalData();
-		// this.checkInList();
+		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();

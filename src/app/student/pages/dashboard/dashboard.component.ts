@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
 	@ViewChild('medicineModal') medicineModal: any;
 	@ViewChild('postModal') postModal: any;
 	@ViewChild('preModal') preModal: any;
+	@ViewChild('suspensionModal') suspensionModal: any;
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	student: any = {};
@@ -88,7 +89,7 @@ export class DashboardComponent implements OnInit {
 		// 		}
 		// 	});
 		// this.postModal.open();
-		// this.preModal.open();
+		this.suspensionModal.open();
 		this.studentS.getDataStudent({email: this.user.email})
 		.then(res => {
 			this.student = res.UcsMetodoDatosPersRespuesta;
@@ -115,6 +116,7 @@ export class DashboardComponent implements OnInit {
 			// if (message && message.enroll_conditions) {
 			// 	this.enroll_conditions = message.enroll_conditions;
 			// }
+			console.log(message);
 			if (message && message.queueEnroll) {
 				this.timeoutEnroll = true;
 				this.queueEnroll = message.queueEnroll;

@@ -28,6 +28,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	realModal: any;
 	realDate = RealDate();
 	realHourStart;
+	public loading = false;
 	realHourEnd;
 	offsetHour = 1000*60*10;
 
@@ -145,50 +146,54 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	preGoMoodle(){
+		this.loading = true;
 		var realClass = JSON.parse(JSON.stringify(this.realClass));
 		realClass.CLASS_ATTEND_DT = realClass.date;
-		// this.assistanceS.getAssistanceNBR(realClass)
-		// .then(res => {
-		// 	this.realDate = RealDate();
-		// 	var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0]?res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR:'';
-  //           var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
-  //           var realHourStart = this.realHourStart.year + '-' + this.realHourStart.month + '-' + this.realHourStart.day;
-		// 	realClass.EMPLID = this.user.codigoAlumno;
-  //           realClass.ATTEND_TMPLT_NBR = templt_nbr;
-  //           realClass.ATTEND_PRESENT = 'Y';
-  //       	realClass.ATTEND_LEFT_EARLY = 'N';
-  //           realClass.ATTEND_TARDY = 'N';
-  //           realClass.ATTEND_REASON = '';
-  //           realClass.platform = this.realDevice.os + ' - ' + this.realDevice.browser;
-  //           var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
-  //           var difference2 = (this.realHourEnd.timeseconds - this.realHourStart.timeseconds)/2;
-  //           var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
-		// 	if(templt_nbr && (realDate == realHourStart || Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0))){
-	 //            if(this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute){
-	 //            	realClass.STATUS = 'P';
-	 //            }
-	 //            else if(difference <= this.offsetHour && difference > 0){
-	 //            	realClass.ATTEND_LEFT_EARLY = 'Y';
-	 //            	realClass.STATUS = 'E';
-	 //            }
-	 //            else if((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)){
-  //           		realClass.ATTEND_TARDY = 'Y';
-	 //            	realClass.STATUS = 'L';
-	 //            }
-	 //            else{
-	 //            	realClass.STATUS = 'ER';
-	 //            }
-		// 	}
-		// 	else{
-	 //            realClass.STATUS = 'ER';
-		// 	}
+		this.assistanceS.getAssistanceNBR(realClass)
+		.then(res => {
+			this.realDate = RealDate();
+			var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0]?res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR:'';
+            var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
+            var realHourStart = this.realHourStart.year + '-' + this.realHourStart.month + '-' + this.realHourStart.day;
+			realClass.EMPLID = this.user.codigoAlumno;
+            realClass.ATTEND_TMPLT_NBR = templt_nbr;
+            realClass.ATTEND_PRESENT = 'Y';
+        	realClass.ATTEND_LEFT_EARLY = 'N';
+            realClass.ATTEND_TARDY = 'N';
+            realClass.ATTEND_REASON = '';
+            realClass.platform = this.realDevice.os + ' - ' + this.realDevice.browser;
+            var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
+            var difference2 = (this.realHourEnd.timeseconds - this.realHourStart.timeseconds)/2;
+            var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
+			if(templt_nbr && (realDate == realHourStart || Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0))){
+	            if(this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute){
+	            	realClass.STATUS = 'P';
+	            }
+	            else if(difference <= this.offsetHour && difference > 0){
+	            	realClass.ATTEND_LEFT_EARLY = 'Y';
+	            	realClass.STATUS = 'E';
+	            }
+	            else if((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)){
+            		realClass.ATTEND_TARDY = 'Y';
+	            	realClass.STATUS = 'L';
+	            }
+	            else{
+	            	realClass.STATUS = 'ER';
+	            }
+			}
+			else{
+	            realClass.STATUS = 'ER';
+			}
 
-  //           this.assistanceS.saveAssistance(realClass)
-  //           .then(res => {
-  //           	this.goMoodle();
-  //           }, error => { this.goMoodle(); });
-		// }, error => { this.goMoodle(); });
-		this.goMoodle();
+            this.assistanceS.saveAssistance(realClass)
+            .then(res => {
+            	this.goMoodle();
+            }, error => { this.goMoodle(); });
+		}, error => { this.goMoodle(); });
+		setTimeout(() => {
+			this.loading = false;
+			console.log('!err');
+		}, 15000);
 	}
 
 	goMoodle(){

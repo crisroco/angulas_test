@@ -160,7 +160,7 @@
 	</ngx-smart-modal>
 </article>
 
-<ngx-smart-modal #AcademicConditionModal identifier="AcademicConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+<!-- <ngx-smart-modal #AcademicConditionModal identifier="AcademicConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
 			<a (click)="AcademicConditionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
@@ -171,15 +171,14 @@
 	</div>
 	<div class="h-fn scroll fullModal">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_academicas/condiciones_academicas_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesAcadConditions; let ac = 'index'">
-		<!-- <ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_academicas.pdf"></ng2-pdfjs-viewer> -->
 	</div>
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Descargar PDF</a>
 		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'" class="btn rounded-1 px-4 btn-{{company}}" (click)="saveConditions('FLAG_ACADEMICO', AcademicConditionModal)">ACEPTAR</button>
 	</div>
-</ngx-smart-modal>
+</ngx-smart-modal> -->
 
-<ngx-smart-modal #FinancialConditionModal identifier="FinancialConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+<!-- <ngx-smart-modal #FinancialConditionModal identifier="FinancialConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
 			<a (click)="FinancialConditionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
@@ -190,13 +189,12 @@
 	</div>
 	<div class="h-fn scroll fullModal">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesFinaConditions; let ac = 'index'">
-		<!-- <img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_26.pdf"> -->
 	</div>
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Descargar PDF</a>
 		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'" class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveConditions('FLAG_FINANCIERO', FinancialConditionModal)">ACEPTAR</button>
 	</div>
-</ngx-smart-modal>
+</ngx-smart-modal> -->
 
 <ngx-smart-modal #HolidayModal  identifier="HolidayModal" [closable]="false" [customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
@@ -293,6 +291,29 @@
 	<div class="btn-close-float p-2">
 		<a (click)="preModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i class="fa fa-times text-white text-l"></i></a>
 	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #suspensionModal identifier="suspensionModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+    <div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
+        <h5 class="modal-title " style="    padding-left: 30%;">AVISO IMPORTANTE</h5>
+        <a (click)="suspensionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        
+    </div>
+
+    <div class="p-2 px-5" style="padding-bottom: 25px !important;">
+
+        
+        <p style="margin-top: 5px; margin-bottom: 5px;">
+            Estimados estudiantes,
+        </p>
+        <p style="margin-top: 15px; margin-bottom: 15px;text-align: justify;">
+            Se les informa que el día Domingo 11 de abril se cancelan todas las clases programadas por motivo de las Elecciones Generales 2021 para Presidencia, Congreso y Parlamento Andino de nuestro país. 
+        </p>
+        <p style="margin-top: 5px; margin-bottom: 5px;">
+            A todos aquellos estudiantes que tienen clases programadas para esa fecha, recibirán una comunicación de sus docentes hasta el domingo 18 de abril a fin de programar la fecha y hora de recuperación de dichas clases. Esto involucra a las clases de Pregrado y Posgrado de nuestra Universidad.
+        </p>
+        <br>
+    </div>
 </ngx-smart-modal>
 
 <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
