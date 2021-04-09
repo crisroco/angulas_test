@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
 	coursesSession = [];
 	coursesPeople = [];
 	arraySchedules: [];
-	schedulesOfCourse: [];
+	schedulesOfCourse: Array<any> = [];
 	schedulesSelected = [];
 	btnMatricula = false;
 	dia: string;
@@ -111,9 +111,7 @@ export class DashboardComponent implements OnInit {
 		this.btnMatricula = true;
 		this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1087", ACAD_CAREER: "EDUC"})
 			.then((res) => {
-				console.log(res);
-				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];		
-
+				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
 				if (this.coursesPeople){
 					let dataPeople = [];
 					for (var i = 0; i < this.coursesPeople.length; i++) {
@@ -213,14 +211,10 @@ export class DashboardComponent implements OnInit {
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR CURSO
 	onChangeAvailable(course, evt) {
-		console.log("CURSO checkeado");
-		console.log(course);
-		console.log("CRSE_ID : " + course.CRSE_ID);
 		this.loading = true;
 		this.newEnrollmentS.getSchedulesCourse(course.CRSE_ID)
 			.then((res) => {
 				this.arraySchedules = res['SIS_WS_HORCC_RSP']['SIS_WS_HORCC_COM'];
-				console.log(this.arraySchedules);
 				this.schedulesOfCourse = this.checkDuplicates(this.arraySchedules);
 				this.selectedCourse = course;
 				this.loading = false;				
@@ -274,11 +268,6 @@ export class DashboardComponent implements OnInit {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR HORARIO
 	changeSchedule(section, evt) {		
 		let variable = false;
-		console.log("HORARIO checkeado");
-		console.log(section);
-		console.log("HORARIOS");
-		console.log(this.schedulesOfCourse);
-		
 		this.schedulesSelected = [];
 		this.schedulesOfCourse.forEach(el => {
 			if (section.CLASS_SECTION == el["CLASS_SECTION"] && section.CLASS_NBR == el["CLASS_NBR"]){				
@@ -313,11 +302,6 @@ export class DashboardComponent implements OnInit {
 		if (this.horariosMatriculados) {
 			for (let i = 0; i < this.horariosMatriculados.length; i++) {
 				if (this.horariosMatriculados[i].STRM == "1087") {
-					console.log("Curso tiene STRM 1087 ************")
-					console.log("FECHAS HORARIO CHECKEADO")
-					console.log("Fecha INI : " + pickedCourse['START_DT'].replaceAll('-', '/') + ' 00:00:00');
-					console.log("Fecha FIN : " + pickedCourse['END_DT'].replaceAll('-', '/') + ' 00:00:00');
-					
 					if (BetweenDays(this.horariosMatriculados[i]['START_DT'],this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['START_DT'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.horariosMatriculados[i]['START_DT'],this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['END_DT'].replaceAll('-', '/') + ' 00:00:00')))) {
 						if (this.horariosMatriculados[i]['DIA'] == pickedCourse['DIA']) {
 						if ((this.timeToSeconds(pickedCourse['HORA_INICIO']) >= this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_INICIO']) < this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse['HORA_FIN']) > this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_FIN']) <= this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN']))) {
@@ -379,7 +363,6 @@ export class DashboardComponent implements OnInit {
 		  this.toastr.warning('No seleccionaste ninguna sección');
 		  return
 		}
-		console.log(this.user.email);
 		this.newEnrollmentS.saveCourseClass({
 		  courses: result,
 		  emplid_admin: this.user.email
@@ -397,9 +380,6 @@ export class DashboardComponent implements OnInit {
 				this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
 			}
 			this.selectedCourse.value = true;
-			console.log("HORARIOS DE CURSOS MATRICULADOS HASTA AHORA");
-			console.log(this.horariosMatriculados);
-			
 			this.session.destroy('mySchedule');
 			this.loading = false;
 			this.ExistCursoMatriculado();
