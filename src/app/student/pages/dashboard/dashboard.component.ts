@@ -75,15 +75,22 @@ export class DashboardComponent implements OnInit {
 	realDevice = this.deviceS.getDeviceInfo();
 	/////////////////////////////////////
 	courses = [];
+	coursesSession = [];
+	coursesPeople = [];
 	arraySchedules: [];
 	schedulesOfCourse: [];
-	columTrash : boolean; //Mostrar columna de la tabla para eliminar
+	schedulesSelected = [];
+	btnMatricula = false;
+	dia: string;
+	columTrash = false; //Mostrar columna de la tabla para eliminar
 	selectedCourse = {
 		TOPIC: '',
 		value: false
 	  };
-	courseForDelete: any;
-	cursosMatriculados: any;
+	schedulesForDelete: any;
+	/* horariosMatriculados: any; */
+	horariosMatriculados = [];
+	cursoId: number;
 	/////////////////////////////////////
 	constructor(private formBuilder: FormBuilder,
 		private session: SessionService,
@@ -101,12 +108,52 @@ export class DashboardComponent implements OnInit {
 		private intentionS: IntentionService) { }
 
 	ngOnInit() {
+		this.btnMatricula = true;
+		this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1087", ACAD_CAREER: "EDUC"})
+			.then((res) => {
+				console.log(res);
+				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];		
+
+				if (this.coursesPeople){
+					let dataPeople = [];
+					for (var i = 0; i < this.coursesPeople.length; i++) {
+						for (var o = 0; o < this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'].length; o++) {
+
+							if (this.coursesPeople[i]){
+								dataPeople.push({
+									ACAD_CAREER: this.coursesPeople[i]['GRADO_ACADEMICO'],
+									ASSOCIATED_CLASS: '1',
+									CLASS_NBR: this.coursesPeople[i]['CLASE'],
+									CLASS_SECTION: this.coursesPeople[i]['SECCION_CLASE'],
+									CRSE_ID: this.coursesPeople[i]['CRSE_ID'],
+									DESCR: this.coursesPeople[i]['NOMBRE_CURSO'],
+									DIA: this.diaPeople(this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]),
+									EMPLID: this.user.codigoAlumno,
+									END_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['FIN_FECHA'],
+									HORA_FIN: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_FIN'],
+									HORA_INICIO: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_INICIO'],
+									INSTITUTION: this.coursesPeople[i]['INSTITUTION'],							
+									OFFER_NBR: this.coursesPeople[i]['NRO_OFERTA'],							
+									SESSION_CODE: this.coursesPeople[i]['SESSION_CODE'],						
+									SSR_COMPONENT: this.coursesPeople[i]['TIPO_COMPONENTE'],
+									START_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['INICIO_FECHA'],
+									STRM: this.coursesPeople[i]['CICLO_LECTIVO'],
+									equivalent: "-",
+								});
+							}							
+						}
+						this.session.setObject('cursoExtracurricular', dataPeople);	
+						this.ExistCursoMatriculado();
+					};
+				}									
+			});
+			
 		this.newEnrollmentS.getCoursesExtra()
 			.then((res) => {
 				this.courses = res['data'];
-			});			
-		console.log("Todos los cursos");
-		console.log(this.courses);
+				this.ExistCursoMatriculado();
+			});
+
 		this.matriculaExtracurricularModal.open();
 		//this.postModal.open();
 		//this.preModal.open();
@@ -157,123 +204,146 @@ export class DashboardComponent implements OnInit {
 		var ese = new Array(4);
 	}
 
+	diaPeople(data:any){
+		for(var k in data){
+			if(data[k] == "Y"){
+				return k;
+			}
+		}
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR CURSO
 	onChangeAvailable(course, evt) {
-		console.log("curso checkeado");
+		console.log("CURSO checkeado");
 		console.log(course);
+		console.log("CRSE_ID : " + course.CRSE_ID);
 		this.loading = true;
-		this.newEnrollmentS.getSchedulesCourse()
+		this.newEnrollmentS.getSchedulesCourse(course.CRSE_ID)
 			.then((res) => {
-				console.log(res);
 				this.arraySchedules = res['SIS_WS_HORCC_RSP']['SIS_WS_HORCC_COM'];
+				console.log(this.arraySchedules);
 				this.schedulesOfCourse = this.checkDuplicates(this.arraySchedules);
 				this.selectedCourse = course;
-				console.log(this.selectedCourse);
 				this.loading = false;				
-				this.horariosModal.open();
-				console.log("horarios del curso");
-				console.log(this.schedulesOfCourse); 	
-			}).catch(err => alert('El servicio de traer secciones de un curso, está fallando'));
+				this.horariosModal.open();	
+			}).catch(err => alert('No se pudo consultar los horarios del curso.'));
 			
 	}
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////AGRUPACIÓN DE SECCIONES
-		checkDuplicates(array){
-			array.sort(this.dynamicSortMultiple(["CLASS_SECTION","CLASS_NBR",]));
-			let lastNBR;
-			for (var i = 0; i < array.length; i++) {
-			  /* if (array[i]['FLAG1'] != 'I') { */
-				if (!lastNBR) {
-				  lastNBR = array[i]['CLASS_NBR'];
-				  array[i].show = true;
-				}else if (lastNBR == array[i]['CLASS_NBR']){
-				  array[i].show = false;
-				} else {
-				  lastNBR = array[i]['CLASS_NBR'];
-				  array[i].show = true;
-				}
-			  /* } */
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AGRUPACIÓN DE HORARIOS
+	checkDuplicates(array) {
+		array.sort(this.dynamicSortMultiple(["CLASS_SECTION", "CLASS_NBR",]));
+		let lastNBR;
+		for (var i = 0; i < array.length; i++) {
+			/* if (array[i]['FLAG1'] != 'I') { */
+			if (!lastNBR) {
+				lastNBR = array[i]['CLASS_NBR'];
+				array[i].show = true;
+			} else if (lastNBR == array[i]['CLASS_NBR']) {
+				array[i].show = false;
+			} else {
+				lastNBR = array[i]['CLASS_NBR'];
+				array[i].show = true;
 			}
-			return array.filter(arr => arr.FLAG1 != 'I');
-			/* return array.filter(arr => arr.FLAG1 != 'I'); */
+			/* } */
 		}
-	
-		dynamicSortMultiple(args) {
-			var props = args;
-			return (obj1, obj2) => {
-			  var i = 0, result = 0, numberOfProperties = props.length;
-			  while(result === 0 && i < numberOfProperties) {
-				result = this.dynamicSort(props[i])(obj1, obj2);
-				i++;
-			  }
-			  return result;
-			}
-		  }
-	
-		  dynamicSort(property) {
-			var sortOrder = 1;
-			if(property[0] === "-") {
-			  sortOrder = -1;
-			  property = property.substr(1);
-			}
-			return (a,b) => {
-			  var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-			  return result * sortOrder;
-			}
-		  }
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/* 		checkCap(section){
-			if (section.btn = true) {
-				return true
-			  }
-			  return false
-		} */
-
-	changeSchedule(section, evt){
-		console.log("section checkeado");
-		console.log(section);
-		this.schedulesOfCourse.forEach(el => {
-		if (this.checkCrosses(el)) {
-			section.value = false;
-			evt.target.checked = false;
-			//el.value = false;
-			//this.blockAssociated(el, this.scheduleAvailables, el.alertMessage);
-			return
-		  }
-		});
+		return array.filter(arr => arr.FLAG1 != 'I');
 	}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	checkCrosses(pickedCourse){
-		for (let i = 0; i < this.courses.length; i++) {
-		  if (this.courses[i].STRM == "1087") {
-			//if (this.courses[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse['CRSE_ATTR'] != 'VIRT') {
-			  if (BetweenDays(this.courses[i]['START_DT_DO'] + ' 00:00:00',this.courses[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse['START_DT_DO'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.courses[i]['START_DT_DO'] + ' 00:00:00',this.courses[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse['END_DT_DO'].replaceAll('-', '/') + ' 00:00:00')))) {
-				if (this.courses[i]['DAY_OF_WEEK'] == pickedCourse['DAY_OF_WEEK']) {
-				  if ((this.timeToSeconds(pickedCourse['MEETING_TIME_START']) >= this.timeToSeconds(this.courses[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_START']) < this.timeToSeconds(this.courses[i]['MEETING_TIME_END'])) || (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) > this.timeToSeconds(this.courses[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.courses[i]['MEETING_TIME_END']))) {
-					  this.toastr.error('Tienes un cruce con otra clase: ' + this.courses[i]['CLASS_SECTION'] + ' ' + this.courses[i]['DESCR']);
-					  pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.courses[i]['CLASS_SECTION'] + ' ' + this.courses[i]['DESCR'];
-					  return true
-					// }
-				  }
-				}
-			  }
-			//}
-		  }
+	dynamicSortMultiple(args) {
+		var props = args;
+		return (obj1, obj2) => {
+			var i = 0, result = 0, numberOfProperties = props.length;
+			while (result === 0 && i < numberOfProperties) {
+				result = this.dynamicSort(props[i])(obj1, obj2);
+				i++;
+			}
+			return result;
 		}
-		return false
-	  }
+	}
 
-	  timeToSeconds(time){
+	dynamicSort(property) {
+		var sortOrder = 1;
+		if (property[0] === "-") {
+			sortOrder = -1;
+			property = property.substr(1);
+		}
+		return (a, b) => {
+			var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+			return result * sortOrder;
+		}
+	}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR HORARIO
+	changeSchedule(section, evt) {		
+		let variable = false;
+		console.log("HORARIO checkeado");
+		console.log(section);
+		console.log("HORARIOS");
+		console.log(this.schedulesOfCourse);
+		
+		this.schedulesSelected = [];
+		this.schedulesOfCourse.forEach(el => {
+			if (section.CLASS_SECTION == el["CLASS_SECTION"] && section.CLASS_NBR == el["CLASS_NBR"]){				
+				el.select = true;
+				this.schedulesSelected.push(el);
+			} else {
+				el.select = false;
+			}
+		});
+		this.schedulesSelected.forEach(pickedCourse => {
+			if (!variable) {
+				if (this.checkCrosses(pickedCourse)) {
+					variable = true;
+					section.value = false;
+					section.select = false;
+					evt.target.checked = false;
+					return
+				}
+			}		
+		});
+
+		if (!section.value || section.value == false){
+			this.btnMatricula = true;
+		} else {
+			this.btnMatricula = false;
+		}
+
+	}
+
+	checkCrosses(pickedCourse){	
+		console.log(this.horariosMatriculados);
+		if (this.horariosMatriculados) {
+			for (let i = 0; i < this.horariosMatriculados.length; i++) {
+				if (this.horariosMatriculados[i].STRM == "1087") {
+					console.log("Curso tiene STRM 1087 ************")
+					console.log("FECHAS HORARIO CHECKEADO")
+					console.log("Fecha INI : " + pickedCourse['START_DT'].replaceAll('-', '/') + ' 00:00:00');
+					console.log("Fecha FIN : " + pickedCourse['END_DT'].replaceAll('-', '/') + ' 00:00:00');
+					
+					if (BetweenDays(this.horariosMatriculados[i]['START_DT'],this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['START_DT'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.horariosMatriculados[i]['START_DT'],this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['END_DT'].replaceAll('-', '/') + ' 00:00:00')))) {
+						if (this.horariosMatriculados[i]['DIA'] == pickedCourse['DIA']) {
+						if ((this.timeToSeconds(pickedCourse['HORA_INICIO']) >= this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_INICIO']) < this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse['HORA_FIN']) > this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_FIN']) <= this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN']))) {
+							this.toastr.error('Tienes un cruce con otra clase: ' + this.horariosMatriculados[i]['CLASS_SECTION'] + ' ' + this.horariosMatriculados[i]['DESCR']);
+							pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.horariosMatriculados[i]['CLASS_SECTION'] + ' ' + this.horariosMatriculados[i]['DESCR'];
+							return true
+						}
+					  }
+					}
+				}
+			}
+			return false
+		}		
+	}
+
+	timeToSeconds(time){
 		let inSeconds = time.split(':');
 		return inSeconds[0]*60*60 + inSeconds[1]*60
-	  }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MATRICULA
 	matricula(){
 		this.loading = true;
 		let data = [];
-		/* this.selectedCourse['schedules'] = []; */
 		for (var i = 0; i < this.schedulesOfCourse.length; i++) {
-		  if (this.schedulesOfCourse[i]['value']) {	
+		//if (this.schedulesOfCourse[i]['value']) { //push solo 1 horario
+		  if (this.schedulesOfCourse[i]['select']) {
 			data.push({
 				ACAD_CAREER: this.schedulesOfCourse[i]['ACAD_CAREER'],
 				ASSOCIATED_CLASS: this.schedulesOfCourse[i]['ASSOCIATED_CLASS'],
@@ -285,7 +355,14 @@ export class DashboardComponent implements OnInit {
 				SESSION_CODE: this.schedulesOfCourse[i]['SESSION_CODE'],
 				SSR_COMPONENT: this.schedulesOfCourse[i]['SSR_COMPONENT'],
 			  	STRM: this.schedulesOfCourse[i]['STRM'],
-			  	equivalent: "-"
+			  	equivalent: "-",
+				CLASS_SECTION: this.schedulesOfCourse[i]['CLASS_SECTION'],
+				DIA: this.schedulesOfCourse[i]['DIA'],
+				HORA_INICIO: this.schedulesOfCourse[i]['HORA_INICIO'],
+				HORA_FIN: this.schedulesOfCourse[i]['HORA_FIN'],
+				START_DT: this.schedulesOfCourse[i]['START_DT'],
+				END_DT: this.schedulesOfCourse[i]['END_DT'],
+				DESCR: this.schedulesOfCourse[i]['DESCR'],
 			});
 		  }
 		};
@@ -297,8 +374,8 @@ export class DashboardComponent implements OnInit {
 		  }
 		  return acc;
 		},[]);
-		if (data.length == 0) {
-		  this.loading = false;
+		if (data.length == 0 || data == undefined) {
+		  this.loading = false;		  
 		  this.toastr.warning('No seleccionaste ninguna sección');
 		  return
 		}
@@ -307,33 +384,22 @@ export class DashboardComponent implements OnInit {
 		  courses: result,
 		  emplid_admin: this.user.email
 		}).then((res) => {
-			console.log(res);
-			console.log(res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES']);
 		  if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
 			this.toastr.success('Curso matriculado');
 
 			let primerCurso = this.session.getObject('cursoExtracurricular');
 			
 			if (!primerCurso){
-				console.log("1er curso");
 				this.session.setObject('cursoExtracurricular', data);
-				this.cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
-				console.log(this.cursosMatriculados);
+				this.horariosMatriculados = data;
 			} else {
-				console.log("2do curso en adelante");
-				this.cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
-				this.session.setObject('cursoExtracurricular', this.cursosMatriculados);
-				console.log(this.cursosMatriculados);
+				this.horariosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
+				this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
 			}
 			this.selectedCourse.value = true;
-			console.log("CURSOS MATRICULADOS HASTA AHORA");
-			console.log(this.cursosMatriculados);
-			console.log(this.selectedCourse);
-			console.log(this.courses);
-			//this.session.setObject('cursoExtracurricular', data);
-			//this.cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular'):[];
-			//let cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
-			//this.session.setObject('cursoExtracurricular', cursosMatriculados);
+			console.log("HORARIOS DE CURSOS MATRICULADOS HASTA AHORA");
+			console.log(this.horariosMatriculados);
+			
 			this.session.destroy('mySchedule');
 			this.loading = false;
 			this.ExistCursoMatriculado();
@@ -342,51 +408,64 @@ export class DashboardComponent implements OnInit {
 			this.toastr.warning('No hay vacantes para este curso');
 			this.loading = false;
 		  }
-		});
+		}).catch(err => alert('No se pudo matricular el curso'));
 	  }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REFRESH CURSOS
 	ExistCursoMatriculado(){
-		if(this.cursosMatriculados){
-			console.log("existe curso matriculado");
-			this.columTrash = true;
-		} else {
-			console.log("no existe curso matriculado");
+		this.horariosMatriculados = this.session.getObject('cursoExtracurricular')
+		if (!this.horariosMatriculados || this.horariosMatriculados.length == 0) {
 			this.columTrash = false;
 		}
+		else {
+			this.courses.forEach(course => {
+				this.horariosMatriculados.forEach(horario => {
+					if ( horario.CRSE_ID === course.CRSE_ID){
+						course.value = true;
+						this.columTrash = true;
+					}
+				});
+			});
+		}
 	}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////CERRAR MODALES
 	closeModalCursos(modal){
-		this.cursosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular'):[];
-
+		this.horariosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular'):[];
 		this.selectedCourse.value = false;
 		this.ExistCursoMatriculado();
 		this.cursosExtracurricularesModal.close();
 	}
 
 	closeModalSecciones(modal){
+		this.horariosMatriculados = this.session.getObject('cursoExtracurricular');
 		this.selectedCourse.value = false;
+		this.btnMatricula = true;
 		this.ExistCursoMatriculado();
 		this.horariosModal.close();
 	}
-
-	delete(id: number){
-		this.courseForDelete = this.courses.filter(course => course.extra_curr_id === id)[0];
-		console.log(this.courseForDelete);
-
-		console.log(this.cursosMatriculados);
-		//this.courseForDelete.CRSE_ID
-		//this.cursoElegido = this.cursos.filter(curso => curso.id == id)[0];
-		//this.selectedCourse = this.courses.filter(course => course.extra_curr_id === id);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////ELIMINAR
+	delete(course){
+		this.cursoId = course.CRSE_ID;
+		this.schedulesForDelete = this.horariosMatriculados.filter(horario => horario.CRSE_ID != course.CRSE_ID);
+		this.selectedCourse = course;		
 		this.eliminarMatriculaModal.open();
 	}
 
-	deleteEnrollment(){		
-
-		this.ExistCursoMatriculado();
-		this.toastr.warning("Curso Removido");
-		this.eliminarMatriculaModal.close();
+	deleteEnrollment(){
+		this.loading = true;
+		this.newEnrollmentS.deleteCourseClassByCrseId(this.user.codigoAlumno, this.cursoId)
+		.then((res) => {
+			this.loading = false;
+			this.horariosMatriculados = this.schedulesForDelete;
+			this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
+			this.selectedCourse.value = false;
+			this.ExistCursoMatriculado();
+			this.toastr.warning("Curso Removido");
+			this.eliminarMatriculaModal.close();
+		}).catch(err => alert('Error en servicio de eliminar.'));		
 	}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	readConditions() {
 		this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
