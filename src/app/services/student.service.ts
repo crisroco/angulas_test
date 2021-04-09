@@ -170,4 +170,12 @@ export class StudentService {
     public sendUploadPS(data: any): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/sendUploadPS', data).toPromise();
     }
+
+    public existEthnicity(data: any): Promise<any>{
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/existe_etnia', data).toPromise();
+    }
+
+    public saveEthnicity(data: any): Promise<any>{
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/guardar_etnia', data).toPromise();
+    }
 }

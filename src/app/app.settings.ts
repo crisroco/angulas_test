@@ -22,14 +22,23 @@ export class AppSettings {
     }
     public static NAMES_DAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     public static NAMES_MONTH = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-
-    public static BASE = "https://back-miportal.cientifica.edu.pe";
+    public static ETHNICITIES = [
+        { value: "01", name: 'QUECHUA' },
+        { value: "02", name: 'AYMARA' },
+        { value: "03", name: 'NATIVO O INDÍGENA DE LA AMAZONÍA' },
+        { value: "04", name: 'PERTENECIENTE O PARTE DE OTRO PUEBLO INDÍGENA U ORIGINARIO' },
+        { value: "05", name: 'NEGRO/MORENO/ZAMBO/MULATO/PUEBLO AFROPERUANO O AFRODESCENDIENTE' },
+        { value: "06", name: 'BLANCO' },
+        { value: "07", name: 'MESTIZO' },
+        { value: "08", name: 'OTROS' },
+    ]
+    // public static BASE = "https://back-miportal.cientifica.edu.pe";
 
     // public static BASE = "https://back-miportal.sise.edu.pe";
     // public static BASE = "http://localhost:8000";
     // public static BASE = "https://backdev-miportal.cientifica.edu.pe";
     // public static BASE = "https://back2-miportal-dev.cientifica.edu.pe";
-    // public static BASE = "https://back-miportal-dev.cientifica.edu.pe";
+    public static BASE = "https://back-miportal-dev.cientifica.edu.pe";
     // public static BASE = "https://backdev03-miportal.cientifica.edu.pe";
     public static CLIENT = '/api/client/parameters';
     public static STUDENT = '/student';
