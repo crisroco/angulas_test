@@ -300,9 +300,6 @@ export class StudentComponent implements OnInit {
 	student: any;
 	notifications: any;
 	notifications_read: number = 0;
-	ethnicities = AppSettings.ETHNICITIES;
-	realEthnicity = '';
-	realOther = '';
 
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
@@ -321,7 +318,6 @@ export class StudentComponent implements OnInit {
 	@ViewChild('humanityModal') humanityModal: any
 
 	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
-	@ViewChild('ethnicityModal') ethnicityModal: any;
 	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
@@ -344,7 +340,6 @@ export class StudentComponent implements OnInit {
 		else{
 			// this.getParameters();
 		}
-		this.getEthnicity();
 		this.initUpdatePersonalData();
 		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
@@ -1293,54 +1288,6 @@ export class StudentComponent implements OnInit {
 		} else {
 			this.toastr.info('Los documentos solo pueden pertencer a una sección.');
 		}
-	}
-
-	getEthnicity(){
-
-		this.studentS.existEthnicity({
-			"EMPLID": this.user.codigoAlumno
-		})
-		.then(res => {
-			debugger
-			if(res.UCS_CON_ETNICO_RES && res.UCS_CON_ETNICO_RES.RESULTADO == 'Y'){ }
-			else{ this.ethnicityModal.open(); }
-		})
-		
-	}
-
-	saveEthnicity(){
-		if(!this.realEthnicity){
-			this.toastr.error('Debes seleccionar una Etnia');
-			return;
-		}
-		if(this.realEthnicity && this.realEthnicity == '08' && !this.realOther){
-			this.toastr.error('Debes llenar el campo otros');
-			return;
-		}
-		var nEthnicity = this.ethnicities.find(item => item.value == this.realEthnicity);
-			this.studentS.saveEthnicity({
-			"EMPLID": this.user.codigoAlumno,
-			"UCS_ID_ETNICO": this.realEthnicity,
-			"DESCR100": this.realEthnicity == '08'?this.realOther.toUpperCase():nEthnicity.name
-		})
-		.then(res => {
-			if(res.UCS_SRV_ETNICO_RES && res.UCS_SRV_ETNICO_RES.RESULTADO){
-				if(res.UCS_SRV_ETNICO_RES.RESULTADO == 'G'){
-					this.toastr.success('Datos guardados exitósamente');
-					this.ethnicityModal.close();
-				}
-				else if(res.UCS_SRV_ETNICO_RES.RESULTADO == 'E'){
-					this.toastr.success('Ya se guardo este dato anteriormente');
-					this.ethnicityModal.close();
-				}
-				else{
-					this.toastr.error('Hubo un error al actualizar');
-				}
-			}
-			else{
-				this.toastr.error('Hubo un error al actualizar');
-			}
-		})
 	}
 
 }
