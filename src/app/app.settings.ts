@@ -31,7 +31,7 @@ export class AppSettings {
         { value: "06", name: 'BLANCO' },
         { value: "07", name: 'MESTIZO' },
         { value: "08", name: 'OTROS' },
-    ]
+    ];
     public static BASE = "https://back-miportal.cientifica.edu.pe";
 
     // public static BASE = "https://back-miportal.sise.edu.pe";

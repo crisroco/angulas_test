@@ -8,7 +8,7 @@ import { SessionService } from '../services/session.service';
 import { QueueService } from '../services/queue.service';
 import { AppSettings } from '../app.settings';
 import { Encrypt } from '../helpers/general';
-
+import { NewEnrollmentService } from '../services/newenrollment.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,12 +19,16 @@ export class LoginComponent implements OnInit {
 	loginForm: FormGroup;
 	student: any;
 	code_company = AppSettings.COMPANY;
+	studentCode;
+	allData: any;
+	arrego: [];
 	@ViewChild('piezaModal') piezaModal: any;
 	constructor(private formBuilder: FormBuilder,
     	private toastr: ToastrService,
     	private loginS: LoginService,
     	private session: SessionService,
     	private queueS: QueueService,
+    	public newEnrollmentS: NewEnrollmentService,
     	private router: Router,
     	private deviceS: DeviceDetectorService) { }
 
@@ -61,20 +65,20 @@ export class LoginComponent implements OnInit {
 					// this.session.setItem('data', Encrypt(JSON.stringify(data), 'miportal&ucs'));
 					this.student.email = data.email;
 					this.session.setObject('user', this.student);
-					this.router.navigate(['estudiante']);
-					// this.loginS.oauthToken({
-					// 	username: data.email,
-					//     password: data.password,
-					//     // client_id: 16, tst
-					//     // client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
-					//     client_id: 2,
-					//     client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
-					//     grant_type: "password"
-					// })
-					// 	.then((res) => {
-					// 		this.session.setObject('oauth', res);
-					// 		this.router.navigate(['estudiante']);
-					// 	});
+					// this.router.navigate(['estudiante']);
+					this.loginS.oauthToken({
+						username: data.email,
+					    password: data.password,
+					    // client_id: 16, tst
+					    // client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
+					    client_id: 2,
+					    client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
+					    grant_type: "password"
+					})
+						.then((res) => {
+							this.session.setObject('oauth', res);
+							this.router.navigate(['estudiante']);
+						});
 			});
 		}, error => { this.loading = false; });
 	}

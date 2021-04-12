@@ -5,40 +5,55 @@
 				<div class="bg-white-a p-3 mb-5">
 					<h5 class="text-{{company}}"> <strong> ¡Bienvenido! </strong> </h5>
 					<h5 class="text-m"> <strong> {{student?student.nombreAlumno:''}} </strong> </h5>
-					<h5 class="text-normal mb-3 pb-3 bd-b-1 bd-{{company}}"> <strong> {{student?student.codigoAlumno:''}} </strong> </h5>
+					<h5 class="text-normal mb-3 pb-3 bd-b-1 bd-{{company}}"> <strong>
+							{{student?student.codigoAlumno:''}} </strong> </h5>
 					<p class="m-0">
-						Nuestra Universidad forma líderes comprometidos con el desarrollo humano, social y ambiental. 
-						Ofrecemos educación de calidad para el mundo laboral, basadas en una educación personalizada y en el acercamiento a su profesión desde el primer ciclo.
+						Nuestra Universidad forma líderes comprometidos con el desarrollo humano, social y ambiental.
+						Ofrecemos educación de calidad para el mundo laboral, basadas en una educación personalizada y
+						en el acercamiento a su profesión desde el primer ciclo.
 					</p>
 					<p>
-						Universidad Científica del Sur						
+						Universidad Científica del Sur
 					</p>
-					<a href="https://vimeo.com/295459246/6e1168f864" target="_blank" class="btn btn-lg btn-block btn-black"> Video instructivo </a>
+					<a href="https://vimeo.com/295459246/6e1168f864" target="_blank"
+						class="btn btn-lg btn-block btn-black"> Video instructivo </a>
 					<div *ngIf="nextClassLink" class="btn btn-lg btn-block btn-black"> Tu clase ahora: </div>
 					<div *ngIf="nextClassLink" class="btn btn-block next_class my-2 text-center">
-						<a (click)="preGoMoodle()" target="_blank" class="my-0 text-{{company}}"> <span style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px" src="./assets/img/icon/zoom.png" alt=""></a>
+						<a (click)="preGoMoodle()" target="_blank" class="my-0 text-{{company}}"> <span
+								style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px"
+								src="./assets/img/icon/zoom.png" alt=""></a>
 					</div>
 					<!-- <ng-container>
-						<div *ngIf="enroll && queueEnroll" class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}"> {{queueEnroll.ind_grupo == 'N' && !queueEnroll.fecha_ing?'Aún no tienes Turno de Matricula':'Turno: ' + queueEnroll.date.day + ' de ' + queueEnroll.date.nmonth + ' ' + queueEnroll.date.hour + ':' + queueEnroll.date.minute}} </div>
+						<div *ngIf="enroll && queueEnroll"
+							class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}">
+							{{queueEnroll.ind_grupo == 'N' && !queueEnroll.fecha_ing?'Aún no tienes Turno de
+							Matricula':'Turno: ' + queueEnroll.date.day + ' de ' + queueEnroll.date.nmonth + ' ' +
+							queueEnroll.date.hour + ':' + queueEnroll.date.minute}} </div>
 						<div class="row justify-content-center align-items-center mb-2 mt-3">
-							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="AcademicConditionModal.open()">
+							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
+								(click)="AcademicConditionModal.open()">
 								<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
 								<div class="bg-black text-white p-2 text-s">
 									<p class="m-0">Condiciones</p>
 									<p class="m-0">Académicas</p>
 								</div>
-								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO" class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
-									<p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO"
+									class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
+									<p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}
+									</p>
 								</div>
 							</div>
-							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="FinancialConditionModal.open()">
+							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
+								(click)="FinancialConditionModal.open()">
 								<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
 								<div class="bg-black text-white p-2 text-s">
 									<p class="m-0">Condiciones</p>
 									<p class="m-0">Financieras</p>
 								</div>
-								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO" class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
-									<p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO"
+									class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
+									<p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}
+									</p>
 								</div>
 							</div>
 						</div>
@@ -48,7 +63,8 @@
 			<div class="col-md-8 p-2 mb-6">
 				<div class="bg-white-a p-4 row">
 					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/horario'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
+							[href]="'/estudiante/accion/horario'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/horario.png">
 								<p class="text-blue m-0 text-xm">Horario</p>
@@ -57,7 +73,8 @@
 						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/datos-personales'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
+							[href]="'/estudiante/accion/datos-personales'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/datos.png">
 								<p class="text-orange m-0 text-xm">Datos</p>
@@ -66,7 +83,8 @@
 						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/condiciones-academicas'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
+							[href]="'/estudiante/accion/condiciones-academicas'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/academico.png">
 								<p class="text-purple m-0 text-xm">Condiciones</p>
@@ -75,7 +93,8 @@
 						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/estado-cuenta'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
+							[href]="'/estudiante/accion/estado-cuenta'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/cuenta.png">
 								<p class="text-green m-0 text-xm">Estado</p>
@@ -84,7 +103,8 @@
 						</a>
 					</div>
 					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" [href]="'/estudiante/accion/historial-cursos'">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
+							[href]="'/estudiante/accion/historial-cursos'">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/cursos.png">
 								<p class="text-bluesky m-0 text-xm">Historial</p>
@@ -92,8 +112,10 @@
 							</div>
 						</a>
 					</div>
-					<!-- <div *ngIf="!timeoutEnroll && enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO == 'Y' && enroll_conditions.FLAG_FINANCIERO == 'Y'" class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto" (click)="goEnrollment()">
+					<!-- <div *ngIf="!timeoutEnroll && enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO == 'Y' && enroll_conditions.FLAG_FINANCIERO == 'Y'"
+						class="col-lg-4 col-sm-6 my-2">
+						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
+							(click)="goEnrollment()">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/enroll.png">
 								<p class="text-bluesky m-0 text-xm text-black">Matrícula</p>
@@ -111,8 +133,10 @@
 		<div class="triangle-b bd-t-white position-absolute float-triangle-br"></div>
 		<!-- <a href="https://api.whatsapp.com/send?phone=5117071809&text=Hola,%20Cobranzas%20Cient%C3%ADfica" target="_blank" class="text-black text-xm p-1"><i class="fa fa-whatsapp text-wsp text-l"></i> Cobranzas Científica </a> -->
 		<!-- <a href="https://api.whatsapp.com/send?phone=5117071810" target="_blank" class="text-black text-xm p-1"><i class="fa fa-whatsapp text-wsp text-l"></i> Atención Alumno </a> -->
-		<a href="https://api.whatsapp.com/send?phone=16178301716" target="_blank" class="text-black text-xm p-1"><i class="fa fa-whatsapp text-wsp text-l"></i> Asesor Cobranza </a>
-		<a href="https://api.whatsapp.com/send?phone=5117071810" target="_blank" class="text-black text-xm p-1"><i class="fa fa-whatsapp text-wsp text-l"></i> Asesor Matricula </a>
+		<a href="https://api.whatsapp.com/send?phone=16178301716" target="_blank" class="text-black text-xm p-1"><i
+				class="fa fa-whatsapp text-wsp text-l"></i> Asesor Cobranza </a>
+		<a href="https://api.whatsapp.com/send?phone=5117071810" target="_blank" class="text-black text-xm p-1"><i
+				class="fa fa-whatsapp text-wsp text-l"></i> Asesor Matricula </a>
 		<!-- <a href="https://api.whatsapp.com/send?phone=5117071824&text=Hola,%20me%20puedes%20ayudar%20con%20temas%20acad%C3%A9micos" target="_blank" class="text-black text-xm p-1"><i class="fa fa-whatsapp text-wsp text-l"></i> Registros y Programación </a> -->
 	</div>
 	<div class="text-right">
@@ -122,48 +146,63 @@
 	</div>
 </div>
 
-<ngx-smart-modal #SurveyModal identifier="SurveyModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+<ngx-smart-modal #SurveyModal identifier="SurveyModal" [closable]="false"
+	[customClass]="'mediumModal fullModal p-post-header'">
 	<div class="p-2">
-		<iframe id="vimeoVideo" src="https://player.vimeo.com/video/438413404" width="100%" height="450" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+		<iframe id="vimeoVideo" src="https://player.vimeo.com/video/438413404" width="100%" height="450" frameborder="0"
+			allow="autoplay; fullscreen" allowfullscreen></iframe>
 	</div>
 	<div class="btn-close-float p-2">
-		<a (click)="SurveyModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i class="fa fa-times text-white text-l"></i></a>
+		<a (click)="SurveyModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
+				class="fa fa-times text-white text-l"></i></a>
 	</div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #SurveyModal2 identifier="SurveyModal2" [closable]="false" [customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
-			<a (click)="ngxSmartModalService.close('SurveyModal2')" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+			<a (click)="ngxSmartModalService.close('SurveyModal2')" class="pointer"><i
+					class="fa fa-times text-white text-l"></i></a>
 		</div>
 	</div>
 	<div class="text-left p-3 px-5">
 		<h5 class="text-{{company}} font-weight-bold text-sd  mb-3">¡Anuncio Importante!</h5>
 		<div class="mb-3"> Estimado alumno, </div>
-		<div> En estos momentos la plataforma ZOOM experimenta una caída a nivel mundial presentando imposibilidad de conexión (<a href="https://status.zoom.us/" target="_blank">https://status.zoom.us/</a>). </div>
- 		<div> Por tal motivo, porque la solución escapa de nuestras manos y mientras estamos a la espera que los ingenieros de Zoom solucionen el problema, hemos decidido cancelar las clases de hoy 24 de agosto de 2020 hasta las 13:00 horas. esperando poder reiniciar con las clases a partir de esa hora, siempre y cuando ZOOM solucione el problema. </div>
- 		<div class="mt-3 text-{{company}}"> Universidad Científica del Sur </div>
+		<div> En estos momentos la plataforma ZOOM experimenta una caída a nivel mundial presentando imposibilidad de
+			conexión (<a href="https://status.zoom.us/" target="_blank">https://status.zoom.us/</a>). </div>
+		<div> Por tal motivo, porque la solución escapa de nuestras manos y mientras estamos a la espera que los
+			ingenieros de Zoom solucionen el problema, hemos decidido cancelar las clases de hoy 24 de agosto de 2020
+			hasta las 13:00 horas. esperando poder reiniciar con las clases a partir de esa hora, siempre y cuando ZOOM
+			solucione el problema. </div>
+		<div class="mt-3 text-{{company}}"> Universidad Científica del Sur </div>
 	</div>
 </ngx-smart-modal>
 
-<article *ngFor="let notification of notifications; let i = 'index'" >
-	<ngx-smart-modal #NotificationModal{{i}} identifier="NotificationModal{{i}}" [closable]="false" [customClass]="'fullModal p-post-header'">
+<article *ngFor="let notification of notifications; let i = 'index'">
+	<ngx-smart-modal #NotificationModal{{i}} identifier="NotificationModal{{i}}" [closable]="false"
+		[customClass]="'fullModal p-post-header'">
 		<div class="bg-{{company}} p-4 rounded-t-1">
 			<div class="btn-close-float p-3">
-				<a (click)="ngxSmartModalService.close('NotificationModal' + i)" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+				<a (click)="ngxSmartModalService.close('NotificationModal' + i)" class="pointer"><i
+						class="fa fa-times text-white text-l"></i></a>
 			</div>
 		</div>
 		<div class="text-left p-2 px-5">
-			<h5 *ngIf="notification.title" class="text-{{company}} font-weight-bold text-sd  mb-3">{{notification.title?notification.title:''}}</h5>
-			<div *ngIf="notification.description" [innerHTML]="notification.description?notification.description:''"></div>
+			<h5 *ngIf="notification.title" class="text-{{company}} font-weight-bold text-sd  mb-3">
+				{{notification.title?notification.title:''}}</h5>
+			<div *ngIf="notification.description" [innerHTML]="notification.description?notification.description:''">
+			</div>
 		</div>
 	</ngx-smart-modal>
 </article>
 
 <!-- <ngx-smart-modal #AcademicConditionModal identifier="AcademicConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+<ngx-smart-modal #AcademicConditionModal identifier="AcademicConditionModal" [closable]="false"
+	[customClass]="'mediumModal fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
-			<a (click)="AcademicConditionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+			<a (click)="AcademicConditionModal.close()" class="pointer"><i
+					class="fa fa-times text-white text-l"></i></a>
 		</div>
 	</div>
 	<div class="text-left p-2 px-5">
@@ -171,17 +210,27 @@
 	</div>
 	<div class="h-fn scroll fullModal">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_academicas/condiciones_academicas_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesAcadConditions; let ac = 'index'">
+		<img class="w-100" src="./assets/pdfjs/web/condiciones_academicas/condiciones_academicas_{{ac + 1}}.jpg"
+			*ngFor="let imgAC of imagesAcadConditions; let ac = 'index'">
+		<ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_academicas.pdf"></ng2-pdfjs-viewer>
 	</div>
 	<div class="row justify-content-center my-3">
-		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Descargar PDF</a>
-		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'" class="btn rounded-1 px-4 btn-{{company}}" (click)="saveConditions('FLAG_ACADEMICO', AcademicConditionModal)">ACEPTAR</button>
+		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
+			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Descargar
+			PDF</a>
+		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'"
+			class="btn rounded-1 px-4 btn-{{company}}"
+			(click)="saveConditions('FLAG_ACADEMICO', AcademicConditionModal)">ACEPTAR</button>
 	</div>
 </ngx-smart-modal> -->
 
 <!-- <ngx-smart-modal #FinancialConditionModal identifier="FinancialConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+<ngx-smart-modal #FinancialConditionModal identifier="FinancialConditionModal" [closable]="false"
+	[customClass]="'mediumModal fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
-			<a (click)="FinancialConditionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+			<a (click)="FinancialConditionModal.close()" class="pointer"><i
+					class="fa fa-times text-white text-l"></i></a>
 		</div>
 	</div>
 	<div class="text-left p-2 px-5">
@@ -189,14 +238,21 @@
 	</div>
 	<div class="h-fn scroll fullModal">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesFinaConditions; let ac = 'index'">
+		<img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_{{ac + 1}}.jpg"
+			*ngFor="let imgAC of imagesFinaConditions; let ac = 'index'">
+		<img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_26.pdf">
 	</div>
 	<div class="row justify-content-center my-3">
-		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"  class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Descargar PDF</a>
-		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'" class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="saveConditions('FLAG_FINANCIERO', FinancialConditionModal)">ACEPTAR</button>
+		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
+			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Descargar
+			PDF</a>
+		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'"
+			class="btn rounded-1 px-4 btn-{{company}} mr-3"
+			(click)="saveConditions('FLAG_FINANCIERO', FinancialConditionModal)">ACEPTAR</button>
 	</div>
 </ngx-smart-modal> -->
 
-<ngx-smart-modal #HolidayModal  identifier="HolidayModal" [closable]="false" [customClass]="'fullModal p-post-header'">
+<ngx-smart-modal #HolidayModal identifier="HolidayModal" [closable]="false" [customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
 			<a (click)="HolidayModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
@@ -205,11 +261,13 @@
 	<div class="text-left p-3 px-5">
 		<h5 class="text-{{company}} font-weight-bold text-sd  mb-3">Comunicado</h5>
 		<div class="mb-3"> Estimado/a estudiante </div>
- 		<div>Te informamos que debido a que el Gobierno ha declarado el feriado 8 de octubre como día laborable, la Universidad Científica del Sur realizará sus clases con normalidad.</div>
+		<div>Te informamos que debido a que el Gobierno ha declarado el feriado 8 de octubre como día laborable, la
+			Universidad Científica del Sur realizará sus clases con normalidad.</div>
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #AnnouncementModal  identifier="AnnouncementModal" [closable]="false" [customClass]="'fullModal p-post-header'">
+<ngx-smart-modal #AnnouncementModal identifier="AnnouncementModal" [closable]="false"
+	[customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
 			<a (click)="AnnouncementModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
@@ -220,11 +278,13 @@
 	</div>
 	<div class="scroll px-2">
 		<a target="_blank" [href]="fidelityLink"><img class="w-100" src="./assets/img/fidelidad_survey.png"></a>
-		<p class="mt-2 text-center"><a class="text-{{company}}" target="_blank" [href]="fidelityLink">Ingresar a la encuesta</a></p>
+		<p class="mt-2 text-center"><a class="text-{{company}}" target="_blank" [href]="fidelityLink">Ingresar a la
+				encuesta</a></p>
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #ModdleLinkModal  identifier="ModdleLinkModal" [escapable]="false" [dismissable]="false" [closable]="false" [customClass]="'fullModal p-post-header'">
+<ngx-smart-modal #ModdleLinkModal identifier="ModdleLinkModal" [escapable]="false" [dismissable]="false"
+	[closable]="false" [customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
 			<a (click)="ModdleLinkModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
@@ -241,14 +301,16 @@
 
 <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 
-<ngx-smart-modal #ModdleLinkModal2  identifier="ModdleLinkModal2" [escapable]="false" [dismissable]="false" [closable]="false" [customClass]="'fullModal p-post-header'">
+<ngx-smart-modal #ModdleLinkModal2 identifier="ModdleLinkModal2" [escapable]="false" [dismissable]="false"
+	[closable]="false" [customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
 		<div class="btn-close-float p-3">
 			<a (click)="ModdleLinkModal2.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
 		</div>
 	</div>
 	<div class="text-left p-2 px-5">
-		<h4 class="text-{{company}} font-weight-bold text-center">CURSO: NÚCLEO DE APOYO CONTABLE Y FISCAL (NAF) - 2020-2</h4>
+		<h4 class="text-{{company}} font-weight-bold text-center">CURSO: NÚCLEO DE APOYO CONTABLE Y FISCAL (NAF) -
+			2020-2</h4>
 	</div>
 	<div class="fullModal px-2">
 		<!-- <a target="_blank" href="https://sedd.cientifica.edu.pe/login/ingresar"><img class="w-100" src="./assets/img/encuesta_3.png"></a> -->
@@ -256,46 +318,55 @@
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #medicineModal identifier="medicineModal" [closable]="false" [escapable]="true" [dismissable]="true" [customClass]="'smallModal fullModal'">
+<ngx-smart-modal #medicineModal identifier="medicineModal" [closable]="false" [escapable]="true" [dismissable]="true"
+	[customClass]="'smallModal fullModal'">
 	<img class="w-100 rounded-1" src="./assets/img/comunicado_medicina.jpg">
 	<div class="btn-close-float p-2">
-		<a (click)="medicineModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i class="fa fa-times text-white text-l"></i></a>
+		<a (click)="medicineModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
+				class="fa fa-times text-white text-l"></i></a>
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #aficheModal identifier="aficheModal" [closable]="false" [escapable]="true" [dismissable]="true" [customClass]="'smallModal fullModal'">
+<ngx-smart-modal #aficheModal identifier="aficheModal" [closable]="false" [escapable]="true" [dismissable]="true"
+	[customClass]="'smallModal fullModal'">
 	<img class="w-100 rounded-1" src="./assets/img/afiche1.png">
 	<div class="btn-close-float p-2">
-		<a (click)="aficheModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i class="fa fa-times text-white text-l"></i></a>
+		<a (click)="aficheModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
+				class="fa fa-times text-white text-l"></i></a>
 	</div>
 	<div class="buttonsAfiche my-2">
-		<button class="btn btn-afiche"><a href="https://es.surveymonkey.com/r/65NJ9T6" target="_blank">Pregrado</a></button>
+		<button class="btn btn-afiche"><a href="https://es.surveymonkey.com/r/65NJ9T6"
+				target="_blank">Pregrado</a></button>
 		<button class="btn btn-afiche"><a href="https://es.surveymonkey.com/r/53VMRMK" target="_blank">CPE</a></button>
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #postModal identifier="postModal" [closable]="false" [escapable]="true" [dismissable]="true" [customClass]="'mediumModal2 fullModal'">
+<ngx-smart-modal #postModal identifier="postModal" [closable]="false" [escapable]="true" [dismissable]="true"
+	[customClass]="'mediumModal2 fullModal'">
 	<img class="w-100 rounded-1" src="./assets/img/pieza_intranet.png">
 	<div class="btn-close-float p-2">
-		<a (click)="postModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i class="fa fa-times text-white text-l"></i></a>
+		<a (click)="postModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
+				class="fa fa-times text-white text-l"></i></a>
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #preModal identifier="preModal" [closable]="false" [escapable]="true" [dismissable]="true" [customClass]="'mediumModal fullModal'">
+<ngx-smart-modal #preModal identifier="preModal" [closable]="false" [escapable]="true" [dismissable]="true"
+	[customClass]="'mediumModal fullModal'">
 	<!-- <a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank"> -->
-		<img class="w-100 rounded-1" src="./assets/img/guia_matri.jpg">
-		<!-- <div class="buttonInModal">
+	<img class="w-100 rounded-1" src="./assets/img/guia_matri.jpg">
+	<!-- <div class="buttonInModal">
 			<button class="btn btn-orange">Ingresa aqui</button>
 		</div> -->
 	<!-- </a> -->
 	<div class="btn-close-float p-2">
-		<a (click)="preModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i class="fa fa-times text-white text-l"></i></a>
+		<a (click)="preModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
+				class="fa fa-times text-white text-l"></i></a>
 	</div>
 </ngx-smart-modal>
 
 <ngx-smart-modal #ethnicityModal identifier="ethnicityModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="''">
 	<div class="text-center mb-3">
-			<h5>Actualización de Datos</h5>
+		<h5>Actualización de Datos</h5>
 	</div>
 	<p class="m-0">Estimado docente, </p>
 	<p>A solicitud del MINEDU requerimos su apoyo para registrar la siguiente información:</p>
@@ -321,6 +392,19 @@
 	</div>
 </ngx-smart-modal>
 
+<!-- ////////////////////////////////////////////////////////////////MODALES - MATRICULA EXTRACURRICULAR//////////////////////////////////////////////////////////////////////////////////// -->
+<ngx-smart-modal #matriculaExtracurricularModal identifier="matriculaExtracurricularModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
+	<div class="bg-{{company}} p-2 rounded-t-1">Extracurriculares</div>
+	<div class="p-3">
+		<p class="text-center"> ¿Deseas matricularte en cursos Extracurriculares? </p>
+	</div>
+	<div class="row d-flex justify-content-center mb-3 px-5">
+		<button class="btn btn-res btn-{{company}} ml-2" (click)="matriculaExtracurricularModal.close()">NO</button>
+		<button class="btn btn-res btn-{{company}} ml-2" (click)="cursosExtracurricularesModal.open()">SI</button>
+	</div>
+</ngx-smart-modal>
+
+
 <ngx-smart-modal #suspensionModal identifier="suspensionModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
     <div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
         <h5 class="modal-title " style="    padding-left: 30%;">AVISO IMPORTANTE</h5>
@@ -344,7 +428,112 @@
     </div>
 </ngx-smart-modal>
 
+<ngx-smart-modal  #cursosExtracurricularesModal identifier="cursosExtracurricularesModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal'">
+	<div class="bg-{{company}} p-3 rounded-t-1">Cursos Extracurriculares Disponibles</div>
+	<a (click)="closeModalCursos(cursosExtracurricularesModal)" class="btnx"><i id="x" class="fa fa-times text-white text-2"></i></a>
+	<div class="p-2">
+		<div class="bg-gray-a p-3">
+				<div class="form-group scroll h-fm">
+					<table class="table w-100">
+						<thead class="thead-dark">
+							<tr>
+								<th class="py-2 align-middle text-m">Cursos</th>
+								<th class="px-1 py-2 text-left text-m">Topic</th>
+								<th class="px-1 py-2 align-middle text-m">Horas</th>
+								<th *ngIf="columTrash" class="px-1 py-2 align-middle text-left text-m">Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center text-s" *ngFor="let course of courses;">
+								<ng-container>
+									<td class="p-2 text-left">
+										<div class="form-check">
+										  <input class="form-check-input" type="checkbox" (change)='onChangeAvailable(course, $event)' [(ngModel)]="course.value" [disabled]="course.value" [checked]="course.value">
+										  <label class="docente form-check-label">{{ course.TOPIC }}</label>
+										</div>
+									</td>
+									<td class="p-2 text-left">{{ course.MAIN_TYPE }}</td>								
+									<td class="p-2 text-left">{{ course.HOURS }}</td>
+									<td *ngIf="columTrash" class="text-left pt-2 pb-0">
+										<a *ngIf="course.value" (click)="delete(course)" ngxTooltip tooltipContent="Eliminar"><i class="red fa fa-trash text-black text-1 pointer"></i></a>
+									</td>
+								</ng-container>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+		</div>
+	</div>
+</ngx-smart-modal>
 
 
+<ngx-smart-modal #horariosModal identifier="horariosModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'extralargeModal fullModal p-post-header'">
+	<div class="p-2 header-modal">
+		<div class="title">
+			<p *ngIf="schedulesOfCourse" >SECCIONES DISPONIBLES - {{selectedCourse.TOPIC}}</p>
+		</div>
+		<div class="btn-close d-flex">
+			<a (click)="closeModalSecciones(horariosModal)" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-center">
+		<div class="form-group scroll h-s">
+			<table id="table-students" class="table w-100">
+				<thead class="theader">
+					<tr class="text-center text-s">
+						<th class="px-1 py-2 text-left text-m">Sección</th>
+						<th class="px-1 py-2 text-left text-m">Docente</th>
+						<th class="px-1 py-2 align-middle text-m">Ini - Fin</th>
+						<th class="px-1 py-2 align-middle text-m">Horario</th>
+						<th class="px-1 py-2 align-middle text-m">Cupos</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center text-s" *ngFor="let section of schedulesOfCourse">
+						<ng-container>
+							<td class="p-2 text-left">
+								<div class="form-check">
+									<input *ngIf="section.show" class="form-check-input" type="checkbox" (change)='changeSchedule(section, $event)' [(ngModel)]="section.value" [checked]="section.select" [disabled]="!section.CAP">
+									<label class="docente form-check-label">{{section.CLASS_SECTION}} - {{section.SSR_COMPONENT}}({{section.CLASS_NBR }})</label>
+								</div>
+							</td>
+							<td class="p-1 text-left">{{ section.NAME ? section.NAME : '-' }}</td>
+							<td class="p-1 text-center">{{ section.START_DT | date:'dd/MM' }} - {{ section.END_DT | date:'dd/MM' }}</td>
+							<td class="p-1 text-center">{{ (section.DIA).substr(0,3) }} {{ (section.HORA_INICIO).substr(0,5) }} - {{ (section.HORA_FIN).substr(0,5) }}</td>
+							<td class="p-1 text-center">{{ section.CAP }}</td>
+						</ng-container>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="row justify-content-center mb-3">
+			<button [disabled]="btnMatricula" class="btn btn-orange m-2" (click)="matricula()">Matricular</button>
+		</div>
+	</div>	
+</ngx-smart-modal>
+
+
+<ngx-smart-modal #eliminarMatriculaModal identifier="eliminarMatriculaModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="p-2 header-modal2">
+		<div class="btn-close">
+			<a (click)="eliminarMatriculaModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+		</div>
+	</div>
+	<div class="text-left p-2 px-5 mb-3">
+		<h5 class="text-red font-weight-bold text-center">Confirmación a eliminar</h5>
+		<div> Se eliminará el siguiente curso:</div>
+		<ul>
+			<li class="myscheduleperclass">
+				<span>{{selectedCourse?selectedCourse.TOPIC: ''}}</span><br>
+			</li>
+		</ul>
+	</div>
+	<div class="row justify-content-center mb-3">
+		<button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="deleteEnrollment()">Confirmar</button>
+	</div>
+</ngx-smart-modal>
+
+<!-- ////////////////////////////////////////////////////////////////MODALES - MATRICULA EXTRACURRICULAR//////////////////////////////////////////////////////////////////////////////////// -->
 
 <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

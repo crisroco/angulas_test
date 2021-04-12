@@ -8,13 +8,25 @@ import { AppSettings } from '../app.settings';
 })
 export class NewEnrollmentService {
 
-	constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
+
+    public getCoursesExtra(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/getCoursesExtra').toPromise();
+    }
+
+    public getSchedulesCourse(data): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleExtra/1116/' + data).toPromise();
+    }
+
+    public getCoursesExtraInEnrollment(data): Promise<any>  {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getCoursesExtraInEnrollment', data).toPromise();
+    }
 
     public getAcademicData(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getAcademicData', data).toPromise();
     }
 
-	public getSchedule(data): Promise<any> {
+    public getSchedule(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSchedule', data).toPromise();
     }
 
@@ -31,7 +43,7 @@ export class NewEnrollmentService {
     }
 
     public getDebt(data): Promise<any> {
-    	return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDebt', data).toPromise();
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDebt', data).toPromise();
     }
 
     public getSchoolCycle(data): Promise<any> {
@@ -65,7 +77,7 @@ export class NewEnrollmentService {
     public deleteCourseClass(own_id): Promise<any> {
         return this.http.delete(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClass/' + own_id).toPromise();
     }
-
+//este
     public deleteCourseClassByCrseId(emplid, crs_id): Promise<any> {
         return this.http.delete(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClassByCrseId/' + emplid + '/' +  crs_id).toPromise();
     }
