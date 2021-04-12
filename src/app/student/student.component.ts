@@ -315,7 +315,6 @@ export class StudentComponent implements OnInit {
 	@ViewChild('UpdatePersonalDataModal') UpdatePersonalDataModal: any;
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
 	@ViewChild('humanityModal') humanityModal: any
-
 	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
 	
 	constructor( private wsService: WebsocketService,
