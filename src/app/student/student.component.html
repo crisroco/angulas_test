@@ -774,31 +774,3 @@
         <br>
     </div>
 </ngx-smart-modal>
-
-<ngx-smart-modal #ethnicityModal identifier="ethnicityModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="''">
-    <div class="text-center mb-3">
-        <h5>Actualización de Datos</h5>
-    </div>
-    <p class="m-0">Estimado docente, </p>
-    <p>A solicitud del MINEDU requerimos su apoyo para registrar la siguiente información:</p>
-
-    <div class="form">
-        <div class="form-group">
-            <label class="form-label"> Etnía a la que pertenece </label>
-            <select class="form-control" name="etnia" [(ngModel)]="realEthnicity">
-  				<option value=""> SELECCIONE </option>
-  				<option *ngFor="let ethnicity of ethnicities" value="{{ethnicity.value}}"> {{ethnicity.name}} </option>
-  			</select>
-        </div>
-
-        <div *ngIf="realEthnicity == '08'" class="form-group">
-            <label class="form-label"> Por favor Registre </label>
-            <input class="form-control" type="text" name="otros" [(ngModel)]="realOther" placeholder="Otros">
-        </div>
-    </div>
-
-    <div class="text-center">
-        <button (click)="ethnicityModal.close()" class="btn btn-secondary mr-2">Cerrar</button>
-        <button (click)="saveEthnicity()" class="btn btn-success">Guardar</button>
-    </div>
-</ngx-smart-modal>

@@ -305,8 +305,7 @@ export class StudentComponent implements OnInit {
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmSendUploadModal') ConfirmSendUploadModal: any;	
-	@ViewChild('ConfirmEliminadUploadModal') ConfirmEliminadUploadModal: any;		
-
+	@ViewChild('ConfirmEliminadUploadModal') ConfirmEliminadUploadModal: any;
 	@ViewChild('IntentionEnrollmentModal') IntentionEnrollmentModal: any;
 	@ViewChild('NotIntentionEnrollmentModal') NotIntentionEnrollmentModal: any;
 	@ViewChild('YesIntentionEnrollmentModal') YesIntentionEnrollmentModal: any;
