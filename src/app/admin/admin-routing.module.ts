@@ -5,10 +5,12 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DisponiblesComponent } from './dashboard/disponibles/disponibles.component';
 import { MatriculadosComponent } from './dashboard/matriculados/matriculados.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/admin/login', pathMatch: 'full' },
 	{ path: 'login', component: LoginComponent },
+	{ path: 'home', component: HomeComponent },
 	{ path: 'dashboard', component: AdminComponent, 
 		children: [
 			{

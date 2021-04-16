@@ -22,8 +22,13 @@ export class LoginComponent implements OnInit {
   data_browser: any;
   variable: string = '';
   student: any;
-  public opridsList = ['BENCISO', 'EMORAN', 'AFARFANP', 'WALVA','JCRUCESP', 'TLOZANO','DALARCONU', 'BROLDANSA', 'SLEONA','CCIEZA','ACORNEJOC','BRAMIREZ','APALOMINO','BBARRIOSA', 'JSOLANOB', 'LYAYA', 'CGRANDAC', 'CROJASCO', 'GMENDEZ','SOBREGON'];
-  public available = ["100075537","100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377", "100075396", "100064384","100070412","100040451","100075372","100083509", "100005682", "100055266"];
+  process1: false;
+  process2: false;
+  process3: false;
+  //public available = ["100075537","100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377", "100075396", "100064384","100070412","100040451","100075372","100083509", "100005682", "100055266"];
+  public usersMatricula = ["EMORAN","TLOZANO","LYAYA","DALARCONU","BROLDANSA","SLEONA","CCIEZA","ACORNEJOC","BRAMIREZ","APALOMINO","BBARRIOSA"];
+  public usersMiPortal = ["AJAUREGUIA","MFALCON"];
+  public usersAdmin = ["BENCISO","AFARFANP","WALVA","JCRUCESP","JSOLANOB", "EACOSTAC"];
   public cientifica_data = {
     empresa_url : 'ucientifica.edu.pe',
     cod_empresa : '002',
@@ -54,25 +59,33 @@ export class LoginComponent implements OnInit {
 
   login(){
     if (this.loginForm.invalid) { this.toastr.error('Complete todos los campos.'); return;}
-    if (!this.opridsList.includes(this.loginForm.controls.email.value)) {
-      this.toastr.error('No cuentas con los accesos necesarios');
-      this.loading = false;
-      return;
-    }
     let data = this.loginForm.value;
     this.loading = true;
     this.variable = btoa(this.cientifica_data.empresa_url + "&&" + data.email.toUpperCase() + "&&" + data.password);
     let deviceinfo = this.deviceS.getDeviceInfo();
-    data.origen = deviceinfo.device == 'Unknown'?'W':'M';
+    data.origen = deviceinfo.device == 'Unknown'?'W':'M';    
     this.loginS.userLogin(data)
     .then(res => {
+      let codigoUsuario = res['UcsMetodoLoginRespuesta']['codigoAlumno'];
+      let opridForm = this.loginForm.controls.email.value;
+
       if(!res['UcsMetodoLoginRespuesta'] || res['UcsMetodoLoginRespuesta']['valor'] != 'Y'){
         this.toastr.error(res['UcsMetodoLoginRespuesta'] && res['UcsMetodoLoginRespuesta'].descripcion?res['UcsMetodoLoginRespuesta'].descripcion:'No pudo loguearse, vuelva a intentarlo en unos minutos.');
         this.loading = false;
         return;
       }
-      this.session.setItem('adminOprid', this.loginForm.controls.email.value);
-      this.session.setObject('user', res.UcsMetodoLoginRespuesta);
+      if (this.usersMiPortal.includes(opridForm)){
+        this.session.setItem('userBackOffice', "personalMiPortal");
+      } else if (this.usersMatricula.includes(opridForm)) {
+        this.session.setItem('userBackOffice', "personalMatricula");
+      } else if (this.usersAdmin.includes(opridForm)) {
+        this.session.setItem('userBackOffice', "personalBothProcess");
+      } else {
+        this.toastr.error('No cuentas con los accesos necesarios');
+        this.loading = false;
+        return;
+      }
+      this.session.setItem('adminOprid', this.loginForm.controls.email.value);//campo para la validación de login del admin
       this.session.setItem('cod_company', "002");
       this.loginS.oauthToken({
         username: data.email,
@@ -82,7 +95,7 @@ export class LoginComponent implements OnInit {
         grant_type: "password" 
       }).then((res) => {
         this.session.setObject('oauth', res);
-        this.router.navigate(['admin/dashboard']);
+        this.router.navigate(['admin/home']);
       });
     }, error => { this.loading = false; });
   }

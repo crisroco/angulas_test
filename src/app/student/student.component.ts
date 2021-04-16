@@ -17,6 +17,7 @@ import { AppSettings } from '../app.settings';
 import { WebsocketService } from '../services/websocket.service';
 import { QueueService } from '../services/queue.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { NewEnrollmentService } from '../services/newenrollment.service';
 
 import { HttpClient } from '@angular/common/http';
 import { fi } from 'date-fns/locale';
@@ -297,7 +298,7 @@ export class StudentComponent implements OnInit {
 	personalDataForm: FormGroup;
 	workinglDataForm: FormGroup;
 	personalUpdateForm: FormGroup;
-	student: any;
+	student: any = {};
 	notifications: any;
 	notifications_read: number = 0;
 
@@ -316,6 +317,7 @@ export class StudentComponent implements OnInit {
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
 	@ViewChild('humanityModal') humanityModal: any
 	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
+	userBackoffice: boolean;
 	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
@@ -329,9 +331,15 @@ export class StudentComponent implements OnInit {
     	private toastr: ToastrService,
 		public inputsS: InputsService,
 		private formS: FormService,
+		public newEnrollmentS: NewEnrollmentService,
 		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) { }
-
+		
 	ngOnInit() {
+		
+		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
+			this.userBackoffice = true;
+		}
+
 		if(!this.user){
 			this.router.navigate(['/login']);
 		}
@@ -378,6 +386,17 @@ export class StudentComponent implements OnInit {
 		// 	}
 		// })
 	}
+
+
+	searchStudent(){
+		this.session.destroy('emplidSelected');
+		this.session.destroy('student');
+		this.session.destroy('mySelectedStudent');
+		this.session.destroy('user');
+		this.session.destroy('acadmicData');
+		this.router.navigate(['admin/home']);
+	}
+
 
 	initSocket(){
 			this.wsService.enroll(this.user.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')

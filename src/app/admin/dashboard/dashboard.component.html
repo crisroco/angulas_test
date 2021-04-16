@@ -17,7 +17,7 @@
 					<div class="circle-x bg-white-a2">
 						<img class="w-100" src="./assets/img/icon/user.png">
 					</div>
-					<div class="text-student"><b>{{isthisStudent?isthisStudent.NAME:''}}</b></div>
+					<div class="text-student"><b>ALUMNO: {{isthisStudent?isthisStudent.NAME:''}}</b></div>
 					<div class="text-student"><b>{{studentCode?studentCode:''}}</b></div>
 					<div class="text-student"><b>CICLO LECTIVO: {{schoolCycle?schoolCycle.CICLO_LECTIVO:''}}</b></div>
 					<div class="text-student"><b>{{allData?allData.ACAD_PROG:''}}/{{allData?allData.ACAD_PLAN:''}}</b></div>
@@ -217,7 +217,6 @@
 
 <ngx-smart-modal #selecStudentModal identifier="selecStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
-		
 	</div>
 	<div class="text-left p-2">
 		<p> Codigo del Alumno </p>
@@ -231,7 +230,7 @@
 	</div>
 	<div class="row d-flex justify-content-center mb-3 px-5">
 		<button [disabled]="!isthisStudent" class="btn rounded-1 btn-{{company}} mr-3" (click)="select()">Seleccionar</button>
-		<button class="btn rounded-1 btn-{{company}} ml-3" (click)="openConfirmation()">Carga del Alumno</button>
+		<!-- <button class="btn rounded-1 btn-{{company}} ml-3" (click)="openConfirmation()">Carga del Alumno</button> -->
 	</div>
 </ngx-smart-modal>
 

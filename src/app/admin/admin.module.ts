@@ -13,9 +13,10 @@ import { MatriculadosComponent } from './dashboard/matriculados/matriculados.com
 import { TooltipModule, TooltipOptions } from '@teamhive/ngx-tooltip';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AdminComponent, LoginComponent, DashboardComponent, DisponiblesComponent, MatriculadosComponent],
+  declarations: [AdminComponent, LoginComponent, DashboardComponent, DisponiblesComponent, MatriculadosComponent, HomeComponent],
   imports: [
     FormsModule,
   	ReactiveFormsModule,
