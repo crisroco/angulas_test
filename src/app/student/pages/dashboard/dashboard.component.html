@@ -342,8 +342,10 @@
 </ngx-smart-modal>
 
 <ngx-smart-modal #postModal identifier="postModal" [closable]="false" [escapable]="true" [dismissable]="true"
-	[customClass]="'mediumModal2 fullModal'">
-	<img class="w-100 rounded-1" src="./assets/img/pieza_intranet.png">
+	[customClass]="'smallModall fullModal'">
+	<a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank">
+		<img class="w-100 rounded-1" src="./assets/img/opinion_no.jpeg">
+	</a>
 	<div class="btn-close-float p-2">
 		<a (click)="postModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
 				class="fa fa-times text-white text-l"></i></a>
@@ -351,17 +353,21 @@
 </ngx-smart-modal>
 
 <ngx-smart-modal #preModal identifier="preModal" [closable]="false" [escapable]="true" [dismissable]="true"
-	[customClass]="'mediumModal fullModal'">
+	[customClass]="'smallModall fullModal'">
 	<!-- <a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank"> -->
-	<img class="w-100 rounded-1" src="./assets/img/guia_matri.jpg">
-	<!-- <div class="buttonInModal">
-			<button class="btn btn-orange">Ingresa aqui</button>
-		</div> -->
-	<!-- </a> -->
+	<img class="w-100 rounded-1" src="./assets/img/opinion_yes.jpeg">
 	<div class="btn-close-float p-2">
 		<a (click)="preModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
 				class="fa fa-times text-white text-l"></i></a>
 	</div>
+	<!-- <div class="buttonInModal">
+			<button class="btn btn-orange">Ingresa aqui</button>
+		</div> -->
+	<!-- </a> -->
+	<!-- <div class="btn-close-float p-2">
+		<a (click)="preModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
+				class="fa fa-times text-white text-l"></i></a>
+	</div> -->
 </ngx-smart-modal>
 
 <ngx-smart-modal #ethnicityModal identifier="ethnicityModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="''">
