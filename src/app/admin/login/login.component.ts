@@ -26,9 +26,9 @@ export class LoginComponent implements OnInit {
   process2: false;
   process3: false;
   //public available = ["100075537","100014866", "100044425", "100031168", "100047588", "4200810348", "100055878", "100000384", "100000752", "100003261", "100032537", "100054527", "100054525", "100075831", "100054938", "100054418", "100052377", "100075396", "100064384","100070412","100040451","100075372","100083509", "100005682", "100055266"];
-  public usersMatricula = ["EMORAN","TLOZANO","LYAYA","DALARCONU","BROLDANSA","SLEONA","CCIEZA","ACORNEJOC","BRAMIREZ","APALOMINO","BBARRIOSA"];
-  public usersMiPortal = ["AJAUREGUIA","MFALCON"];
-  public usersAdmin = ["BENCISO","AFARFANP","WALVA","JCRUCESP","JSOLANOB", "EACOSTAC"];
+  public usersMatricula = ["LYAYA","SLEONA","CCIEZA","ACORNEJOC","BRAMIREZ","APALOMINO","BBARRIOSA"];
+  public usersMiPortal = ["MFALCON"];
+  public usersAdmin = ["SOBREGON","TLOZANO","JLEON","DALARCONU","EMORAN","PFERRUA","SLOZADA","MNOBLECILLA","BROLDANSA","AJAUREGUIA","YTENORIO","BENCISO","AFARFANP","WALVA","JCRUCESP","JSOLANOB", "LCARRANZAM", "EACOSTAC"];
   public cientifica_data = {
     empresa_url : 'ucientifica.edu.pe',
     cod_empresa : '002',
