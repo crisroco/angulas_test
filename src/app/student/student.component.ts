@@ -695,7 +695,9 @@ export class StudentComponent implements OnInit {
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 				var one = units.filter(item => item.institucion == 'PREGR');
 				var inst = one.length?one[0]:null;
-				this.sendDataStudent(inst);
+				if (inst) {
+					this.sendDataStudent(inst);
+				}
 			});
 	}
 

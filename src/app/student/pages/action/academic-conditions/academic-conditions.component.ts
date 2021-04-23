@@ -25,6 +25,7 @@ export class AcademicConditionsComponent implements OnInit {
 	loading = false;
 
 	constructor(private session: SessionService,
+		public toastS: ToastrService,
 		private studentS: StudentService) { }
 
 	ngOnInit() {
@@ -222,6 +223,11 @@ export class AcademicConditionsComponent implements OnInit {
 		this.loading = true;
 		this.studentS.getAcademicStatus({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
+			if (res.UCS_REST_RECORD_ACAD_RES = {}) {
+				this.toastS.error('Hubo un error al generar el PDF');
+				this.loading = false;
+				return
+			}
 			var objSemester = {};
 			var arSemester = [];
 			let academicStatus: Array<any> = res.UCS_REST_RECORD_ACAD_RES && res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM?res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM:[];
