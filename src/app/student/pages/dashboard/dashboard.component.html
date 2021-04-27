@@ -341,6 +341,23 @@
 	</div>
 </ngx-smart-modal>
 
+
+<ngx-smart-modal #modalComunicado identifier="modalComunicado" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal p-post-header'">
+	<div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
+			<h5 class="modal-title text-center">Comunicado</h5>
+			<a  (click)="modalComunicado.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+	</div>
+
+	<div class="p-2 px-5">
+
+			<div class="p-2 mb-2">
+					<p class="t">¡Hola! Queremos hacerte llegar el #WelcomePackCientifica, por favor actualiza tus datos y dirección donde desear recibirlo.</p> 
+			</div>
+
+	</div>
+</ngx-smart-modal>
+
+
 <ngx-smart-modal #postModal identifier="postModal" [closable]="false" [escapable]="true" [dismissable]="true"
 	[customClass]="'smallModall fullModal'">
 	<a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank">

@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('cursosExtracurricularesModal') cursosExtracurricularesModal: any; //MODAL: CURSOS
   @ViewChild('horariosModal') horariosModal: any; //MODAL : HORARIOS DEL CURSO
   @ViewChild('eliminarMatriculaModal') eliminarMatriculaModal: any; //MODAL: CONFIRMACION DE ELIMINAR
+  @ViewChild('modalComunicado') modalComunicado: any; //Communicado LV
 
   company = AppSettings.COMPANY;
   user: any = this.session.getObject('user');
@@ -120,6 +121,12 @@ export class DashboardComponent implements OnInit {
           this.preModal.open();
         } else {
           this.postModal.open();
+        }
+      });
+      this.studentS.getListOfStudentsUbigeoJson()
+      .then((res) => {
+        if( res.find(emp => emp == this.user.codigoAlumno)) {
+          this.modalComunicado.open();
         }
       });
     this.studentS.getDataStudent({email: this.user.email})

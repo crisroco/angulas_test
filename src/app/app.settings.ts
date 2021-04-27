@@ -18,7 +18,12 @@ export class AppSettings {
         'company_email': 'Correo laboral',
         'company_name': 'Nombre Empresa',
         'company_position': 'Cargo',
-        'privacy_policy': 'Políticas de privacidad'
+        'privacy_policy': 'Políticas de privacidad',
+        'idDepa': 'Departamento',
+        'idProv': 'Provincia',
+        'idDist': 'Distrito',
+        'direccion': 'Dirección',
+        'referencia': 'Referencia'
     }
     public static NAMES_DAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     public static NAMES_MONTH = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];

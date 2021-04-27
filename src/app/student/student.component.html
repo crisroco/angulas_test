@@ -702,7 +702,7 @@
 <ngx-smart-modal #UpdateDataAlumnoModal identifier="UpdateDataAlumnoModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
     <div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
         <h5 class="modal-title">Actualizar datos personales</h5>
-        <a (click)="UpdateDataAlumnoModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+        <a  *ngIf="modalUpdateDataClosable" (click)="UpdateDataAlumnoModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
     </div>
 
     <div class="p-2 px-5">
@@ -715,6 +715,36 @@
             <div class="form-group row mb-2">
                 <label class="col-sm-3 m-0 form-label">E-mail Personal <span class="text-red">*</span></label>
                 <input class="col-sm-9 form-control" type="text" formControlName="email" placeholder="E-mail Personal">
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Departamento <span class="text-red">*</span></label>
+                <select class="col-sm-9 form-control" formControlName="idDepa" #cmbDepartamento (change)="getProvincia(cmbDepartamento.value, null)">
+					<option value=""> -- Seleccione -- </option>
+                    <option *ngFor="let dpto of departamentos" value="{{ dpto.idDepa }}"> {{dpto.departamento}} </option>
+				</select>
+
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Provincia <span class="text-red">*</span></label>
+                <select class="col-sm-9 form-control" formControlName="idProv" #cmbProvincia (change)="getDistrito(cmbProvincia.value, null)">
+					<option value=""> -- Seleccione -- </option>
+                    <option *ngFor="let prov of provincias" value="{{ prov.idProv }}"> {{prov.provincia}} </option>
+				</select>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Distrito <span class="text-red">*</span></label>
+                <select class="col-sm-9 form-control" formControlName="idDist">
+					<option value=""> -- Seleccione -- </option>
+                    <option *ngFor="let dist of distritos" value="{{ dist.idDist }}"> {{dist.distrito}} </option>
+				</select>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label">Dirección <span class="text-red">*</span></label>
+                <input class="col-sm-9 form-control" type="text" formControlName="direccion" placeholder="Dirección">
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-sm-3 m-0 form-label"> Referencia <span class="text-red">*</span></label>
+                <input class="col-sm-9 form-control" type="text" formControlName="referencia" placeholder="Referencia">
             </div>
         </form>
 

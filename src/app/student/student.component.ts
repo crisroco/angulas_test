@@ -302,6 +302,13 @@ export class StudentComponent implements OnInit {
 	notifications: any;
 	notifications_read: number = 0;
 
+	// Actualiza Datos
+	dataEstudiante: any;
+	departamentos: Array<any>;
+	provincias: Array<any>;
+	distritos: Array<any>;
+	modalUpdateDataClosable = true
+
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
@@ -346,6 +353,8 @@ export class StudentComponent implements OnInit {
 		else{
 			// this.getParameters();
 		}
+
+
 		this.initUpdatePersonalData();
 		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
@@ -385,6 +394,7 @@ export class StudentComponent implements OnInit {
 		// 		this.showScheduleLink = true;
 		// 	}
 		// })
+
 	}
 
 
@@ -430,17 +440,17 @@ export class StudentComponent implements OnInit {
 						});
 					}
 				});
-		}
+	}
 		
-		notificationRead(){
-			this.queueS.notificationRead( this.user.codigoAlumno )
-					.subscribe( (res: any) => {
-						console.log('Leyendo')
-						this.notifications_read = 0;
-					}, (err: any) => {
-						console.log('error', err)
-					})
-		}
+	notificationRead(){
+		this.queueS.notificationRead( this.user.codigoAlumno )
+				.subscribe( (res: any) => {
+					console.log('Leyendo')
+					this.notifications_read = 0;
+				}, (err: any) => {
+					console.log('error', err)
+				})
+	}
 
 	initUpdatePersonalData(){
 		this.personalDataForm = this.formBuilder.group({
@@ -463,19 +473,48 @@ export class StudentComponent implements OnInit {
 		});
 		this.personalUpdateForm = this.formBuilder.group({
 			email: ['', ValidationService.emailValidator],
-			phone: ['', [Validators.required, Validators.pattern("(9)[0-9]{8}")]]
+			phone: ['', [Validators.required, Validators.pattern("(9)[0-9]{8}")]],
+			idDepa: ['', Validators.required],
+			idProv: ['', Validators.required],
+			idDist: ['', Validators.required],
+			direccion: ['', Validators.required],
+			referencia: ['', Validators.required],
 		});
-		this.getPersonalData();
+		this.getPersonalDataValidate();
+	}
+
+	getPersonalDataValidate(){
+		this.studentS.getPersonalData(this.user.codigoAlumno)
+		.then(res => {
+			this.dataEstudiante = res.data;
+			this.setClient(res.data || {})
+					
+			this.studentS.getListOfStudentsUbigeoJson()
+      .then((res2) => {
+        if( res2.find(emp => emp == this.user.codigoAlumno && ( res.data == null || res.data.idDepa == null) )) {
+					this.modalUpdateDataClosable = false
+					this.UpdateDataAlumnoModal.open();
+					this.getDepartamento();
+        }
+      });
+
+		});
 	}
 
 	getPersonalData(){
 		this.studentS.getPersonalData(this.user.codigoAlumno)
-		.then(res => this.setClient(res.data || {}));
+		.then(res => {
+			this.dataEstudiante = res.data;
+			this.setClient(res.data || {})
+		});
 	}
 
 	openPersonalDataModal(){
 		this.getPersonalData();
 		this.UpdateDataAlumnoModal.open();
+		// debugger
+		if( this.departamentos == undefined ) this.getDepartamento();
+		
 	}
 	
 	saveDatosAlumno(){		
@@ -527,6 +566,11 @@ export class StudentComponent implements OnInit {
 		
 		this.personalUpdateForm.controls['email'].setValue(data.email?data.email:'');
 		this.personalUpdateForm.controls['phone'].setValue(data.phone?data.phone:'');
+		// this.personalUpdateForm.controls['idDepa'].setValue(data.idDepa?data.idDepa:'');
+		// if(data.idDepa) this.getProvincia(data.idDepa, data.idProv);
+		// if(data.idProv) this.getDistrito(data.idProv, data.idDist);
+		this.personalUpdateForm.controls['direccion'].setValue(data.direccion?data.direccion:'');
+		this.personalUpdateForm.controls['referencia'].setValue(data.referencia?data.referencia:'');
 	}
 
 	savePersonalData(){
@@ -1305,6 +1349,47 @@ export class StudentComponent implements OnInit {
 		} else {
 			this.toastr.info('Los documentos solo pueden pertencer a una sección.');
 		}
+	}
+
+	getDepartamento(){
+		
+		this.loading = true;
+		this.studentS.getDepartamento(null)
+		.then(res => {
+			this.departamentos = res.data;
+			this.loading = false;
+			if(this.dataEstudiante != null && this.dataEstudiante.idDepa != null) {
+				this.personalUpdateForm.controls['idDepa'].setValue(this.dataEstudiante.idDepa);
+				if(this.dataEstudiante.idDepa) this.getProvincia(this.dataEstudiante.idDepa, this.dataEstudiante.idProv);
+				if(this.dataEstudiante.idProv) this.getDistrito(this.dataEstudiante.idProv, this.dataEstudiante.idDist);
+			}
+			
+		}, error => { this.loading = false; });
+	}
+	
+	getProvincia(cmbDepartamento, value){
+		
+		this.loading = true;
+		this.studentS.getProvincia({ idDepa : cmbDepartamento})
+		.then(res => {
+			// debugger
+			this.loading = false;
+			this.provincias = res.data;
+			if( value != null ) {
+				this.personalUpdateForm.controls['idProv'].setValue(value ? value : '');
+			}
+		}, error => { this.loading = false; });
+	}
+	getDistrito(cmbProvincia, value){
+		this.loading = true;
+		this.studentS.getDistrito({ idProv : cmbProvincia})
+		.then(res => {
+			this.loading = false;
+			this.distritos = res.data;
+			if( value != null ) {
+				this.personalUpdateForm.controls['idDist'].setValue(value ? value : '');
+			}
+		}, error => { this.loading = false; });
 	}
 
 }
