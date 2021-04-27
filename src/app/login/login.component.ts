@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
 					this.loginS.oauthToken({
 						username: data.email,
 					    password: data.password,
-					    // client_id: 16, tst
+					    // client_id: 16, //tst
 					    // client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
 					    client_id: 2,
 					    client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
