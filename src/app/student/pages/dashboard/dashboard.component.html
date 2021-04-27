@@ -454,7 +454,7 @@
 <ngx-smart-modal  #cursosExtracurricularesModal identifier="cursosExtracurricularesModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal'">
 	<div class="bg-{{company}} p-3 rounded-t-1">Cursos Extracurriculares Disponibles</div>
 	<a (click)="closeModalCursos(cursosExtracurricularesModal)" class="btnx"><i id="x" class="fa fa-times text-white text-2"></i></a>
-	<div class="p-2">
+	<div class="p-2">		
 		<div class="bg-gray-a p-3">
 				<div class="form-group scroll h-fm">
 					<table class="table w-100">
@@ -471,7 +471,7 @@
 								<ng-container>
 									<td class="p-2 text-left">
 										<div class="form-check">
-										  <input class="form-check-input" type="checkbox" (change)='onChangeAvailable(course, $event)' [(ngModel)]="course.value" [disabled]="course.value" [checked]="course.value">
+										  <input id="checkCurso" class="form-check-input" type="checkbox" (change)='onChangeAvailable(course, $event)' [(ngModel)]="course.value" [disabled]="course.value" [checked]="course.value">
 										  <label class="docente form-check-label">{{ course.TOPIC }}</label>
 										</div>
 									</td>
