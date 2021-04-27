@@ -178,4 +178,18 @@ export class StudentService {
     public saveEthnicity(data: any): Promise<any>{
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/guardar_etnia', data).toPromise();
     }
+    
+    public getDepartamento(data: any): Promise<any>{
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getDepartamento', data).toPromise();
+    }
+    public getProvincia(data: any): Promise<any>{
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getProvincia', data).toPromise();
+    }
+    public getDistrito(data: any): Promise<any>{
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getDistrito', data).toPromise();
+    }
+    
+    public getListOfStudentsUbigeoJson(): Promise<any> {
+        return this.http.get("assets/ubigeo.json").toPromise();
+    }
 }
