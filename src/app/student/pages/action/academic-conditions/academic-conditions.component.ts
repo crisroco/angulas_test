@@ -223,7 +223,7 @@ export class AcademicConditionsComponent implements OnInit {
 		this.loading = true;
 		this.studentS.getAcademicStatus({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
-			if (res.UCS_REST_RECORD_ACAD_RES = {}) {
+			if (res.UCS_REST_RECORD_ACAD_RES && !res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM) {
 				this.toastS.error('Hubo un error al generar el PDF');
 				this.loading = false;
 				return
