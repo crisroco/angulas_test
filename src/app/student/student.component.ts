@@ -380,7 +380,7 @@ export class StudentComponent implements OnInit {
 				this.innewEnrollment = true;
 			}
 		});
-		this.initSocket();
+		// this.initSocket();
 		// this.getFileUpload();
 		// this.getFlagSendUpload();
 		// this.studentS.medicineStudents().then((res) => {
@@ -394,7 +394,6 @@ export class StudentComponent implements OnInit {
 		// 		this.showScheduleLink = true;
 		// 	}
 		// })
-
 	}
 
 
