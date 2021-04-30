@@ -18,7 +18,6 @@ import { WebsocketService } from '../services/websocket.service';
 import { QueueService } from '../services/queue.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { NewEnrollmentService } from '../services/newenrollment.service';
-
 import { HttpClient } from '@angular/common/http';
 import { fi } from 'date-fns/locale';
 
@@ -380,20 +379,20 @@ export class StudentComponent implements OnInit {
 				this.innewEnrollment = true;
 			}
 		});
-		// this.initSocket();
-		// this.getFileUpload();
-		// this.getFlagSendUpload();
-		// this.studentS.medicineStudents().then((res) => {
-		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
-		// 		this.AvisoVacunaModal.open();
-		// 		this.showVacunation = true;
-		// 	}
-		// });
-		// this.studentS.getListOfInterStudentsJson().then((res) => {
-		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
-		// 		this.showScheduleLink = true;
-		// 	}
-		// })
+		this.initSocket();
+		this.getFileUpload();
+		this.getFlagSendUpload();
+		this.studentS.medicineStudents().then((res) => {
+			if (res.find(emp => emp == this.user.codigoAlumno)) {
+				this.AvisoVacunaModal.open();
+				this.showVacunation = true;
+			}
+		});
+		this.studentS.getListOfInterStudentsJson().then((res) => {
+			if (res.find(emp => emp == this.user.codigoAlumno)) {
+				this.showScheduleLink = true;
+			}
+		})
 	}
 
 
@@ -1204,7 +1203,7 @@ export class StudentComponent implements OnInit {
 				redirect: 'follow'
 			};
 			
-			fetch("https://back-miportal.cientifica.edu.pe/student/uploadControlVacuna/" + this.user.codigoAlumno + "?file[]", requestOptions)
+			fetch(AppSettings.BASE + "/student/uploadControlVacuna/" + this.user.codigoAlumno + "?file[]", requestOptions)
 				.then(response => response.text())
 				.then(result => {
 					this.getFileUpload();
