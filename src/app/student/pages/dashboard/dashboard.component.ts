@@ -115,7 +115,6 @@ export class DashboardComponent implements OnInit {
     private intentionS: IntentionService) { }
 
   ngOnInit() {
-
 /*     this.newEnrollmentS.getScheduleStudent({
       EMPLID: this.user.codigoAlumno,
       INSTITUTION: 'ECONT',
@@ -135,34 +134,13 @@ export class DashboardComponent implements OnInit {
         } else {
           this.postModal.open();
         }
-      });
-      this.studentS.getListOfStudentsUbigeoJson()
-      .then((res) => {
-        if( res.find(emp => emp == this.user.codigoAlumno)) {
-          this.modalComunicado.open();
-        }
-      });
-    this.studentS.getDataStudent({email: this.user.email})
-    .then(res => {
-      this.student = res.UcsMetodoDatosPersRespuesta;
-      this.session.setObject('student', this.student);
-      // this.getParameters();
-      // this.getNotifications();
-    }, error => { });
-    this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
-    .then(res => {
-      var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
-      this.enroll = units.filter(item => item.institucion == 'PREGR');
-      this.enroll = this.enroll.length?this.enroll[0]:null;
-      if(this.enroll){
-        this.enroll.OPRID = this.user.email;
-        this.enroll.INSTITUTION = this.enroll.institucion;
-        this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
-        this.enroll.STRM = this.enroll.cicloAdmision;
-        this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-        this.enroll.EMPLID = this.user.codigoAlumno;
-      }
     });
+    // this.studentS.getListOfStudentsUbigeoJson()
+    // .then((res) => {
+    //   if( res.find(emp => emp == this.user.codigoAlumno)) {
+    //     this.modalComunicado.open();
+    //   }
+    // });
     this.btnMatricula = true;
     // this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC"})
     //   .then((res) => {
@@ -218,20 +196,20 @@ export class DashboardComponent implements OnInit {
         // this.getParameters();
         // this.getNotifications();
       }, error => { });
-    this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
-      .then(res => {
-        var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
-        this.enroll = units.filter(item => item.institucion == 'PREGR');
-        this.enroll = this.enroll.length ? this.enroll[0] : null;
-        if (this.enroll) {
-          this.enroll.OPRID = this.user.email;
-          this.enroll.INSTITUTION = this.enroll.institucion;
-          this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
-          this.enroll.STRM = this.enroll.cicloAdmision;
-          this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-          this.enroll.EMPLID = this.user.codigoAlumno;
-        }
-      });
+    // this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
+    //   .then(res => {
+    //     var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
+    //     this.enroll = units.filter(item => item.institucion == 'PREGR');
+    //     this.enroll = this.enroll.length ? this.enroll[0] : null;
+    //     if (this.enroll) {
+    //       this.enroll.OPRID = this.user.email;
+    //       this.enroll.INSTITUTION = this.enroll.institucion;
+    //       this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
+    //       this.enroll.STRM = this.enroll.cicloAdmision;
+    //       this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
+    //       this.enroll.EMPLID = this.user.codigoAlumno;
+    //     }
+    //   });
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       // if (message && message.enroll_conditions) {
       //   this.enroll_conditions = message.enroll_conditions;

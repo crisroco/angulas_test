@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
 				this.toastr.error('El Acceso solo esta permitido a los ALUMNOS.');
 				return;
 			}
-			
 			this.queueS.authEncrypt({...data, code: this.student.codigoAlumno})
 				.subscribe( (res: any) => {
 					this.session.setItem('up', res.ciphertext);

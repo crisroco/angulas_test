@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { SessionService } from '../services/session.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { IntentionService } from '../services/intention.service';
 import { StudentService } from '../services/student.service';
@@ -338,10 +338,9 @@ export class StudentComponent implements OnInit {
 		public inputsS: InputsService,
 		private formS: FormService,
 		public newEnrollmentS: NewEnrollmentService,
-		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) { }
+		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {}
 		
 	ngOnInit() {
-		
 		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
 			this.userBackoffice = true;
 		}
@@ -352,8 +351,6 @@ export class StudentComponent implements OnInit {
 		else{
 			// this.getParameters();
 		}
-
-
 		this.initUpdatePersonalData();
 		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
@@ -382,17 +379,15 @@ export class StudentComponent implements OnInit {
 		this.initSocket();
 		this.getFileUpload();
 		this.getFlagSendUpload();
-		this.studentS.medicineStudents().then((res) => {
-			if (res.find(emp => emp == this.user.codigoAlumno)) {
-				this.AvisoVacunaModal.open();
-				this.showVacunation = true;
-			}
-		});
-		this.studentS.getListOfInterStudentsJson().then((res) => {
-			if (res.find(emp => emp == this.user.codigoAlumno)) {
-				this.showScheduleLink = true;
-			}
-		})
+		if ((this.user.ind_Medicina == 'Y') && this.router.url == '/estudiante') {
+			this.AvisoVacunaModal.open();
+			this.showVacunation = true;
+		}
+		// this.studentS.getListOfInterStudentsJson().then((res) => {
+		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
+		// 		this.showScheduleLink = true;
+		// 	}
+		// })
 	}
 
 
@@ -472,11 +467,11 @@ export class StudentComponent implements OnInit {
 		this.personalUpdateForm = this.formBuilder.group({
 			email: ['', ValidationService.emailValidator],
 			phone: ['', [Validators.required, Validators.pattern("(9)[0-9]{8}")]],
-			idDepa: ['', Validators.required],
-			idProv: ['', Validators.required],
-			idDist: ['', Validators.required],
-			direccion: ['', Validators.required],
-			referencia: ['', Validators.required],
+			// idDepa: ['', Validators.required],
+			// idProv: ['', Validators.required],
+			// idDist: ['', Validators.required],
+			// direccion: ['', Validators.required],
+			// referencia: ['', Validators.required],
 		});
 		this.getPersonalDataValidate();
 	}
@@ -487,15 +482,14 @@ export class StudentComponent implements OnInit {
 			this.dataEstudiante = res.data;
 			this.setClient(res.data || {})
 					
-			this.studentS.getListOfStudentsUbigeoJson()
-      .then((res2) => {
-        if( res2.find(emp => emp == this.user.codigoAlumno && ( res.data == null || res.data.idDepa == null) )) {
-					this.modalUpdateDataClosable = false
-					this.UpdateDataAlumnoModal.open();
-					this.getDepartamento();
-        }
-      });
-
+			// this.studentS.getListOfStudentsUbigeoJson()
+		 //      	.then((res2) => {
+		 //        	if( res2.find(emp => emp == this.user.codigoAlumno && ( res.data == null || res.data.idDepa == null) )) {
+			// 			this.modalUpdateDataClosable = false
+			// 			this.UpdateDataAlumnoModal.open();
+			// 			this.getDepartamento();
+		 //        	}
+		 //      	});
 		});
 	}
 
@@ -511,8 +505,7 @@ export class StudentComponent implements OnInit {
 		this.getPersonalData();
 		this.UpdateDataAlumnoModal.open();
 		// debugger
-		if( this.departamentos == undefined ) this.getDepartamento();
-		
+		// if( this.departamentos == undefined ) this.getDepartamento();
 	}
 	
 	saveDatosAlumno(){		
@@ -567,8 +560,8 @@ export class StudentComponent implements OnInit {
 		// this.personalUpdateForm.controls['idDepa'].setValue(data.idDepa?data.idDepa:'');
 		// if(data.idDepa) this.getProvincia(data.idDepa, data.idProv);
 		// if(data.idProv) this.getDistrito(data.idProv, data.idDist);
-		this.personalUpdateForm.controls['direccion'].setValue(data.direccion?data.direccion:'');
-		this.personalUpdateForm.controls['referencia'].setValue(data.referencia?data.referencia:'');
+		// this.personalUpdateForm.controls['direccion'].setValue(data.direccion?data.direccion:'');
+		// this.personalUpdateForm.controls['referencia'].setValue(data.referencia?data.referencia:'');
 	}
 
 	savePersonalData(){
