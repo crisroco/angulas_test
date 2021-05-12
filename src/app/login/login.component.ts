@@ -9,6 +9,8 @@ import { QueueService } from '../services/queue.service';
 import { AppSettings } from '../app.settings';
 import { Encrypt } from '../helpers/general';
 import { NewEnrollmentService } from '../services/newenrollment.service';
+import { StudentService } from '../services/student.service';
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,6 +24,12 @@ export class LoginComponent implements OnInit {
 	studentCode;
 	allData: any;
 	arrego: [];
+	remotex: any;
+	digital1: any;
+	digital2: any;
+	digital3: any;
+	digital4: any;
+
 	@ViewChild('piezaModal') piezaModal: any;
 	constructor(private formBuilder: FormBuilder,
     	private toastr: ToastrService,
@@ -30,6 +38,7 @@ export class LoginComponent implements OnInit {
     	private queueS: QueueService,
     	public newEnrollmentS: NewEnrollmentService,
     	private router: Router,
+		private studentS: StudentService,
     	private deviceS: DeviceDetectorService) { }
 
 	ngOnInit() {
@@ -58,6 +67,12 @@ export class LoginComponent implements OnInit {
 				this.toastr.error('El Acceso solo esta permitido a los ALUMNOS.');
 				return;
 			}
+			this.studentS.getDataStudent({ email: data.email })
+			.then(res => {
+				console.log(res);
+				this.remotex = res.UcsMetodoDatosPersRespuesta;
+				this.session.setObject('remotex', this.remotex);
+			}, error => { });
 			this.queueS.authEncrypt({...data, code: this.student.codigoAlumno})
 				.subscribe( (res: any) => {
 					this.session.setItem('up', res.ciphertext);
@@ -74,8 +89,23 @@ export class LoginComponent implements OnInit {
 					    client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
 					    grant_type: "password"
 					}).then((res) => {
-							this.session.setObject('oauth', res);
-							this.router.navigate(['estudiante']);
+						/* -----------------------------------------------------------------CREACIÓN DEL HASH---------------------------------------------------------------- */
+						const SECRETKEY = "K4GxggYzW6vl0TwxJrBL8RJaZR2eVg60";
+						const DIGITAL_LIBRARY_URL = "https://bennett.remotexs.in/alumni/login";
+						this.digital1 = "Alumni";
+						this.digital2 = this.session.getObject('user').codigoAlumno;
+						this.digital3 = this.session.getObject('remotex').correo;
+
+						if (CryptoJS) {
+							var hash = CryptoJS.HmacSHA256(DIGITAL_LIBRARY_URL + this.digital1 + this.digital2 + this.digital3, SECRETKEY);
+							this.digital4 = CryptoJS.enc.Base64.stringify(hash);
+						} else {
+							alert("Error: CryptoJS is undefined");
+						}
+
+						this.session.setObject('hash', this.digital4);
+						this.session.setObject('oauth', res);
+						this.router.navigate(['estudiante']);
 						});
 			});
 		}, error => { this.loading = false; });
