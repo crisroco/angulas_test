@@ -664,55 +664,57 @@ export class DashboardComponent implements OnInit {
             ATTEND_LEFT_EARLY: 'N',
             ATTEND_TARDY: 'N',
             ATTEND_REASON: "",
-            platform: 'Moodle',
+            platform: this.realDevice.os + ' - ' + this.realDevice.browser,
             STATUS: 'ER'
           };
           var difference = this.realHourStart.timeseconds - this.realDate.timeseconds;
           var difference2 = (this.realHourEnd.timesecond - this.realHourStart.timeseconds) / 2;
           var difference3 = this.realHourEnd.timeseconds - difference2 - this.realDate.timeseconds;
-          if (Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0) || (this.realHourStart.timeseconds < this.realDate.timeseconds && this.realDate.timeseconds < this.realHourEnd.timesecond)) {
-            tclassNbr = clases[i];
-            sending = 1;
-            if (this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute) {
-              realClass.STATUS = 'P';
-            }
-            else if (difference <= this.offsetHour && difference > 0) {
-              realClass.ATTEND_LEFT_EARLY = 'Y';
-              realClass.STATUS = 'E';
-            }
-            else if ((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)) {
-              realClass.ATTEND_TARDY = 'Y';
-              realClass.STATUS = 'L';
-            }
-            else {
-              realClass.STATUS = 'ER';
-              tclassNbr = 0;
-              sending = 0;
-            }
-          } else {
-            if (clases[i]['SESSION_CODE'] == 2) {
-              if (tclassNbr) {
-                var partTime = tclassNbr['MEETING_TIME_END'].split(':');
-                var partMinute = parseInt(partTime[1]) + 10;
-                var partHour = parseInt(partTime[0])
-                if (partMinute >= 60) {
-                  partHour++;
-                  partMinute = partMinute % 60;
-                } if (clases[i]['MEETING_TIME_START'] == tclassNbr['MEETING_TIME_END'] || (clases[i]['MEETING_TIME_START'] > tclassNbr['MEETING_TIME_END'] && clases[i]['MEETING_TIME_START'] <= partHour + ':' + partMinute)) {
-                  sending = 1;
-                  data3['STATUS'] = 'P';
+          this.assistanceS.getAssistanceNBR(data3)
+            .then((res) => {
+              var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0]?res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR:'';
+              data3.ATTEND_TMPLT_NBR = templt_nbr;
+              if (templt_nbr && (Math.abs(difference) <= this.offsetHour || (difference3 <= difference2 && difference3 > 0) || (this.realHourStart.timeseconds < this.realDate.timeseconds && this.realDate.timeseconds < this.realHourEnd.timesecond))) {
+                tclassNbr = clases[i];
+                sending = 1;
+                if (this.realHourStart.hour + ':' + this.realHourStart.minute == this.realDate.hour + ':' + this.realDate.minute) {
+                  data3.STATUS = 'P';
+                }
+                else if (difference <= this.offsetHour && difference > 0) {
+                  data3.ATTEND_LEFT_EARLY = 'Y';
+                  data3.STATUS = 'E';
+                }
+                else if ((difference >= -this.offsetHour && difference < 0) || (difference3 <= difference2 && difference3 > 0)) {
+                  data3.ATTEND_TARDY = 'Y';
+                  data3.STATUS = 'L';
+                }
+                else {
+                  data3.STATUS = 'ER';
+                  tclassNbr = 0;
+                  sending = 0;
+                }
+              } else {
+                if (clases[i]['SESSION_CODE'] == 2) {
+                  if (tclassNbr) {
+                    var partTime = tclassNbr['MEETING_TIME_END'].split(':');
+                    var partMinute = parseInt(partTime[1]) + 10;
+                    var partHour = parseInt(partTime[0])
+                    if (partMinute >= 60) {
+                      partHour++;
+                      partMinute = partMinute % 60;
+                    } if (clases[i]['MEETING_TIME_START'] == tclassNbr['MEETING_TIME_END'] || (clases[i]['MEETING_TIME_START'] > tclassNbr['MEETING_TIME_END'] && clases[i]['MEETING_TIME_START'] <= partHour + ':' + partMinute)) {
+                      sending = 1;
+                      data3['STATUS'] = 'P';
+                    }
+                  }
                 }
               }
-            }
-          }
-          if (sending) {
-            this.assistanceS.getAssistanceNBR(data3)
-              .then(res => {
+              if (sending) {
                 this.assistanceS.saveAssistance(data3)
                   .then(res => {
-                  });
-              });
-          }
+                });
+              }
+            });
         }
       }
       this.checkAssist();
