@@ -127,14 +127,14 @@ export class DashboardComponent implements OnInit {
     }); */
 
     this.getEthnicity();
-    this.studentS.getListOfStudentsJson()
-      .then((res) => {
-        if( res.find(emp => emp == this.user.codigoAlumno)) {
-          this.preModal.open();
-        } else {
-          this.postModal.open();
-        }
-    });
+    // this.studentS.getListOfStudentsJson()
+    //   .then((res) => {
+    //     if( res.find(emp => emp == this.user.codigoAlumno)) {
+    //       this.preModal.open();
+    //     } else {
+    //       this.postModal.open();
+    //     }
+    // });
     // this.studentS.getListOfStudentsUbigeoJson()
     // .then((res) => {
     //   if( res.find(emp => emp == this.user.codigoAlumno)) {
