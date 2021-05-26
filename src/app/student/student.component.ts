@@ -433,7 +433,7 @@ export class StudentComponent implements OnInit {
  		this.loading = true;
 		setTimeout(() => {
 			this.loading = false;
-		}, 15000);//10 seg
+		}, 60000);//60 seg
     }
 
 	searchStudent(){
