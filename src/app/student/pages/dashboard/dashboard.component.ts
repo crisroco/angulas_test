@@ -193,7 +193,7 @@ export class DashboardComponent implements OnInit {
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.session.setObject('student', this.student);
-        // this.getParameters();
+        this.getParameters();
         // this.getNotifications();
       }, error => { });
     // this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
@@ -232,6 +232,7 @@ export class DashboardComponent implements OnInit {
         }
       }
     });
+    this.readConditions();
     var ese = new Array(4);
 
     //this.matriculaExtracurricularModal.open();
@@ -495,34 +496,39 @@ export class DashboardComponent implements OnInit {
   readConditions() {
     this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
       .then((res) => {
+        this.enroll = true;
         this.enroll_conditions = res;
       });
+  }
+
+  example(){
+    this.AcademicConditionModal.open();
   }
 
   getParameters(open: boolean = true) {
     var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
     this.intentionS.getParameters(this.user.codigoAlumno)
       .then(res => {
-        this.enrollmentStatus = res.data && res.data ? res.data : [];
-        this.enrollmentStatus.forEach((item) => {
-          if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO') {
-            if (open) this.broadcaster.sendMessage({ intentionModal: 2 });
-            this.noClosed = rDate > item.end_date || rDate < item.start_date ? true : false;
-          }
-          if (item && item.enrollment_intention_status == 'A' && item.type == 'M') {
-            this.broadcaster.sendMessage({ getEnroll: 'Y' });
-            this.btnEnroll = true;
-          }
-          if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N') {
-            if (open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
-          }
-          if (item && item.enrollment_intention_status == 'A' && item.type == 'NM') {
-            this.broadcaster.sendMessage({ getEnroll: 'Y' });
-            this.btnEnroll = true;
-          }
-        })
-        // this.broadcaster.sendMessage({ getEnroll: 'Y' });
-        // this.btnEnroll = true;
+        // this.enrollmentStatus = res.data && res.data ? res.data : [];
+        // this.enrollmentStatus.forEach((item) => {
+        //   if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO') {
+        //     if (open) this.broadcaster.sendMessage({ intentionModal: 2 });
+        //     this.noClosed = rDate > item.end_date || rDate < item.start_date ? true : false;
+        //   }
+        //   if (item && item.enrollment_intention_status == 'A' && item.type == 'M') {
+        //     this.broadcaster.sendMessage({ getEnroll: 'Y' });
+        //     this.btnEnroll = true;
+        //   }
+        //   if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N') {
+        //     if (open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
+        //   }
+        //   if (item && item.enrollment_intention_status == 'A' && item.type == 'NM') {
+        //     this.broadcaster.sendMessage({ getEnroll: 'Y' });
+        //     this.btnEnroll = true;
+        //   }
+        // })
+        this.broadcaster.sendMessage({ getEnroll: 'Y' });
+        this.btnEnroll = true;
       })
   }
 

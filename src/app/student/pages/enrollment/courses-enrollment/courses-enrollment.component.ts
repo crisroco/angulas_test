@@ -63,7 +63,23 @@ export class CoursesEnrollmentComponent implements OnInit {
         return
       }, 1500)
     }
-    this.loadDataStudentCourses();
+    this.loadInPS();
+    
+  }
+
+  loadInPS() {
+    this.loading = true;
+    let student = this.session.getObject('dataEnrollment')
+    this.newEnrollmentS.getScheduleStudent({
+      EMPLID: this.user.codigoAlumno,
+      INSTITUTION: student['INSTITUTION'],
+      ACAD_CAREER: student['ACAD_CAREER'],
+      STRM1: student['STRM'],
+      STRM2: student['STRM1'],
+      check:true
+    }).then((res) => {
+      this.loadDataStudentCourses();
+    });
   }
 
   removeSeconds(time){
@@ -102,7 +118,6 @@ export class CoursesEnrollmentComponent implements OnInit {
         this.myCredits = credits;
       }
       this.allToEmail = this.availableCourses.filter(el => el.trash != false);
-      console.log(this.allToEmail);
       this.loading = false;
     });
   }
@@ -193,8 +208,6 @@ export class CoursesEnrollmentComponent implements OnInit {
           this.goingToDelete.push(this.availableCourses[o]);
         }
       }
-      console.log(this.availableCourses);
-      console.log(this.goingToDelete);
       let dateToCompare = this.goingToDelete[0].DAY_OF_WEEK + this.goingToDelete[0].MEETING_TIME_START + this.goingToDelete[0].MEETING_TIME_END;
       let changed = true;
       for (let z = 0; z < this.goingToDelete.length; z++) {

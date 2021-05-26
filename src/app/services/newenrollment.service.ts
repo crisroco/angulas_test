@@ -122,4 +122,13 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/sendEmailSchedule', data).toPromise();
     }
 
+    //new enrollment
+    public chargeSkillfulload(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/chargeSkillfulload', data).toPromise();
+    }
+
+    public getScheduleNew(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleNew', data).toPromise();
+    }
+
 }

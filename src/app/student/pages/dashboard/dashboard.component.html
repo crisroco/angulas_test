@@ -24,7 +24,7 @@
 								style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px"
 								src="./assets/img/icon/zoom.png" alt=""></a>
 					</div>
-					<!-- <ng-container>
+					<ng-container>
 						<div *ngIf="enroll && queueEnroll"
 							class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}">
 							{{queueEnroll.ind_grupo == 'N' && !queueEnroll.fecha_ing?'Aún no tienes Turno de
@@ -58,7 +58,7 @@
 								</div>
 							</div>
 						</div>
-					</ng-container> -->
+					</ng-container>
 				</div>
 			</div>
 			<div class="col-md-8 p-2 mb-6">
@@ -113,7 +113,7 @@
 							</div>
 						</a>
 					</div>
-					<!-- <div *ngIf="!timeoutEnroll && enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO == 'Y' && enroll_conditions.FLAG_FINANCIERO == 'Y'"
+					<div *ngIf="!timeoutEnroll && enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO == 'Y' && enroll_conditions.FLAG_FINANCIERO == 'Y'"
 						class="col-lg-4 col-sm-6 my-2">
 						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
 							(click)="goEnrollment()">
@@ -122,7 +122,7 @@
 								<p class="text-bluesky m-0 text-xm text-black">Matrícula</p>
 							</div>
 						</a>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -197,7 +197,6 @@
 	</ngx-smart-modal>
 </article>
 
-<!-- <ngx-smart-modal #AcademicConditionModal identifier="AcademicConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
 <ngx-smart-modal #AcademicConditionModal identifier="AcademicConditionModal" [closable]="false"
 	[customClass]="'mediumModal fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
@@ -213,7 +212,7 @@
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_academicas/condiciones_academicas_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesAcadConditions; let ac = 'index'">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_academicas/condiciones_academicas_{{ac + 1}}.jpg"
 			*ngFor="let imgAC of imagesAcadConditions; let ac = 'index'">
-		<ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_academicas.pdf"></ng2-pdfjs-viewer>
+		<!-- <ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_academicas.pdf"></ng2-pdfjs-viewer> -->
 	</div>
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
@@ -223,9 +222,8 @@
 			class="btn rounded-1 px-4 btn-{{company}}"
 			(click)="saveConditions('FLAG_ACADEMICO', AcademicConditionModal)">ACEPTAR</button>
 	</div>
-</ngx-smart-modal> -->
+</ngx-smart-modal>
 
-<!-- <ngx-smart-modal #FinancialConditionModal identifier="FinancialConditionModal" [closable]="false" [customClass]="'mediumModal fullModal p-post-header'">
 <ngx-smart-modal #FinancialConditionModal identifier="FinancialConditionModal" [closable]="false"
 	[customClass]="'mediumModal fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">
@@ -251,7 +249,7 @@
 			class="btn rounded-1 px-4 btn-{{company}} mr-3"
 			(click)="saveConditions('FLAG_FINANCIERO', FinancialConditionModal)">ACEPTAR</button>
 	</div>
-</ngx-smart-modal> -->
+</ngx-smart-modal>
 
 <ngx-smart-modal #HolidayModal identifier="HolidayModal" [closable]="false" [customClass]="'fullModal p-post-header'">
 	<div class="bg-{{company}} p-4 rounded-t-1">

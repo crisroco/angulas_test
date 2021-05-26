@@ -16,21 +16,21 @@ import { BetweenDays, RealDate } from '../../../../helpers/dates';
 })
 export class DashboardEnrollComponent implements OnInit {
   company = AppSettings.COMPANY;
-	myCoursesinEnrollment:Array<any> = [];
+  myCoursesinEnrollment:Array<any> = [];
   myRealCoursesInEnrollment:Array<any> = [];
-	scheduleAvailables:Array<any> = [];
+  scheduleAvailables:Array<any> = [];
   numberOfCicles:Array<any> = [];
   cicleSelected:any;
   otherCicle:any;
   availableCourses: Array<any> = [];
   cycles: Array<any> = [];
-	user: any = this.session.getObject('user');
+  user: any = this.session.getObject('user');
   selectedCourse = {
     DESCR: '',
     value: false
   };
   loading: boolean = false;
-	@ViewChild('scheduleSelection') scheduleSelection: any;
+  @ViewChild('scheduleSelection') scheduleSelection: any;
   @ViewChild('IntentionEnrollmentBack') IntentionEnrollmentBack: any;
   @ViewChild('selectCycleModal') selectCycleModal:any;
   dataCicle:any;
@@ -185,7 +185,7 @@ export class DashboardEnrollComponent implements OnInit {
       this.availableCourses = res.sort((a,b) => {
         return a.UCS_CICLO - b.UCS_CICLO
       });
-      this.maxCredits = Math.round(this.availableCourses[0]['FT_MAX_TOTAL_UNIT']);
+      this.maxCredits = Math.round(this.availableCourses[0]['MAX_TOTAL_UNIT']);
       this.session.setItem('MaxCreditsEnrollment', this.maxCredits)
       this.loadCoursesAlready();
     });
@@ -226,22 +226,27 @@ export class DashboardEnrollComponent implements OnInit {
       return
     }
     this.loading = true;
-    this.enrollmentS.getSchedule({
-      EMPLID: this.user.codigoAlumno,
+    this.enrollmentS.getScheduleNew({
       CAMPUS: this.dataStudent.CAMPUS,
-      CRSE_ID: parseInt(course.CRSE_ID),
+      CRSE_ID: course.CRSE_ID,
+      OFFER_CRSE: '',
+      SESSION_CODE: '',
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {
-      this.scheduleAvailables = this.checkDuplicates(res);
-      console.log(this.scheduleAvailables);
-      this.selectedCourse = course;
-      this.checkCap(this.scheduleAvailables);
+      let data = res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES;
+      if (!data) {
+        this.scheduleAvailables = [];
+      } else {
+        this.scheduleAvailables = this.checkDuplicates(data);
+        this.selectedCourse = course;
+        // this.checkCap(this.scheduleAvailables);
+      }
       // setTimeout(() => {
         this.loading = false;
         this.scheduleSelection.open();
       // }, 3000)
     });
-    // evt.target.checked = false;
+    evt.target.checked = false;
   }
 
   clickCourse(course){
@@ -317,47 +322,49 @@ export class DashboardEnrollComponent implements OnInit {
       this.toastS.error(course.alertMessage);
     } else {
       let numberOfPRA = this.countPRA(course);
+      console.log(numberOfPRA);
+      console.log(course);
       this.scheduleAvailables.forEach(el => {
-        if (el.ASSOCIATED_CLASS == course.ASSOCIATED_CLASS) {
-          if (course.SSR_COMPONENT == 'PRA') {
-            if(el.SSR_COMPONENT == 'TEO'){
-              if (el.CRSE_ID == course.CRSE_ID) {
+        if (el.ASOCIACION_CLASE == course.ASOCIACION_CLASE) {
+          if (course.ASOCIACION_CLASE == 'PRA') {
+            if(el.ASOCIACION_CLASE == 'TEO'){
+              if (el.ID_CURSO == course.ID_CURSO) {
                 el.value = course.value;
               } else {
                 el.value = false;
               }
             }
-            if (!el.show && el.CLASS_NBR == course.CLASS_NBR) {
+            if (!el.show && el.ID_CURSO == course.ID_CURSO) {
               el.value = course.value;
             }
-            if (numberOfPRA > 1 && el.SSR_COMPONENT == 'PRA' && el.CLASS_NBR != course.CLASS_NBR) {
+            if (numberOfPRA > 1 && el.ASOCIACION_CLASE == 'PRA' && el.ID_CURSO != course.ID_CURSO) {
               el.value = false;
             }
-            if (el.SSR_COMPONENT == 'PRA' && el.CRSE_ID != course.CRSE_ID) {
+            if (el.ASOCIACION_CLASE == 'PRA' && el.ID_CURSO != course.ID_CURSO) {
               el.value = false;
             }
           }
-          if (course.SSR_COMPONENT == 'TEO') {
+          if (course.ASOCIACION_CLASE == 'TEO') {
             if (course != el) {
               el.value = false;
             }
-            if (!el.show && el.CLASS_NBR == course.CLASS_NBR) {
+            if (!el.show && el.ID_CURSO == course.ID_CURSO) {
               el.value = course.value;
             }
-            if (el.SSR_COMPONENT == 'PRA') {
+            if (el.ASOCIACION_CLASE == 'PRA') {
               el.value = false;
             }
-            if (el.SSR_COMPONENT == 'SEM') {
+            if (el.ASOCIACION_CLASE == 'SEM') {
               el.value = course.value;
             }
             if (numberOfPRA > 1) {
               
             } else {
-              if (el.SSR_COMPONENT == 'PRA' && el.CRSE_ID == course.CRSE_ID) {
+              if (el.ASOCIACION_CLASE == 'PRA' && el.ID_CURSO == course.ID_CURSO) {
                 el.value = course.value;
               }
             }
-          } if (course.SSR_COMPONENT == 'SEM') {
+          } if (course.ASOCIACION_CLASE == 'SEM') {
             el.value = course.value;
           }
           if (el.value) {
@@ -377,11 +384,13 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   showMore(section){
-    this.scheduleAvailables.forEach(el => {
-      if ((el.ASSOCIATED_CLASS == section.ASSOCIATED_CLASS) && !el.show && el.CLASS_NBR == section.CLASS_NBR) {
-        el.more = !section.up;
+    for (var i = 0; i < this.scheduleAvailables.length; i++) {
+      for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+        if ((this.scheduleAvailables[i].ASOCIACION_CLASE == section.ASOCIACION_CLASE) && !this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].NRO_CLASE == section.NRO_CLASE) {
+          this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].more = !section.up;
+        }
       }
-    });
+    }
     section.up = !section.up;
   }
 
@@ -417,35 +426,46 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   countASS(associated_class){
-    let total = this.scheduleAvailables.filter(el => el.ASSOCIATED_CLASS == associated_class.ASSOCIATED_CLASS && !el.show && el.CLASS_NBR == associated_class.CLASS_NBR).length;
-    if (total > 0) {
+    let total = associated_class.UCS_REST_DET_MREU.length;
+    if (total > 1) {
       return true
     }
   }
 
   countPRA(associated_class){
-    return this.scheduleAvailables.filter(el => el.ASSOCIATED_CLASS == associated_class.ASSOCIATED_CLASS && el.SSR_COMPONENT == 'PRA' && el.show && el.CRSE_ID == associated_class.CRSE_ID).length;
+    let total = 0;
+    for (var i = 0; i < this.scheduleAvailables.length; i++) {
+      for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+        if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASOCIACION_CLASE) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.ID_CURSO) {
+          total++;
+        }
+      }
+    }
+    return total;
   }
 
   confirmEnroll(){
     this.loading = true;
     let data = [];
     this.selectedCourse['schedules'] = [];
+    console.log(this.scheduleAvailables);
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
       if (this.scheduleAvailables[i].value) {
-        data.push({
-          EMPLID: this.user.codigoAlumno,
-          INSTITUTION: this.dataStudent['INSTITUTION'],
-          ACAD_CAREER: this.dataStudent['ACAD_CAREER'],
-          STRM: this.cicleSelected['CICLO_LECTIVO'],
-          CRSE_ID: this.scheduleAvailables[i]['CRSE_ID'],
-          SESSION_CODE: this.scheduleAvailables[i]['SESSION_CODE'],
-          ASSOCIATED_CLASS: this.scheduleAvailables[i]['ASSOCIATED_CLASS'],
-          CLASS_NBR: this.scheduleAvailables[i]['CLASS_NBR'],
-          OFFER_NBR: this.scheduleAvailables[i]['OFFER_NBR'],
-          SSR_COMPONENT: this.scheduleAvailables[i]['SSR_COMPONENT'],
-          equivalent: this.scheduleAvailables[i]['CRSE_ID_DESCR']!='-'&& this.scheduleAvailables[i]['CRSE_ID_DESCR']!=null?this.scheduleAvailables[i]['CRSE_ID_DESCR'].split('-')[0]:null
-        })
+        for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+          data.push({
+            EMPLID: this.user.codigoAlumno,
+            INSTITUTION: this.dataStudent['INSTITUTION'],
+            ACAD_CAREER: this.dataStudent['ACAD_CAREER'],
+            STRM: this.cicleSelected['CICLO_LECTIVO'],
+            CRSE_ID: this.scheduleAvailables[i]['ID_CURSO'],
+            SESSION_CODE: this.scheduleAvailables[i]['CODIGO_SESION'],
+            ASSOCIATED_CLASS: this.scheduleAvailables[i]['ASOCIACION_CLASE'],
+            CLASS_NBR: this.scheduleAvailables[i]['NRO_CLASE'],
+            OFFER_NBR: this.scheduleAvailables[i]['OFERTA_CURSO'],
+            SSR_COMPONENT: this.scheduleAvailables[i]['CODIGO_COMPONENTE'],
+            equivalent: '-'
+          })
+        }
       }
     };
     let x = new Set();
@@ -517,22 +537,18 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   checkDuplicates(array){
-    array.sort(this.dynamicSortMultiple(["ASSOCIATED_CLASS","CRSE_ID","-SSR_COMPONENT","CLASS_NBR","CRSE_ATTR"]));
+    array.sort(this.dynamicSortMultiple(["ASOCIACION_CLASE","ID_CURSO","-CODIGO_COMPONENTE","NRO_CLASE"]));
     let lastNBR;
     for (var i = 0; i < array.length; i++) {
-      if (array[i]['FLAG1'] != 'I') {
-        if (!lastNBR) {
-          lastNBR = array[i]['CLASS_NBR'];
-          array[i].show = true;
-        }else if (lastNBR == array[i]['CLASS_NBR']){
-          array[i].show = false;
+      for (var o = 0; o < array[i]['UCS_REST_DET_MREU'].length; o++) {
+        if (o == 0) {
+          array[i]['UCS_REST_DET_MREU'][o].show = true;
         } else {
-          lastNBR = array[i]['CLASS_NBR'];
-          array[i].show = true;
+          array[i]['UCS_REST_DET_MREU'][o].show = false;
         }
       }
     }
-    return array.filter(arr => arr.FLAG1 != 'I')
+    return array.filter(arr => arr.INGRESANTE_NORMAL != 'Y')
   }
 
   goDashboard(){
@@ -541,7 +557,7 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   checkCap(section){
-    if (section.number == section.ENRL_CAP) {
+    if (section.TOTAL_CAPACIDAD == section.TOTAL_INSCRITOS) {
       return true
     }
     return false
@@ -581,10 +597,4 @@ export class DashboardEnrollComponent implements OnInit {
       }
     }
   }
-
-  invertDates(date_format){
-    let x = date_format.split('/');
-    return x[2] + '-' + x[1] + '-' + x[0]
-  }
-
 }

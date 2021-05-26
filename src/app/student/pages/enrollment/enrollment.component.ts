@@ -284,51 +284,52 @@ export class EnrollmentComponent implements OnInit {
       });
     });
     if (this.moreData) {
-      this.moreData.forEach(classD => {
-        for (var kDay in days) {
-          if (kDay.substring(0,3) == classD.DAY_OF_WEEK) {
-            if(BetweenDays(classD.START_DT_DO, classD.END_DT_DO, days[kDay])){
-              if (classD.CRSE_ATTR != 'VIRT') {
-                var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
-                classD.date = rDay;
-                if(!objEvents[rDay + ' ' + classD.MEETING_TIME_START + ' ' + classD.CRSE_ID]){
-                  dates = this.getDates(rDay, classD.MEETING_TIME_START, classD.MEETING_TIME_END);
-                  events.push({
-                    start: dates.start,
-                    end: dates.end,
-                    title: classD.MEETING_TIME_START.slice(0, -3) + '-' + classD.MEETING_TIME_END.slice(0, -3) + '<br>' + classD.SSR_COMPONENT + '<br>' + classD.DESCR + ' ' + '<br>' + classD.STRM,
-                    cssClass: 'extra',
-                    allDay: false,
-                    resizable: {
-                      beforeStart: true,
-                      afterEnd: true,
-                    },
-                    meta: classD,
-                  });
-                  objEvents[rDay + ' ' + classD.MEETING_TIME_START + ' ' + classD.CRSE_ID] = true;
-                }
-              } else {
-                let finded = this.myVirtualClasses.filter(vclass => vclass.name.toUpperCase() == classD.DESCR)[0];
-                if (finded) {
-                  finded.hrs_acad += this.toHours(classD.MEETING_TIME_START.slice(0, -3), classD.MEETING_TIME_END.slice(0, -3))
+      this.moreData.forEach(classM => {
+        classM.UCS_REST_DET_MREU.forEach(classD => {
+          for (var kDay in days) {
+            if (kDay == classD.DIA.toUpperCase()) {
+              if(BetweenDays(classD.FECHA_INICIAL, classD.FECHA_FINAL, days[kDay])){
+                if (classD.TIPO != 'VIRT') {
+                  var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
+                  classD.date = rDay;
+                  if(!objEvents[rDay + ' ' + classD.HORA_INICIO + ' ' + classM.ID_CURSO]){
+                    dates = this.getDates(rDay, classD.HORA_INICIO, classD.HORA_FIN);
+                    events.push({
+                      start: dates.start,
+                      end: dates.end,
+                      title: classD.HORA_INICIO + '-' + classD.HORA_FIN + '<br>' + classM.CODIGO_COMPONENTE + '<br>' + classM.DESCR_CURSO,
+                      cssClass: 'extra',
+                      allDay: false,
+                      resizable: {
+                        beforeStart: true,
+                        afterEnd: true,
+                      },
+                      meta: classD,
+                    });
+                    objEvents[rDay + ' ' + classD.HORA_INICIO + ' ' + classM.ID_CURSO] = true;
+                  }
                 } else {
-                  this.myVirtualClasses.push({
-                    hour: classD.MEETING_TIME_START.slice(0, -3) + '-' + classD.MEETING_TIME_END.slice(0, -3),
-                    descr_ciclo: classD.DESCR,
-                    name: classD.DESCR.toUpperCase(),
-                    fech_ini: classD.START_DT_DO,
-                    fech_fin: classD.END_DT_DO,
-                    section: classD.SUBJECT,
-                    descr: classD.DESCR,
-                    clase: classD.STRM,
-                    extra: true,
-                    hrs_acad: this.toHours(classD.MEETING_TIME_START.slice(0, -3), classD.MEETING_TIME_END.slice(0, -3))
-                  });
+                  let finded = this.myVirtualClasses.filter(vclass => vclass.name.toUpperCase() == classM.DESCR_CURSO)[0];
+                  if (finded) {
+                    finded.hrs_acad += this.toHours(classD.HORA_INICIO, classD.HORA_FIN)
+                  } else {
+                    this.myVirtualClasses.push({
+                      hour: classD.HORA_INICIO + '-' + classD.HORA_FIN,
+                      descr_ciclo: classM.DESCR_CURSO,
+                      name: classM.DESCR_CURSO.toUpperCase(),
+                      fech_ini: classD.FECHA_INICIAL,
+                      fech_fin: classD.FECHA_FINAL,
+                      section: classD.CODIGO_AULA,
+                      descr: classM.DESCR_CURSO,
+                      extra: true,
+                      hrs_acad: this.toHours(classD.HORA_INICIO, classD.HORA_FIN)
+                    });
+                  }
                 }
               }
             }
           }
-        }
+        });
       });
     }
     this.events = events;
