@@ -115,6 +115,7 @@ export class DashboardComponent implements OnInit {
     private intentionS: IntentionService) { }
 
   ngOnInit() {
+    this.modalComunicado.open();
 /*     this.newEnrollmentS.getScheduleStudent({
       EMPLID: this.user.codigoAlumno,
       INSTITUTION: 'ECONT',
