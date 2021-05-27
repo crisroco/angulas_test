@@ -261,6 +261,16 @@ export class StudentComponent implements OnInit {
 					url: 'assets/pdfjs/portal_alumno.pptx',
 					description: 'MANUAL DE USUARIO PORTAL ALUMNO – CIENTIFICA'
 				},
+				{
+					img: '',
+					url: 'https://vimeo.com/539868046',
+					description: 'BRIEF SERVICIO MEDICO ONLINE'
+				},
+				{
+					img: '',
+					url: 'https://vimeo.com/543771141/6b0074e2d5',
+					description: 'VIDEO TUTORIAL ALUMNO'
+				}
 			],
 			isOpen: true,
 		},
