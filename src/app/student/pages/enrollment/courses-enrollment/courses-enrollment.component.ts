@@ -35,17 +35,17 @@ export class CoursesEnrollmentComponent implements OnInit {
     public session: SessionService) { }
 
   ngOnInit() {
-    this.newEnrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
-      .then((res)=> {
-        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
-        if (!notdeuda) {
-          this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-          setTimeout(() => {
-            this.router.navigate(['/estudiante']);
-            return
-          }, 1500)
-        }
-      });
+    // this.newEnrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+    //   .then((res)=> {
+    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+    //     if (!notdeuda) {
+    //       this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+    //       setTimeout(() => {
+    //         this.router.navigate(['/estudiante']);
+    //         return
+    //       }, 1500)
+    //     }
+    //   });
     let myConditions = this.session.getObject('conditionsToEnrollment');
     if (myConditions) {
       if (!myConditions.turn || !myConditions.conditions) {
@@ -237,7 +237,7 @@ export class CoursesEnrollmentComponent implements OnInit {
         this.toastS.warning('Cursos Removidos');
       });
     } else {
-      this.newEnrollmentS.deleteCourseClass(this.goingToDelete[0].own_enrollment_id)
+      this.newEnrollmentS.deleteCourseClass(this.goingToDelete[0].own_enrollment_id, this.user.codigoAlumno)
       .then((res) => {
         this.loading = false;
         this.deleteConfirmationModal.close();

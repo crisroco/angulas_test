@@ -819,15 +819,16 @@ export class DashboardComponent implements OnInit {
   goEnrollment() {
     let myFlags = this.enroll_conditions.FLAG_ACADEMICO == 'Y' && this.enroll_conditions.FLAG_FINANCIERO == 'Y';
     this.session.setObject('conditionsToEnrollment', { turn: this.realDate.timeseconds >= this.queueEnroll.date.timeseconds, conditions: myFlags });
-    this.newEnrollmentS.getDebt({ EMPLID: this.user.codigoAlumno })
-      .then((res) => {
-        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
-        if (!notdeuda) {
-          this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-        } else {
-          this.router.navigate(['/estudiante/matricula/disponibles']);
-        }
-      });
+    this.router.navigate(['/estudiante/matricula/disponibles']);
+    // this.newEnrollmentS.getDebt({ EMPLID: this.user.codigoAlumno })
+    //   .then((res) => {
+    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
+    //     if (!notdeuda) {
+    //       this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+    //     } else {
+    //       this.router.navigate(['/estudiante/matricula/disponibles']);
+    //     }
+    //   });
   }
 
   getEthnicity(){

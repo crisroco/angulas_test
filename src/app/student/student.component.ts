@@ -408,7 +408,7 @@ export class StudentComponent implements OnInit {
 	      }
 	    })
 	    .catch( err => {
-	      console.log('catch!', err);
+	      // console.log('catch!', err);
 			});
 			
 			// this.queueS.notification( this.user.codigoAlumno )
@@ -770,7 +770,6 @@ export class StudentComponent implements OnInit {
 							var dateQueue = this.queueEnroll.exactDate.split(' ');
 							var parts = dateQueue[0].split('/');
 							var partsHour = dateQueue[1].split(':');
-							console.log(this.deviceS.userAgent);
 							if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
 								if ((this.deviceS.getDeviceInfo().browser == 'Chrome' || this.deviceS.getDeviceInfo().browser == 'Safari') && Number((this.deviceS.userAgent.split('_')[0]).slice(-2)) > 13) {
 									var partsHour = this.queueEnroll.hora_ing.split(':');
@@ -1284,24 +1283,20 @@ export class StudentComponent implements OnInit {
 
 	getFlagSendUpload(){	
 		this.studentS.getFlagSendUpload(this.user.codigoAlumno)
-		.then((res) => {
-			console.log(res.status);			
+		.then((res) => {			
 			this.flagSendUpload = res.status;
 		});
 	}
 
 	onRemoveCartilla(event) {
-		console.log(event);
 		this.filesCartilla.splice(this.filesCartilla.indexOf(event), 1);
 		this.habilitarbotonesVacunacion();
 	}
 	onRemoveDeclaracion(event) {
-		console.log(event);
 		this.filesDeclaracion.splice(this.filesDeclaracion.indexOf(event), 1);
 		this.habilitarbotonesVacunacion();
 	}
 	onRemoveExoneracion(event) {
-		console.log(event);
 		this.filesExoneracion.splice(this.filesExoneracion.indexOf(event), 1);
 		this.habilitarbotonesVacunacion();
 	}

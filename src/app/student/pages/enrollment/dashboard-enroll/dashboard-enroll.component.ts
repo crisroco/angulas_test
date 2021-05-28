@@ -54,17 +54,17 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   getCourses(){
-    this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
-      .then((res)=> {
-        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
-        if (!notdeuda) {
-          this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-          setTimeout(() => {
-            this.router.navigate(['/estudiante']);
-            return
-          }, 1500)
-        }
-      });
+    // this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+    //   .then((res)=> {
+    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+    //     if (!notdeuda) {
+    //       this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+    //       setTimeout(() => {
+    //         this.router.navigate(['/estudiante']);
+    //         return
+    //       }, 1500)
+    //     }
+    //   });
     let myConditions = this.session.getObject('conditionsToEnrollment');
     if (myConditions) {
       if (!myConditions.turn || !myConditions.conditions) {
@@ -228,7 +228,7 @@ export class DashboardEnrollComponent implements OnInit {
     this.loading = true;
     this.enrollmentS.getScheduleNew({
       CAMPUS: this.dataStudent.CAMPUS,
-      CRSE_ID: course.CRSE_ID,
+      CRSE_ID: course.CRSE_ID.length<=4?'00' + course.CRSE_ID:course.CRSE_ID,
       OFFER_CRSE: '',
       SESSION_CODE: '',
       STRM: this.cicleSelected['CICLO_LECTIVO']
@@ -322,49 +322,47 @@ export class DashboardEnrollComponent implements OnInit {
       this.toastS.error(course.alertMessage);
     } else {
       let numberOfPRA = this.countPRA(course);
-      console.log(numberOfPRA);
-      console.log(course);
       this.scheduleAvailables.forEach(el => {
         if (el.ASOCIACION_CLASE == course.ASOCIACION_CLASE) {
-          if (course.ASOCIACION_CLASE == 'PRA') {
-            if(el.ASOCIACION_CLASE == 'TEO'){
+          if (course.CODIGO_COMPONENTE == 'PRA') {
+            if(el.CODIGO_COMPONENTE == 'TEO'){
               if (el.ID_CURSO == course.ID_CURSO) {
                 el.value = course.value;
               } else {
                 el.value = false;
               }
             }
-            if (!el.show && el.ID_CURSO == course.ID_CURSO) {
+            if (!el.show && el.NRO_CLASE == course.NRO_CLASE) {
               el.value = course.value;
             }
-            if (numberOfPRA > 1 && el.ASOCIACION_CLASE == 'PRA' && el.ID_CURSO != course.ID_CURSO) {
+            if (numberOfPRA > 1 && el.CODIGO_COMPONENTE == 'PRA' && el.NRO_CLASE != course.NRO_CLASE) {
               el.value = false;
             }
-            if (el.ASOCIACION_CLASE == 'PRA' && el.ID_CURSO != course.ID_CURSO) {
+            if (el.CODIGO_COMPONENTE == 'PRA' && el.ID_CURSO != course.ID_CURSO) {
               el.value = false;
             }
           }
-          if (course.ASOCIACION_CLASE == 'TEO') {
+          if (course.CODIGO_COMPONENTE == 'TEO') {
             if (course != el) {
               el.value = false;
             }
-            if (!el.show && el.ID_CURSO == course.ID_CURSO) {
+            if (!el.show && el.NRO_CLASE == course.NRO_CLASE) {
               el.value = course.value;
             }
-            if (el.ASOCIACION_CLASE == 'PRA') {
+            if (el.CODIGO_COMPONENTE == 'PRA') {
               el.value = false;
             }
-            if (el.ASOCIACION_CLASE == 'SEM') {
+            if (el.CODIGO_COMPONENTE == 'SEM') {
               el.value = course.value;
             }
             if (numberOfPRA > 1) {
               
             } else {
-              if (el.ASOCIACION_CLASE == 'PRA' && el.ID_CURSO == course.ID_CURSO) {
+              if (el.CODIGO_COMPONENTE == 'PRA' && el.ID_CURSO == course.ID_CURSO) {
                 el.value = course.value;
               }
             }
-          } if (course.ASOCIACION_CLASE == 'SEM') {
+          } if (course.CODIGO_COMPONENTE == 'SEM') {
             el.value = course.value;
           }
           if (el.value) {
@@ -399,18 +397,23 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   checkCrosses(pickedCourse){
+    // console.log(pickedCourse.UCS_REST_DET_MREU[1]['DIA'].replace(/\W/g, '').substring(0,3).toUpperCase());
+    console.log(pickedCourse);
+    // console.log(this.myCoursesinEnrollment);
     for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
-      if (this.myCoursesinEnrollment[i].STRM == pickedCourse.STRM) {
-        if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse['CRSE_ATTR'] != 'VIRT') {
-          if (BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'] + ' 00:00:00',this.myCoursesinEnrollment[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse['START_DT_DO'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'] + ' 00:00:00',this.myCoursesinEnrollment[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse['END_DT_DO'].replaceAll('-', '/') + ' 00:00:00')))) {
-            if (this.myCoursesinEnrollment[i]['DAY_OF_WEEK'] == pickedCourse['DAY_OF_WEEK']) {
-              if ((this.timeToSeconds(pickedCourse['MEETING_TIME_START']) >= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_START']) < this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END'])) || (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) > this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END']))) {
-                // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
-                  // console.log(this.myCoursesinEnrollment);
-                  this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CLASS_SECTION'] + ' ' + this.myCoursesinEnrollment[i]['DESCR']);
-                  pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CLASS_SECTION'] + ' ' + this.myCoursesinEnrollment[i]['DESCR'];
-                  return true
-                // }
+      if (this.myCoursesinEnrollment[i].STRM == pickedCourse.CICLO_LECTIVO) {
+        for (var o = 0; o < pickedCourse.UCS_REST_DET_MREU.length; o++) {
+          if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
+            if (BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'] + ' 00:00:00',this.myCoursesinEnrollment[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'] + ' 00:00:00',this.myCoursesinEnrollment[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:00')))) {
+              if (this.myCoursesinEnrollment[i]['DAY_OF_WEEK'] == pickedCourse.UCS_REST_DET_MREU[o]['DIA'].replace(/\W/g, '').substring(0,3).toUpperCase()) {
+                if ((this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END']))) {
+                  // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
+                    // console.log(this.myCoursesinEnrollment);
+                    this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CLASS_SECTION'] + ' ' + this.myCoursesinEnrollment[i]['DESCR']);
+                    pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CLASS_SECTION'] + ' ' + this.myCoursesinEnrollment[i]['DESCR'];
+                    return true
+                  // }
+                }
               }
             }
           }
@@ -566,18 +569,18 @@ export class DashboardEnrollComponent implements OnInit {
   blockAssociated(actualCourse, array, errM){
     let numberOfPRA = this.countPRA(actualCourse);
     for (let i = 0; i < array.length; i++) {
-      if (array[i].ASSOCIATED_CLASS == actualCourse.ASSOCIATED_CLASS) {
-        if (actualCourse.SSR_COMPONENT == 'PRA') {
-          if (numberOfPRA > 1 && actualCourse.CLASS_NBR == array[i].CLASS_NBR) {
+      if (array[i].ASOCIACION_CLASE == actualCourse.ASOCIACION_CLASE) {
+        if (actualCourse.CODIGO_COMPONENTE == 'PRA') {
+          if (numberOfPRA > 1 && actualCourse.NRO_CLASE == array[i].NRO_CLASE) {
             array[i].notAvailable = true;
             array[i].alertMessage = errM;
             array[i].value = false;
           } else {
-            if(actualCourse.SSR_COMPONENT == 'TEO'){
+            if(actualCourse.CODIGO_COMPONENTE == 'TEO'){
               array[i].notAvailable = true;
               array[i].alertMessage = errM;
               array[i].value = false;
-            } else if(actualCourse.SSR_COMPONENT == 'PRA'){
+            } else if(actualCourse.CODIGO_COMPONENTE == 'PRA'){
               if (numberOfPRA > 1) {
                 actualCourse.notAvailable = true;
                 actualCourse.alertMessage = errM;
@@ -589,7 +592,7 @@ export class DashboardEnrollComponent implements OnInit {
               }
             }
           }
-        } else if(actualCourse.SSR_COMPONENT == 'TEO'){
+        } else if(actualCourse.CODIGO_COMPONENTE == 'TEO'){
           array[i].notAvailable = true;
           array[i].alertMessage = errM;
           array[i].value = false;
