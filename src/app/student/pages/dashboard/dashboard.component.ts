@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('AcademicConditionModal') AcademicConditionModal: any;
   @ViewChild('FinancialConditionModal') FinancialConditionModal: any;
   @ViewChild('AnnouncementModal') AnnouncementModal: any;
-  @ViewChild('HolidayModal') HolidayModal: any;
+  @ViewChild('allModal') allModal: any;
   @ViewChild('ModdleLinkModal') ModdleLinkModal: any;
   @ViewChild('ModdleLinkModal2') ModdleLinkModal2: any;
   @ViewChild('aficheModal') aficheModal: any;
@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('horariosModal') horariosModal: any; //MODAL : HORARIOS DEL CURSO
   @ViewChild('eliminarMatriculaModal') eliminarMatriculaModal: any; //MODAL: CONFIRMACION DE ELIMINAR
   @ViewChild('modalComunicado') modalComunicado: any; //Communicado LV
-
+  linktoSurvey = '';
   company = AppSettings.COMPANY;
   user: any = this.session.getObject('user');
   student: any = {};
@@ -115,7 +115,7 @@ export class DashboardComponent implements OnInit {
     private intentionS: IntentionService) { }
 
   ngOnInit() {
-    this.modalComunicado.open();
+    this.showModals();
 /*     this.newEnrollmentS.getScheduleStudent({
       EMPLID: this.user.codigoAlumno,
       INSTITUTION: 'ECONT',
@@ -236,6 +236,31 @@ export class DashboardComponent implements OnInit {
     var ese = new Array(4);
 
     //this.matriculaExtracurricularModal.open();
+  }
+
+  showModals(){
+    this.modalComunicado.open();
+    this.studentS.CPEStudents()
+      .then((res) => {
+        if( res.find(emp => emp == this.user.codigoAlumno)) {
+          this.allModal.open();
+          this.linktoSurvey = 'https://es.surveymonkey.com/r/53QM78G';
+        }
+      });
+    this.studentS.POSStudents()
+      .then((res) => {
+        if( res.find(emp => emp == this.user.codigoAlumno)) {
+          this.allModal.open();
+          this.linktoSurvey = 'https://es.surveymonkey.com/r/53RZ8PK';
+        }
+      });
+    this.studentS.PREStudents()
+      .then((res) => {
+        if( res.find(emp => emp == this.user.codigoAlumno)) {
+          this.allModal.open();
+          this.linktoSurvey = 'https://es.surveymonkey.com/r/5385BJ9';
+        }
+      });
   }
 
   diaPeople(data:any){

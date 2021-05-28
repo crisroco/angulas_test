@@ -151,6 +151,18 @@ export class StudentService {
        return this.http.get("assets/medicine_students.json").toPromise();
     }
 
+    public CPEStudents(): Promise<any> {
+       return this.http.get("assets/cpe_students.json").toPromise();
+    }
+
+    public PREStudents(): Promise<any> {
+       return this.http.get("assets/pre_students.json").toPromise();
+    }
+
+    public POSStudents(): Promise<any> {
+       return this.http.get("assets/pos_students.json").toPromise();
+    }
+
     public getDeuda(code): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getDeuda/' + code).toPromise();
     }
