@@ -185,7 +185,7 @@ export class DashboardEnrollComponent implements OnInit {
       this.availableCourses = res.sort((a,b) => {
         return a.UCS_CICLO - b.UCS_CICLO
       });
-      this.maxCredits = Math.round(this.availableCourses[0]['MAX_TOTAL_UNIT']);
+      this.maxCredits = Math.round(this.availableCourses[0]['FT_MAX_TOTAL_UNIT']);
       this.session.setItem('MaxCreditsEnrollment', this.maxCredits)
       this.loadCoursesAlready();
     });
