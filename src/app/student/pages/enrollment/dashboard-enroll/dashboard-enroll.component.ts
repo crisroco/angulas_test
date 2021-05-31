@@ -397,9 +397,6 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   checkCrosses(pickedCourse){
-    // console.log(pickedCourse.UCS_REST_DET_MREU[1]['DIA'].replace(/\W/g, '').substring(0,3).toUpperCase());
-    console.log(pickedCourse);
-    // console.log(this.myCoursesinEnrollment);
     for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
       if (this.myCoursesinEnrollment[i].STRM == pickedCourse.CICLO_LECTIVO) {
         for (var o = 0; o < pickedCourse.UCS_REST_DET_MREU.length; o++) {
@@ -447,6 +444,18 @@ export class DashboardEnrollComponent implements OnInit {
     return total;
   }
 
+  countPRABeforeSave(associated_class){
+    let total = 0;
+    for (var i = 0; i < this.scheduleAvailables.length; i++) {
+      for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+        if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASSOCIATED_CLASS) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.CRSE_ID) {
+          total++;
+        }
+      }
+    }
+    return total;
+  }
+
   confirmEnroll(){
     this.loading = true;
     let data = [];
@@ -483,11 +492,9 @@ export class DashboardEnrollComponent implements OnInit {
       this.toastS.warning('No seleccionaste ninguna sección');
       return
     }
-    /* ----- Fix 1 -------- */
-    console.log(result);
     let teo = result[0];
     if (teo['SSR_COMPONENT'] == 'TEO') {
-      let numberOfPRA = this.countPRA(teo);
+      let numberOfPRA = this.countPRABeforeSave(teo);
       if (numberOfPRA > 1 && result.length == 1) {
         this.loading = false;
         this.toastS.warning('Tienes que seleccionar alguna practica');
