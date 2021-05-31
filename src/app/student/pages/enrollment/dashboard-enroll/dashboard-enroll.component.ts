@@ -451,7 +451,6 @@ export class DashboardEnrollComponent implements OnInit {
     this.loading = true;
     let data = [];
     this.selectedCourse['schedules'] = [];
-    console.log(this.scheduleAvailables);
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
       if (this.scheduleAvailables[i].value) {
         for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
@@ -484,6 +483,8 @@ export class DashboardEnrollComponent implements OnInit {
       this.toastS.warning('No seleccionaste ninguna sección');
       return
     }
+    /* ----- Fix 1 -------- */
+    console.log(result);
     let teo = result[0];
     if (teo['SSR_COMPONENT'] == 'TEO') {
       let numberOfPRA = this.countPRA(teo);
