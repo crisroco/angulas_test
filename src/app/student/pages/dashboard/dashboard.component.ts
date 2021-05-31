@@ -239,7 +239,7 @@ export class DashboardComponent implements OnInit {
   }
 
   showModals(){
-    this.modalComunicado.open();
+    // this.modalComunicado.open();
     this.studentS.CPEStudents()
       .then((res) => {
         if( res.find(emp => emp == this.user.codigoAlumno)) {
@@ -735,11 +735,11 @@ export class DashboardComponent implements OnInit {
                   }
                 }
               }
-              if (sending) {
-                this.assistanceS.saveAssistance(data3)
+              // if (sending) {
+                this.assistanceS.sendAssistanceOnlinePs(data3)
                   .then(res => {
                 });
-              }
+              // }
             });
         }
       }
