@@ -82,18 +82,6 @@ export class DashboardEnrollComponent implements OnInit {
         return
       }, 1500)
     }
-    // this.enrollmentS.getDataStudentEnrollment({EMPLID: this.user.codigoAlumno})
-    //   .then((res) => {
-    //     let std = res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0];
-    //     if (std.COND_ACAD != 'Y' || std.COND_FINAN != 'Y') {
-    //       std = '';
-    //       this.toastS.error('No aceptaste las Condiciones Académicas y/o Financieras')
-    //       setTimeout(() => {
-    //       this.router.navigate(['/estudiante']);
-    //         return
-    //       }, 1500)
-    //     }
-    //   });
     this.enrollmentS.getAcademicData({EMPLID: this.user.codigoAlumno})
       .then((res) => {
         if (res.length == 0) {
@@ -166,7 +154,7 @@ export class DashboardEnrollComponent implements OnInit {
       INSTITUTION: this.dataStudent['INSTITUTION'],
       ACAD_CAREER: this.dataStudent['ACAD_CAREER'],
       STRM1: this.cicleSelected['CICLO_LECTIVO'],
-      STRM2: this.otherCicle?this.otherCicle['CICLO_LECTIVO']:null,
+      STRM2: null,
       check:true
     }).then((res) => {
       let creditos = 0;
@@ -174,6 +162,7 @@ export class DashboardEnrollComponent implements OnInit {
       for (let i = 0; i < coursesInEnrollment.length; i++) {
         creditos += Number(coursesInEnrollment[i].CREDITOS);
       }
+      this.myCoursesinEnrollment = coursesInEnrollment;
       this.myCredits = creditos;
       this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.CAMPUS})
         .then((res) => {
@@ -401,18 +390,21 @@ export class DashboardEnrollComponent implements OnInit {
 
   checkCrosses(pickedCourse){
     for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
-      if (this.myCoursesinEnrollment[i].STRM == pickedCourse.CICLO_LECTIVO) {
+      if (this.myCoursesinEnrollment[i].CICLO_LECTIVO == pickedCourse.CICLO_LECTIVO) {
         for (var o = 0; o < pickedCourse.UCS_REST_DET_MREU.length; o++) {
-          if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
-            if (BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'] + ' 00:00:00',this.myCoursesinEnrollment[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i]['START_DT_DO'] + ' 00:00:00',this.myCoursesinEnrollment[i]['END_DT_DO'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:00')))) {
-              if (this.myCoursesinEnrollment[i]['DAY_OF_WEEK'] == pickedCourse.UCS_REST_DET_MREU[o]['DIA'].replace(/\W/g, '').substring(0,3).toUpperCase()) {
-                if ((this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_END']))) {
-                  // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
-                    // console.log(this.myCoursesinEnrollment);
-                    this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CLASS_SECTION'] + ' ' + this.myCoursesinEnrollment[i]['DESCR']);
-                    pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CLASS_SECTION'] + ' ' + this.myCoursesinEnrollment[i]['DESCR'];
-                    return true
-                  // }
+          for (var u = 0; u < this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ.length; u++) {
+            // if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
+            if (!this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['DESCR_INSTALACION'].includes('VIRT') && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
+              if (BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_INICIAL'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_FINAL'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_INICIAL'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_FINAL'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:00')))) {
+                if (this.getDayY(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]) == pickedCourse.UCS_REST_DET_MREU[o]['DIA'].replace(/\W/g, '').toUpperCase()) {
+                  if ((this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN']))) {
+                    // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
+                      // console.log(this.myCoursesinEnrollment);
+                      this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO']);
+                      pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO'];
+                      return true
+                    // }
+                  }
                 }
               }
             }
@@ -421,6 +413,15 @@ export class DashboardEnrollComponent implements OnInit {
       }
     }
     return false
+  }
+
+
+  getDayY(obj){
+    for (let key in obj) {
+      if (obj[key] == 'Y') {
+        return key
+      }
+    }
   }
 
   timeToSeconds(time){

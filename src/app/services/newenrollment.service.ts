@@ -74,12 +74,12 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getEquivalentsCourses', data).toPromise();
     }
 
-    public deleteCourseClass(own_id, emplid): Promise<any> {
-        return this.http.delete(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClass/' + own_id + '/' + emplid).toPromise();
+    public deleteCourseClass(emplid, oprid ,data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClass/' + emplid + '/' + oprid, data).toPromise();
     }
 //este
-    public deleteCourseClassByCrseId(emplid, crs_id): Promise<any> {
-        return this.http.delete(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClassByCrseId/' + emplid + '/' +  crs_id).toPromise();
+    public deleteCourseClassByCrseId(emplid, crs_id, data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClassByCrseId/' + emplid + '/' +  crs_id, data).toPromise();
     }
 
     public deleteCourseClassAdmin(own_id, admindemplid): Promise<any> {

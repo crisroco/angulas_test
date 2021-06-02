@@ -475,7 +475,7 @@ export class DashboardComponent implements OnInit {
 
   deleteEnrollment(){
     this.loading = true;
-    this.newEnrollmentS.deleteCourseClassByCrseId(this.user.codigoAlumno, this.cursoId)
+    this.newEnrollmentS.deleteCourseClassByCrseId(this.user.codigoAlumno, this.cursoId, '')
     .then((res) => {
       this.loading = false;
       this.horariosMatriculados = this.schedulesForDelete;

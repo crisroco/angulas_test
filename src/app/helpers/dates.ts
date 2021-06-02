@@ -71,6 +71,9 @@ export function SubstractDay(d, numDay){
 
 //Horario curso matriculado(F_INI, F_FIN, day)
 export function BetweenDays(first, last, day){
+	if (first == last) {
+		return true;
+	}
 	var sDay = day.year + '-' + day.month + '-' + day.day;
 	if(sDay < first || sDay > last) return false;
 	else return true;
