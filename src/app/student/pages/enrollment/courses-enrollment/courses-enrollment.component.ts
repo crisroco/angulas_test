@@ -78,6 +78,9 @@ export class CoursesEnrollmentComponent implements OnInit {
       STRM2: student['STRM1'],
       check:true
     }).then((res) => {
+      console.log(res);
+      let coursesInEnrollment = res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES;
+      console.log(coursesInEnrollment);
       this.loadDataStudentCourses();
     });
   }

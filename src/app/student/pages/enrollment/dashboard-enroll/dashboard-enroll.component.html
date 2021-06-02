@@ -82,7 +82,7 @@
 								<td class="p-1 text-center" *ngIf="section.TIPO=='VIRT'">Virtual</td>
 								<td class="p-1 text-center">{{section.TIPO=='VIRT'?'-':section.CODIGO_AULA}}</td>
 								<td class="p-1 text-center">{{section.TIPO=='VIRT'?'-':section.UBICACION_INS}}</td>
-								<td class="icon_container p-1 text-center"><span>{{crse.TOTAL_CAPACIDAD - crse.TOTAL_INSCRITOS}}</span><i ngxTooltip [tooltipContent]="!crse.up?'Ver detalle':''" *ngIf="section.show && countASS(crse)" (click)="showMore(crse)"  [ngClass]="{'fa-caret-down': !crse.up,'fa-caret-up': crse.up}" class="fa arrow_down arrow_icon" aria-hidden="true"></i></td>
+								<td class="icon_container p-1 text-center"><span>{{(crse.TOTAL_CAPACIDAD - crse.TOTAL_INSCRITOS)<=0?'0':crse.TOTAL_CAPACIDAD - crse.TOTAL_INSCRITOS}}</span><i ngxTooltip [tooltipContent]="!crse.up?'Ver detalle':''" *ngIf="section.show && countASS(crse)" (click)="showMore(crse)"  [ngClass]="{'fa-caret-down': !crse.up,'fa-caret-up': crse.up}" class="fa arrow_down arrow_icon" aria-hidden="true"></i></td>
 								<!--<i class="fa fa-caret-up" aria-hidden="true"></i>-->
 							</ng-container>
 						</tr>

@@ -558,6 +558,8 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
     tEnroll[flag] = 'Y';
+    // STRM
+    // tEnroll['STRM'] = '2222';
     this.newEnrollmentS.saveConditions(tEnroll)
       .then((res) => {
         this.loading = false;
