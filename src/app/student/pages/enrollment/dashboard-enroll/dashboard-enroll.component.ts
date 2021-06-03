@@ -82,45 +82,34 @@ export class DashboardEnrollComponent implements OnInit {
         return
       }, 1500)
     }
-    this.enrollmentS.getAcademicData({EMPLID: this.user.codigoAlumno})
+    this.dataStudent = this.session.getObject('dataEnrollment');
+    this.enrollmentS.getSchoolCycle({EMPLID: this.user.codigoAlumno, INSTITUTION: this.dataStudent['INSTITUTION'], ACAD_CAREER: this.dataStudent['ACAD_CAREER']})
       .then((res) => {
-        if (res.length == 0) {
+        this.dataCicle = res;
+        this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
+        if (!this.numberOfCicles) {
+          this.loading = false;
           this.toastS.error('Tu matricula no esta habilitada, comunicate con planificación');
           setTimeout(() => {
             this.router.navigate(['/estudiante']);
           }, 4000)
+          return
+        }
+        this.cycles = this.checkInscription(this.numberOfCicles);
+        if (this.cycles.length > 0) {
+          if (this.cycles.length > 1) {
+            this.loading = false;
+            if (!this.session.getObject('schoolCycle')) {
+              this.selectCycleModal.open();
+            } else {
+              this.selectedCycle(this.session.getObject('schoolCycle'));
+            }
+          } else {
+            this.selectedCycle(this.cycles[0]);
+          }
         } else {
-          this.dataStudent = res[0];
-          this.session.setObject('dataEnrollment', this.dataStudent);
-          this.enrollmentS.getSchoolCycle({EMPLID: this.user.codigoAlumno, INSTITUTION: res[0]['INSTITUTION'], ACAD_CAREER: res[0]['ACAD_CAREER']})
-            .then((res) => {
-              this.dataCicle = res;
-              this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
-              if (!this.numberOfCicles) {
-                this.loading = false;
-                this.toastS.error('Tu matricula no esta habilitada, comunicate con planificación');
-                setTimeout(() => {
-                  this.router.navigate(['/estudiante']);
-                }, 4000)
-                return
-              }
-              this.cycles = this.checkInscription(this.numberOfCicles);
-              if (this.cycles.length > 0) {
-                if (this.cycles.length > 1) {
-                  this.loading = false;
-                  if (!this.session.getObject('schoolCycle')) {
-                    this.selectCycleModal.open();
-                  } else {
-                    this.selectedCycle(this.session.getObject('schoolCycle'));
-                  }
-                } else {
-                  this.selectedCycle(this.cycles[0]);
-                }
-              } else {
-                this.IntentionEnrollmentBack.open();
-                this.loading = false;
-              }
-            });
+          this.IntentionEnrollmentBack.open();
+          this.loading = false;
         }
       });
   }
@@ -159,16 +148,24 @@ export class DashboardEnrollComponent implements OnInit {
     }).then((res) => {
       let creditos = 0;
       let coursesInEnrollment = res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES;
-      for (let i = 0; i < coursesInEnrollment.length; i++) {
-        creditos += Number(coursesInEnrollment[i].CREDITOS);
+      if (res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES) {
+        for (let i = 0; i < coursesInEnrollment.length; i++) {
+          creditos += Number(coursesInEnrollment[i].CREDITOS);
+        }
+        this.myRealCoursesInEnrollment = coursesInEnrollment.filter(el => el.PERMITIR_BAJA == 'Y');
       }
       this.myCoursesinEnrollment = coursesInEnrollment;
       this.myCredits = creditos;
-      this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.CAMPUS})
+      this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.sede})
         .then((res) => {
           this.availableCourses = res.sort((a,b) => {
             return a.UCS_CICLO - b.UCS_CICLO
           });
+          if (coursesInEnrollment) {
+            for (let i = 0; i < coursesInEnrollment.length; i++) {
+              this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID);
+            }
+          }
           this.maxCredits = Math.round(this.availableCourses[0]['FT_MAX_TOTAL_UNIT']);
           this.session.setItem('MaxCreditsEnrollment', this.maxCredits);
           this.loading = false;
@@ -220,7 +217,7 @@ export class DashboardEnrollComponent implements OnInit {
     }
     this.loading = true;
     this.enrollmentS.getScheduleNew({
-      CAMPUS: this.dataStudent.CAMPUS,
+      CAMPUS: this.dataStudent.sede,
       CRSE_ID: course.CRSE_ID.length<=4?'00' + course.CRSE_ID:course.CRSE_ID,
       OFFER_CRSE: '',
       SESSION_CODE: '',

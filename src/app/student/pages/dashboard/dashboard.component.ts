@@ -232,9 +232,8 @@ export class DashboardComponent implements OnInit {
         }
       }
     });
-    this.readConditions();
+    // this.readConditions();
     var ese = new Array(4);
-
     //this.matriculaExtracurricularModal.open();
   }
 

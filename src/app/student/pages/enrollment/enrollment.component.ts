@@ -43,10 +43,7 @@ export class EnrollmentComponent implements OnInit {
   ngOnInit() {
     this.session.destroy('mySchedule');
     this.student = this.session.getObject('student');
-    this.enrollmentS.getAcademicData({EMPLID: this.user.codigoAlumno})
-      .then((res) => {
-        this.allData = res[0];
-      });
+    this.allData = this.session.getObject('dataEnrollment');
     this.broadcaster.sendMessage({ hideFooter: true });
   	this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       if (message && message.openModal) {
@@ -287,7 +284,7 @@ export class EnrollmentComponent implements OnInit {
       this.moreData.forEach(classM => {
         classM.UCS_REST_DET_MREU.forEach(classD => {
           for (var kDay in days) {
-            if (kDay == classD.DIA.toUpperCase()) {
+            if (kDay == classD.DIA.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
               if(BetweenDays(classD.FECHA_INICIAL, classD.FECHA_FINAL, days[kDay])){
                 if (classD.TIPO != 'VIRT') {
                   var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;

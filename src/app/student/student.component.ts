@@ -338,7 +338,9 @@ export class StudentComponent implements OnInit {
 		public inputsS: InputsService,
 		private formS: FormService,
 		public newEnrollmentS: NewEnrollmentService,
-		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {}
+		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {
+		// this.innewEnrollment = false;
+	}
 		
 	ngOnInit() {
 		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
@@ -352,7 +354,7 @@ export class StudentComponent implements OnInit {
 			// this.getParameters();
 		}
 		this.initUpdatePersonalData();
-		this.checkInList();
+		// this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -373,7 +375,7 @@ export class StudentComponent implements OnInit {
 			}
 
 			else if(message && message.hideFooter){
-				this.innewEnrollment = true;
+				this.innewEnrollment = message.hideFooter;
 			}
 		});
 		this.initSocket();
@@ -759,11 +761,6 @@ export class StudentComponent implements OnInit {
 					.then(res => {
 						// this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
 						this.broadcaster.sendMessage({enroll: this.enroll});
-						// this.studentS.getCompleteConditions(this.enroll)
-						// .then(res => {
-						// 	this.enroll_conditions = res.UCS_REST_RES_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD && res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]?res.UCS_REST_RES_COND_ACAD.UCS_REST_COM_COND_ACAD[0]:null;
-						// 	this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions});
-						// });
 						this.studentS.getEnrollQueueNumber(this.enroll)
 						.then(res => {
 							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
@@ -778,6 +775,7 @@ export class StudentComponent implements OnInit {
 									this.queueEnroll.exactDate = ' ' + hour + ':' + partsHour[1];
 								}
  							}
+ 							this.session.setObject('dataEnrollment', this.enroll);
 							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.exactDate.split(' ')[1] + ':00'));
 							this.queueEnroll.date = enrollDate;
 							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});

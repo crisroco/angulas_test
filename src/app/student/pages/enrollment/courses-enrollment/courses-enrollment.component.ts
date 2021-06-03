@@ -64,7 +64,6 @@ export class CoursesEnrollmentComponent implements OnInit {
       }, 1500)
     }
     this.loadInPS();
-    
   }
 
   loadInPS() {
@@ -75,17 +74,19 @@ export class CoursesEnrollmentComponent implements OnInit {
       EMPLID: this.user.codigoAlumno,
       INSTITUTION: student['INSTITUTION'],
       ACAD_CAREER: student['ACAD_CAREER'],
-      STRM1: student['STRM'],
+      STRM1: this.schoolCycle['CICLO_LECTIVO'],
       STRM2: null,
       check:true
     }).then((res) => {
       let coursesInEnrollment = res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES;
-      this.availableCourses = coursesInEnrollment.sort(this.dynamicSortMultiple([""]));
-      for (let i = 0; i < coursesInEnrollment.length; i++) {
-        credits += Number(coursesInEnrollment[i].CREDITOS);
+      this.availableCourses = coursesInEnrollment;
+      if (res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES) {
+        for (let i = 0; i < coursesInEnrollment.length; i++) {
+          credits += Number(coursesInEnrollment[i].CREDITOS);
+        }
+        this.allToEmail = this.availableCourses.filter(el => el.PERMITIR_BAJA == 'Y');
       }
       this.myCredits = credits;
-      this.allToEmail = this.availableCourses.filter(el => el.PERMITIR_BAJA == 'Y');
       this.loading = false;
     });
   }
