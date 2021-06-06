@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from 'src/app/app.settings';
 import { NewEnrollmentService } from 'src/app/services/newenrollment.service';
+import { StudentService } from '../../services/student.service';
 import { SessionService } from 'src/app/services/session.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
     public toastr: ToastrService,
     public newEnrollmentS: NewEnrollmentService,
     public session: SessionService,
+    public studentS: StudentService,
     private router: Router,
   ) { }
 
@@ -72,7 +74,7 @@ export class HomeComponent implements OnInit {
 
   select() {
     this.loading = true;
-    this.newEnrollmentS.getAcademicData({ EMPLID: this.studentCode }).then((res) => {
+    this.newEnrollmentS.getAcademicData({ code: this.studentCode }).then((res) => {
       this.allData = res[0];
       this.session.setObject('acadmicData', this.allData);
       this.session.setObject('mySelectedStudent', this.isthisStudent);
@@ -102,8 +104,9 @@ export class HomeComponent implements OnInit {
 
   select2() {
     this.loading = true;
-    this.newEnrollmentS.getAcademicData({ EMPLID: this.studentCode }).then((res) => {
-      this.allData = res[0];
+    this.studentS.getAcademicDataStudent({ code: this.studentCode }).then((res) => {
+      var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
+      this.allData = units.filter(item => item.institucion == 'PREGR')[0];
       if (this.allData === undefined){this.toastr.error('El alumno no existe en la BD.'); this.loading = false; return;}      
       this.session.setObject('acadmicData', this.allData);
       this.session.setObject('mySelectedStudent', this.isthisStudent);

@@ -23,6 +23,7 @@ export class DashboardEnrollComponent implements OnInit {
   cicleSelected:any;
   otherCicle:any;
   availableCourses: Array<any> = [];
+  public existEqui;
   cycles: Array<any> = [];
   user: any = this.session.getObject('user');
   selectedCourse = {
@@ -163,7 +164,7 @@ export class DashboardEnrollComponent implements OnInit {
           });
           if (coursesInEnrollment) {
             for (let i = 0; i < coursesInEnrollment.length; i++) {
-              this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID);
+              this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID2 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID3 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID4 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID5 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID6 != coursesInEnrollment[i].CRSE_ID);
             }
           }
           this.maxCredits = Math.round(this.availableCourses[0]['FT_MAX_TOTAL_UNIT']);
@@ -210,6 +211,9 @@ export class DashboardEnrollComponent implements OnInit {
   // }
 
   onChangeAvailable(course, evt){
+    let courses_id = [];
+    courses_id.push(course.CRSE_ID2, course.CRSE_ID3,course.CRSE_ID4,course.CRSE_ID5,course.CRSE_ID6);
+    let allCourses = courses_id.filter(el => el != '');
     if (this.checkCreditsCap(course)) {
       evt.target.checked = false;
       course.value = false;
@@ -223,17 +227,60 @@ export class DashboardEnrollComponent implements OnInit {
       SESSION_CODE: '',
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {
+      this.selectedCourse = course;
       let data = res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES;
       if (!data) {
-        this.scheduleAvailables = [];
+        data = [];
+        if (allCourses.length > 0) {
+          for (let o = 0; o < allCourses.length; o++) {
+            this.enrollmentS.getScheduleNew({
+              CAMPUS: this.dataStudent.sede,
+              CRSE_ID: allCourses[o],
+              OFFER_CRSE: '',
+              SESSION_CODE: '',
+              STRM: this.cicleSelected['CICLO_LECTIVO']
+            }).then((res) => {
+              data.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
+              if (o == allCourses.length-1) {
+                setTimeout(() => {
+                  this.scheduleAvailables = this.checkDuplicates(data);
+                  this.loading = false;
+                  this.scheduleSelection.open();
+                }, 1000)
+              }
+            });
+          }
+        } else {
+          this.scheduleAvailables = this.checkDuplicates(data);
+          this.loading = false;
+          this.scheduleSelection.open();
+        }
       } else {
-        this.scheduleAvailables = this.checkDuplicates(data);
-        this.selectedCourse = course;
+        if (allCourses.length > 0) {
+          for (let o = 0; o < allCourses.length; o++) {
+            this.enrollmentS.getScheduleNew({
+              CAMPUS: this.dataStudent.sede,
+              CRSE_ID: allCourses[o],
+              OFFER_CRSE: '',
+              SESSION_CODE: '',
+              STRM: this.cicleSelected['CICLO_LECTIVO']
+            }).then((res) => {
+              data.concat(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
+              if (o == allCourses.length-1) {
+                setTimeout(() => {
+                  this.scheduleAvailables = this.checkDuplicates(data);
+                  this.loading = false;
+                  this.scheduleSelection.open();
+                }, 1000)
+              }
+            });
+          }
+        } else {
+          this.scheduleAvailables = this.checkDuplicates(data);
+          this.loading = false;
+          this.scheduleSelection.open();
+        }
       }
-      // setTimeout(() => {
-        this.loading = false;
-        this.scheduleSelection.open();
-      // }, 3000)
     });
     evt.target.checked = false;
   }
@@ -386,21 +433,23 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   checkCrosses(pickedCourse){
-    for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
-      if (this.myCoursesinEnrollment[i].CICLO_LECTIVO == pickedCourse.CICLO_LECTIVO) {
-        for (var o = 0; o < pickedCourse.UCS_REST_DET_MREU.length; o++) {
-          for (var u = 0; u < this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ.length; u++) {
-            // if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
-            if (!this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['DESCR_INSTALACION'].includes('VIRT') && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
-              if (BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_INICIAL'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_FINAL'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_INICIAL'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_FINAL'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:00')))) {
-                if (this.getDayY(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]) == pickedCourse.UCS_REST_DET_MREU[o]['DIA'].replace(/\W/g, '').toUpperCase()) {
-                  if ((this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN']))) {
-                    // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
-                      // console.log(this.myCoursesinEnrollment);
-                      this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO']);
-                      pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO'];
-                      return true
-                    // }
+    if (this.myCoursesinEnrollment) {
+      for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
+        if (this.myCoursesinEnrollment[i].CICLO_LECTIVO == pickedCourse.CICLO_LECTIVO) {
+          for (var o = 0; o < pickedCourse.UCS_REST_DET_MREU.length; o++) {
+            for (var u = 0; u < this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ.length; u++) {
+              // if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
+              if (!this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['DESCR_INSTALACION'].includes('VIRT') && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
+                if (BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_INICIAL'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_FINAL'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_INICIAL'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FECHA_FINAL'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:00')))) {
+                  if (this.getDayY(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]) == pickedCourse.UCS_REST_DET_MREU[o]['DIA'].replace(/\W/g, '').toUpperCase()) {
+                    if ((this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) >= this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) && this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) < this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']))) {
+                      // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
+                        // console.log(this.myCoursesinEnrollment);
+                        this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO']);
+                        pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO'];
+                        return true
+                      // }
+                    }
                   }
                 }
               }

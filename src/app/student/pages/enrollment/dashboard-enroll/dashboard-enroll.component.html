@@ -44,7 +44,7 @@
 <ngx-smart-modal #scheduleSelection identifier="scheduleSelection" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'extralargeModal fullModal p-post-header'">
 	<div class="p-2 header-modal">
 		<div class="title">
-			<p>SECCIONES DISPONIBLES - {{selectedCourse.DESCR}}<span *ngIf="scheduleAvailables.length > 0 && scheduleAvailables[0]['FLAG2']=='Y'"> (Equivalente a={{scheduleAvailables[0]['CRSE_ID']}}-{{scheduleAvailables[0]['DESCR']}}*)</span></p>
+			<p>SECCIONES DISPONIBLES - {{selectedCourse.DESCR}}<span *ngIf="existEqui"> (Equivalente a={{selectedCourse['CRSE_ID2']}}*)</span></p>
 		</div>
 		<div class="btn-close d-flex">
 			<p *ngIf="cicleSelected" class="mr-3">Ciclo lectivo: {{cicleSelected.CICLO_LECTIVO}}</p>
@@ -72,8 +72,8 @@
 								<td class="p-1 text-left">
 									<div class="form-check">
 										<input *ngIf="section.show" class="form-check-input" [disabled]="checkCap(crse)" type="checkbox" id="{{crse.SECCION + crse.NRO_CLASE}}" [(ngModel)]="crse.value" (change)='changeSchedule(crse, $event)' value="{{crse.SECCION + crse.NRO_CLASE}}" [checked]="crse.value">
-										<label class="form-check-label" for="{{crse.SECCION + crse.NRO_CLASE}}"> {{crse.SECCION}}-{{crse.CODIGO_COMPONENTE}}({{crse.NRO_CLASE}})</label>
-										<!-- <span *ngIf="section.FLAG2=='Y'">{{section.CRSE_ID}}-{{section.DESCR}}*</span> -->
+										<label class="form-check-label" for="{{crse.SECCION + crse.NRO_CLASE}}"> {{crse.SECCION}}-{{crse.CODIGO_COMPONENTE}}({{crse.NRO_CLASE}}) </label>
+										<span *ngIf="crse.ID_CURSO != selectedCourse.CRSE_ID">- {{crse.ID_CURSO}} {{crse.DESCR_CURSO}}*</span>
 								    </div>
 								</td>
 								<td class="p-1 text-left docente">{{section.UCS_REST_DET_DOC[0].NOMBRE_DOCENTE}}</td>

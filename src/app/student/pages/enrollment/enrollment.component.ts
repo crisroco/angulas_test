@@ -73,7 +73,7 @@ export class EnrollmentComponent implements OnInit {
         INSTITUTION: this.dataEnrollment['INSTITUTION'],
         ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
         STRM1: this.schoolCycle.CICLO_LECTIVO,
-        STRM2: this.session.getObject('otherCicle')?this.session.getObject('otherCicle').CICLO_LECTIVO:null
+        STRM2: null
       }).then((res) => {
         this.schedulePreview.open();
         this.classDay = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES']?res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES']:[];
@@ -93,10 +93,9 @@ export class EnrollmentComponent implements OnInit {
         NAME: this.student.nombreAlumno + ' ' + this.student.apellidoAlumno,
         INSTITUTION: this.dataEnrollment['INSTITUTION'],
         ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
-        PROG_PLAN: this.allData.ACAD_PROG + ' / ' + this.allData.ACAD_PLAN,
+        PROG_PLAN: this.allData.ACAD_PROG + ' / ' + this.allData.codigoPlan,
         STRM1: this.schoolCycle.CICLO_LECTIVO,
-        TOTAL_CREDITS: this.myCredits,
-        STRM2: this.session.getObject('otherCicle')?this.session.getObject('otherCicle').CICLO_LECTIVO:null
+        TOTAL_CREDITS: this.myCredits
       })
         .then((res) => {
           this.toastT.success('Correo enviado');
@@ -306,7 +305,7 @@ export class EnrollmentComponent implements OnInit {
                     objEvents[rDay + ' ' + classD.HORA_INICIO + ' ' + classM.ID_CURSO] = true;
                   }
                 } else {
-                  let finded = this.myVirtualClasses.filter(vclass => vclass.name.toUpperCase() == classM.DESCR_CURSO)[0];
+                  let finded = this.myVirtualClasses.filter(vclass => vclass.name == classM.DESCR_CURSO.toUpperCase())[0];
                   if (finded) {
                     finded.hrs_acad += this.toHours(classD.HORA_INICIO, classD.HORA_FIN)
                   } else {

@@ -65,24 +65,27 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="text-center text-s" *ngFor="let section of scheduleAvailables" [ngClass]="{'selectedRow': section.value, 'in': section.FLAG1=='I'}">
-						<ng-container *ngIf="section.show || section.more">
-							<td class="p-1 text-left">
-								<div class="form-check">
-									<input *ngIf="section.show" class="form-check-input" [disabled]="checkCap(section)" type="checkbox" id="{{section.UCS_FACILITY_DESC + section.CLASS_NBR}}" [(ngModel)]="section.value" (change)='changeSchedule(section, $event)' value="{{section.UCS_FACILITY_DESC + section.CLASS_NBR}}" [checked]="section.value">
-									<label class="form-check-label" for="{{section.UCS_FACILITY_DESC + section.CLASS_NBR}}"> {{section.CLASS_SECTION}}-{{section.SSR_COMPONENT}}({{section.CLASS_NBR}}) <span *ngIf="section.FLAG2=='Y'">{{section.CRSE_ID}}-{{section.DESCR}}*</span></label>
-							    </div>
-							</td>
-							<td class="p-1 text-left docente">{{section.NAME}}</td>
-							<td class="p-1 text-center">{{section.START_DT_DO | date:'dd/MM' }} - {{section.END_DT_DO | date:'dd/MM'}}</td>
-							<td class="p-1 text-center" *ngIf="section.CRSE_ATTR!='VIRT'">{{section.DAY_OF_WEEK}}: {{removeSeconds(section.MEETING_TIME_START)}} - {{removeSeconds(section.MEETING_TIME_END)}}</td>
-							<td class="p-1 text-center" *ngIf="section.CRSE_ATTR=='VIRT'">Virtual</td>
-							<td class="p-1 text-center">{{section.CRSE_ATTR=='VIRT'?'-':section.ROOM}}</td>
-							<td class="p-1 text-center">{{section.CRSE_ATTR=='VIRT'?'-':section.UCS_LOCATION_DESC}}</td>
-							<td class="icon_container p-1 text-center"><span class="mr-3">{{section.ENRL_CAP - section.number}} </span><i ngxTooltip [tooltipContent]="!section.up?'Ver detalle':''" *ngIf="section.show && countASS(section)" (click)="showMore(section)"   [ngClass]="{'fa-caret-down': !section.up,'fa-caret-up': section.up}" class="fa arrow_down arrow_icon" aria-hidden="true"></i></td>
-							<!--<i class="fa fa-caret-up" aria-hidden="true"></i>-->
-						</ng-container>
-					</tr>
+					<ng-container *ngFor="let crse of scheduleAvailables">
+						<tr class="text-center text-s" *ngFor="let section of crse.UCS_REST_DET_MREU" [ngClass]="{'selectedRow': crse.value, 'in': selectedCourse.CAMPUS != crse.CAMPUS}">
+							<ng-container *ngIf="section.show || section.more">
+								<td class="p-1 text-left">
+									<div class="form-check">
+										<input *ngIf="section.show" class="form-check-input" [disabled]="checkCap(crse)" type="checkbox" id="{{crse.SECCION + crse.NRO_CLASE}}" [(ngModel)]="crse.value" (change)='changeSchedule(crse, $event)' value="{{crse.SECCION + crse.NRO_CLASE}}" [checked]="crse.value">
+										<label class="form-check-label" for="{{crse.SECCION + crse.NRO_CLASE}}"> {{crse.SECCION}}-{{crse.CODIGO_COMPONENTE}}({{crse.NRO_CLASE}}) </label>
+										<span *ngIf="crse.ID_CURSO != selectedCourse.CRSE_ID">- {{crse.ID_CURSO}} {{crse.DESCR_CURSO}}*</span>
+								    </div>
+								</td>
+								<td class="p-1 text-left docente">{{section.UCS_REST_DET_DOC[0].NOMBRE_DOCENTE}}</td>
+								<td class="p-1 text-center">{{section.FECHA_INICIAL | date:'dd/MM' }} - {{section.FECHA_FINAL | date:'dd/MM'}}</td>
+								<td class="p-1 text-center" *ngIf="section.TIPO!='VIRT'">{{section.DIA}}: {{section.HORA_INICIO}} - {{section.HORA_FIN}}</td>
+								<td class="p-1 text-center" *ngIf="section.TIPO=='VIRT'">Virtual</td>
+								<td class="p-1 text-center">{{section.TIPO=='VIRT'?'-':section.CODIGO_AULA}}</td>
+								<td class="p-1 text-center">{{section.TIPO=='VIRT'?'-':section.UBICACION_INS}}</td>
+								<td class="icon_container p-1 text-center"><span>{{(crse.TOTAL_CAPACIDAD - crse.TOTAL_INSCRITOS)<=0?'0':crse.TOTAL_CAPACIDAD - crse.TOTAL_INSCRITOS}}</span><i ngxTooltip [tooltipContent]="!crse.up?'Ver detalle':''" *ngIf="section.show && countASS(crse)" (click)="showMore(crse)"  [ngClass]="{'fa-caret-down': !crse.up,'fa-caret-up': crse.up}" class="fa arrow_down arrow_icon" aria-hidden="true"></i></td>
+								<!--<i class="fa fa-caret-up" aria-hidden="true"></i>-->
+							</ng-container>
+						</tr>
+					</ng-container>
 					<tr *ngIf="scheduleAvailables.length == 0">
 						<td colspan="7">No hay Horarios programado para el Curso</td>
 					</tr>

@@ -51,14 +51,11 @@ export class DashboardComponent implements OnInit {
     public broadcaster: Broadcaster) { }
 
   ngOnInit() {
-
     if (this.session.getObject('mySelectedStudent')) {
       this.isthisStudent = this.session.getObject('mySelectedStudent');
       this.allData = this.session.getObject('acadmicData');
-      console.log("ALL DATA");
-      console.log(this.allData);
-      console.log("GET SESSION ACADMICDATA");
-      console.log(this.session.getObject('acadmicData'));
+      this.studentCode = this.session.getItem('emplidSelected');
+      this.schoolCycle = this.session.getObject('schoolCycle');
     }
     
     /*if (!this.session.getObject('acadmicData')) {
@@ -91,15 +88,6 @@ export class DashboardComponent implements OnInit {
   eventClicked(event) {
 
   }
-
-  openConfirmation() {
-    if (!this.studentCode) {
-      this.toastr.error("Ingresa un codigo de alumno");
-      return
-    }
-    this.confirmationUploadModal.open();
-  }
-
 
   openAditionalCoursesModal(openModal) {
     this.allData = this.session.getObject('acadmicData');
