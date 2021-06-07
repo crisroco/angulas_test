@@ -561,7 +561,7 @@ export class DashboardEnrollComponent implements OnInit {
       if (res['UCS_REST_INSCR_RES'] && res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
         let index = this.availableCourses.findIndex(val => val['own_enrollment_skillful_load_id'] == this.selectedCourse['own_enrollment_skillful_load_id']);
         this.availableCourses.splice(index, 1);
-        this.toastS.success('Curso matriculado');
+        this.toastS.success('Curso reservado');
         this.session.destroy('mySchedule');
         this.loadCoursesAlready();
         this.scheduleSelection.close();

@@ -87,7 +87,7 @@ export class CoursesEnrollmentComponent implements OnInit {
           credits += Number(coursesInEnrollment[i].CREDITOS);
           coursesInEnrollment[i]['flag'] = false;
           for(let o = 0; o < materialCourses.length; o++){
-            if(coursesInEnrollment[i].CRSE_ID == (materialCourses[o].CRSE_ID || materialCourses[o].CRSE_ID2 || materialCourses[o].CRSE_ID3 || materialCourses[o].CRSE_ID4 || materialCourses[o].CRSE_ID5 || materialCourses[o].CRSE_ID6)){
+            if(coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID2 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID3 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID4 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID5 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID6){
               coursesInEnrollment[i]['flag'] = true;
             }
           }
