@@ -16,6 +16,7 @@ import { BetweenDays, RealDate } from '../../../../helpers/dates';
 })
 export class DashboardEnrollComponent implements OnInit {
   company = AppSettings.COMPANY;
+  allCoursesId:Array<any> = [];
   myCoursesinEnrollment:Array<any> = [];
   myRealCoursesInEnrollment:Array<any> = [];
   scheduleAvailables:Array<any> = [];
@@ -160,14 +161,15 @@ export class DashboardEnrollComponent implements OnInit {
       this.myCredits = creditos;
       this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.sede})
         .then((res) => {
+          this.allCoursesId = res.filter(el => el.FLAG == 'A');
+          this.session.setObject('MaterialInCourse', this.allCoursesId);
           this.availableCourses = res.sort(this.dynamicSortMultiple(["-FLAG","UCS_CICLO"]));
-          this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
           if (coursesInEnrollment) {
             for (let i = 0; i < coursesInEnrollment.length; i++) {
               this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID2 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID3 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID4 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID5 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID6 != coursesInEnrollment[i].CRSE_ID);
             }
           }
-          console.log(this.availableCourses);
+          this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
           this.maxCredits = Math.round(this.availableCourses[0]['FT_MAX_TOTAL_UNIT']);
           this.session.setItem('MaxCreditsEnrollment', this.maxCredits);
           this.loading = false;

@@ -15,6 +15,7 @@ export class CoursesEnrollmentComponent implements OnInit {
   crossdata: any;
 	availableCourses:any;
   all:any;
+  numberofExtra:number = 0; 
   user: any = this.session.getObject('user');
   loading: boolean = false;
   showMessage: boolean = false;
@@ -79,11 +80,18 @@ export class CoursesEnrollmentComponent implements OnInit {
       check:true
     }).then((res) => {
       let coursesInEnrollment = res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES;
-      this.availableCourses = coursesInEnrollment;
+      let materialCourses = this.session.getObject('MaterialInCourse');
       if (res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES) {
         for (let i = 0; i < coursesInEnrollment.length; i++) {
           credits += Number(coursesInEnrollment[i].CREDITOS);
+          for(let o = 0; o < materialCourses.length; o++){
+            if(coursesInEnrollment[i].CRSE_ID == (materialCourses[o].CRSE_ID || materialCourses[o].CRSE_ID2 || materialCourses[o].CRSE_ID3 || materialCourses[o].CRSE_ID4 || materialCourses[o].CRSE_ID5 || materialCourses[o].CRSE_ID6)){
+              coursesInEnrollment[i]['flag'] = true;
+            }
+          }
         }
+        this.availableCourses = coursesInEnrollment.sort(this.dynamicSortMultiple(["-flag"]));
+        this.numberofExtra = this.availableCourses.filter(el => el.flag).length;
         this.allToEmail = this.availableCourses.filter(el => el.PERMITIR_BAJA == 'Y');
       }
       this.myCredits = credits;
