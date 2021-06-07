@@ -15,6 +15,11 @@
 				  	</thead>
 				  	<tbody>
 						<ng-container *ngFor="let course of availableCourses; let i = 'index'">
+							<tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[0].FLAG == 'A' && i == 0">
+								<td colspan="5">
+									Materias en Curso
+								</td>
+							</tr>
 							<tr class="text-s">
 								<ng-container *ngIf="course.number == 0">
 									<td class="text-left">
