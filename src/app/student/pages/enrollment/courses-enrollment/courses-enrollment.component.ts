@@ -69,6 +69,7 @@ export class CoursesEnrollmentComponent implements OnInit {
 
   loadInPS() {
     this.loading = true;
+    this.availableCourses = [];
     let credits = 0;
     let student = this.session.getObject('dataEnrollment')
     this.newEnrollmentS.getScheduleStudent({
@@ -84,13 +85,15 @@ export class CoursesEnrollmentComponent implements OnInit {
       if (res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES) {
         for (let i = 0; i < coursesInEnrollment.length; i++) {
           credits += Number(coursesInEnrollment[i].CREDITOS);
+          coursesInEnrollment[i]['flag'] = false;
           for(let o = 0; o < materialCourses.length; o++){
             if(coursesInEnrollment[i].CRSE_ID == (materialCourses[o].CRSE_ID || materialCourses[o].CRSE_ID2 || materialCourses[o].CRSE_ID3 || materialCourses[o].CRSE_ID4 || materialCourses[o].CRSE_ID5 || materialCourses[o].CRSE_ID6)){
               coursesInEnrollment[i]['flag'] = true;
             }
           }
         }
-        this.availableCourses = coursesInEnrollment.sort(this.dynamicSortMultiple(["-flag"]));
+        this.availableCourses = coursesInEnrollment.sort(this.dynamicSortMultiple(["flag"]));
+        console.log(this.availableCourses);
         this.numberofExtra = this.availableCourses.filter(el => el.flag).length;
         this.allToEmail = this.availableCourses.filter(el => el.PERMITIR_BAJA == 'Y');
       }
