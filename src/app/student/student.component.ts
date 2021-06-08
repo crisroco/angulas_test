@@ -221,18 +221,13 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'assets/pdfjs/calendario_verano_2021.pdf',
-					description: 'CALENDARIO PREGRADO VERANO 2021'
+					url: 'assets/pdfjs/CALENDARIO_ACA_PRE_2021.pdf',
+					description: 'CALENDARIO ACADÉMICO 2021-2'
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/calendario_academico_pregrado.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021 - 1'
-				},
-				{
-					img: '',
-					url: 'assets/pdfjs/ROTACIONES_EXTERNADO_2021.pdf',
-					description: 'ROTACIONES DE EXTERNADO DE MEDICINA HUMANA 2021 '
+					url: 'assets/pdfjs/CALENDARIO_MATRICULA_2021_2.pdf',
+					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2021-2'
 				}
 			],
 			isOpen: true,
@@ -242,13 +237,18 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'assets/pdfjs/calendario_verano_cpe_2021.pdf',
-					description: 'CALENDARIO ACADÉMICO VERANO 2021'
+					url: 'assets/pdfjs/CALENDARIO_ACA_CPE_VN_2021.pdf',
+					description: 'CALENDARIO ACADÉMICO VILLA-NORTE 2021-2'
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/calendario_academico_cpe_villa.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021 - 1'
+					url: 'assets/pdfjs/CALENDARIO_ACA_CPE_ATE_2021.pdf',
+					description: 'CALENDARIO ACADÉMICO ATE 2021-2'
+				},
+				{
+					img: '',
+					url: 'assets/pdfjs/CALENDARIO_MATRICULA_2021_2.pdf',
+					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2021-2'
 				}
 			],
 			isOpen: true,
