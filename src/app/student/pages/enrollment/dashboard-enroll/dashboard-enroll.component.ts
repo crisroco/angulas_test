@@ -215,6 +215,9 @@ export class DashboardEnrollComponent implements OnInit {
 
   onChangeAvailable(course, evt){
     let courses_id = [];
+    if(course.FLAG == 'A'){
+      this.toastS.warning('Advertencia, estas seleccionando una materia en curso');
+    }
     courses_id.push(course.CRSE_ID2, course.CRSE_ID3,course.CRSE_ID4,course.CRSE_ID5,course.CRSE_ID6);
     let allCourses = courses_id.filter(el => el != '');
     if (this.checkCreditsCap(course)) {
