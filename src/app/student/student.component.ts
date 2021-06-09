@@ -10,7 +10,7 @@ import { Broadcaster } from '../services/broadcaster';
 import { ValidationService } from '../services/validation.service';
 import { InputsService } from '../services/inputs.service';
 import { FormService } from '../services/form.service';
-import { RealDate, AddDay } from '../helpers/dates';
+import { RealDate, AddDay, BetweenDays } from '../helpers/dates';
 import { DynamicSort } from '../helpers/arrays';
 import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from '../app.settings';
@@ -65,6 +65,7 @@ export class StudentComponent implements OnInit {
 
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
+	dataStudent: any = this.session.getObject('dataStudent');
 	enrollmentStatus: any;
 	enrollmentIntentionStatus: any;
 	enrollmentIntensiveStatus: any;
@@ -317,7 +318,42 @@ export class StudentComponent implements OnInit {
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
 	@ViewChild('humanityModal') humanityModal: any
 	@ViewChild('AvisoVacunaModal') AvisoVacunaModal: any;
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	@ViewChild('matriculaExtracurricularModal') matriculaExtracurricularModal: any;//MODAL : SI - NO
+	@ViewChild('cursosExtracurricularesModal') cursosExtracurricularesModal: any; //MODAL: CURSOS
+	@ViewChild('horariosModal') horariosModal: any; //MODAL : HORARIOS DEL CURSO
+	@ViewChild('eliminarMatriculaModal') eliminarMatriculaModal: any; //MODAL: CONFIRMACION DE ELIMINAR
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	userBackoffice: boolean;
+
+	/////////////////////////////////////
+	courses2 = [];
+	coursesSession = [];
+	coursesPeople = [];
+	arraySchedules: [];
+	schedulesOfCourseCheckDuplicates: Array<any> = [];
+	schedulesOfCourse: Array<any> = [];
+	schedulesSelected = [];
+	btnMatricula = false;
+	dia: string;
+	columTrash = false; //Mostrar columna de la tabla para eliminar
+	selectedCourse = {
+		TOPIC: '',
+		value: false,
+		checked: false
+	};
+	schedulesForDelete: any;
+	schedulesForDeleteNew: any;
+	horariosMatriculados = [];
+	horariosObservados = [];
+	countCoursesMatriculados = 0;
+	newArray = [];
+	class_nbr: any;
+	numberOfCicles:Array<any> = [];
+	cycles: Array<any> = [];
+	otherCicle:any;
+	cycleOn = false;
+	  /////////////////////////////////////
 	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
@@ -372,6 +408,7 @@ export class StudentComponent implements OnInit {
 			}
 		});
 		this.initSocket();
+		this.checkCycleElective();
 		// this.getFileUpload();
 		// this.getFlagSendUpload();
 		// this.studentS.medicineStudents().then((res) => {
@@ -385,7 +422,385 @@ export class StudentComponent implements OnInit {
 		// 		this.showScheduleLink = true;
 		// 	}
 		// })
+
+		this.btnMatricula = true;
+		this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC" })
+			.then((res) => {
+				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
+				if (this.coursesPeople) {
+					this.countCoursesMatriculados = this.coursesPeople.length;
+					console.log("COUNT CURSOS MATRICULADOS : " + this.countCoursesMatriculados);
+					console.log("CURSOS ARRAY PEOPLE : " + this.coursesPeople.length);
+					let dataPeople = [];
+					for (var i = 0; i < this.coursesPeople.length; i++) {
+						for (var o = 0; o < this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'].length; o++) {
+
+							if (this.coursesPeople[i]) {
+								dataPeople.push({
+									ACAD_CAREER: this.coursesPeople[i]['GRADO_ACADEMICO'],
+									ASSOCIATED_CLASS: '1',
+									CLASS_NBR: this.coursesPeople[i]['CLASE'],
+									CLASS_SECTION: this.coursesPeople[i]['SECCION_CLASE'],
+									CRSE_ID: this.coursesPeople[i]['CRSE_ID'],
+									DESCR: this.coursesPeople[i]['NOMBRE_CURSO'],
+									DIA: this.diaPeople(this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]),
+									EMPLID: this.user.codigoAlumno,
+									END_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['FIN_FECHA'],
+									HORA_FIN: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_FIN'],
+									HORA_INICIO: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_INICIO'],
+									INSTITUTION: this.coursesPeople[i]['INSTITUTION'],
+									OFFER_NBR: this.coursesPeople[i]['NRO_OFERTA'],
+									SESSION_CODE: this.coursesPeople[i]['SESSION_CODE'],
+									SSR_COMPONENT: this.coursesPeople[i]['TIPO_COMPONENTE'],
+									START_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['INICIO_FECHA'],
+									STRM: this.coursesPeople[i]['CICLO_LECTIVO'],
+									equivalent: "-",
+								});
+							}
+						}
+						this.session.setObject('cursoExtracurricular', dataPeople);
+						this.ExistCursoMatriculado();
+					};
+				} else {
+					console.log("NO HAY CURSOS PS");
+					console.log(this.coursesPeople);
+				}
+			});
+
+		this.newEnrollmentS.getCoursesExtra()//servicio de cursos extracurriculares de la tabla intermedia
+			.then((res) => {
+				console.log("Total cursos extracurricualres tabla intermedia");
+				console.log(res);
+				this.courses = res['data'];
+				this.ExistCursoMatriculado();
+			});
 	}
+
+	validationModal(){
+		console.log(this.dataStudent);		
+		if (this.cycleOn == true){
+			this.cursosExtracurricularesModal.open();
+		} else {
+			this.toastr.warning('Tu matricula no esta habilitada, comunicate con planificación.');
+			this.matriculaExtracurricularModal.close();
+		}
+	}	
+
+	checkCycleElective(){
+		this.newEnrollmentS.getSchoolCycle({ EMPLID: this.user.codigoAlumno, INSTITUTION: this.dataStudent.institucion, ACAD_CAREER: this.dataStudent.codigoGrado })
+			.then((res) => {
+				console.log(res);
+				this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
+				console.log("Ciclos activos del alumno:");
+				console.log(this.numberOfCicles);
+				this.numberOfCicles.forEach(ci =>{
+					console.log("Ciclo electivo del alumno : " + ci["CICLO_LECTIVO"]);
+					if (ci["CICLO_LECTIVO"] == 1116){ //validación con el ciclo electivo actual//1087
+						console.log("CICLO ELECTIVO TRUE");
+						this.cycleOn = true;
+						return;
+					}else{
+						console.log("CICLO ELECTIVO FALSE");
+						this.cycleOn = false;
+					}
+				});
+			});
+	}
+
+	diaPeople(data:any){
+		for(var k in data){
+		  if(data[k] == "Y"){
+			return k;
+		  }
+		}
+	  }
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR CURSO
+	onChangeAvailable(course, evt) {
+		/* if (this.countCoursesMatriculados < 3) { */ //sin limites de cursos matriculados
+		  this.loading = true;
+		  this.newEnrollmentS.getSchedulesCourse(course.CRSE_ID)
+			.then((res) => {
+			  console.log("Horarios del curso seleccionado");
+			  console.log(res);
+			  this.arraySchedules = res['SIS_WS_HORCC_RSP']['SIS_WS_HORCC_COM'];
+			  //bloque de horarios con fechas pasadas---------------------------
+			  var d = new Date();
+			  let diaActual = d.getDate();
+			  let mesActual = d.getMonth()+1;
+			  /* let diaActual = 17;
+			  let mesActual = 6; */
+			  console.log("Fecha de hoy : " + diaActual + " / " + mesActual);
+			  this.schedulesOfCourse = this.checkDuplicates(this.arraySchedules);
+			  this.schedulesOfCourse.forEach(el => {
+				let diaHorario = parseInt(el["START_DT"].substr(8,9));
+				let mesHorario = parseInt(el["START_DT"].substr(5,6));
+				if (mesHorario < mesActual){
+					el.dis = true;				
+				}
+				if (mesHorario == mesActual) {
+					if (diaHorario <= diaActual){
+						el.dis = true;
+					}
+				}
+			  });
+			  //-----------------------------------------------------------------
+			  this.selectedCourse = course;
+			  this.loading = false;
+			  this.horariosModal.open();
+			}).catch(err => alert('No se pudo consultar los horarios del curso.'));
+/* 		} else {
+		  course.value = false;
+		  evt.target.checked = false; 
+		  this.toastr.warning("Solo se puede matricular hasta en tres cursos extracurricualres.");
+		  return;
+		} */
+	  }
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AGRUPACIÓN DE HORARIOS
+	  checkDuplicates(array) {
+		array.sort(this.dynamicSortMultiple(["CLASS_SECTION", "CLASS_NBR",]));
+		let lastNBR;
+		for (var i = 0; i < array.length; i++) {
+		  /* if (array[i]['FLAG1'] != 'I') { */
+		  if (!lastNBR) {
+			lastNBR = array[i]['CLASS_NBR'];
+			array[i].show = true;
+		  } else if (lastNBR == array[i]['CLASS_NBR']) {
+			array[i].show = false;
+		  } else {
+			lastNBR = array[i]['CLASS_NBR'];
+			array[i].show = true;
+		  }
+		  /* } */
+		}
+		return array.filter(arr => arr.FLAG1 != 'I');
+	  }
+	
+	  dynamicSortMultiple(args) {
+		var props = args;
+		return (obj1, obj2) => {
+		  var i = 0, result = 0, numberOfProperties = props.length;
+		  while (result === 0 && i < numberOfProperties) {
+			result = this.dynamicSort(props[i])(obj1, obj2);
+			i++;
+		  }
+		  return result;
+		}
+	  }
+	
+	  dynamicSort(property) {
+		var sortOrder = 1;
+		if (property[0] === "-") {
+		  sortOrder = -1;
+		  property = property.substr(1);
+		}
+		return (a, b) => {
+		  var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+		  return result * sortOrder;
+		}
+	  }
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR HORARIO
+	  changeSchedule(section, evt) {  
+		console.log("Section :");
+		console.log(section);
+		let variable = false;
+		this.schedulesSelected = [];
+		this.schedulesOfCourse.forEach(el => {
+		  if (section.CLASS_SECTION == el["CLASS_SECTION"] && section.CLASS_NBR == el["CLASS_NBR"]){
+			el.select = true;
+			this.schedulesSelected.push(el);
+		  } else {
+			el.select = false;
+		  }
+		});
+		this.schedulesSelected.forEach(pickedCourse => {
+		  if (!variable) {			
+			if (this.checkCrosses(pickedCourse)) {
+			  variable = true;
+			  section.value = false;
+			  section.select = false;
+			  evt.target.checked = false;
+			  return
+			}
+		  }    
+		});
+	
+		if (!section.value || section.value == false){
+		  this.btnMatricula = true;
+		} else {
+		  this.btnMatricula = false;
+		}
+
+		this.class_nbr = section["CLASS_NBR"];
+		console.log(this.class_nbr);
+	  }
+	
+	  checkCrosses(pickedCourse){
+		if (this.horariosMatriculados) {
+		  for (let i = 0; i < this.horariosMatriculados.length; i++) {
+			/* if (this.horariosMatriculados[i].STRM == "1087") { */
+			if (this.horariosMatriculados[i].STRM == "1116") {				 
+			  if (BetweenDays(this.horariosMatriculados[i]['START_DT'],this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['START_DT'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.horariosMatriculados[i]['START_DT'],this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['END_DT'].replaceAll('-', '/') + ' 00:00:00')))) {
+				if (this.horariosMatriculados[i]['DIA'] == pickedCourse['DIA']) {
+				if ((this.timeToSeconds(pickedCourse['HORA_INICIO']) >= this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_INICIO']) < this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse['HORA_FIN']) > this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_FIN']) <= this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN']))) {
+					this.toastr.error('Tienes un cruce con otra clase: ' + this.horariosMatriculados[i]['CLASS_SECTION'] + ' ' + this.horariosMatriculados[i]['DESCR']);
+				  	pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.horariosMatriculados[i]['CLASS_SECTION'] + ' ' + this.horariosMatriculados[i]['DESCR'];
+				  	return true
+				}
+				}
+			  }
+			}
+		  }
+		  return false
+		}    
+	  }
+	
+	  timeToSeconds(time){
+		let inSeconds = time.split(':');
+		return inSeconds[0]*60*60 + inSeconds[1]*60
+	  }
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MATRICULA
+	  matricula(){
+		this.loading = true;
+		let data = [];
+		for (var i = 0; i < this.schedulesOfCourse.length; i++) {
+		//if (this.schedulesOfCourse[i]['value']) { //push solo 1 horario
+		  if (this.schedulesOfCourse[i]['select']) {
+		  data.push({
+			ACAD_CAREER: this.schedulesOfCourse[i]['ACAD_CAREER'],
+			ASSOCIATED_CLASS: this.schedulesOfCourse[i]['ASSOCIATED_CLASS'],
+			CLASS_NBR: this.schedulesOfCourse[i]['CLASS_NBR'],
+			CRSE_ID: this.schedulesOfCourse[i]['CRSE_ID'],
+			EMPLID: this.user.codigoAlumno,
+			INSTITUTION: this.schedulesOfCourse[i]['INSTITUTION'],
+			OFFER_NBR: '1',
+			SESSION_CODE: this.schedulesOfCourse[i]['SESSION_CODE'],
+			SSR_COMPONENT: this.schedulesOfCourse[i]['SSR_COMPONENT'],
+			STRM: this.schedulesOfCourse[i]['STRM'],
+			equivalent: "-",
+			CLASS_SECTION: this.schedulesOfCourse[i]['CLASS_SECTION'],
+			DIA: this.schedulesOfCourse[i]['DIA'],
+			HORA_INICIO: this.schedulesOfCourse[i]['HORA_INICIO'],
+			HORA_FIN: this.schedulesOfCourse[i]['HORA_FIN'],
+			START_DT: this.schedulesOfCourse[i]['START_DT'],
+			END_DT: this.schedulesOfCourse[i]['END_DT'],
+			DESCR: this.schedulesOfCourse[i]['DESCR'],
+		  });
+		  }
+		};
+		let x = new Set();
+		var result = data.reduce((acc,item)=>{
+		  if(!x.has(item.CLASS_NBR)){
+		  x.add(item.CLASS_NBR)
+		  acc.push(item)
+		  }
+		  return acc;
+		},[]);
+		if (data.length == 0 || data == undefined) {
+		  this.loading = false;      
+		  this.toastr.warning('No seleccionaste ninguna sección');
+		  return
+		}
+
+		this.newEnrollmentS.saveCourseClass({
+		  courses: result,
+		  emplid_admin: this.user.email
+		}).then((res) => {
+		  if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
+		  this.toastr.success('Curso matriculado');
+	
+		  let primerCurso = this.session.getObject('cursoExtracurricular');
+		  
+		  if (!primerCurso){
+			this.session.setObject('cursoExtracurricular', data);
+			this.horariosMatriculados = data;
+		  } else {
+			this.horariosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
+			this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
+		  }
+		  this.selectedCourse.value = true;
+		  this.session.destroy('mySchedule');
+		  this.loading = false;
+		  this.ExistCursoMatriculado();
+		  this.countCoursesMatriculados = this.countCoursesMatriculados + 1;
+		  console.log(this.countCoursesMatriculados);
+		  this.horariosModal.close();
+		  } else {
+		  this.toastr.warning('No hay vacantes para este curso');
+		  this.loading = false;
+		  }
+		}).catch(err => alert('No se pudo matricular el curso'));
+	  }
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REFRESH CURSOS
+	  ExistCursoMatriculado(){
+		this.horariosMatriculados = this.session.getObject('cursoExtracurricular')
+		if (!this.horariosMatriculados || this.horariosMatriculados.length == 0) {
+		  this.columTrash = false;
+		}
+		else {
+		  this.courses.forEach(course => {
+			this.horariosMatriculados.forEach(horario => {
+			  if ( horario.CRSE_ID === course.CRSE_ID){
+				course.value = true;
+				this.columTrash = true;
+			  }
+			});
+		  });
+		}
+	  }
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////CERRAR MODALES
+	  closeModalCursos(modal){
+		this.horariosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular'):[];
+		this.selectedCourse.value = false;
+		this.ExistCursoMatriculado();
+		this.cursosExtracurricularesModal.close();
+	  }
+	
+	  closeModalSecciones(modal){
+		this.horariosMatriculados = this.session.getObject('cursoExtracurricular');
+		this.selectedCourse.value = false;
+		this.btnMatricula = true;
+		this.ExistCursoMatriculado();
+		this.horariosModal.close();
+	  }
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////ELIMINAR
+	  delete(course){
+		this.schedulesForDelete = this.horariosMatriculados.filter(horario => horario.CRSE_ID != course.CRSE_ID);
+		this.schedulesForDeleteNew = this.horariosMatriculados.filter(horario => horario.CRSE_ID == course.CRSE_ID);
+		this.class_nbr = this.schedulesForDeleteNew[0]["CLASS_NBR"];
+		this.selectedCourse = course;
+		course.INSTITUCION = "ECONT";
+		course.GRADO_ACADEMICO = "EDUC";
+		course.CICLO_LECTIVO = 1116;
+		course.SESSION_CODE = 1;
+		course.CLASE_ASOCIADA = 1;
+		course.CLASE = this.class_nbr;
+		course.NRO_OFERTA = 1;
+		console.log(course);
+		this.newArray.push(course);
+		this.eliminarMatriculaModal.open();
+	  }
+	
+	  deleteEnrollment(){
+		this.loading = true;
+		this.newEnrollmentS.deleteCourseClassExtra(this.user.codigoAlumno, this.user.email, {courses: this.newArray})
+		.then((res) => {
+		  this.newArray = [];
+		  this.loading = false;
+		  this.horariosMatriculados = this.schedulesForDelete;
+		  this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
+		  this.selectedCourse.value = false;
+		  this.ExistCursoMatriculado();
+		  this.countCoursesMatriculados = this.countCoursesMatriculados - 1;
+		  console.log("# de cursos matriculados : " + this.countCoursesMatriculados);
+		  this.toastr.warning("Curso Removido");
+		  this.eliminarMatriculaModal.close();
+		}).catch(err => alert('Error en servicio de eliminar.'));    
+	  }
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	searchStudent(){
@@ -693,8 +1108,10 @@ export class StudentComponent implements OnInit {
 		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
 			.then((res) => {
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
-				var one = units.filter(item => item.institucion == 'PREGR');
+				var one = units.filter(item => item.institucion == 'PREGR');//ECONT - PREGR
 				var inst = one.length?one[0]:null;
+/* 				this.dataStudent = inst;
+				this.session.setObject('dataStudent', this.dataStudent); */
 				this.sendDataStudent(inst);
 			});
 	}
