@@ -9,6 +9,7 @@ import { QueueService } from '../services/queue.service';
 import { AppSettings } from '../app.settings';
 import { Encrypt } from '../helpers/general';
 import { NewEnrollmentService } from '../services/newenrollment.service';
+import { StudentService } from '../services/student.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
 	studentCode;
 	allData: any;
 	arrego: [];
+	dataStudent:any;
 	@ViewChild('piezaModal') piezaModal: any;
 	constructor(private formBuilder: FormBuilder,
     	private toastr: ToastrService,
@@ -30,7 +32,8 @@ export class LoginComponent implements OnInit {
     	private queueS: QueueService,
     	public newEnrollmentS: NewEnrollmentService,
     	private router: Router,
-    	private deviceS: DeviceDetectorService) { }
+    	private deviceS: DeviceDetectorService,
+		private studentS: StudentService,) { }
 
 	ngOnInit() {
 		// this.piezaModal.open();
@@ -58,6 +61,16 @@ export class LoginComponent implements OnInit {
 				this.toastr.error('El Acceso solo esta permitido a los ALUMNOS.');
 				return;
 			}
+			//SET OBJECT dataStudent 
+			this.studentS.getAcademicDataStudent({code: this.student.codigoAlumno})
+			.then((res) => {
+				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
+				var one = units.filter(item => item.institucion == 'ECONT');//ECONT - PREGR
+				var inst = one.length?one[0]:null;
+				this.dataStudent = inst;
+				this.session.setObject('dataStudent', this.dataStudent);
+			});
+			//-------------------------
 			this.queueS.authEncrypt({...data, code: this.student.codigoAlumno})
 				.subscribe( (res: any) => {
 					this.session.setItem('up', res.ciphertext);
