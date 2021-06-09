@@ -426,7 +426,7 @@ export class StudentComponent implements OnInit {
 		this.getFileUpload();
 		this.getFlagSendUpload();
 		if ((this.user.ind_Medicina == 'Y') && this.router.url == '/estudiante') {
-			this.AvisoVacunaModal.open();
+			// this.AvisoVacunaModal.open();
 			this.showVacunation = true;
 		}
 		this.checkCycleElective();

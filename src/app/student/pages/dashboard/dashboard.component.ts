@@ -128,14 +128,6 @@ export class DashboardComponent implements OnInit {
     }); */
 
     this.getEthnicity();
-    this.studentS.getListOfStudentsJson()
-      .then((res) => {
-        if( res.find(emp => emp == this.user.codigoAlumno)) {
-          this.preModal.open();
-        } else {
-          this.postModal.open();
-        }
-      });
     this.studentS.getDataStudent({email: this.user.email})
     .then(res => {
       this.student = res.UcsMetodoDatosPersRespuesta;
@@ -208,7 +200,7 @@ export class DashboardComponent implements OnInit {
   }
 
   showModals(){
-    // this.modalComunicado.open();
+    this.modalComunicado.open();
     this.studentS.CPEStudents()
       .then((res) => {
         if( res.find(emp => emp == this.user.codigoAlumno)) {
