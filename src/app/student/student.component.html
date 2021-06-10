@@ -339,20 +339,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="text-center text-s" *ngFor="let vclass of course.schedule; let s = 'index'">
-                                            <td class="px-2 py-1 text-left">{{ vclass.SSR_COMPONENT }}</td>
-                                            <td class="px-2 py-1">{{ vclass.CLASS_SECTION }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_DIA }}</td>
-                                            <td class="px-2 py-1">{{ vclass.FACILITY_ID + ' / ' + vclass.UCS_FACILITY_DESC + ' ' + vclass.UCS_BLDG_DESC }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_FECHA_INICIO }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_HORA_INCIO }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_HORA_FIN }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_PROFESOR }}</td>
+                                        <ng-container *ngFor="let vclass of course.schedule; let s = 'index'">
+                                            <tr class="text-center text-s" *ngFor="let sch of vclass.UCS_REST_DET_MREU">
+                                                <td class="px-2 py-1 text-left">{{ vclass.CODIGO_COMPONENTE }}</td>
+                                                <td class="px-2 py-1">{{ vclass.SECCION }}</td>
+                                                <td class="px-2 py-1">{{ sch.DIA }}</td>
+                                                <td class="px-2 py-1">{{ sch.CODIGO_INSTALACION + ' / ' + sch.DESCR_INSTALACION + ' ' + sch.DESCR_UBI_INS }}</td>
+                                                <td class="px-2 py-1">{{ sch.FECHA_INICIAL }}</td>
+                                                <td class="px-2 py-1">{{ sch.HORA_INICIO }}</td>
+                                                <td class="px-2 py-1">{{ sch.HORA_FIN }}</td>
+                                                <td class="px-2 py-1">{{ sch.UCS_REST_DET_DOC?sch.UCS_REST_DET_DOC[0].NOMBRE_DOCENTE:'-' }}</td>
+                                            </tr>
+                                        </ng-container>
+                                        <tr *ngIf="course.schedule.length == 0">
+                                            <td class="px-2 py-1" colspan="8">No se encontraron horarios</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>

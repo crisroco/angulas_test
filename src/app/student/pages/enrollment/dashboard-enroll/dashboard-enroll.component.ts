@@ -271,7 +271,7 @@ export class DashboardEnrollComponent implements OnInit {
               SESSION_CODE: '',
               STRM: this.cicleSelected['CICLO_LECTIVO']
             }).then((res) => {
-              data.concat(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
+              data.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
               if (o == allCourses.length-1) {
                 setTimeout(() => {
                   this.scheduleAvailables = this.checkDuplicates(data);
@@ -614,6 +614,7 @@ export class DashboardEnrollComponent implements OnInit {
         }
       }
     }
+    array.sort(this.dynamicSortMultiple(["-SECCION","-CODIGO_COMPONENTE","NRO_CLASE"]));
     return array.filter(arr => arr.INGRESANTE_NORMAL != 'Y')
   }
 

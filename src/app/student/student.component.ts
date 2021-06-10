@@ -670,46 +670,48 @@ export class StudentComponent implements OnInit {
 	showEnrollmentSchedule(){
 		this.enrollCycles = null;
 		this.EnrollScheduleModal.open();
-		this.studentS.getActiveStrm({ EMPLID: this.enroll.EMPLID})
-			.then((res) => {
-				let activeData = res.UCS_CICLOALU_RSP.UCS_CICLOALU_COM[0];
-				this.studentS.getEnrollSchedule(this.enroll.OPRID + '/' + activeData.INSTITUCION + '/' + this.enroll.ACAD_CAREER + '/' + activeData.PROGRAMA + '/' + activeData.PLAN + '/' + this.enroll.EMPLID + '/' + activeData.CICLO)
-					.then(res => {
-						let allData: Array<any> = res.UCS_REST_HORARIOV2_RES && res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM?res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM:[];
-						// let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
-						var objCycles = {};
-						allData.forEach( (item)  => {
-							if(!objCycles[item.UCS_CICLO]){
-								objCycles[item.UCS_CICLO] = {
-									name: item.UCS_CICLO,
-									isOpen: true,
-									courses: {}
-								}
-							}
-							if(!objCycles[item.UCS_CICLO].courses[item.DESCR]){
-								objCycles[item.UCS_CICLO].courses[item.DESCR] = {
-									name: item.DESCR,
-									isOpen: true,
-									type: item.UCS_OBLIGATORIEDAD,
-									schedule: []
-								}
-							}
-							objCycles[item.UCS_CICLO].courses[item.DESCR].schedule.push(item);
-						});
-						this.enrollCycles = [];
-						for(var kcycle in objCycles){
-							var courses = [];
-							for(var kcourse in objCycles[kcycle].courses){
-								courses.push(objCycles[kcycle].courses[kcourse]);
-							}
-							objCycles[kcycle].courses = courses;
-							if(kcycle > '0'){
-								this.enrollCycles.push(objCycles[kcycle]);
-							}
+		let activeData = this.session.getObject('dataEnrollment');
+		this.newEnrollmentS.getSkillfullLoad({EMPLID: activeData.EMPLID,CAMPUS:activeData.sede})
+			.then(res => {
+				console.log(res);
+				let allData: Array<any> = res?res:[];
+				// let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
+				var objCycles = {};
+				allData.forEach( (item)  => {
+					if(!objCycles[item.UCS_CICLO]){
+						objCycles[item.UCS_CICLO] = {
+							name: item.UCS_CICLO,
+							isOpen: true,
+							courses: {}
 						}
-						objCycles[0].name = 'Electivo';
-						this.enrollCycles.push(objCycles[0]);
-					});
+					}
+					if(!objCycles[item.UCS_CICLO].courses[item.DESCR]){
+						objCycles[item.UCS_CICLO].courses[item.DESCR] = {
+							name: item.DESCR,
+							isOpen: false,
+							type: item.LVF_CARACTER,
+							crse_id: item.CRSE_ID,
+							courses_id: [],
+							schedule: []
+						}
+					}
+					objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.push(item.CRSE_ID2, item.CRSE_ID3,item.CRSE_ID4,item.CRSE_ID5,item.CRSE_ID6);
+					objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id = objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.filter(el => el != '');
+					// objCycles[item.UCS_CICLO].courses[item.DESCR].schedule.push(item);
+				});
+				this.enrollCycles = [];
+				for(var kcycle in objCycles){
+					var courses = [];
+					for(var kcourse in objCycles[kcycle].courses){
+						courses.push(objCycles[kcycle].courses[kcourse]);
+					}
+					objCycles[kcycle].courses = courses;
+					if(kcycle > '0'){
+						this.enrollCycles.push(objCycles[kcycle]);
+					}
+				}
+				// objCycles[0].name = 'Electivo';
+				// this.enrollCycles.push(objCycles[0]);
 			});
 	}
 
@@ -792,7 +794,23 @@ export class StudentComponent implements OnInit {
 	}
 
 	toggle(obj) {
-		obj.isOpen = !obj.isOpen;
+		this.loading = true;
+		console.log(obj);
+		let activeData = this.session.getObject('dataEnrollment');
+		this.newEnrollmentS.getScheduleNew({
+			CAMPUS: activeData.sede,
+			CRSE_ID: obj.crse_id,
+			OFFER_CRSE: '',
+			SESSION_CODE: '',
+			STRM: activeData.STRM
+		}).then((res) => {
+			if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
+				let schedules = res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES;
+				obj.schedule = schedules;
+			}
+			obj.isOpen = !obj.isOpen;
+			this.loading = false;
+		});
 	}
 
 	logout(){
