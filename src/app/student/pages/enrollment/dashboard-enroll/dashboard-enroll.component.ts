@@ -624,7 +624,7 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   checkCap(section){
-    if (section.TOTAL_INSCRITOS >= section.TOTAL_CAPACIDAD) {
+    if (Number(section.TOTAL_INSCRITOS) >= Number(section.TOTAL_CAPACIDAD)) {
       return true
     }
     return false
