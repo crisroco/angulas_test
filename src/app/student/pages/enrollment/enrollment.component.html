@@ -164,6 +164,9 @@
 				      		<i *ngIf="!course.extra" (click)="deleteAditionalCourse(course)" class="pointer fa fa-trash text-red text-l ml-4" aria-hidden="true"></i>
 				      	</td>
 				    </tr>
+					<tr *ngIf="aditionalCourses.length == 0">
+						<td colspan="4">No existen cursos adicionales</td>
+					</tr>
 			  	</tbody>
 			</table>
 	  	</div>

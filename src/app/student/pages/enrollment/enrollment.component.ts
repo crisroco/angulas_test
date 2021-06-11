@@ -115,7 +115,7 @@ export class EnrollmentComponent implements OnInit {
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
-      ACAD_PLAN: this.dataEnrollment['ACAD_PLAN']
+      ACAD_PLAN: this.dataEnrollment['codigoPlan']
     }).then((res) => {
       this.equivalentCourses = res['RES_LST_CRSE_EQUIV']['COM_LST_CRSE_EQUIV'].sort((a,b) => {
         return a.UCS_CICLO - b.UCS_CICLO
@@ -136,26 +136,34 @@ export class EnrollmentComponent implements OnInit {
   aditionalModalData(openModal){
     this.loading = true;
     this.dataEnrollment = this.session.getObject('dataEnrollment');
-    this.allData['EMPLID'] = this.user.codigoAlumno;
-    this.allData['STRM'] = this.schoolCycle.CICLO_LECTIVO;
-    this.enrollmentS.getAditionalCourses(this.allData)
+    let aditional = {
+      EMPLID: this.user.codigoAlumno,
+      INSTITUTION: this.allData['INSTITUTION'],
+      ACAD_CAREER: this.allData['ACAD_CAREER'],
+      ACAD_PROG: this.allData['ACAD_PROG'],
+      ACAD_PLAN: this.allData['codigoPlan'],
+      STRM: this.allData['STRM']
+    }
+    this.enrollmentS.getAditionalCourses(aditional)
       .then((res) => {
         this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES?res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES:[];
-        this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataEnrollment.CAMPUS})
-        .then((res) => {
-          res.sort((a,b) => {
-            return a.UCS_CICLO - b.UCS_CICLO
-          });
-          for (var i = 0; i < res.length; i++) {
-            if (!this.aditionalCourses.filter(el => el.CURSO_ID == res[i].CRSE_ID)[0] && res[i].number == 0) {
-              res[i].extra = true;
-              res[i].TURNO = 'M';
-              this.aditionalCourses.push(res[i]);
-            }
-          }
-          openModal?this.aditionalCoursesModal.open():null;
-          this.loading = false;
-        });
+        this.aditionalCoursesModal.open();
+        this.loading = false;
+        // this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataEnrollment.CAMPUS})
+        // .then((res) => {
+        //   res.sort((a,b) => {
+        //     return a.UCS_CICLO - b.UCS_CICLO
+        //   });
+        //   for (var i = 0; i < res.length; i++) {
+        //     if (!this.aditionalCourses.filter(el => el.CURSO_ID == res[i].CRSE_ID)[0] && res[i].number == 0) {
+        //       res[i].extra = true;
+        //       res[i].TURNO = 'M';
+        //       this.aditionalCourses.push(res[i]);
+        //     }
+        //   }
+        //   openModal?this.aditionalCoursesModal.open():null;
+        //   this.loading = false;
+        // });
       })
   }
 
