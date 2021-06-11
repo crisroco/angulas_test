@@ -205,21 +205,7 @@ export class DashboardComponent implements OnInit {
       .then((res) => {
         if( res.find(emp => emp == this.user.codigoAlumno)) {
           this.allModal.open();
-          this.linktoSurvey = 'https://es.surveymonkey.com/r/53QM78G';
-        }
-      });
-    this.studentS.POSStudents()
-      .then((res) => {
-        if( res.find(emp => emp == this.user.codigoAlumno)) {
-          this.allModal.open();
-          this.linktoSurvey = 'https://es.surveymonkey.com/r/53RZ8PK';
-        }
-      });
-    this.studentS.PREStudents()
-      .then((res) => {
-        if( res.find(emp => emp == this.user.codigoAlumno)) {
-          this.allModal.open();
-          this.linktoSurvey = 'https://es.surveymonkey.com/r/5385BJ9';
+          this.linktoSurvey = 'https://sedd.cientifica.edu.pe/login/ingresar';
         }
       });
   }
