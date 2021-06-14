@@ -509,11 +509,11 @@ export class StudentComponent implements OnInit {
 				this.numberOfCicles.forEach(ci =>{
 					console.log("Ciclo electivo del alumno : " + ci["CICLO_LECTIVO"]);
 					if (ci["CICLO_LECTIVO"] == 1116){ //validación con el ciclo electivo actual//1087
-						console.log("CICLO ELECTIVO TRUE");
+						console.log("validación CICLO_ELECTIVO correcta");
 						this.cycleOn = true;
 						return;
 					}else{
-						console.log("CICLO ELECTIVO FALSE");
+						console.log("Ningún ciclo electivo del alumno es el requerido");
 						this.cycleOn = false;
 					}
 				});
