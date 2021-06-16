@@ -442,8 +442,6 @@ export class StudentComponent implements OnInit {
 				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
 				if (this.coursesPeople) {
 					this.countCoursesMatriculados = this.coursesPeople.length;
-					console.log("COUNT CURSOS MATRICULADOS : " + this.countCoursesMatriculados);
-					console.log("CURSOS ARRAY PEOPLE : " + this.coursesPeople.length);
 					let dataPeople = [];
 					for (var i = 0; i < this.coursesPeople.length; i++) {
 						for (var o = 0; o < this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'].length; o++) {
@@ -475,22 +473,17 @@ export class StudentComponent implements OnInit {
 						this.ExistCursoMatriculado();
 					};
 				} else {
-					console.log("NO HAY CURSOS PS");
-					console.log(this.coursesPeople);
 				}
 			});
 
 		this.newEnrollmentS.getCoursesExtra()//servicio de cursos extracurriculares de la tabla intermedia
 			.then((res) => {
-				console.log("Total cursos extracurricualres tabla intermedia");
-				console.log(res);
 				this.courses = res['data'];
 				this.ExistCursoMatriculado();
 			});
 	}
 
-	validationModal(){
-		console.log(this.dataStudent);		
+	validationModal(){		
 		if (this.cycleOn == true){
 			this.cursosExtracurricularesModal.open();
 		} else {
@@ -502,18 +495,12 @@ export class StudentComponent implements OnInit {
 	checkCycleElective(){
 		this.newEnrollmentS.getSchoolCycle({ EMPLID: this.user.codigoAlumno, INSTITUTION: this.dataStudent.institucion, ACAD_CAREER: this.dataStudent.codigoGrado })
 			.then((res) => {
-				console.log(res);
 				this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
-				console.log("Ciclos activos del alumno:");
-				console.log(this.numberOfCicles);
 				this.numberOfCicles.forEach(ci =>{
-					console.log("Ciclo electivo del alumno : " + ci["CICLO_LECTIVO"]);
 					if (ci["CICLO_LECTIVO"] == 1116){ //validación con el ciclo electivo actual//1087
-						console.log("validación CICLO_ELECTIVO correcta");
 						this.cycleOn = true;
 						return;
 					}else{
-						console.log("Ningún ciclo electivo del alumno es el requerido");
 						this.cycleOn = false;
 					}
 				});
@@ -534,8 +521,6 @@ export class StudentComponent implements OnInit {
 		  this.loading = true;
 		  this.newEnrollmentS.getSchedulesCourse(course.CRSE_ID)
 			.then((res) => {
-			  console.log("Horarios del curso seleccionado");
-			  console.log(res);
 			  this.arraySchedules = res['SIS_WS_HORCC_RSP']['SIS_WS_HORCC_COM'];
 			  //bloque de horarios con fechas pasadas---------------------------
 			  var d = new Date();
@@ -543,7 +528,6 @@ export class StudentComponent implements OnInit {
 			  let mesActual = d.getMonth()+1;
 			  /* let diaActual = 17;
 			  let mesActual = 6; */
-			  console.log("Fecha de hoy : " + diaActual + " / " + mesActual);
 			  this.schedulesOfCourse = this.checkDuplicates(this.arraySchedules);
 			  this.schedulesOfCourse.forEach(el => {
 				let diaHorario = parseInt(el["START_DT"].substr(8,9));
@@ -613,9 +597,7 @@ export class StudentComponent implements OnInit {
 		}
 	  }
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR HORARIO
-	  changeSchedule(section, evt) {  
-		console.log("Section :");
-		console.log(section);
+	  changeSchedule(section, evt) {
 		let variable = false;
 		this.schedulesSelected = [];
 		this.schedulesOfCourse.forEach(el => {
@@ -645,7 +627,6 @@ export class StudentComponent implements OnInit {
 		}
 
 		this.class_nbr = section["CLASS_NBR"];
-		console.log(this.class_nbr);
 	  }
 	
 	  checkCrosses(pickedCourse){
@@ -736,7 +717,6 @@ export class StudentComponent implements OnInit {
 		  this.loading = false;
 		  this.ExistCursoMatriculado();
 		  this.countCoursesMatriculados = this.countCoursesMatriculados + 1;
-		  console.log(this.countCoursesMatriculados);
 		  this.horariosModal.close();
 		  } else {
 		  this.toastr.warning('No hay vacantes para este curso');
@@ -790,7 +770,6 @@ export class StudentComponent implements OnInit {
 		course.CLASE_ASOCIADA = 1;
 		course.CLASE = this.class_nbr;
 		course.NRO_OFERTA = 1;
-		console.log(course);
 		this.newArray.push(course);
 		this.eliminarMatriculaModal.open();
 	  }
@@ -806,7 +785,6 @@ export class StudentComponent implements OnInit {
 		  this.selectedCourse.value = false;
 		  this.ExistCursoMatriculado();
 		  this.countCoursesMatriculados = this.countCoursesMatriculados - 1;
-		  console.log("# de cursos matriculados : " + this.countCoursesMatriculados);
 		  this.toastr.warning("Curso Removido");
 		  this.eliminarMatriculaModal.close();
 		}).catch(err => alert('Error en servicio de eliminar.'));    
@@ -833,7 +811,6 @@ export class StudentComponent implements OnInit {
 	      }
 	    })
 	    .catch( err => {
-	      console.log('catch!', err);
 			});
 			
 			// this.queueS.notification( this.user.codigoAlumno )
@@ -863,10 +840,8 @@ export class StudentComponent implements OnInit {
 	notificationRead(){
 		this.queueS.notificationRead( this.user.codigoAlumno )
 				.subscribe( (res: any) => {
-					console.log('Leyendo')
 					this.notifications_read = 0;
 				}, (err: any) => {
-					console.log('error', err)
 				})
 	}
 
@@ -963,7 +938,6 @@ export class StudentComponent implements OnInit {
 
 		}).catch(error => {
 			this.loading = false;
-			console.log(error.message, 'Mensaje de error');
 		});
 	}
 
@@ -1195,7 +1169,6 @@ export class StudentComponent implements OnInit {
 							var dateQueue = this.queueEnroll.exactDate.split(' ');
 							var parts = dateQueue[0].split('/');
 							var partsHour = dateQueue[1].split(':');
-							console.log(this.deviceS.userAgent);
 							if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
 								if ((this.deviceS.getDeviceInfo().browser == 'Chrome' || this.deviceS.getDeviceInfo().browser == 'Safari') && Number((this.deviceS.userAgent.split('_')[0]).slice(-2)) > 13) {
 									var partsHour = this.queueEnroll.hora_ing.split(':');
@@ -1645,8 +1618,7 @@ export class StudentComponent implements OnInit {
 	getFileUpload(){	
 		this.studentS.getFileUpload(this.user.codigoAlumno)
 		.then((res) => {	
-			this.botonesvacuna = true;
-			// console.log(res.data.length);	
+			this.botonesvacuna = true;	
 			this.datafile = res.data; 
 
 			if(res.data.length == 0) {
@@ -1709,24 +1681,20 @@ export class StudentComponent implements OnInit {
 
 	getFlagSendUpload(){	
 		this.studentS.getFlagSendUpload(this.user.codigoAlumno)
-		.then((res) => {
-			console.log(res.status);			
+		.then((res) => {		
 			this.flagSendUpload = res.status;
 		});
 	}
 
 	onRemoveCartilla(event) {
-		console.log(event);
 		this.filesCartilla.splice(this.filesCartilla.indexOf(event), 1);
 		this.habilitarbotonesVacunacion();
 	}
 	onRemoveDeclaracion(event) {
-		console.log(event);
 		this.filesDeclaracion.splice(this.filesDeclaracion.indexOf(event), 1);
 		this.habilitarbotonesVacunacion();
 	}
 	onRemoveExoneracion(event) {
-		console.log(event);
 		this.filesExoneracion.splice(this.filesExoneracion.indexOf(event), 1);
 		this.habilitarbotonesVacunacion();
 	}

@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
 		// this.piezaModal.open();
-		console.log('init');
 		this.loginForm = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],
@@ -68,7 +67,6 @@ export class LoginComponent implements OnInit {
 				var instis = res['UcsMetodoDatosAcadRespuesta']['UcsMetodoDatosAcadRespuesta'];
 				console.log("INSTITUTION'S del alumno:");
 				instis.forEach( i => {
-					console.log(i['institucion']);
 				});
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 				var one = units.filter(item => item.institucion == 'ECONT');//ECONT - PREGR
