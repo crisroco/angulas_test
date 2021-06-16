@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
 		// this.piezaModal.open();
+		console.log('init');
 		this.loginForm = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],
