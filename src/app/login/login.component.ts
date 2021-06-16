@@ -65,6 +65,11 @@ export class LoginComponent implements OnInit {
 			//SET OBJECT dataStudent 
 			this.studentS.getAcademicDataStudent({code: this.student.codigoAlumno})
 			.then((res) => {
+				var instis = res['UcsMetodoDatosAcadRespuesta']['UcsMetodoDatosAcadRespuesta'];
+				console.log("INSTITUTION'S del alumno:");
+				instis.forEach( i => {
+					console.log(i['institucion']);
+				});
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 				var one = units.filter(item => item.institucion == 'ECONT');//ECONT - PREGR
 				var inst = one.length?one[0]:null;

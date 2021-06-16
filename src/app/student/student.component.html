@@ -838,7 +838,7 @@
 										  <label class="docente form-check-label">{{ course.TOPIC }} </label>
 										</div>
 									</td>
-									<td class="p-2 text-left">{{ (course.MAIN_TYPE).substr(0,12) }} TI </td>
+									<td class="p-2 text-left">{{ course.MAIN_TYPE }}</td>
 									<td class="p-2 text-left">{{ course.HOURS }}</td>
 									<td *ngIf="columTrash" class="text-left pt-2 pb-0">
 										<a *ngIf="course.value" (click)="delete(course)" ngxTooltip tooltipContent="Eliminar"><i class="red fa fa-trash text-black text-1 pointer"></i></a>
