@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
   queueEnroll: any;
   showwsp: boolean = false;
   fidelityLink: any = '';
-  imagesAcadConditions = new Array(29);
+  imagesAcadConditions = new Array(35);
   imagesFinaConditions = new Array(25);
   realHourStart;
   realHourEnd;
@@ -557,8 +557,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
     tEnroll[flag] = 'Y';
-    // STRM
-    // tEnroll['STRM'] = '2222';
+    tEnroll['STRM'] = this.session.getObject('acadmicData')['cicloAdmision'];
     this.newEnrollmentS.saveConditions(tEnroll)
       .then((res) => {
         this.loading = false;
