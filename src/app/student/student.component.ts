@@ -382,7 +382,7 @@ export class StudentComponent implements OnInit {
 		this.getFileUpload();
 		this.getFlagSendUpload();
 		if ((this.user.ind_Medicina == 'Y') && this.router.url == '/estudiante') {
-			this.AvisoVacunaModal.open();
+			// this.AvisoVacunaModal.open();
 			this.showVacunation = true;
 		}
 		// this.studentS.getListOfInterStudentsJson().then((res) => {
@@ -540,7 +540,6 @@ export class StudentComponent implements OnInit {
 
 		}).catch(error => {
 			this.loading = false;
-			console.log(error.message, 'Mensaje de error');
 		});
 	}
 

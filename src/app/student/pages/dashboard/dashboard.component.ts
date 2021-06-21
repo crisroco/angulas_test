@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit {
       console.log(res);
     }); */
 
-    this.getEthnicity();
+    // this.getEthnicity();
     // this.studentS.getListOfStudentsJson()
     //   .then((res) => {
     //     if( res.find(emp => emp == this.user.codigoAlumno)) {
