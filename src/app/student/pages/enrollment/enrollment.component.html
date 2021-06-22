@@ -140,7 +140,8 @@
 				      	<th class="py-2 text-left text-m">Cursos</th>
 				      	<th class="py-2 text-left text-m">Créditos</th>
 				      	<th class="py-2 text-left text-m">Codigo</th>
-				      	<th class="py-2 text-left text-m">Turno</th>
+				      	<th *ngIf="CPE" class="py-2 text-left text-m">Turno</th>
+						<th class="py-2 text-left text-m">Dia</th>
 			    	</tr>
 			  	</thead>
 			  	<tbody>
@@ -154,9 +155,14 @@
 				      	</td>
 				      	<td class="text-left">{{course.CREDITOS?course.CREDITOS:course.UNITS_REPEAT_LIMIT | number: '1.0-0'}}</td>
 				      	<td class="text-left">{{course.MATERIA?course.MATERIA:course.SUBJECT}}  {{course.NRO_CATALOGO?course.NRO_CATALOGO:course.CATALOG_NBR}}</td>
-				      	<td class="text-left">
+				      	<td *ngIf="CPE" class="text-left">
+							<select [disabled]="!course.extra" [(ngModel)]="course.UCS_TURNO_CRSE" name="turn_week" id="">
+								<option value="D">Día Semana</option>
+								<option value="F">Fin Semana</option>
+							</select>
+						</td>
+						<td class="text-left">
 				      		<select [disabled]="!course.extra" [(ngModel)]="course.TURNO" name="turn" id="">
-				      			<option value="">Seleccione</option>
 				      			<option value="M">Mañana</option>
 				      			<option value="T">Tarde</option>
 				      			<option value="N">Noche</option>

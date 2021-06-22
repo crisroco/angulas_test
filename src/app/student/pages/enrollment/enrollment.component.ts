@@ -20,6 +20,7 @@ export class EnrollmentComponent implements OnInit {
   @ViewChild('equivalentCoursesModal') equivalentCoursesModal: any;
   @ViewChild('showModalEmailSend') showModalEmailSend: any;
   loading: boolean = false;
+  CPE:any = false;
   aditionalCourses:Array<any> = [];
   equivalentCourses:Array<any> = [];
   skillFull;
@@ -134,6 +135,7 @@ export class EnrollmentComponent implements OnInit {
   }
 
   aditionalModalData(openModal){
+    this.CPE = this.session.getItem('CPE');
     this.loading = true;
     this.dataEnrollment = this.session.getObject('dataEnrollment');
     let aditional = {
@@ -147,23 +149,27 @@ export class EnrollmentComponent implements OnInit {
     this.enrollmentS.getAditionalCourses(aditional)
       .then((res) => {
         this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES?res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES:[];
-        this.aditionalCoursesModal.open();
         this.loading = false;
-        // this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataEnrollment.CAMPUS})
-        // .then((res) => {
-        //   res.sort((a,b) => {
-        //     return a.UCS_CICLO - b.UCS_CICLO
-        //   });
-        //   for (var i = 0; i < res.length; i++) {
-        //     if (!this.aditionalCourses.filter(el => el.CURSO_ID == res[i].CRSE_ID)[0] && res[i].number == 0) {
-        //       res[i].extra = true;
-        //       res[i].TURNO = 'M';
-        //       this.aditionalCourses.push(res[i]);
-        //     }
-        //   }
-        //   openModal?this.aditionalCoursesModal.open():null;
-        //   this.loading = false;
-        // });
+        this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataEnrollment.sede})
+        .then((res) => {
+          let alreadyIn = this.session.getObject('notInAditional');
+          for (let e = 0; e < alreadyIn.length; e++) {
+            res = res.filter(al => (al.CRSE_ID != alreadyIn[e].CRSE_ID) && (al.CRSE_ID2 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID3 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID4 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID5 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID6 != alreadyIn[e].CRSE_ID));
+          }
+          res.sort((a,b) => {
+            return a.UCS_CICLO - b.UCS_CICLO
+          });
+          for (var i = 0; i < res.length; i++) {
+            if (!this.aditionalCourses.find(el => el.CURSO_ID == res[i].CRSE_ID)) {
+              res[i].extra = true;
+              res[i].TURNO = 'M';
+              res[i].UCS_TURNO_CRSE = this.CPE?'D':'';
+              this.aditionalCourses.push(res[i]);
+            }
+          }
+          openModal?this.aditionalCoursesModal.open():null;
+          this.loading = false;
+        });
       })
   }
 
@@ -179,9 +185,9 @@ export class EnrollmentComponent implements OnInit {
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
-      ACAD_PLAN: this.dataEnrollment['ACAD_PLAN'],
+      ACAD_PLAN: this.dataEnrollment['codigoPlan'],
       STRM: this.schoolCycle.CICLO_LECTIVO,
-      UCS_REST_CUR_ADIC_DT: [{CRSE_ID: crs.CURSO_ID, TURNO: crs.TURNO, ACCION: 'B'}]
+      UCS_REST_CUR_ADIC_DT: [{CRSE_ID: crs.CURSO_ID, TURNO: crs.TURNO, ACCION: 'B', TURNO_SEMANA: crs.UCS_TURNO_CRSE}]
     }).then((res) => {
       this.loading = false;
       this.aditionalModalData(false);
@@ -200,6 +206,7 @@ export class EnrollmentComponent implements OnInit {
         aditional.push({
           CRSE_ID: this.aditionalCourses[i]['CRSE_ID'],
           TURNO: this.aditionalCourses[i]['TURNO']?this.aditionalCourses[i]['TURNO']:'M',
+          TURNO_SEMANA: this.aditionalCourses[i]['UCS_TURNO_CRSE']?this.aditionalCourses[i]['UCS_TURNO_CRSE']:'',
           ACCION: "I"
         });
       }
@@ -214,7 +221,7 @@ export class EnrollmentComponent implements OnInit {
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
-      ACAD_PLAN: this.dataEnrollment['ACAD_PLAN'],
+      ACAD_PLAN: this.dataEnrollment['codigoPlan'],
       STRM: this.schoolCycle.CICLO_LECTIVO,
       UCS_REST_CUR_ADIC_DT: aditional
     }).then((res) => {
