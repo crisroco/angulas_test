@@ -208,14 +208,13 @@
 	<div class="text-left p-2 px-5">
 		<h5 class="text-{{company}} font-weight-bold text-center">Condiciones Académicas</h5>
 	</div>
-	<div class="h-fn scroll fullModal">
+	<!-- <div class="h-fn scroll fullModal">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_academicas/condiciones_academicas_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesAcadConditions; let ac = 'index'">
-		<!-- <ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_academicas.pdf"></ng2-pdfjs-viewer> -->
-	</div>
+		<ng2-pdfjs-viewer [externalWindow]="false" [viewBookmark]="true" [download]="true" pdfSrc="condiciones_academicas.pdf"></ng2-pdfjs-viewer>
+	</div> -->
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
-			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Descargar
-			PDF</a>
+			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Leer Condiciones</a>
 		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'"
 			class="btn rounded-1 px-4 btn-{{company}}"
 			(click)="saveConditions('FLAG_ACADEMICO', AcademicConditionModal)">ACEPTAR</button>
@@ -233,13 +232,12 @@
 	<div class="text-left p-2 px-5">
 		<h5 class="text-{{company}} font-weight-bold text-center">Condiciones Financieras</h5>
 	</div>
-	<div class="h-fn scroll fullModal">
+	<!-- <div class="h-fn scroll fullModal">
 		<img class="w-100" src="./assets/pdfjs/web/condiciones_financieras/condiciones_financieras_{{ac + 1}}.jpg" *ngFor="let imgAC of imagesFinaConditions; let ac = 'index'">
-	</div>
+	</div> -->
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
-			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Descargar
-			PDF</a>
+			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Leer Condiciones</a>
 		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'"
 			class="btn rounded-1 px-4 btn-{{company}} mr-3"
 			(click)="saveConditions('FLAG_FINANCIERO', FinancialConditionModal)">ACEPTAR</button>
