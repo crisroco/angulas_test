@@ -241,4 +241,17 @@
 	</div>
 </ngx-smart-modal>
 
+<ngx-smart-modal #changeToChromeModal identifier="changeToChromeModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
+	<div class="bg-ucs p-4 rounded-t-1">
+		
+	</div>
+	<div class="text-left p-3">
+		<h5 class="text-ucs font-weight-bold text-center">Te recomendamos que hagas el proceso de matricula en el navegador Chrome de preferencia</h5>
+	</div>
+	<div class="row d-flex justify-content-center mb-3 px-5">
+		<!-- <button [disabled]="!emailToSend" class="btn rounded-1 btn-ucs mr-3" (click)="sendScheduleToMail()">Enviar</button> -->
+		<!-- <button class="btn rounded-1 btn-ucs ml-3" (click)="changeToChromeModal.close()">Cancelar</button> -->
+	</div>
+</ngx-smart-modal>
+
 <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>

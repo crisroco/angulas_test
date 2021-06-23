@@ -672,7 +672,6 @@ export class StudentComponent implements OnInit {
 		let activeData = this.session.getObject('dataEnrollment');
 		this.newEnrollmentS.getSkillfullLoad({EMPLID: activeData.EMPLID,CAMPUS:activeData.sede})
 			.then(res => {
-				console.log(res);
 				let allData: Array<any> = res?res:[];
 				// let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
 				var objCycles = {};
@@ -689,12 +688,11 @@ export class StudentComponent implements OnInit {
 							name: item.DESCR,
 							isOpen: false,
 							type: item.LVF_CARACTER,
-							crse_id: item.CRSE_ID,
 							courses_id: [],
 							schedule: []
 						}
 					}
-					objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.push(item.CRSE_ID2, item.CRSE_ID3,item.CRSE_ID4,item.CRSE_ID5,item.CRSE_ID6);
+					objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.push(item.CRSE_ID, item.CRSE_ID2, item.CRSE_ID3,item.CRSE_ID4,item.CRSE_ID5,item.CRSE_ID6);
 					objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id = objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.filter(el => el != '');
 					// objCycles[item.UCS_CICLO].courses[item.DESCR].schedule.push(item);
 				});
@@ -794,22 +792,27 @@ export class StudentComponent implements OnInit {
 
 	toggle(obj) {
 		this.loading = true;
-		console.log(obj);
+		let coursesId = [];
 		let activeData = this.session.getObject('dataEnrollment');
-		this.newEnrollmentS.getScheduleNew({
-			CAMPUS: activeData.sede,
-			CRSE_ID: obj.crse_id,
-			OFFER_CRSE: '',
-			SESSION_CODE: '',
-			STRM: activeData.STRM
-		}).then((res) => {
-			if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
-				let schedules = res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES;
-				obj.schedule = schedules;
-			}
-			obj.isOpen = !obj.isOpen;
-			this.loading = false;
-		});
+		for (let i = 0; i < obj.courses_id.length; i++) {
+			let schedules = [];
+			this.newEnrollmentS.getScheduleNew({
+				CAMPUS: activeData.sede,
+				CRSE_ID: obj.courses_id[i],
+				OFFER_CRSE: '',
+				SESSION_CODE: '',
+				STRM: activeData.STRM
+			}).then((res) => {
+				if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
+					schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
+				}
+				if (i == obj.courses_id.length-1) {
+					obj.schedule = schedules;
+					obj.isOpen = !obj.isOpen;
+					this.loading = false;
+				}
+			});
+		}
 	}
 
 	logout(){

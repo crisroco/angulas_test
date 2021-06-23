@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Broadcaster } from '../../../services/broadcaster';
-import { NgxSmartModalService } from 'ngx-smart-modal';
 import { Router } from '@angular/router';
 import { NewEnrollmentService } from '../../../services/newenrollment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -8,6 +7,8 @@ import { SessionService } from '../../../services/session.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { RealDate, AddDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../helpers/dates';
 import { ValidateEmail } from '../../../helpers/general';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 @Component({
   selector: 'app-enrollment',
   templateUrl: './enrollment.component.html',
@@ -19,6 +20,7 @@ export class EnrollmentComponent implements OnInit {
   @ViewChild('aditionalCoursesModal') aditionalCoursesModal: any;
   @ViewChild('equivalentCoursesModal') equivalentCoursesModal: any;
   @ViewChild('showModalEmailSend') showModalEmailSend: any;
+  @ViewChild('changeToChromeModal') changeToChromeModal: any;
   loading: boolean = false;
   CPE:any = false;
   aditionalCourses:Array<any> = [];
@@ -39,9 +41,13 @@ export class EnrollmentComponent implements OnInit {
   public emailToSend = '';
   public myCredits = 0;
 
-  constructor(private broadcaster: Broadcaster, public enrollmentS: NewEnrollmentService, public session: SessionService, private router: Router, public toastT: ToastrService) { }
+  constructor(private broadcaster: Broadcaster,private deviceS: DeviceDetectorService, public enrollmentS: NewEnrollmentService, public session: SessionService, private router: Router, public toastT: ToastrService) { }
 
   ngOnInit() {
+    if(this.deviceS.isMobile() && this.deviceS.getDeviceInfo().browser != 'Chrome' && this.deviceS.getDeviceInfo().os == 'Android'){
+      console.log('Hide');
+      this.changeToChromeModal.open();
+    }
     this.session.destroy('mySchedule');
     this.student = this.session.getObject('student');
     this.allData = this.session.getObject('dataEnrollment');
@@ -152,7 +158,7 @@ export class EnrollmentComponent implements OnInit {
         this.loading = false;
         this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataEnrollment.sede})
         .then((res) => {
-          let alreadyIn = this.session.getObject('notInAditional');
+          let alreadyIn = this.session.getObject('notInAditional')?this.session.getObject('notInAditional'):[];
           for (let e = 0; e < alreadyIn.length; e++) {
             res = res.filter(al => (al.CRSE_ID != alreadyIn[e].CRSE_ID) && (al.CRSE_ID2 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID3 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID4 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID5 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID6 != alreadyIn[e].CRSE_ID));
           }

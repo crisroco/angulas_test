@@ -152,13 +152,13 @@ export class DashboardEnrollComponent implements OnInit {
       STRM2: null,
       check:true
     }).then((res) => {
-      this.session.setObject('notInAditional', res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES);
       let creditos = 0;
       let coursesInEnrollment = res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES;
       if (res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES) {
         for (let i = 0; i < coursesInEnrollment.length; i++) {
           creditos += Number(coursesInEnrollment[i].CREDITOS);
         }
+        this.session.setObject('notInAditional', res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES);
         this.myRealCoursesInEnrollment = coursesInEnrollment.filter(el => el.PERMITIR_BAJA == 'Y');
       }
       this.myCoursesinEnrollment = coursesInEnrollment;
