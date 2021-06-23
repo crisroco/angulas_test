@@ -45,7 +45,6 @@ export class EnrollmentComponent implements OnInit {
 
   ngOnInit() {
     if(this.deviceS.isMobile() && this.deviceS.getDeviceInfo().browser != 'Chrome' && this.deviceS.getDeviceInfo().os == 'Android'){
-      console.log('Hide');
       this.changeToChromeModal.open();
     }
     this.session.destroy('mySchedule');
@@ -150,7 +149,7 @@ export class EnrollmentComponent implements OnInit {
       ACAD_CAREER: this.allData['ACAD_CAREER'],
       ACAD_PROG: this.allData['ACAD_PROG'],
       ACAD_PLAN: this.allData['codigoPlan'],
-      STRM: this.allData['STRM']
+      STRM: this.schoolCycle.CICLO_LECTIVO
     }
     this.enrollmentS.getAditionalCourses(aditional)
       .then((res) => {
