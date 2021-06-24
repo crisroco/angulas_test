@@ -23,7 +23,6 @@ export class DashboardComponent implements OnInit {
   equivalentCourses: Array<any> = [];
   aditionalCourses: Array<any> = [];
   user = this.session.getObject('user');
-  @ViewChild('selecStudentModal') selecStudentModal: any;
   @ViewChild('aditionalCoursesModal') aditionalCoursesModal: any;
   @ViewChild('equivalentCoursesModal') equivalentCoursesModal: any;
   @ViewChild('schedulePreview') schedulePreview: any;
@@ -390,22 +389,4 @@ export class DashboardComponent implements OnInit {
     while (s.length < size) { s = '0' + s; }
     return s;
   }
-
-  uploadData() {
-    this.loading = true;
-    let myData = this.session.getObject('acadmicData');
-    let cycle = this.session.getObject('schoolCycle');
-    this.newEnrollmentS.getDataStudentEnrollment({ EMPLID: this.studentCode })
-      .then((res) => {
-        this.newEnrollmentS.getScheduleAutoservice({ EMPLID: this.studentCode, CAMPUS: res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0].CAMPUS })
-          .then((res) => {
-            this.toastr.success('Carga del Alumno Actualizada');
-            setTimeout(() => {
-              this.loading = false;
-              location.reload();
-            }, 1000)
-          });
-      });
-  }
-
 }

@@ -98,8 +98,8 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/processEnrollment', data).toPromise();
     }
 
-    public getScheduleAutoservice(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleAutoservice', data).toPromise();
+    public getSkillFullLoadAutoService(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillFullLoadAutoService', data).toPromise();
     }
 
     public getDataStudentEnrollment(data): Promise<any> {

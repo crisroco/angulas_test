@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('selecStudentModal') selecStudentModal: any;
   @ViewChild('selecEnrollmentModal') selecEnrollmentModal: any;
+  @ViewChild('confirmationUploadModal') confirmationUploadModal:any;
   user = this.session.getObject('user');
   userBackOffice = this.session.getItem('userBackOffice');
   studentCode;
@@ -131,6 +132,25 @@ export class HomeComponent implements OnInit {
       this.session.setObject('user', this.user);
       this.router.navigate(['admin/dashboard']);
     });
+  }
+
+  // Charge Student
+  openConfirmation() {
+    if (!this.studentCode) {
+      this.toastr.error("Ingresa un codigo de alumno");
+      return
+    }
+    this.confirmationUploadModal.open();
+  }
+
+  uploadData(){
+    this.loading = true;
+    this.newEnrollmentS.getSkillFullLoadAutoService({EMPLID: this.studentCode})
+      .then((res) => {
+        this.toastr.success('Carga Completa');
+        this.loading = false;
+        console.log(res);
+      })
   }
 
 }
