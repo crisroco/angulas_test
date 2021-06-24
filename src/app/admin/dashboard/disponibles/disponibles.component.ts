@@ -88,6 +88,9 @@ export class DisponiblesComponent implements OnInit {
   selectedCycle(cicle){
     this.cicleSelected = cicle;
     this.session.setObject('schoolCycle', this.cicleSelected);
+    if(this.cicleSelected.DESCR_CICLO.includes('CPE')){
+      this.session.setItem('CPE', true);
+    }
     this.broadcaster.sendMessage({cycleSelected: this.cicleSelected})
     this.loadCoursesAlready();
   }
@@ -114,6 +117,8 @@ export class DisponiblesComponent implements OnInit {
           this.availableCourses = res.sort((a,b) => {
             return a.UCS_CICLO - b.UCS_CICLO
           });
+          let material = res.filter(el => el.FLAG == 'A');
+          this.session.setObject('MaterialInCourse', material);
           if (coursesInEnrollment) {
             for (let i = 0; i < coursesInEnrollment.length; i++) {
               this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID2 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID3 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID4 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID5 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID6 != coursesInEnrollment[i].CRSE_ID);
