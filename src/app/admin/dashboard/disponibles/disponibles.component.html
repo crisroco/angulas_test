@@ -14,20 +14,32 @@
 				    	</tr>
 				  	</thead>
 				  	<tbody>
-					    <tr class="text-s" *ngFor="let course of availableCourses">
-					    	<ng-container *ngIf="course.number == 0">
-				    			<td class="text-left">
-					      			<div class="form-check">
-										<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" (change)='onChangeAvailable(course, $event)' value="{{course.CRSE_ID}}">
-										<label class="docente form-check-label" for="{{course.CRSE_ID}}">{{course.DESCR}}</label>
-								    </div>
-						      	</td>
-						      	<td>{{course.UNITS_REPEAT_LIMIT | number}}</td>
-						      	<td>{{course.LVF_CARACTER}}</td>
-						      	<td>{{course.SUBJECT}}{{course.CATALOG_NBR}}</td>
-						      	<td>{{course.UCS_CICLO}}</td>
-					    	</ng-container>
-					    </tr>
+						<ng-container *ngFor="let course of availableCourses; let i = 'index'">
+							<tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[0].FLAG == 'A' && i == 0">
+								<td colspan="5">
+									Materias en Curso
+								</td>
+							</tr>
+							<tr class="text-s">
+								<ng-container *ngIf="course.number == 0">
+									<td class="text-left">
+										  <div class="form-check">
+											<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" (change)='onChangeAvailable(course, $event)' value="{{course.CRSE_ID}}">
+											<label class="docente form-check-label" for="{{course.CRSE_ID}}">{{course.DESCR}}</label>
+										</div>
+									  </td>
+									  <td>{{course.UNITS_REPEAT_LIMIT | number}}</td>
+									  <td>{{course.LVF_CARACTER}}</td>
+									  <td>{{course.SUBJECT}}{{course.CATALOG_NBR}}</td>
+									  <td>{{course.UCS_CICLO}}</td>
+								</ng-container>
+							</tr>
+							<tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[i].FLAG == 'N' && availableCourses[i+1].FLAG == 'A'">
+								<td colspan="5">
+									Materias en Curso
+								</td>
+							</tr>
+						</ng-container>
 				  	</tbody>
 				</table>
 			</div>

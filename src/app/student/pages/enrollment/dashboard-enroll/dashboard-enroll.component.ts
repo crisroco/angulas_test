@@ -165,6 +165,7 @@ export class DashboardEnrollComponent implements OnInit {
       this.myCredits = creditos;
       this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.sede})
         .then((res) => {
+          console.log(res);
           this.allCoursesId = res.filter(el => el.FLAG == 'A');
           this.session.setObject('MaterialInCourse', this.allCoursesId);
           this.availableCourses = res.sort(this.dynamicSortMultiple(["-FLAG","UCS_CICLO"]));
@@ -608,7 +609,6 @@ export class DashboardEnrollComponent implements OnInit {
 
   checkDuplicates(array){
     array.sort(this.dynamicSortMultiple(["ASOCIACION_CLASE","ID_CURSO","-CODIGO_COMPONENTE","NRO_CLASE"]));
-    let lastNBR;
     for (var i = 0; i < array.length; i++) {
       for (var o = 0; o < array[i]['UCS_REST_DET_MREU'].length; o++) {
         if (o == 0) {

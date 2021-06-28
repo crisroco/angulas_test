@@ -315,7 +315,7 @@
     <div class="scroll">
         <div *ngIf="enrollCycles && enrollCycles.length">
             <div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let cycles of enrollCycles">
-                <div (click)="toggle(cycles)" class="bg-{{company}} p-2 text-white pointer">
+                <div (click)="toggleCycle(cycles)" class="bg-{{company}} p-2 text-white pointer">
                     Ciclo {{cycles.name}}
                 </div>
                 <div [@openClose]="cycles.isOpen ? 'open' : 'closed'" class="pd-3">

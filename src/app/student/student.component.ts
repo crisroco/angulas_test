@@ -790,28 +790,35 @@ export class StudentComponent implements OnInit {
 		this.IntentionEnrollmentModal.open();
 	}
 
+	toggleCycle(obj){
+		obj.isOpen = !obj.isOpen;
+	}
+
 	toggle(obj) {
-		this.loading = true;
-		let coursesId = [];
-		let activeData = this.session.getObject('dataEnrollment');
-		for (let i = 0; i < obj.courses_id.length; i++) {
-			let schedules = [];
-			this.newEnrollmentS.getScheduleNew({
-				CAMPUS: activeData.sede,
-				CRSE_ID: obj.courses_id[i],
-				OFFER_CRSE: '',
-				SESSION_CODE: '',
-				STRM: activeData.STRM
-			}).then((res) => {
-				if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
-					schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
-				}
-				if (i == obj.courses_id.length-1) {
-					obj.schedule = schedules;
-					obj.isOpen = !obj.isOpen;
-					this.loading = false;
-				}
-			});
+		if(!obj.isOpen){
+			this.loading = true;
+			let activeData = this.session.getObject('dataEnrollment');
+			for (let i = 0; i < obj.courses_id.length; i++) {
+				let schedules = [];
+				this.newEnrollmentS.getScheduleNew({
+					CAMPUS: activeData.sede,
+					CRSE_ID: obj.courses_id[i],
+					OFFER_CRSE: '',
+					SESSION_CODE: '',
+					STRM: activeData.STRM
+				}).then((res) => {
+					if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
+						schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
+					}
+					if (i == obj.courses_id.length-1) {
+						obj.schedule = schedules;
+						obj.isOpen = !obj.isOpen;
+						this.loading = false;
+					}
+				});
+			}
+		} else {
+			obj.isOpen = !obj.isOpen;
 		}
 	}
 

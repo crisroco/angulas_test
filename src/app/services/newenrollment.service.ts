@@ -102,6 +102,10 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillFullLoadAutoService', data).toPromise();
     }
 
+    public getSkillFullLoadAutoServicePre(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillFullLoadAutoServicePre', data).toPromise();
+    }
+
     public getDataStudentEnrollment(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDataStudentEnrollment', data).toPromise();
     }

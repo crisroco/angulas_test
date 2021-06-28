@@ -1,3 +1,14 @@
+.spacer {
+	border-radius: 7px;
+	color: #FFFFFF;
+	background-color: #0088C5;
+	padding: 1rem 0.75rem;
+	width: 100%;
+	td {
+		background-color: #0088C5 !important;
+		font-weight: bold;
+	}
+}
 .btn-orange {
 	background: #F68D2E;
 	color: #FFFFFF;
