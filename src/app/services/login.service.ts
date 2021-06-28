@@ -21,6 +21,10 @@ export class LoginService {
         return this.http.post(AppSettings.BASE + '/oauth/token', data).toPromise();
     }
 
+    public studentEncrypt(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + '/enrollment/encrypt', data).toPromise();
+    }
+
     // BackOffice
 
     public getAccess_ps(base64): Promise<any> {

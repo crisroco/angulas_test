@@ -75,8 +75,8 @@ export class LoginComponent implements OnInit {
 				this.session.setObject('dataStudent', this.dataStudent);
 			});
 			//-------------------------
-			this.queueS.authEncrypt({...data, code: this.student.codigoAlumno})
-				.subscribe( (res: any) => {
+			this.loginS.studentEncrypt({user:data.email, pass: data.password, code: this.student.codigoAlumno})
+				.then( (res: any) => {
 					this.session.setItem('up', res.ciphertext);
 					// this.session.setItem('data', Encrypt(JSON.stringify(data), 'miportal&ucs'));
 					this.student.email = data.email;
