@@ -32,8 +32,9 @@
         <div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
             <a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
             <a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
-            <a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a>
-            <a (click)="validationModal()" class="text-m text-white pointer"> Matrícula Extracurricular </a>
+            <!-- <a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a> -->
+            <a (click)="enviar_formulario()" class="text-m text-white pointer"> Biblioteca en Línea </a>
+            <a (click)="validationModal()" class="text-m text-white pointer"> Matrícula Extracurricular </a>            
             <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a>
             <a *ngIf="showVacunation" (click)="vacunaModal.open()" class="text-m text-white pointer"> Control de vacunas </a>
             <!-- <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a> -->
@@ -42,11 +43,28 @@
     </div>
 </div>
 
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- <form action="https://bennett.remotexs.in/alumni/login" method=post id="formulario1" name="formulario1" (ngSubmit)="enviar_formulario()"> -->
+<form action="https://cientifica.remotexs.co/alumni/login" method=post id="formulario1" name="formulario1" (ngSubmit)="enviar_formulario()">
+    <input [formControl]="DigitalLibraryAttribute1" name="DigitalLibraryAttribute1" id="DigitalLibraryAttribute1" type="text" /><br />
+    <input [formControl]="DigitalLibraryAttribute2" name="DigitalLibraryAttribute2" id="DigitalLibraryAttribute2" type="text" /><br />
+    <input [formControl]="DigitalLibraryAttribute3" name="DigitalLibraryAttribute3" id="DigitalLibraryAttribute3" type="text" /><br />
+    <input [formControl]="DigitalLibraryAttribute4" name="DigitalLibraryAttribute4" id="DigitalLibraryAttribute4" type="text" /><br />
+    <input [formControl]="DigitalLibraryAttribute5" name="DigitalLibraryAttribute5" id="DigitalLibraryAttribute5" type="text" /><br />
+    <input [formControl]="DigitalLibraryAttribute6" name="DigitalLibraryAttribute6" id="DigitalLibraryAttribute6" type="text" /><br />
+    <input [formControl]="DigitalLibraryAttribute7" name="DigitalLibraryAttribute7" id="DigitalLibraryAttribute7" type="text" /><br />
+    <input [formControl]="DigitalLibraryAttribute8" name="DigitalLibraryAttribute8" id="DigitalLibraryAttribute8" type="text" /><br />
+</form>
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
 <ngx-smart-modal #libraryModal identifier="libraryModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal p-post-header'">
     <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
         <h5 class=""> <strong> BIBLIOTECA EN LÍNEA </strong> </h5>
         <a (click)="libraryModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
     </div>
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- <button class="btn_library mb-3 text-center" (click)="enviar_formulario()"><i class="fa fa-book"></i> Biblioteca</button> -->
+    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div class="scroll">
         <div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let typelibrary of typeLibraries">
             <div (click)="toggle(typelibrary)" class="bg-{{company}} p-2 text-white pointer">

@@ -39,7 +39,6 @@ export class AppSettings {
     ];
     public static BASE = "https://back-miportal.cientifica.edu.pe";
     // public static BASE = "https://back-miportal-dev.cientifica.edu.pe";
-    //public static BASE = "https://back-miportal.cientifica.edu.pe";
     // public static BASE = "https://back-miportal.sise.edu.pe";
     // public static BASE = "http://localhost:8000";
     // public static BASE = "https://backdev-miportal.cientifica.edu.pe";

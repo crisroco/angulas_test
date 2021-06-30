@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { SessionService } from '../services/session.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { NgxSmartModalService } from 'ngx-smart-modal';
@@ -65,6 +65,7 @@ export class StudentComponent implements OnInit {
 	company = AppSettings.COMPANY;
 	user: any = this.session.getObject('user');
 	dataStudent: any = this.session.getObject('dataStudent');
+	retomex: any = this.session.getObject('remotex');
 	enrollmentStatus: any;
 	enrollmentIntentionStatus: any;
 	enrollmentIntensiveStatus: any;
@@ -370,6 +371,15 @@ export class StudentComponent implements OnInit {
 	otherCicle:any;
 	cycleOn = false;
 	  /////////////////////////////////////
+	DigitalLibraryAttribute1: FormControl;
+	DigitalLibraryAttribute2: FormControl;
+	DigitalLibraryAttribute3: FormControl;
+	DigitalLibraryAttribute4: FormControl;
+	DigitalLibraryAttribute5: FormControl;
+	DigitalLibraryAttribute6: FormControl;
+	DigitalLibraryAttribute7: FormControl;
+	DigitalLibraryAttribute8: FormControl;
+	formulario1: FormControl;
 	
 	constructor( private wsService: WebsocketService,
 		private queueS: QueueService,
@@ -384,7 +394,16 @@ export class StudentComponent implements OnInit {
 		public inputsS: InputsService,
 		private formS: FormService,
 		public newEnrollmentS: NewEnrollmentService,
-		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {}
+		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {
+			this.DigitalLibraryAttribute1 = new FormControl('Alumni');
+			this.DigitalLibraryAttribute2 = new FormControl(this.user.codigoAlumno);
+			this.DigitalLibraryAttribute3 = new FormControl(this.retomex.correo);
+			this.DigitalLibraryAttribute4 = new FormControl(this.session.getObject('hash'));
+			this.DigitalLibraryAttribute5 = new FormControl(this.retomex.nombreAlumno + " " + this.retomex.apellidoAlumno);
+			this.DigitalLibraryAttribute6 = new FormControl(this.retomex.programa_actual);
+			this.DigitalLibraryAttribute7 = new FormControl(this.retomex.ind_modalidad);
+			this.DigitalLibraryAttribute8 = new FormControl(this.retomex.campus);
+		}
 		
 	ngOnInit() {
 		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
@@ -793,6 +812,31 @@ export class StudentComponent implements OnInit {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	enviar_formulario() {//
+		var formularioRemoteX = document.forms['formulario1'];
+		/* var elemento1 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute1")).value;
+		var elemento2 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute2")).value;
+		var elemento3 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute3")).value;
+		var elemento4 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute4")).value;
+		var elemento5 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute5")).value;
+		var elemento6 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute6")).value;
+		var elemento7 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute7")).value;
+		var elemento8 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute8")).value;
+		console.log(elemento1);
+		console.log(elemento2);
+		console.log(elemento3);
+		console.log(elemento4);
+		console.log(elemento5);
+		console.log(elemento6);
+		console.log(elemento7);
+		console.log(elemento8); */
+		//document.forms['formulario1'].submit();
+		formularioRemoteX.submit();
+ 		this.loading = true;
+		setTimeout(() => {
+			this.loading = false;
+		}, 60000);//60 seg
+    }
 
 	searchStudent(){
 		this.session.destroy('emplidSelected');
