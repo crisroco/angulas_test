@@ -69,7 +69,6 @@ export class LoginComponent implements OnInit {
 			}
 			this.studentS.getDataStudent({ email: data.email })
 			.then(res => {
-				console.log(res);
 				this.remotex = res.UcsMetodoDatosPersRespuesta;
 				this.session.setObject('remotex', this.remotex);
 			}, error => { });

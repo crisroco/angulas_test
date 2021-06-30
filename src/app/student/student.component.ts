@@ -411,8 +411,7 @@ export class StudentComponent implements OnInit {
 
 	enviar_formulario() {//
 		var formularioRemoteX = document.forms['formulario1'];
-
-		var elemento1 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute1")).value;
+		/* var elemento1 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute1")).value;
 		var elemento2 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute2")).value;
 		var elemento3 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute3")).value;
 		var elemento4 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute4")).value;
@@ -427,7 +426,7 @@ export class StudentComponent implements OnInit {
 		console.log(elemento5);
 		console.log(elemento6);
 		console.log(elemento7);
-		console.log(elemento8);
+		console.log(elemento8); */
 		//document.forms['formulario1'].submit();
 		formularioRemoteX.submit();
  		this.loading = true;
