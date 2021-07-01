@@ -83,41 +83,37 @@ export class LoginComponent implements OnInit {
 				this.dataStudent = inst;
 				this.session.setObject('dataStudent', this.dataStudent);
 			});
-			this.queueS.authEncrypt({ ...data, code: this.student.codigoAlumno }).subscribe((res: any) => {
-				this.session.setItem('up', res.ciphertext);
-				// this.session.setItem('data', Encrypt(JSON.stringify(data), 'miportal&ucs'));
-				this.student.email = data.email;
-				this.session.setObject('user', this.student);
-				// this.router.navigate(['estudiante']);
-				this.loginS.oauthToken({
-					username: data.email,
-					password: data.password,
-					// client_id: 16, //tst
-					// client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
-					client_id: 2,
-					client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
-					grant_type: "password"
-				}).then((res) => {
-					/* -----------------------------------------------------------------CREACIÓN DEL HASH---------------------------------------------------------------- */
-					const SECRETKEY = "K4GxggYzW6vl0TwxJrBL8RJaZR2eVg60";
-					const DIGITAL_LIBRARY_URL = "https://bennett.remotexs.in/alumni/login";
-					const DIGITAL_LIBRARY_URL2 = "https://cientifica.remotexs.co/alumni/login";
-					this.digital1 = "Alumni";
-					this.digital2 = this.session.getObject('user').codigoAlumno;
-					this.digital3 = this.session.getObject('remotex').correo;
+			this.student.email = data.email;
+			this.session.setObject('user', this.student);
+			// this.router.navigate(['estudiante']);
+			this.loginS.oauthToken({
+				username: data.email,
+				password: data.password,
+				// client_id: 16, //tst
+				// client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
+				client_id: 2,
+				client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
+				grant_type: "password"
+			}).then((res) => {
+				/* -----------------------------------------------------------------CREACIÓN DEL HASH---------------------------------------------------------------- */
+				const SECRETKEY = "K4GxggYzW6vl0TwxJrBL8RJaZR2eVg60";
+				const DIGITAL_LIBRARY_URL = "https://bennett.remotexs.in/alumni/login";
+				const DIGITAL_LIBRARY_URL2 = "https://cientifica.remotexs.co/alumni/login";
+				this.digital1 = "Alumni";
+				this.digital2 = this.session.getObject('user').codigoAlumno;
+				this.digital3 = this.session.getObject('remotex').correo;
 
-					if (CryptoJS) {
-						var hash = CryptoJS.HmacSHA256(DIGITAL_LIBRARY_URL2 + this.digital1 + this.digital2 + this.digital3, SECRETKEY);
-						this.digital4 = CryptoJS.enc.Base64.stringify(hash);
-					} else {
-						alert("Error: CryptoJS is undefined");
-					}
+				if (CryptoJS) {
+					var hash = CryptoJS.HmacSHA256(DIGITAL_LIBRARY_URL2 + this.digital1 + this.digital2 + this.digital3, SECRETKEY);
+					this.digital4 = CryptoJS.enc.Base64.stringify(hash);
+				} else {
+					alert("Error: CryptoJS is undefined");
+				}
 
-					this.session.setObject('hash', this.digital4);
-					this.session.setObject('oauth', res);
-					this.router.navigate(['estudiante']);
-				}, error => { this.loading = false; });
-			});
+				this.session.setObject('hash', this.digital4);
+				this.session.setObject('oauth', res);
+				this.router.navigate(['estudiante']);
+			}, error => { this.loading = false; });
 		}, error => { this.loading = false; });
 	}
 }
