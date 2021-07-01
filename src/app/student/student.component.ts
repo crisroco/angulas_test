@@ -20,6 +20,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { NewEnrollmentService } from '../services/newenrollment.service';
 import { HttpClient } from '@angular/common/http';
 import { fi } from 'date-fns/locale';
+import { count } from 'rxjs/operators';
 
 @Component({
   selector: 'app-student',
@@ -339,10 +340,11 @@ export class StudentComponent implements OnInit {
 		private formS: FormService,
 		public newEnrollmentS: NewEnrollmentService,
 		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {
-		// this.innewEnrollment = false;
+		this.innewEnrollment = false;
 	}
 		
 	ngOnInit() {
+		this.count(0)
 		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
 			this.userBackoffice = true;
 		}
@@ -390,6 +392,12 @@ export class StudentComponent implements OnInit {
 		// 		this.showScheduleLink = true;
 		// 	}
 		// })
+	}
+	count(time){
+		console.log(time);
+		setTimeout(() => {
+			this.count(time+1);
+		}, 60000);
 	}
 
 
@@ -625,91 +633,46 @@ export class StudentComponent implements OnInit {
 		})
 	}
 
-	getEnrollSchedule(){
-		this.enrollCycles = null;
-		this.EnrollScheduleModal.open();
-		this.studentS.getEnrollSchedule(this.enroll.OPRID + '/' + this.enroll.INSTITUTION + '/' + this.enroll.ACAD_CAREER + '/' + this.enroll.ACAD_PROG + '/' + this.enroll.codigoPlan + '/' + this.enroll.EMPLID + '/0992')
-		.then(res => {
-			let allData: Array<any> = res.UCS_REST_HORARIOV2_RES && res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM?res.UCS_REST_HORARIOV2_RES.UCS_REST_HORARIOV2_COM:[];
-			var objCycles = {};
-			allData.forEach( (item)  => {
-				if(!objCycles[item.UCS_CICLO]){
-					objCycles[item.UCS_CICLO] = {
-						name: item.UCS_CICLO,
-						isOpen: true,
-						courses: {}
-					}
-				}
-				if(!objCycles[item.UCS_CICLO].courses[item.DESCR]){
-					objCycles[item.UCS_CICLO].courses[item.DESCR] = {
-						name: item.DESCR,
-						isOpen: true,
-						type: item.UCS_OBLIGATORIEDAD,
-						schedule: []
-					}
-				}
-				objCycles[item.UCS_CICLO].courses[item.DESCR].schedule.push(item);
-			});
-			this.enrollCycles = [];
-			for(var kcycle in objCycles){
-				var courses = [];
-				for(var kcourse in objCycles[kcycle].courses){
-					courses.push(objCycles[kcycle].courses[kcourse]);
-				}
-				objCycles[kcycle].courses = courses;
-				if(kcycle > '0'){
-					this.enrollCycles.push(objCycles[kcycle]);
-				}
-			}
-			objCycles[0].name = 'Electivo';
-			this.enrollCycles.push(objCycles[0]);
-		});
-	}
-
 	showEnrollmentSchedule(){
-		this.enrollCycles = null;
 		this.EnrollScheduleModal.open();
-		let activeData = this.session.getObject('dataEnrollment');
-		this.newEnrollmentS.getSkillfullLoad({EMPLID: activeData.EMPLID,CAMPUS:activeData.sede})
-			.then(res => {
-				let allData: Array<any> = res?res:[];
-				// let allData: Array<any> = res.UCS_REST_HORARIO_RES && res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM?res.UCS_REST_HORARIO_RES.UCS_REST_HORARIO_COM:[];
-				var objCycles = {};
-				allData.forEach( (item)  => {
-					if(!objCycles[item.UCS_CICLO]){
-						objCycles[item.UCS_CICLO] = {
-							name: item.UCS_CICLO,
-							isOpen: true,
-							courses: {}
+		if(!this.enrollCycles){
+			let activeData = this.session.getObject('dataEnrollment');
+			this.newEnrollmentS.getSkillfullLoad({EMPLID: activeData.EMPLID,CAMPUS:activeData.sede})
+				.then(res => {
+					let allData: Array<any> = res?res:[];var objCycles = {};
+					allData.forEach( (item)  => {
+						if(!objCycles[item.UCS_CICLO]){
+							objCycles[item.UCS_CICLO] = {
+								name: item.UCS_CICLO,
+								isOpen: true,
+								courses: {}
+							}
+						}
+						if(!objCycles[item.UCS_CICLO].courses[item.DESCR]){
+							objCycles[item.UCS_CICLO].courses[item.DESCR] = {
+								name: item.DESCR,
+								isOpen: false,
+								type: item.LVF_CARACTER,
+								courses_id: [],
+								schedule: []
+							}
+						}
+						objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.push(item.CRSE_ID, item.CRSE_ID2, item.CRSE_ID3,item.CRSE_ID4,item.CRSE_ID5,item.CRSE_ID6);
+						objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id = objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.filter(el => el != '');
+					});
+					this.enrollCycles = [];
+					for(var kcycle in objCycles){
+						var courses = [];
+						for(var kcourse in objCycles[kcycle].courses){
+							courses.push(objCycles[kcycle].courses[kcourse]);
+						}
+						objCycles[kcycle].courses = courses;
+						if(kcycle > '0'){
+							this.enrollCycles.push(objCycles[kcycle]);
 						}
 					}
-					if(!objCycles[item.UCS_CICLO].courses[item.DESCR]){
-						objCycles[item.UCS_CICLO].courses[item.DESCR] = {
-							name: item.DESCR,
-							isOpen: false,
-							type: item.LVF_CARACTER,
-							courses_id: [],
-							schedule: []
-						}
-					}
-					objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.push(item.CRSE_ID, item.CRSE_ID2, item.CRSE_ID3,item.CRSE_ID4,item.CRSE_ID5,item.CRSE_ID6);
-					objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id = objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.filter(el => el != '');
-					// objCycles[item.UCS_CICLO].courses[item.DESCR].schedule.push(item);
-				});
-				this.enrollCycles = [];
-				for(var kcycle in objCycles){
-					var courses = [];
-					for(var kcourse in objCycles[kcycle].courses){
-						courses.push(objCycles[kcycle].courses[kcourse]);
-					}
-					objCycles[kcycle].courses = courses;
-					if(kcycle > '0'){
-						this.enrollCycles.push(objCycles[kcycle]);
-					}
-				}
-				// objCycles[0].name = 'Electivo';
-				// this.enrollCycles.push(objCycles[0]);
 			});
+		}
 	}
 
 	sendEnroll(){
@@ -763,20 +726,22 @@ export class StudentComponent implements OnInit {
 						this.studentS.getEnrollQueueNumber(this.enroll)
 						.then(res => {
 							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
-							var dateQueue = this.queueEnroll.exactDate.split(' ');
-							var parts = dateQueue[0].split('/');
-							var partsHour = dateQueue[1].split(':');
-							if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
-								if ((this.deviceS.getDeviceInfo().browser == 'Chrome' || this.deviceS.getDeviceInfo().browser == 'Safari') && Number((this.deviceS.userAgent.split('_')[0]).slice(-2)) > 13) {
-									var partsHour = this.queueEnroll.hora_ing.split(':');
-									var hour = Number(partsHour[0] - 5)<10?'0' + (Number(partsHour[0]) - 5).toString():(Number(partsHour[0]) - 5).toString();
-									this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
-									this.queueEnroll.exactDate = ' ' + hour + ':' + partsHour[1];
+							if(this.queueEnroll.exactDate) {
+								var dateQueue = this.queueEnroll.exactDate.split(' ');
+								var parts = dateQueue[0].split('/');
+								var partsHour = dateQueue[1].split(':');
+								if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
+									if ((this.deviceS.getDeviceInfo().browser == 'Chrome' || this.deviceS.getDeviceInfo().browser == 'Safari') && Number((this.deviceS.userAgent.split('_')[0]).slice(-2)) > 13) {
+										var partsHour = this.queueEnroll.hora_ing.split(':');
+										var hour = Number(partsHour[0] - 5)<10?'0' + (Number(partsHour[0]) - 5).toString():(Number(partsHour[0]) - 5).toString();
+										this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
+										this.queueEnroll.exactDate = ' ' + hour + ':' + partsHour[1];
+									}
 								}
- 							}
+								var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.exactDate.split(' ')[1] + ':00'));
+								this.queueEnroll.date = enrollDate;
+							}
  							this.session.setObject('dataEnrollment', this.enroll);
-							var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.exactDate.split(' ')[1] + ':00'));
-							this.queueEnroll.date = enrollDate;
 							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
 							this.broadcaster.sendMessage({initSocket: 'Y'});
 						});
@@ -798,24 +763,29 @@ export class StudentComponent implements OnInit {
 		if(!obj.isOpen){
 			this.loading = true;
 			let activeData = this.session.getObject('dataEnrollment');
-			for (let i = 0; i < obj.courses_id.length; i++) {
-				let schedules = [];
-				this.newEnrollmentS.getScheduleNew({
-					CAMPUS: activeData.sede,
-					CRSE_ID: obj.courses_id[i],
-					OFFER_CRSE: '',
-					SESSION_CODE: '',
-					STRM: activeData.STRM
-				}).then((res) => {
-					if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
-						schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
-					}
-					if (i == obj.courses_id.length-1) {
-						obj.schedule = schedules;
-						obj.isOpen = !obj.isOpen;
-						this.loading = false;
-					}
-				});
+			if(obj.schedule.length == 0){
+				for (let i = 0; i < obj.courses_id.length; i++) {
+					let schedules = [];
+					this.newEnrollmentS.getScheduleNew({
+						CAMPUS: activeData.sede,
+						CRSE_ID: obj.courses_id[i],
+						OFFER_CRSE: '',
+						SESSION_CODE: '',
+						STRM: activeData.STRM
+					}).then((res) => {
+						if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
+							schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
+						}
+						if (i == obj.courses_id.length-1) {
+							obj.schedule = schedules;
+							obj.isOpen = !obj.isOpen;
+							this.loading = false;
+						}
+					});
+				}
+			} else {
+				obj.isOpen = !obj.isOpen;
+				this.loading = false;
 			}
 		} else {
 			obj.isOpen = !obj.isOpen;
