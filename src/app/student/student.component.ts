@@ -344,7 +344,6 @@ export class StudentComponent implements OnInit {
 	}
 		
 	ngOnInit() {
-		this.count(0)
 		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
 			this.userBackoffice = true;
 		}
@@ -393,13 +392,6 @@ export class StudentComponent implements OnInit {
 		// 	}
 		// })
 	}
-	count(time){
-		console.log(time);
-		setTimeout(() => {
-			this.count(time+1);
-		}, 60000);
-	}
-
 
 	searchStudent(){
 		this.session.destroy('emplidSelected');

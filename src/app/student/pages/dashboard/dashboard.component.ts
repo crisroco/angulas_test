@@ -123,7 +123,6 @@ export class DashboardComponent implements OnInit {
       STRM2: null,
       check: true
     }).then((res) => {
-      console.log(res);
     }); */
 
     // this.getEthnicity();
@@ -424,7 +423,6 @@ export class DashboardComponent implements OnInit {
       this.loading = false;
       this.ExistCursoMatriculado();
       this.countCoursesMatriculados = this.countCoursesMatriculados + 1;
-      console.log(this.countCoursesMatriculados);
       this.horariosModal.close();
       } else {
       this.toastr.warning('No hay vacantes para este curso');
@@ -480,10 +478,8 @@ export class DashboardComponent implements OnInit {
       this.horariosMatriculados = this.schedulesForDelete;
       this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
       this.selectedCourse.value = false;
-      console.log(this.selectedCourse);
       this.ExistCursoMatriculado();
       this.countCoursesMatriculados = this.countCoursesMatriculados - 1;
-      console.log(this.countCoursesMatriculados);
       this.toastr.warning("Curso Removido");
       this.eliminarMatriculaModal.close();
     }).catch(err => alert('Error en servicio de eliminar.'));    
@@ -557,7 +553,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
     tEnroll[flag] = 'Y';
-    tEnroll['STRM'] = this.session.getObject('acadmicData')['cicloAdmision'];
+    tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
     this.newEnrollmentS.saveConditions(tEnroll)
       .then((res) => {
         this.loading = false;

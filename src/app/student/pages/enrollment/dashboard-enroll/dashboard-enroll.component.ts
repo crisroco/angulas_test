@@ -165,7 +165,6 @@ export class DashboardEnrollComponent implements OnInit {
       this.myCredits = creditos;
       this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.sede})
         .then((res) => {
-          console.log(res);
           this.allCoursesId = res.filter(el => el.FLAG == 'A');
           this.session.setObject('MaterialInCourse', this.allCoursesId);
           this.availableCourses = res.sort(this.dynamicSortMultiple(["-FLAG","UCS_CICLO"]));
@@ -496,11 +495,13 @@ export class DashboardEnrollComponent implements OnInit {
   countPRA(associated_class){
     let total = 0;
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
-      for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
-        if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASOCIACION_CLASE) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.ID_CURSO) {
-          total++;
+      if(this.scheduleAvailables[i]['UCS_REST_DET_MREU']){
+        for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+          if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASOCIACION_CLASE) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.ID_CURSO) {
+            total++;
+          }
         }
-      }
+      };
     }
     return total;
   }
@@ -508,9 +509,11 @@ export class DashboardEnrollComponent implements OnInit {
   countPRABeforeSave(associated_class){
     let total = 0;
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
-      for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
-        if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASSOCIATED_CLASS) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.CRSE_ID) {
-          total++;
+      if(this.scheduleAvailables[i]['UCS_REST_DET_MREU']){
+        for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+          if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASSOCIATED_CLASS) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.CRSE_ID) {
+            total++;
+          }
         }
       }
     }
@@ -610,11 +613,13 @@ export class DashboardEnrollComponent implements OnInit {
   checkDuplicates(array){
     array.sort(this.dynamicSortMultiple(["ASOCIACION_CLASE","ID_CURSO","-CODIGO_COMPONENTE","NRO_CLASE"]));
     for (var i = 0; i < array.length; i++) {
-      for (var o = 0; o < array[i]['UCS_REST_DET_MREU'].length; o++) {
-        if (o == 0) {
-          array[i]['UCS_REST_DET_MREU'][o].show = true;
-        } else {
-          array[i]['UCS_REST_DET_MREU'][o].show = false;
+      if(array[i]['UCS_REST_DET_MREU']) {
+        for (var o = 0; o < array[i]['UCS_REST_DET_MREU'].length; o++) {
+          if (o == 0) {
+            array[i]['UCS_REST_DET_MREU'][o].show = true;
+          } else {
+            array[i]['UCS_REST_DET_MREU'][o].show = false;
+          }
         }
       }
     }
