@@ -44,7 +44,7 @@ export class EnrollmentComponent implements OnInit {
   constructor(private broadcaster: Broadcaster,private deviceS: DeviceDetectorService, public enrollmentS: NewEnrollmentService, public session: SessionService, private router: Router, public toastT: ToastrService) { }
 
   ngOnInit() {
-    if(this.deviceS.isMobile() && this.deviceS.getDeviceInfo().browser != 'Chrome' && this.deviceS.getDeviceInfo().os == 'Android'){
+    if((this.deviceS.isMobile() || this.deviceS.isTablet()) && this.deviceS.getDeviceInfo().browser != 'Chrome' && this.deviceS.getDeviceInfo().os == 'Android'){
       this.changeToChromeModal.open();
     }
     this.session.destroy('mySchedule');
