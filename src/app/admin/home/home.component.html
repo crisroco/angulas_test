@@ -2,7 +2,7 @@
 	<div class="col-md-7 col-sm-10 col-11 pt-5">
 		<div class="row d-flex justify-content-center mb-3 px-5">
 			<button [disabled]="!userBackOffice"class="btn rounded-1 btn-{{company}} mr-3" (click)="selectProcess1()">MiPORTAL</button>
-			<button disabled class="btn rounded-1 btn-{{company}} mr-3" (click)="selectProcess2()">MATRICULA</button>
+			<button class="btn rounded-1 btn-{{company}} mr-3" (click)="selectProcess2()">MATRICULA</button>
 			<!-- <button [disabled]="!userBackOffice" class="btn rounded-1 btn-{{company}} mr-3" (click)="selectProcess2()">MATRICULA</button> -->
 		</div>
     </div>
@@ -47,5 +47,14 @@
 	</div>
 	<div class="row d-flex justify-content-center mb-3 px-5">
 		<button [disabled]="!isthisStudent" class="btn rounded-1 btn-{{company}} mr-3" (click)="select2()">Seleccionar</button>
+		<button [disabled]="!isthisStudent" class="btn rounded-1 btn-{{company}}" (click)="openConfirmation()">Carga del Alumno</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #confirmationUploadModal identifier="confirmationUploadModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
+	<div class="row d-flex justify-content-center my-3 px-5">
+		<h5 class="text-center text-ucs">¿Estas seguro que quieres actualizar toda la data del Alumno?</h5>
+		<button class="btn rounded-1 btn-ucs mr-3" (click)="uploadData()">Continuar</button>
+		<button class="btn rounded-1 btn-danger ml-3" (click)="confirmationUploadModal.close()">Cancelar</button>
 	</div>
 </ngx-smart-modal>

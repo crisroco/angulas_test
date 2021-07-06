@@ -6,7 +6,7 @@
 			</div>
 			<div class="buttons">
 				<button class="btn" [routerLink]="'/estudiante/matricula/disponibles'" routerLinkActive="active-link">1. Cursos Disponibles</button>
-				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Matriculados</button>
+				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Reservados</button>
 			</div>
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 					</div>
 					<div class="text-student"><b>{{student?student.nombreAlumno:''}}</b></div>
 					<div class="text-student"><b>{{student?student.codigoAlumno:''}}</b></div>
-					<div class="text-student"><b>{{allData?allData.ACAD_PROG:''}}/{{allData?allData.ACAD_PLAN:''}}</b></div>
+					<div class="text-student"><b>{{allData?allData.ACAD_PROG:''}}/{{allData?allData.codigoPlan:''}}</b></div>
 					<div class="text-student" *ngIf="schoolCycle"><b>{{schoolCycle.CICLO_LECTIVO}}</b></div>
 				</div>
 			</div>
@@ -85,7 +85,7 @@
 	<div class="mt-2 d-flex align-items-center justify-content-around">
 		<div class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
-			<p>Matriculado</p>
+			<p>Reservado</p>
 		</div>
 		<div *ngIf="moreData && moreData.length > 1" class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
@@ -140,7 +140,8 @@
 				      	<th class="py-2 text-left text-m">Cursos</th>
 				      	<th class="py-2 text-left text-m">Créditos</th>
 				      	<th class="py-2 text-left text-m">Codigo</th>
-				      	<th class="py-2 text-left text-m">Turno</th>
+				      	<th *ngIf="CPE" class="py-2 text-left text-m">Dia</th>
+						<th class="py-2 text-left text-m">Turno</th>
 			    	</tr>
 			  	</thead>
 			  	<tbody>
@@ -154,9 +155,14 @@
 				      	</td>
 				      	<td class="text-left">{{course.CREDITOS?course.CREDITOS:course.UNITS_REPEAT_LIMIT | number: '1.0-0'}}</td>
 				      	<td class="text-left">{{course.MATERIA?course.MATERIA:course.SUBJECT}}  {{course.NRO_CATALOGO?course.NRO_CATALOGO:course.CATALOG_NBR}}</td>
-				      	<td class="text-left">
+				      	<td *ngIf="CPE" class="text-left">
+							<select [disabled]="!course.extra" [(ngModel)]="course.UCS_TURNO_CRSE" name="turn_week" id="">
+								<option value="D">Día Semana</option>
+								<option value="F">Fin Semana</option>
+							</select>
+						</td>
+						<td class="text-left">
 				      		<select [disabled]="!course.extra" [(ngModel)]="course.TURNO" name="turn" id="">
-				      			<option value="">Seleccione</option>
 				      			<option value="M">Mañana</option>
 				      			<option value="T">Tarde</option>
 				      			<option value="N">Noche</option>
@@ -164,6 +170,9 @@
 				      		<i *ngIf="!course.extra" (click)="deleteAditionalCourse(course)" class="pointer fa fa-trash text-red text-l ml-4" aria-hidden="true"></i>
 				      	</td>
 				    </tr>
+					<tr *ngIf="aditionalCourses.length == 0">
+						<td colspan="4">No existen cursos adicionales</td>
+					</tr>
 			  	</tbody>
 			</table>
 	  	</div>
@@ -229,6 +238,19 @@
 	<div class="row d-flex justify-content-center mb-3 px-5">
 		<button [disabled]="!emailToSend" class="btn rounded-1 btn-ucs mr-3" (click)="sendScheduleToMail()">Enviar</button>
 		<button class="btn rounded-1 btn-ucs ml-3" (click)="showModalEmailSend.close()">Cancelar</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #changeToChromeModal identifier="changeToChromeModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
+	<div class="bg-ucs p-4 rounded-t-1">
+		
+	</div>
+	<div class="text-left p-3">
+		<h5 class="text-ucs font-weight-bold text-center">Te recomendamos que hagas el proceso de matricula en el navegador Chrome de preferencia</h5>
+	</div>
+	<div class="row d-flex justify-content-center mb-3 px-5">
+		<!-- <button [disabled]="!emailToSend" class="btn rounded-1 btn-ucs mr-3" (click)="sendScheduleToMail()">Enviar</button> -->
+		<!-- <button class="btn rounded-1 btn-ucs ml-3" (click)="changeToChromeModal.close()">Cancelar</button> -->
 	</div>
 </ngx-smart-modal>
 

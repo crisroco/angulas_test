@@ -8,14 +8,12 @@
             <div class="circle-q bg-white-a pointer" (click)="menus = !menus">
                 <img src="./assets/img/icon/user.png" class="img-q">
                 <span *ngIf="notifications_read > 0" class="badge-student"> {{ notifications_read }} </span>
-
             </div>
             <div class="bg-white drop" *ngIf="menus">
                 <!-- <a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-{{company}} p-2 px-3 bd-b-1 bd-{{company}}"> <i class="fa fa-lock"></i> Cambiar contraseña</a> -->
                 <a *ngIf="userBackoffice" class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="searchStudent()"> <i class="fa fa-search"></i> Buscar Alumno</a>
                 <a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
-                <a (click)="notificationModal.open(); notificationRead();" class="d-block m-0 text-{{company}} p-2 px-3 pointer"> <i class="fa fa-circle text-danger"></i> Notificaciones</a>
-
+                <!-- <a (click)="notificationModal.open(); notificationRead();" class="d-block m-0 text-{{company}} p-2 px-3 pointer"> <i class="fa fa-circle text-danger"></i> Notificaciones</a> -->
             </div>
         </div>
 
@@ -34,10 +32,10 @@
             <a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
             <!-- <a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a> -->
             <a (click)="enviar_formulario()" class="text-m text-white pointer"> Biblioteca en Línea </a>
-            <a (click)="validationModal()" class="text-m text-white pointer"> Matrícula Extracurricular </a>            
-            <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a>
+            <!-- <a (click)="validationModal()" class="text-m text-white pointer"> Matrícula Extracurricular </a>             -->
+            <!-- <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a> -->
             <a *ngIf="showVacunation" (click)="vacunaModal.open()" class="text-m text-white pointer"> Control de vacunas </a>
-            <!-- <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a> -->
+            <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
             <a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
         </div>
     </div>
@@ -334,7 +332,7 @@
     <div class="scroll">
         <div *ngIf="enrollCycles && enrollCycles.length">
             <div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let cycles of enrollCycles">
-                <div (click)="toggle(cycles)" class="bg-{{company}} p-2 text-white pointer">
+                <div (click)="toggleCycle(cycles)" class="bg-{{company}} p-2 text-white pointer">
                     Ciclo {{cycles.name}}
                 </div>
                 <div [@openClose]="cycles.isOpen ? 'open' : 'closed'" class="pd-3">
@@ -358,20 +356,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="text-center text-s" *ngFor="let vclass of course.schedule; let s = 'index'">
-                                            <td class="px-2 py-1 text-left">{{ vclass.SSR_COMPONENT }}</td>
-                                            <td class="px-2 py-1">{{ vclass.CLASS_SECTION }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_DIA }}</td>
-                                            <td class="px-2 py-1">{{ vclass.FACILITY_ID + ' / ' + vclass.UCS_FACILITY_DESC + ' ' + vclass.UCS_BLDG_DESC }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_FECHA_INICIO }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_HORA_INCIO }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_HORA_FIN }}</td>
-                                            <td class="px-2 py-1">{{ vclass.UCS_PROFESOR }}</td>
+                                        <ng-container *ngFor="let vclass of course.schedule; let s = 'index'">
+                                            <tr class="text-center text-s" *ngFor="let sch of vclass.UCS_REST_DET_MREU">
+                                                <td class="px-2 py-1 text-left">{{ vclass.CODIGO_COMPONENTE }}</td>
+                                                <td class="px-2 py-1">{{ vclass.SECCION }}</td>
+                                                <td class="px-2 py-1">{{ sch.DIA }}</td>
+                                                <td class="px-2 py-1">{{ sch.CODIGO_INSTALACION + ' / ' + sch.DESCR_INSTALACION + ' ' + sch.DESCR_UBI_INS }}</td>
+                                                <td class="px-2 py-1">{{ sch.FECHA_INICIAL }}</td>
+                                                <td class="px-2 py-1">{{ sch.HORA_INICIO }}</td>
+                                                <td class="px-2 py-1">{{ sch.HORA_FIN }}</td>
+                                                <td class="px-2 py-1">{{ sch.UCS_REST_DET_DOC?sch.UCS_REST_DET_DOC[0].NOMBRE_DOCENTE:'-' }}</td>
+                                            </tr>
+                                        </ng-container>
+                                        <tr *ngIf="course.schedule.length == 0">
+                                            <td class="px-2 py-1" colspan="8">No se encontraron horarios</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                 </div>

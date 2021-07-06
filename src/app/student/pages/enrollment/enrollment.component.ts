@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Broadcaster } from '../../../services/broadcaster';
-import { NgxSmartModalService } from 'ngx-smart-modal';
 import { Router } from '@angular/router';
 import { NewEnrollmentService } from '../../../services/newenrollment.service';
 import { ToastrService } from 'ngx-toastr';
@@ -8,6 +7,8 @@ import { SessionService } from '../../../services/session.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { RealDate, AddDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../helpers/dates';
 import { ValidateEmail } from '../../../helpers/general';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 @Component({
   selector: 'app-enrollment',
   templateUrl: './enrollment.component.html',
@@ -19,7 +20,9 @@ export class EnrollmentComponent implements OnInit {
   @ViewChild('aditionalCoursesModal') aditionalCoursesModal: any;
   @ViewChild('equivalentCoursesModal') equivalentCoursesModal: any;
   @ViewChild('showModalEmailSend') showModalEmailSend: any;
+  @ViewChild('changeToChromeModal') changeToChromeModal: any;
   loading: boolean = false;
+  CPE:any = false;
   aditionalCourses:Array<any> = [];
   equivalentCourses:Array<any> = [];
   skillFull;
@@ -38,15 +41,15 @@ export class EnrollmentComponent implements OnInit {
   public emailToSend = '';
   public myCredits = 0;
 
-  constructor(private broadcaster: Broadcaster, public enrollmentS: NewEnrollmentService, public session: SessionService, private router: Router, public toastT: ToastrService) { }
+  constructor(private broadcaster: Broadcaster,private deviceS: DeviceDetectorService, public enrollmentS: NewEnrollmentService, public session: SessionService, private router: Router, public toastT: ToastrService) { }
 
   ngOnInit() {
+    if((this.deviceS.isMobile() || this.deviceS.isTablet()) && this.deviceS.getDeviceInfo().browser != 'Chrome' && this.deviceS.getDeviceInfo().os == 'Android'){
+      this.changeToChromeModal.open();
+    }
     this.session.destroy('mySchedule');
     this.student = this.session.getObject('student');
-    this.enrollmentS.getAcademicData({EMPLID: this.user.codigoAlumno})
-      .then((res) => {
-        this.allData = res[0];
-      });
+    this.allData = this.session.getObject('dataEnrollment');
     this.broadcaster.sendMessage({ hideFooter: true });
   	this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       if (message && message.openModal) {
@@ -76,7 +79,7 @@ export class EnrollmentComponent implements OnInit {
         INSTITUTION: this.dataEnrollment['INSTITUTION'],
         ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
         STRM1: this.schoolCycle.CICLO_LECTIVO,
-        STRM2: this.session.getObject('otherCicle')?this.session.getObject('otherCicle').CICLO_LECTIVO:null
+        STRM2: null
       }).then((res) => {
         this.schedulePreview.open();
         this.classDay = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES']?res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES']:[];
@@ -96,10 +99,9 @@ export class EnrollmentComponent implements OnInit {
         NAME: this.student.nombreAlumno + ' ' + this.student.apellidoAlumno,
         INSTITUTION: this.dataEnrollment['INSTITUTION'],
         ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
-        PROG_PLAN: this.allData.ACAD_PROG + ' / ' + this.allData.ACAD_PLAN,
+        PROG_PLAN: this.allData.ACAD_PROG + ' / ' + this.allData.codigoPlan,
         STRM1: this.schoolCycle.CICLO_LECTIVO,
-        TOTAL_CREDITS: this.myCredits,
-        STRM2: this.session.getObject('otherCicle')?this.session.getObject('otherCicle').CICLO_LECTIVO:null
+        TOTAL_CREDITS: this.myCredits
       })
         .then((res) => {
           this.toastT.success('Correo enviado');
@@ -119,7 +121,7 @@ export class EnrollmentComponent implements OnInit {
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
-      ACAD_PLAN: this.dataEnrollment['ACAD_PLAN']
+      ACAD_PLAN: this.dataEnrollment['codigoPlan']
     }).then((res) => {
       this.equivalentCourses = res['RES_LST_CRSE_EQUIV']['COM_LST_CRSE_EQUIV'].sort((a,b) => {
         return a.UCS_CICLO - b.UCS_CICLO
@@ -138,22 +140,35 @@ export class EnrollmentComponent implements OnInit {
   }
 
   aditionalModalData(openModal){
+    this.CPE = this.session.getItem('CPE');
     this.loading = true;
     this.dataEnrollment = this.session.getObject('dataEnrollment');
-    this.allData['EMPLID'] = this.user.codigoAlumno;
-    this.allData['STRM'] = this.schoolCycle.CICLO_LECTIVO;
-    this.enrollmentS.getAditionalCourses(this.allData)
+    let aditional = {
+      EMPLID: this.user.codigoAlumno,
+      INSTITUTION: this.allData['INSTITUTION'],
+      ACAD_CAREER: this.allData['ACAD_CAREER'],
+      ACAD_PROG: this.allData['ACAD_PROG'],
+      ACAD_PLAN: this.allData['codigoPlan'],
+      STRM: this.schoolCycle.CICLO_LECTIVO
+    }
+    this.enrollmentS.getAditionalCourses(aditional)
       .then((res) => {
         this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES?res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES:[];
-        this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataEnrollment.CAMPUS})
+        this.loading = false;
+        this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataEnrollment.sede})
         .then((res) => {
+          let alreadyIn = this.session.getObject('notInAditional')?this.session.getObject('notInAditional'):[];
+          for (let e = 0; e < alreadyIn.length; e++) {
+            res = res.filter(al => (al.CRSE_ID != alreadyIn[e].CRSE_ID) && (al.CRSE_ID2 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID3 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID4 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID5 != alreadyIn[e].CRSE_ID) && (al.CRSE_ID6 != alreadyIn[e].CRSE_ID));
+          }
           res.sort((a,b) => {
             return a.UCS_CICLO - b.UCS_CICLO
           });
           for (var i = 0; i < res.length; i++) {
-            if (!this.aditionalCourses.filter(el => el.CURSO_ID == res[i].CRSE_ID)[0] && res[i].number == 0) {
+            if (!this.aditionalCourses.find(el => el.CURSO_ID == res[i].CRSE_ID)) {
               res[i].extra = true;
               res[i].TURNO = 'M';
+              res[i].UCS_TURNO_CRSE = this.CPE?'D':'';
               this.aditionalCourses.push(res[i]);
             }
           }
@@ -175,9 +190,9 @@ export class EnrollmentComponent implements OnInit {
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
-      ACAD_PLAN: this.dataEnrollment['ACAD_PLAN'],
+      ACAD_PLAN: this.dataEnrollment['codigoPlan'],
       STRM: this.schoolCycle.CICLO_LECTIVO,
-      UCS_REST_CUR_ADIC_DT: [{CRSE_ID: crs.CURSO_ID, TURNO: crs.TURNO, ACCION: 'B'}]
+      UCS_REST_CUR_ADIC_DT: [{CRSE_ID: crs.CURSO_ID, TURNO: crs.TURNO, ACCION: 'B', TURNO_SEMANA: crs.UCS_TURNO_CRSE}]
     }).then((res) => {
       this.loading = false;
       this.aditionalModalData(false);
@@ -196,6 +211,7 @@ export class EnrollmentComponent implements OnInit {
         aditional.push({
           CRSE_ID: this.aditionalCourses[i]['CRSE_ID'],
           TURNO: this.aditionalCourses[i]['TURNO']?this.aditionalCourses[i]['TURNO']:'M',
+          TURNO_SEMANA: this.aditionalCourses[i]['UCS_TURNO_CRSE']?this.aditionalCourses[i]['UCS_TURNO_CRSE']:'',
           ACCION: "I"
         });
       }
@@ -210,7 +226,7 @@ export class EnrollmentComponent implements OnInit {
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
-      ACAD_PLAN: this.dataEnrollment['ACAD_PLAN'],
+      ACAD_PLAN: this.dataEnrollment['codigoPlan'],
       STRM: this.schoolCycle.CICLO_LECTIVO,
       UCS_REST_CUR_ADIC_DT: aditional
     }).then((res) => {
@@ -284,51 +300,52 @@ export class EnrollmentComponent implements OnInit {
       });
     });
     if (this.moreData) {
-      this.moreData.forEach(classD => {
-        for (var kDay in days) {
-          if (kDay.substring(0,3) == classD.DAY_OF_WEEK) {
-            if(BetweenDays(classD.START_DT_DO, classD.END_DT_DO, days[kDay])){
-              if (classD.CRSE_ATTR != 'VIRT') {
-                var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
-                classD.date = rDay;
-                if(!objEvents[rDay + ' ' + classD.MEETING_TIME_START + ' ' + classD.CRSE_ID]){
-                  dates = this.getDates(rDay, classD.MEETING_TIME_START, classD.MEETING_TIME_END);
-                  events.push({
-                    start: dates.start,
-                    end: dates.end,
-                    title: classD.MEETING_TIME_START.slice(0, -3) + '-' + classD.MEETING_TIME_END.slice(0, -3) + '<br>' + classD.SSR_COMPONENT + '<br>' + classD.DESCR + ' ' + '<br>' + classD.STRM,
-                    cssClass: 'extra',
-                    allDay: false,
-                    resizable: {
-                      beforeStart: true,
-                      afterEnd: true,
-                    },
-                    meta: classD,
-                  });
-                  objEvents[rDay + ' ' + classD.MEETING_TIME_START + ' ' + classD.CRSE_ID] = true;
-                }
-              } else {
-                let finded = this.myVirtualClasses.filter(vclass => vclass.name.toUpperCase() == classD.DESCR)[0];
-                if (finded) {
-                  finded.hrs_acad += this.toHours(classD.MEETING_TIME_START.slice(0, -3), classD.MEETING_TIME_END.slice(0, -3))
+      this.moreData.forEach(classM => {
+        classM.UCS_REST_DET_MREU.forEach(classD => {
+          for (var kDay in days) {
+            if (kDay == classD.DIA.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
+              if(BetweenDays(classD.FECHA_INICIAL, classD.FECHA_FINAL, days[kDay])){
+                if (classD.TIPO != 'VIRT') {
+                  var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
+                  classD.date = rDay;
+                  if(!objEvents[rDay + ' ' + classD.HORA_INICIO + ' ' + classM.ID_CURSO]){
+                    dates = this.getDates(rDay, classD.HORA_INICIO, classD.HORA_FIN);
+                    events.push({
+                      start: dates.start,
+                      end: dates.end,
+                      title: classD.HORA_INICIO + '-' + classD.HORA_FIN + '<br>' + classM.CODIGO_COMPONENTE + '<br>' + classM.DESCR_CURSO,
+                      cssClass: 'extra',
+                      allDay: false,
+                      resizable: {
+                        beforeStart: true,
+                        afterEnd: true,
+                      },
+                      meta: classD,
+                    });
+                    objEvents[rDay + ' ' + classD.HORA_INICIO + ' ' + classM.ID_CURSO] = true;
+                  }
                 } else {
-                  this.myVirtualClasses.push({
-                    hour: classD.MEETING_TIME_START.slice(0, -3) + '-' + classD.MEETING_TIME_END.slice(0, -3),
-                    descr_ciclo: classD.DESCR,
-                    name: classD.DESCR.toUpperCase(),
-                    fech_ini: classD.START_DT_DO,
-                    fech_fin: classD.END_DT_DO,
-                    section: classD.SUBJECT,
-                    descr: classD.DESCR,
-                    clase: classD.STRM,
-                    extra: true,
-                    hrs_acad: this.toHours(classD.MEETING_TIME_START.slice(0, -3), classD.MEETING_TIME_END.slice(0, -3))
-                  });
+                  let finded = this.myVirtualClasses.filter(vclass => vclass.name == classM.DESCR_CURSO.toUpperCase())[0];
+                  if (finded) {
+                    finded.hrs_acad += this.toHours(classD.HORA_INICIO, classD.HORA_FIN)
+                  } else {
+                    this.myVirtualClasses.push({
+                      hour: classD.HORA_INICIO + '-' + classD.HORA_FIN,
+                      descr_ciclo: classM.DESCR_CURSO,
+                      name: classM.DESCR_CURSO.toUpperCase(),
+                      fech_ini: classD.FECHA_INICIAL,
+                      fech_fin: classD.FECHA_FINAL,
+                      section: classD.CODIGO_AULA,
+                      descr: classM.DESCR_CURSO,
+                      extra: true,
+                      hrs_acad: this.toHours(classD.HORA_INICIO, classD.HORA_FIN)
+                    });
+                  }
                 }
               }
             }
           }
-        }
+        });
       });
     }
     this.events = events;
@@ -363,7 +380,6 @@ export class EnrollmentComponent implements OnInit {
   getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
     let start: Date;
     let end: Date;
-    console.log(rDay);
     const ua = navigator.userAgent.toLowerCase();
     if (ua.indexOf('safari') !== -1) {
       if (ua.indexOf('chrome') > -1) {

@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
   queueEnroll: any;
   showwsp: boolean = false;
   fidelityLink: any = '';
-  imagesAcadConditions = new Array(29);
+  imagesAcadConditions = new Array(35);
   imagesFinaConditions = new Array(25);
   realHourStart;
   realHourEnd;
@@ -116,62 +116,12 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.showModals();
-/*     this.newEnrollmentS.getScheduleStudent({
-      EMPLID: this.user.codigoAlumno,
-      INSTITUTION: 'ECONT',
-      ACAD_CAREER: 'EDUC',
-      STRM1: 1116,
-      STRM2: null,
-      check: true
-    }).then((res) => {
-      console.log(res);
-    }); */
-
-    this.getEthnicity();
-    this.studentS.getDataStudent({email: this.user.email})
-    .then(res => {
-      this.student = res.UcsMetodoDatosPersRespuesta;
-      this.session.setObject('student', this.student);
-      // this.getParameters();
-      // this.getNotifications();
-    }, error => { });
-    this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
-    .then(res => {
-      var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
-      this.enroll = units.filter(item => item.institucion == 'PREGR');
-      this.enroll = this.enroll.length?this.enroll[0]:null;
-      if(this.enroll){
-        this.enroll.OPRID = this.user.email;
-        this.enroll.INSTITUTION = this.enroll.institucion;
-        this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
-        this.enroll.STRM = this.enroll.cicloAdmision;
-        this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-        this.enroll.EMPLID = this.user.codigoAlumno;
-      }
-    });
-    //this.postModal.open();
-    //this.preModal.open();
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.session.setObject('student', this.student);
-        // this.getParameters();
-        // this.getNotifications();
+        this.getParameters();
       }, error => { });
-    // this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
-    //   .then(res => {
-    //     var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
-    //     this.enroll = units.filter(item => item.institucion == 'PREGR');
-    //     this.enroll = this.enroll.length ? this.enroll[0] : null;
-    //     if (this.enroll) {
-    //       this.enroll.OPRID = this.user.email;
-    //       this.enroll.INSTITUTION = this.enroll.institucion;
-    //       this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
-    //       this.enroll.STRM = this.enroll.cicloAdmision;
-    //       this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-    //       this.enroll.EMPLID = this.user.codigoAlumno;
-    //     }
-    //   });
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       // if (message && message.enroll_conditions) {
       //   this.enroll_conditions = message.enroll_conditions;
@@ -194,52 +144,299 @@ export class DashboardComponent implements OnInit {
         }
       }
     });
+    // this.readConditions();
     var ese = new Array(4);
-
     //this.matriculaExtracurricularModal.open();
   }
 
   showModals(){
     this.modalComunicado.open();
-    // this.studentS.CPEStudents()
-    //   .then((res) => {
-    //     if( res.find(emp => emp == this.user.codigoAlumno)) {
-    //       this.allModal.open();
-    //       this.linktoSurvey = 'https://sedd.cientifica.edu.pe/login/ingresar';
-    //     }
-    //   });
   }
+
+  diaPeople(data:any){
+    for(var k in data){
+      if(data[k] == "Y"){
+        return k;
+      }
+    }
+  }
+
+  onChangeAvailable(course, evt) {
+    if (this.countCoursesMatriculados < 3) {
+      this.loading = true;
+      this.newEnrollmentS.getSchedulesCourse(course.CRSE_ID)
+        .then((res) => {
+          this.arraySchedules = res['SIS_WS_HORCC_RSP']['SIS_WS_HORCC_COM'];
+          this.schedulesOfCourse = this.checkDuplicates(this.arraySchedules);
+          this.selectedCourse = course;
+          this.loading = false;
+          this.horariosModal.open();
+        }).catch(err => alert('No se pudo consultar los horarios del curso.'));
+    } else {
+      course.value = false;
+      evt.target.checked = false; 
+      this.toastr.warning("Solo se puede matricular hasta en tres cursos extracurricualres.");
+      return;
+    }
+  }
+
+  checkDuplicates(array) {
+    array.sort(this.dynamicSortMultiple(["CLASS_SECTION", "CLASS_NBR",]));
+    let lastNBR;
+    for (var i = 0; i < array.length; i++) {
+      /* if (array[i]['FLAG1'] != 'I') { */
+      if (!lastNBR) {
+        lastNBR = array[i]['CLASS_NBR'];
+        array[i].show = true;
+      } else if (lastNBR == array[i]['CLASS_NBR']) {
+        array[i].show = false;
+      } else {
+        lastNBR = array[i]['CLASS_NBR'];
+        array[i].show = true;
+      }
+      /* } */
+    }
+    return array.filter(arr => arr.FLAG1 != 'I');
+  }
+
+  dynamicSortMultiple(args) {
+    var props = args;
+    return (obj1, obj2) => {
+      var i = 0, result = 0, numberOfProperties = props.length;
+      while (result === 0 && i < numberOfProperties) {
+        result = this.dynamicSort(props[i])(obj1, obj2);
+        i++;
+      }
+      return result;
+    }
+  }
+
+  dynamicSort(property) {
+    var sortOrder = 1;
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return (a, b) => {
+      var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+      return result * sortOrder;
+    }
+  }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR HORARIO
+  changeSchedule(section, evt) {    
+    let variable = false;
+    this.schedulesSelected = [];
+    this.schedulesOfCourse.forEach(el => {
+      if (section.CLASS_SECTION == el["CLASS_SECTION"] && section.CLASS_NBR == el["CLASS_NBR"]){
+        el.select = true;
+        this.schedulesSelected.push(el);
+      } else {
+        el.select = false;
+      }
+    });
+    this.schedulesSelected.forEach(pickedCourse => {
+      if (!variable) {
+        if (this.checkCrosses(pickedCourse)) {
+          variable = true;
+          section.value = false;
+          section.select = false;
+          evt.target.checked = false;
+          return
+        }
+      }    
+    });
+
+    if (!section.value || section.value == false){
+      this.btnMatricula = true;
+    } else {
+      this.btnMatricula = false;
+    }
+
+  }
+
+  checkCrosses(pickedCourse){
+    if (this.horariosMatriculados) {
+      for (let i = 0; i < this.horariosMatriculados.length; i++) {
+        if (this.horariosMatriculados[i].STRM == "1087") {
+          if (BetweenDays(this.horariosMatriculados[i]['START_DT'],this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['START_DT'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.horariosMatriculados[i]['START_DT'],this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['END_DT'].replaceAll('-', '/') + ' 00:00:00')))) {
+            if (this.horariosMatriculados[i]['DIA'] == pickedCourse['DIA']) {
+            if ((this.timeToSeconds(pickedCourse['HORA_INICIO']) >= this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_INICIO']) < this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse['HORA_FIN']) > this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_FIN']) <= this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN']))) {
+              this.toastr.error('Tienes un cruce con otra clase: ' + this.horariosMatriculados[i]['CLASS_SECTION'] + ' ' + this.horariosMatriculados[i]['DESCR']);
+              pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.horariosMatriculados[i]['CLASS_SECTION'] + ' ' + this.horariosMatriculados[i]['DESCR'];
+              return true
+            }
+            }
+          }
+        }
+      }
+      return false
+    }    
+  }
+
+  timeToSeconds(time){
+    let inSeconds = time.split(':');
+    return inSeconds[0]*60*60 + inSeconds[1]*60
+  }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MATRICULA
+  matricula(){
+    this.loading = true;
+    let data = [];
+    for (var i = 0; i < this.schedulesOfCourse.length; i++) {
+      if (this.schedulesOfCourse[i]['select']) {
+      data.push({
+        ACAD_CAREER: this.schedulesOfCourse[i]['ACAD_CAREER'],
+        ASSOCIATED_CLASS: this.schedulesOfCourse[i]['ASSOCIATED_CLASS'],
+        CLASS_NBR: this.schedulesOfCourse[i]['CLASS_NBR'],
+        CRSE_ID: this.schedulesOfCourse[i]['CRSE_ID'],
+          EMPLID: this.user.codigoAlumno,
+          INSTITUTION: this.schedulesOfCourse[i]['INSTITUTION'],
+        OFFER_NBR: this.schedulesOfCourse[i]['CLASS_NBR'],
+        SESSION_CODE: this.schedulesOfCourse[i]['SESSION_CODE'],
+        SSR_COMPONENT: this.schedulesOfCourse[i]['SSR_COMPONENT'],
+          STRM: this.schedulesOfCourse[i]['STRM'],
+          equivalent: "-",
+        CLASS_SECTION: this.schedulesOfCourse[i]['CLASS_SECTION'],
+        DIA: this.schedulesOfCourse[i]['DIA'],
+        HORA_INICIO: this.schedulesOfCourse[i]['HORA_INICIO'],
+        HORA_FIN: this.schedulesOfCourse[i]['HORA_FIN'],
+        START_DT: this.schedulesOfCourse[i]['START_DT'],
+        END_DT: this.schedulesOfCourse[i]['END_DT'],
+        DESCR: this.schedulesOfCourse[i]['DESCR'],
+      });
+      }
+    };
+    let x = new Set();
+    var result = data.reduce((acc,item)=>{
+      if(!x.has(item.CLASS_NBR)){
+      x.add(item.CLASS_NBR)
+      acc.push(item)
+      }
+      return acc;
+    },[]);
+    if (data.length == 0 || data == undefined) {
+      this.loading = false;      
+      this.toastr.warning('No seleccionaste ninguna sección');
+      return
+    }
+    this.newEnrollmentS.saveCourseClass({
+      courses: result,
+      emplid_admin: this.user.email
+    }).then((res) => {
+      if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
+      this.toastr.success('Curso matriculado');
+
+      let primerCurso = this.session.getObject('cursoExtracurricular');
+      
+      if (!primerCurso){
+        this.session.setObject('cursoExtracurricular', data);
+        this.horariosMatriculados = data;
+      } else {
+        this.horariosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular').concat(data):[];
+        this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
+      }
+      this.selectedCourse.value = true;
+      this.session.destroy('mySchedule');
+      this.loading = false;
+      this.ExistCursoMatriculado();
+      this.countCoursesMatriculados = this.countCoursesMatriculados + 1;
+      this.horariosModal.close();
+      } else {
+      this.toastr.warning('No hay vacantes para este curso');
+      this.loading = false;
+      }
+    }).catch(err => alert('No se pudo matricular el curso'));
+  }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REFRESH CURSOS
+  ExistCursoMatriculado(){
+    this.horariosMatriculados = this.session.getObject('cursoExtracurricular')
+    if (!this.horariosMatriculados || this.horariosMatriculados.length == 0) {
+      this.columTrash = false;
+    }
+    else {
+      this.courses.forEach(course => {
+        this.horariosMatriculados.forEach(horario => {
+          if ( horario.CRSE_ID === course.CRSE_ID){
+            course.value = true;
+            this.columTrash = true;
+          }
+        });
+      });
+    }
+  }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////CERRAR MODALES
+  closeModalCursos(modal){
+    this.horariosMatriculados = this.session.getObject('cursoExtracurricular')?this.session.getObject('cursoExtracurricular'):[];
+    this.selectedCourse.value = false;
+    this.ExistCursoMatriculado();
+    this.cursosExtracurricularesModal.close();
+  }
+
+  closeModalSecciones(modal){
+    this.horariosMatriculados = this.session.getObject('cursoExtracurricular');
+    this.selectedCourse.value = false;
+    this.btnMatricula = true;
+    this.ExistCursoMatriculado();
+    this.horariosModal.close();
+  }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////ELIMINAR
+  delete(course){
+    this.cursoId = course.CRSE_ID;
+    this.schedulesForDelete = this.horariosMatriculados.filter(horario => horario.CRSE_ID != course.CRSE_ID);
+    this.selectedCourse = course;    
+    this.eliminarMatriculaModal.open();
+  }
+
+  deleteEnrollment(){
+    this.loading = true;
+    this.newEnrollmentS.deleteCourseClassByCrseId(this.user.codigoAlumno, this.cursoId, '')
+    .then((res) => {
+      this.loading = false;
+      this.horariosMatriculados = this.schedulesForDelete;
+      this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
+      this.selectedCourse.value = false;
+      this.ExistCursoMatriculado();
+      this.countCoursesMatriculados = this.countCoursesMatriculados - 1;
+      this.toastr.warning("Curso Removido");
+      this.eliminarMatriculaModal.close();
+    }).catch(err => alert('Error en servicio de eliminar.'));    
+  }
+  
   readConditions() {
     this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
       .then((res) => {
+        this.enroll = true;
         this.enroll_conditions = res;
       });
+  }
+
+  example(){
+    this.AcademicConditionModal.open();
   }
 
   getParameters(open: boolean = true) {
     var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
     this.intentionS.getParameters(this.user.codigoAlumno)
       .then(res => {
-        this.enrollmentStatus = res.data && res.data ? res.data : [];
-        this.enrollmentStatus.forEach((item) => {
-          if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO') {
-            if (open) this.broadcaster.sendMessage({ intentionModal: 2 });
-            this.noClosed = rDate > item.end_date || rDate < item.start_date ? true : false;
-          }
-          if (item && item.enrollment_intention_status == 'A' && item.type == 'M') {
-            this.broadcaster.sendMessage({ getEnroll: 'Y' });
-            this.btnEnroll = true;
-          }
-          if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N') {
-            if (open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
-          }
-          if (item && item.enrollment_intention_status == 'A' && item.type == 'NM') {
-            this.broadcaster.sendMessage({ getEnroll: 'Y' });
-            this.btnEnroll = true;
-          }
-        })
-        // this.broadcaster.sendMessage({ getEnroll: 'Y' });
-        // this.btnEnroll = true;
+        // this.enrollmentStatus = res.data && res.data ? res.data : [];
+        // this.enrollmentStatus.forEach((item) => {
+        //   if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'PM' && item.authorizacion.ended_process == 'NO') {
+        //     if (open) this.broadcaster.sendMessage({ intentionModal: 2 });
+        //     this.noClosed = rDate > item.end_date || rDate < item.start_date ? true : false;
+        //   }
+        //   if (item && item.enrollment_intention_status == 'A' && item.type == 'M') {
+        //     this.broadcaster.sendMessage({ getEnroll: 'Y' });
+        //     this.btnEnroll = true;
+        //   }
+        //   if (item && item.enrollment_intention_status == 'A' && item.authorizacion && item.type == 'MI' && this.user.ind_deuda == 'N') {
+        //     if (open) this.broadcaster.sendMessage({ intensiveModal: 2, intensiveData: item });
+        //   }
+        //   if (item && item.enrollment_intention_status == 'A' && item.type == 'NM') {
+        //     this.broadcaster.sendMessage({ getEnroll: 'Y' });
+        //     this.btnEnroll = true;
+        //   }
+        // })
+        this.broadcaster.sendMessage({ getEnroll: 'Y' });
+        this.btnEnroll = true;
       })
   }
 
@@ -269,6 +466,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
     tEnroll[flag] = 'Y';
+    tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
     this.newEnrollmentS.saveConditions(tEnroll)
       .then((res) => {
         this.loading = false;
@@ -530,15 +728,16 @@ export class DashboardComponent implements OnInit {
   goEnrollment() {
     let myFlags = this.enroll_conditions.FLAG_ACADEMICO == 'Y' && this.enroll_conditions.FLAG_FINANCIERO == 'Y';
     this.session.setObject('conditionsToEnrollment', { turn: this.realDate.timeseconds >= this.queueEnroll.date.timeseconds, conditions: myFlags });
-    this.newEnrollmentS.getDebt({ EMPLID: this.user.codigoAlumno })
-      .then((res) => {
-        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
-        if (!notdeuda) {
-          this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-        } else {
-          this.router.navigate(['/estudiante/matricula/disponibles']);
-        }
-      });
+    this.router.navigate(['/estudiante/matricula/disponibles']);
+    // this.newEnrollmentS.getDebt({ EMPLID: this.user.codigoAlumno })
+    //   .then((res) => {
+    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
+    //     if (!notdeuda) {
+    //       this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+    //     } else {
+    //       this.router.navigate(['/estudiante/matricula/disponibles']);
+    //     }
+    //   });
   }
 
   getEthnicity(){

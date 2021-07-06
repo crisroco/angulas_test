@@ -4,7 +4,6 @@ import { SessionService } from '../../../../services/session.service';
 import { AppSettings } from '../../../../app.settings';
 import { Broadcaster } from '../../../../services/broadcaster';
 import { RealDate } from '../../../../helpers/dates';
-import { QueueService } from '../../../../services/queue.service';
 import * as moment from 'moment';
 
 @Component({
@@ -27,7 +26,6 @@ export class EnrollComponent implements OnInit {
 
   constructor(public wsService: WebsocketService,
     private broadcaster: Broadcaster,
-    private queueS: QueueService,
     private session: SessionService) { 
       this.ngOnInit();
   }
@@ -58,7 +56,6 @@ export class EnrollComponent implements OnInit {
 
   setRealDateEnroll(){
     this.realDate = RealDate();
-    console.log('ejecuta');
     if(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) {
       this.timeoutEnroll = false;
       this.initSocket();
@@ -73,7 +70,6 @@ export class EnrollComponent implements OnInit {
   initSocket(){
     this.wsService.enroll(this.student.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
     .then( (res: any) => {
-      console.log('check!', res);
       if (res.ok) {
         this.enroll.wait = false;
         this.enroll.status = 1;
@@ -88,13 +84,11 @@ export class EnrollComponent implements OnInit {
       console.log('catch!', err);
     });
     this.wsService.listenEnroll().subscribe( (res: any) => {
-      console.log('enroll -> ', res);
       this.enroll.wait = false;
       this.enroll.status = 1;
       this.countDown(res.dateCurrent, res.dateEnd);
     });
     this.wsService.listenNotify().subscribe( (res: any) => {
-      console.log('notify', res);
       this.enroll.numero = res.index + 1;
     });
   }
@@ -110,7 +104,6 @@ export class EnrollComponent implements OnInit {
     this.countDownEnrollTime = setInterval(() => {
       durationNumber = durationNumber - interval;
       const duration2 = moment.duration(durationNumber, 'milliseconds');
-      // tslint:disable-next-line:max-line-length
       this.countDownEnroll = this.pad(duration2.hours(), 2) + ':' + this.pad(duration2.minutes(), 2) + ':' + this.pad(duration2.seconds(), 2);
 
       if (this.countDownEnroll === '00:00:00') {
@@ -133,32 +126,24 @@ export class EnrollComponent implements OnInit {
   queue() {
     this.enroll.wait = true;
     this.wsService.queue(this.student.codigoAlumno, '990051584', 'vallejoaguilar@gmail.com')
-        .then( (res: any) => {
-          console.log('queue!', res);
-          if (res.ok) {
-            this.enroll.wait = false;
-            this.enroll.status = 1;
-            this.countDown(res.data.dateCurrent, res.data.dateEnd);
-          } else {
-            this.enroll.wait = false;
-            this.enroll.status = 0;
-            this.enroll.numero = res.data.count;
-          }
-        });
+      .then( (res: any) => {
+        if (res.ok) {
+          this.enroll.wait = false;
+          this.enroll.status = 1;
+          this.countDown(res.data.dateCurrent, res.data.dateEnd);
+        } else {
+          this.enroll.wait = false;
+          this.enroll.status = 0;
+          this.enroll.numero = res.data.count;
+        }
+      });
   }
 
   matricula() {
-    // this.queueS.authEncrypt({code: this.student.codigoAlumno})
-    //  .subscribe( (res: any) => {
-    //     this.session.setItem('up', res.ciphertext);
-        
-    // });
-     window.open(`${AppSettings.PEOPLE_LOGIN}&up=${localStorage.getItem('up')}`, '_blank');
+    window.open(`${AppSettings.PEOPLE_LOGIN}&up=${localStorage.getItem('up')}`, '_blank');
   }
 
   ngOnDestroy(){
-    console.log('eliminado');
     this.crossdata.unsubscribe();
   }
-
 }

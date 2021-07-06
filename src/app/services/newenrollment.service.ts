@@ -73,13 +73,13 @@ export class NewEnrollmentService {
     public getEquivalentsCourses(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getEquivalentsCourses', data).toPromise();
     }
-//este
-    public deleteCourseClass(own_id): Promise<any> {
-        return this.http.delete(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClass/' + own_id).toPromise();
-    }
 
-    public deleteCourseClassByCrseId(emplid, crs_id): Promise<any> {
-        return this.http.delete(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClassByCrseId/' + emplid + '/' +  crs_id).toPromise();
+    public deleteCourseClass(emplid, oprid ,data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClass/' + emplid + '/' + oprid, data).toPromise();
+    }
+//este
+    public deleteCourseClassByCrseId(emplid, crs_id, data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClassByCrseId/' + emplid + '/' +  crs_id, data).toPromise();
     }
 
     public deleteCourseClassExtra(emplid, oprid ,data): Promise<any> {
@@ -102,8 +102,12 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/processEnrollment', data).toPromise();
     }
 
-    public getScheduleAutoservice(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleAutoservice', data).toPromise();
+    public getSkillFullLoadAutoService(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillFullLoadAutoService', data).toPromise();
+    }
+
+    public getSkillFullLoadAutoServicePre(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillFullLoadAutoServicePre', data).toPromise();
     }
 
     public getDataStudentEnrollment(data): Promise<any> {
@@ -124,6 +128,15 @@ export class NewEnrollmentService {
 
     public sendEmailSchedule(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/sendEmailSchedule', data).toPromise();
+    }
+
+    //new enrollment
+    public chargeSkillfulload(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/chargeSkillfulload', data).toPromise();
+    }
+
+    public getScheduleNew(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleNew', data).toPromise();
     }
 
 }

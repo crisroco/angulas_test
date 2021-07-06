@@ -1,7 +1,7 @@
 <div class="row new_enrollment_container">
 	<div class="col-md-10">
 		<div class="bg-gray-a p-4">
-			<div class="mt-2 text-{{company}}"><b>Total de Creditos: {{ myCredits }} / {{maxCreditsEnrollment}}</b></div>
+			<div class="mt-2 text-{{company}}"><b>Total de Créditos: {{ myCredits }} / {{maxCreditsEnrollment}}</b></div>
 			<div class="scroll h-fm">
 				<table class="table w-100">
 				  	<thead class="thead-dark">
@@ -15,24 +15,34 @@
 				    	</tr>
 				  	</thead>
 				  	<tbody>
-					    <ng-container *ngFor="let item of availableCourses">
+					    <ng-container *ngFor="let item of availableCourses; let i = 'index'">
+							<tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[0].flag  && i == 0">
+								<td colspan="6">
+									Materias en Curso
+								</td>
+							</tr>
 					    	<tr class="text-s">
 					      		<ng-container>
 						      		<td class="text-left docente">
-						      			{{item.DESCR}} ({{item.SSR_COMPONENT}})
+						      			{{item.NOMBRE_CURSO}} ({{item.TIPO_COMPONENTE}})
 							      	</td>
-							      	<td class="text-center" *ngIf="!item.showLine">{{item.FLAG2=='Y'?item.UNITS_REQUIRED:(item.units_repeat_limit2?item.units_repeat_limit2:item.UNITS_REPEAT_LIMIT) | number: '1.0-0'}}
+							      	<td class="text-center" *ngIf="!item.showLine">{{(item.CREDITOS=='0'?'-':item.CREDITOS)}}
 							      	</td>
 							      	<td class="text-center" *ngIf="item.showLine">-</td>
-							      	<td>{{item.LVF_CARACTER}}</td>
-							      	<td>{{item.CLASS_NBR}} - {{item.CLASS_SECTION}}</td>
-							      	<td>{{item.DESCRSHORT}}</td>
+							      	<td>-</td>
+							      	<td>{{item.CLASE}} - {{item.SECCION_CLASE}}</td>
+							      	<td>{{item.DESCR_CORTA}}</td>
 							      	<td class="text-right">
-							      		<i *ngIf="item.trash" (click)="remove(item)" class="red fa fa-trash text-black text-l" aria-hidden="true"></i>
-						      			<i *ngIf="!item.trash" class="red fa fa-lock text-black text-l" aria-hidden="true"></i>
+							      		<i ngxTooltip tooltipContent="Eliminar" *ngIf="item.PERMITIR_BAJA == 'Y'" (click)="remove(item)" class="red fa fa-trash text-black text-l" aria-hidden="true"></i>
+						      			<i *ngIf="item.PERMITIR_BAJA != 'Y'" class="red fa fa-lock text-black text-l" aria-hidden="true"></i>
 							      	</td>
 					      		</ng-container>
 					    	</tr>
+							<tr class="spacer" *ngIf="(numberofExtra > 0) && !availableCourses[i].flag && availableCourses[i+1].flag">
+								<td colspan="6">
+									Materias en Curso
+								</td>
+							</tr>
 					    </ng-container>
 					    <ng-container *ngIf="showMessage">
 					    	<tr>
@@ -61,10 +71,12 @@
 		<h5 class="text-red font-weight-bold text-center">Confirmación a eliminar</h5>
 		<div> Se eliminaran los siguientes cursos:</div>
 		<ul>
-			<li class="myscheduleperclass" *ngFor="let course of showToDelete">
-				<span class="docente">{{course.DESCR}} - ({{course.SSR_COMPONENT}})</span> <br>
-				<span>{{course.DAY_OF_WEEK }}: {{removeSeconds(course.MEETING_TIME_START)}} - {{removeSeconds(course.MEETING_TIME_END)}}</span><br>
-				<span>{{course.START_DT_DO | date:'dd/MM'}} - {{course.END_DT_DO | date:'dd/MM'}}</span>
+			<li class="myscheduleperclass" *ngFor="let course of goingToDelete">
+				<span class="docente"><b>{{course.NOMBRE_CURSO}} - ({{course.TIPO_COMPONENTE}})</b></span><br>
+				<ng-container *ngFor="let clss of course.UCS_REST_MTG_DET_REQ">
+					<span><b>{{findDay(clss)}}</b>: {{clss.HORA_INICIO}} - {{clss.HORA_FIN}}</span><br>
+					<span>{{clss.INICIO_FECHA | date:'dd/MM'}} - {{clss.FIN_FECHA | date:'dd/MM'}}</span><br>
+				</ng-container>
 			</li>
 		</ul>
 	</div>

@@ -1,9 +1,9 @@
 <div class="p-post-header row bg-imageplot">
 	<div class="py-3 container">
 		<div class="enrollment-menu">
-			<div class="home-icon">
+			<!-- <div class="home-icon">
 				<a (click)="reload()"><i class="fa fa-home" aria-hidden="true"></i></a>
-			</div>
+			</div> -->
 			<div class="buttons">
 				<button class="btn" [routerLink]="'/admin/dashboard/disponibles'" routerLinkActive="active-link">1. Cursos Disponibles</button>
 				<button class="btn" [routerLink]="'/admin/dashboard/matriculados'" routerLinkActive="active-link">2. Cursos Matriculados</button>
@@ -20,7 +20,7 @@
 					<div class="text-student"><b>ALUMNO: {{isthisStudent?isthisStudent.NAME:''}}</b></div>
 					<div class="text-student"><b>{{studentCode?studentCode:''}}</b></div>
 					<div class="text-student"><b>CICLO LECTIVO: {{schoolCycle?schoolCycle.CICLO_LECTIVO:''}}</b></div>
-					<div class="text-student"><b>{{allData?allData.ACAD_PROG:''}}/{{allData?allData.ACAD_PLAN:''}}</b></div>
+					<div class="text-student"><b>{{allData?allData.codigoPrograma:''}}/{{allData?allData.codigoPlan:''}}</b></div>
 					<!-- <div class="text-student" *ngIf="schoolCycle"><b>{{schoolCycle.CICLO_LECTIVO}}</b></div> -->
 				</div>
 			</div>
@@ -30,6 +30,7 @@
 		</div>
 		<div class="row">
 			<div class="mb-6 col-md-12 py-2 text-center">
+				<button (click)="openAditionalCoursesModal()" class="btn btn-schedule mr-2">Cursos Adicionales</button>
 				<button (click)="openEquivalentModal()" class="btn btn-schedule m-2">Cursos Equivalentes</button>
 			</div>
 		</div>
@@ -140,6 +141,7 @@
 				      	<th class="py-2 text-left text-m">Cursos</th>
 				      	<th class="py-2 text-left text-m">Créditos</th>
 				      	<th class="py-2 text-left text-m">Codigo</th>
+						<th *ngIf="CPE" class="py-2 text-left text-m">Dia</th>
 				      	<th class="py-2 text-left text-m">Turno</th>
 			    	</tr>
 			  	</thead>
@@ -154,7 +156,13 @@
 				      	</td>
 				      	<td class="text-left">{{course.CREDITOS?course.CREDITOS:course.UNITS_REPEAT_LIMIT | number: '1.0-0'}}</td>
 				      	<td class="text-left">{{course.MATERIA?course.MATERIA:course.SUBJECT}}  {{course.NRO_CATALOGO?course.NRO_CATALOGO:course.CATALOG_NBR}}</td>
-				      	<td class="text-left">
+				      	<td *ngIf="CPE" class="text-left">
+							<select [disabled]="!course.extra" [(ngModel)]="course.UCS_TURNO_CRSE" name="turn_week" id="">
+								<option value="D">Día Semana</option>
+								<option value="F">Fin Semana</option>
+							</select>
+						</td>
+						<td class="text-left">
 				      		<select [disabled]="!course.extra" [(ngModel)]="course.TURNO" name="turn" id="">
 				      			<option value="M">Mañana</option>
 				      			<option value="T">Tarde</option>
@@ -212,33 +220,6 @@
 			  	</tbody>
 			</table>
 	  	</div>
-	</div>
-</ngx-smart-modal>
-
-<!-- <ngx-smart-modal #selecStudentModal identifier="selecStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
-	<div class="bg-{{company}} p-4 rounded-t-1">
-	</div>
-	<div class="text-left p-2">
-		<p> Codigo del Alumno </p>
-		<div class="form-group scroll h-s">
-		    <input name="code" type="text" class="form-group" [(ngModel)]="studentCode" placeholder="Codigo">
-		    <button class="btn rounded-1 btn-{{company}} ml-2" (click)="search()">Buscar</button>
-	  	</div>
-	</div>
-	<div class="mx-2">
-		<p *ngIf="isthisStudent">Alumno: {{isthisStudent.NAME}}</p>
-	</div>
-	<div class="row d-flex justify-content-center mb-3 px-5">
-		<button [disabled]="!isthisStudent" class="btn rounded-1 btn-{{company}} mr-3" (click)="select()">Seleccionar</button>
-		<button class="btn rounded-1 btn-{{company}} ml-3" (click)="openConfirmation()">Carga del Alumno</button>
-	</div>
-</ngx-smart-modal> -->
-
-<ngx-smart-modal #confirmationUploadModal identifier="confirmationUploadModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">
-	<div class="row d-flex justify-content-center my-3 px-5">
-		<h5 class="text-center text-ucs">¿Estas seguro que quieres actualizar toda la data del Alumno?</h5>
-		<button class="btn rounded-1 btn-{{company}} mr-3" (click)="uploadData()">Continuar</button>
-		<button class="btn rounded-1 btn-danger ml-3" (click)="confirmationUploadModal.close()">Cancelar</button>
 	</div>
 </ngx-smart-modal>
 

@@ -457,6 +457,11 @@ li a:hover, li a:not([href]):hover, .pointer{
 	max-height: 400px;
 }
 
+.scroll2{
+	overflow: auto;
+	max-height: 500px;
+}
+
 .h-auto{
 	max-height: initial;
 	height: auto;

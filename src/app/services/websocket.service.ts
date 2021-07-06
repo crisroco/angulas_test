@@ -76,8 +76,8 @@ export class WebsocketService {
     }
   }
 
-    listenNotification() {
-        return this.listen('app:notification');
-      }
+  listenNotification() {
+    return this.listen('app:notification');
+  }
     
 }

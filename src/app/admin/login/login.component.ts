@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { LoginService } from '../../services/login.service';
-import { QueueService } from '../../services/queue.service';
 import { Encrypt } from '../../helpers/general';
 import { SessionService } from '../../services/session.service';
 
@@ -37,7 +36,6 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     public toastr: ToastrService,
     private session: SessionService,
-    private queueS: QueueService,
     public router: Router,
     public deviceS:DeviceDetectorService,
     private loginS: LoginService) { }
