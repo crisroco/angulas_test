@@ -201,17 +201,14 @@ export class DashboardComponent implements OnInit {
 
   showModals(){
     this.modalComunicado.open();
-    this.studentS.CPEStudents()
-      .then((res) => {
-        if( res.find(emp => emp == this.user.codigoAlumno)) {
-          this.allModal.open();
-          this.linktoSurvey = 'https://sedd.cientifica.edu.pe/login/ingresar';
-        }
-      });
+    // this.studentS.CPEStudents()
+    //   .then((res) => {
+    //     if( res.find(emp => emp == this.user.codigoAlumno)) {
+    //       this.allModal.open();
+    //       this.linktoSurvey = 'https://sedd.cientifica.edu.pe/login/ingresar';
+    //     }
+    //   });
   }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   readConditions() {
     this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
       .then((res) => {

@@ -395,14 +395,16 @@ export class StudentComponent implements OnInit {
 		private formS: FormService,
 		public newEnrollmentS: NewEnrollmentService,
 		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {
-			this.DigitalLibraryAttribute1 = new FormControl('Alumni');
-			this.DigitalLibraryAttribute2 = new FormControl(this.user.codigoAlumno);
-			this.DigitalLibraryAttribute3 = new FormControl(this.retomex.correo);
-			this.DigitalLibraryAttribute4 = new FormControl(this.session.getObject('hash'));
-			this.DigitalLibraryAttribute5 = new FormControl(this.retomex.nombreAlumno + " " + this.retomex.apellidoAlumno);
-			this.DigitalLibraryAttribute6 = new FormControl(this.retomex.programa_actual);
-			this.DigitalLibraryAttribute7 = new FormControl(this.retomex.ind_modalidad);
-			this.DigitalLibraryAttribute8 = new FormControl(this.retomex.campus);
+			if(!this.session.getItem('notRemotex')) {
+				this.DigitalLibraryAttribute1 = new FormControl('Alumni');
+				this.DigitalLibraryAttribute2 = new FormControl(this.user.codigoAlumno);
+				this.DigitalLibraryAttribute3 = new FormControl(this.retomex.correo);
+				this.DigitalLibraryAttribute4 = new FormControl(this.session.getObject('hash'));
+				this.DigitalLibraryAttribute5 = new FormControl(this.retomex.nombreAlumno + " " + this.retomex.apellidoAlumno);
+				this.DigitalLibraryAttribute6 = new FormControl(this.retomex.programa_actual);
+				this.DigitalLibraryAttribute7 = new FormControl(this.retomex.ind_modalidad);
+				this.DigitalLibraryAttribute8 = new FormControl(this.retomex.campus);
+			}
 		}
 		
 	ngOnInit() {
