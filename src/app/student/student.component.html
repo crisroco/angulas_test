@@ -329,6 +329,7 @@
         <h5 class=""> <strong> CONSULTA DE HORARIOS </strong> </h5>
         <a (click)="EnrollScheduleModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
     </div>
+    <span><b>(*) Por la coyuntura actual, la asignación docente estará sujeta a modificaciones.</b></span>
     <div class="scroll">
         <div *ngIf="enrollCycles && enrollCycles.length">
             <div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let cycles of enrollCycles">

@@ -404,6 +404,7 @@ export class StudentComponent implements OnInit {
 		}
 		
 	ngOnInit() {
+		console.log(this.deviceS.getDeviceInfo());
 		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
 			this.userBackoffice = true;
 		}
@@ -1204,7 +1205,6 @@ export class StudentComponent implements OnInit {
 						SESSION_CODE: '',
 						STRM: activeData.STRM
 					}).then((res) => {
-						console.log(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
 						if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
 							schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
 						}

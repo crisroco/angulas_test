@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
 
   select() {
     this.loading = true;
-    this.newEnrollmentS.getAcademicData({ code: this.studentCode }).then((res) => {
+    this.studentS.getAcademicDataStudent({ code: this.studentCode }).then((res) => {
       this.allData = res[0];
       this.session.setObject('acadmicData', this.allData);
       this.session.setObject('mySelectedStudent', this.isthisStudent);
