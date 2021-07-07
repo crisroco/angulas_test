@@ -404,7 +404,6 @@ export class StudentComponent implements OnInit {
 		}
 		
 	ngOnInit() {
-		console.log(this.deviceS.getDeviceInfo());
 		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
 			this.userBackoffice = true;
 		}
