@@ -1195,8 +1195,8 @@ export class StudentComponent implements OnInit {
 			this.loading = true;
 			let activeData = this.session.getObject('dataEnrollment');
 			if(obj.schedule.length == 0){
+				let schedules = [];
 				for (let i = 0; i < obj.courses_id.length; i++) {
-					let schedules = [];
 					this.newEnrollmentS.getScheduleNew({
 						CAMPUS: activeData.sede,
 						CRSE_ID: obj.courses_id[i],
@@ -1204,6 +1204,7 @@ export class StudentComponent implements OnInit {
 						SESSION_CODE: '',
 						STRM: activeData.STRM
 					}).then((res) => {
+						console.log(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
 						if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
 							schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
 						}
