@@ -62,9 +62,18 @@ export class StudentComponent implements OnInit {
 	botonCerrar = true;
 	botonesvacuna = false;
 	company = AppSettings.COMPANY;
-	user: any = this.session.getObject('user');
+	user: any = {
+		codigoAlumno: ''
+	};
 	dataStudent: any = this.session.getObject('dataStudent');
-	retomex: any = this.session.getObject('remotex');
+	retomex: any = {
+		correo: '',
+		nombreAlumno: '',
+		apellidoAlumno: '',
+		programa_actual: '',
+		campus: '',
+		ind_modalidad: ''
+	};
 	enrollmentStatus: any;
 	enrollmentIntentionStatus: any;
 	enrollmentIntensiveStatus: any;
@@ -391,6 +400,7 @@ export class StudentComponent implements OnInit {
 		private formS: FormService,
 		public newEnrollmentS: NewEnrollmentService,
 		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {
+			this.user = this.session.getObject('user');
 			if(!this.session.getObject('notRemotex')) {
 				this.retomex = this.session.getObject('remotex');
 				this.DigitalLibraryAttribute1 = new FormControl('Alumni');
