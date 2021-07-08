@@ -393,7 +393,7 @@ export class StudentComponent implements OnInit {
 		public ngxSmartModalService: NgxSmartModalService, private http: HttpClient) {
 			if(!this.session.getObject('notRemotex')) {
 				this.retomex = this.session.getObject('remotex');
-				this.DigitalLibraryAttribute1 = new FormControl('Alumno');
+				this.DigitalLibraryAttribute1 = new FormControl('Alumni');
 				this.DigitalLibraryAttribute2 = new FormControl(this.user.codigoAlumno);
 				this.DigitalLibraryAttribute3 = new FormControl(this.retomex.correo);
 				this.DigitalLibraryAttribute4 = new FormControl(this.session.getObject('hash'));
