@@ -1071,7 +1071,9 @@ export class StudentComponent implements OnInit {
 			let activeData = this.session.getObject('dataEnrollment');
 			this.newEnrollmentS.getSkillfullLoad({EMPLID: activeData.EMPLID,CAMPUS:activeData.sede})
 				.then(res => {
-					let allData: Array<any> = res?res:[];var objCycles = {};
+					let allData: Array<any> = res?res.filter(el => el.LVF_CARACTER != 'E'):[];
+					let electiveData: Array<any> = res?res.filter(el => el.LVF_CARACTER == 'E'):[];
+					var objCycles = {};
 					allData.forEach( (item)  => {
 						if(!objCycles[item.UCS_CICLO]){
 							objCycles[item.UCS_CICLO] = {
@@ -1091,6 +1093,26 @@ export class StudentComponent implements OnInit {
 						}
 						objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.push(item.CRSE_ID, item.CRSE_ID2, item.CRSE_ID3,item.CRSE_ID4,item.CRSE_ID5,item.CRSE_ID6);
 						objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id = objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.filter(el => el != '');
+					});
+					electiveData.forEach((it) => {
+						if(!objCycles['E']){
+							objCycles['E'] = {
+								name: 'Electivo',
+								isOpen: true,
+								courses: {}
+							}
+						}
+						if(!objCycles['E'].courses[it.DESCR]){
+							objCycles['E'].courses[it.DESCR] = {
+								name: it.DESCR,
+								isOpen: false,
+								type: 'E',
+								courses_id: [],
+								schedule: []
+							}
+						}
+						objCycles['E'].courses[it.DESCR].courses_id.push(it.CRSE_ID, it.CRSE_ID2, it.CRSE_ID3,it.CRSE_ID4,it.CRSE_ID5,it.CRSE_ID6);
+						objCycles['E'].courses[it.DESCR].courses_id = objCycles['E'].courses[it.DESCR].courses_id.filter(el => el != '');
 					});
 					this.enrollCycles = [];
 					for(var kcycle in objCycles){

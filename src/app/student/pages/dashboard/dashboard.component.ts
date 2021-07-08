@@ -461,7 +461,7 @@ export class DashboardComponent implements OnInit {
             this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
           });
       }
-    }, 60000);
+    }, 120000);
   }
 
   saveConditions(flag, modal) {
