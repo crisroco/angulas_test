@@ -26,10 +26,9 @@
 					</div>
 					<ng-container>
 						<div *ngIf="enroll && queueEnroll"
-							class="btn btn-lg btn-block btn-black text-{{queueEnroll.ind_grupo != 'Y'?'red':(this.realDate.timeseconds >= this.queueEnroll.date.timeseconds?'green':'red')}}">
-							{{queueEnroll.ind_grupo == 'N' && !queueEnroll.fecha_ing?'Aún no tienes Turno de
-							Matricula':'Turno: ' + queueEnroll.date.day + ' de ' + queueEnroll.date.nmonth + ' ' +
-							queueEnroll.date.hour + ':' + queueEnroll.date.minute}} </div>
+							class="btn btn-lg btn-block btn-black text-{{!queueEnroll.turnText?'red':(queueEnroll.onTurn?'green':'red')}}">
+							{{queueEnroll.turnText?queueEnroll.turnText:'Aún no tienes Turno de
+							Matricula'}} </div>
 						<div class="row justify-content-center align-items-center mb-2 mt-3">
 							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
 								(click)="AcademicConditionModal.open()">

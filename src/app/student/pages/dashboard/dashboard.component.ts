@@ -127,9 +127,8 @@ export class DashboardComponent implements OnInit {
       //   this.enroll_conditions = message.enroll_conditions;
       // }
       if (message && message.queueEnroll) {
-        this.timeoutEnroll = true;
         this.queueEnroll = message.queueEnroll;
-        this.setRealDateEnroll();
+        this.setRealDateEnroll(this.queueEnroll);
         this.readConditions();
       }
       else if (message && message.enroll) {
@@ -452,14 +451,17 @@ export class DashboardComponent implements OnInit {
       }, error => { });
   }
 
-  setRealDateEnroll() {
-    this.realDate = RealDate();
-    if (this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) this.timeoutEnroll = false;
+  setRealDateEnroll(turn) {
+    this.timeoutEnroll = !turn.onTurn;
     setTimeout(() => {
       if (this.timeoutEnroll) {
-        this.setRealDateEnroll();
+        this.studentS.getEnrollQueueNumber({EMPLID: this.user.codigoAlumno})
+          .then((res) => {
+            this.queueEnroll.onTurn = res.UCS_GRUPO_MAT_RES.onTurn;
+            this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
+          });
       }
-    }, 5000);
+    }, 60000);
   }
 
   saveConditions(flag, modal) {
