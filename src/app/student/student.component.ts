@@ -403,6 +403,7 @@ export class StudentComponent implements OnInit {
 			this.user = this.session.getObject('user');
 			if(!this.session.getObject('notRemotex')) {
 				this.retomex = this.session.getObject('remotex');
+				console.log(this.retomex)
 				this.DigitalLibraryAttribute1 = new FormControl('Alumni');
 				this.DigitalLibraryAttribute2 = new FormControl(this.user.codigoAlumno);
 				this.DigitalLibraryAttribute3 = new FormControl(this.retomex.correo);

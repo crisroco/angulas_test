@@ -85,34 +85,32 @@ export class LoginComponent implements OnInit {
 					alert("Error: CryptoJS is undefined");
 				}
 				this.session.setObject('hash', this.digital4);
-			}, error => { });
-			this.studentS.getAcademicDataStudent({ code: this.student.codigoAlumno }).then((res) => {
-				var instis = res['UcsMetodoDatosAcadRespuesta']['UcsMetodoDatosAcadRespuesta'];
-				instis.forEach(i => {
+				this.studentS.getAcademicDataStudent({ code: this.student.codigoAlumno }).then((res) => {
+					var instis = res['UcsMetodoDatosAcadRespuesta']['UcsMetodoDatosAcadRespuesta'];
+					instis.forEach(i => {
+					});
+					var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
+					var one = units.filter(item => item.institucion == 'ECONT');//ECONT - PREGR
+					var inst = one.length ? one[0] : null;
+					this.dataStudent = inst;
+					this.session.setObject('dataStudent', this.dataStudent);
+					this.student.email = data.email;
+					this.session.setObject('user', this.student);
+					// this.router.navigate(['estudiante']);
+					this.loginS.oauthToken({
+						username: data.email,
+						password: data.password,
+						// client_id: 16, //tst
+						// client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
+						client_id: 2,
+						client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
+						grant_type: "password"
+					}).then((res) => {
+						this.session.setObject('oauth', res);
+						this.router.navigate(['estudiante']);
+					}, error => { this.loading = false; });
 				});
-				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
-				var one = units.filter(item => item.institucion == 'ECONT');//ECONT - PREGR
-				var inst = one.length ? one[0] : null;
-				this.dataStudent = inst;
-				this.session.setObject('dataStudent', this.dataStudent);
-			});
-			this.student.email = data.email;
-			this.session.setObject('user', this.student);
-			// this.router.navigate(['estudiante']);
-			this.loginS.oauthToken({
-				username: data.email,
-				password: data.password,
-				// client_id: 16, //tst
-				// client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
-				client_id: 2,
-				client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
-				grant_type: "password"
-			}).then((res) => {
-				/* -----------------------------------------------------------------CREACIÓN DEL HASH---------------------------------------------------------------- */
-
-				this.session.setObject('oauth', res);
-				this.router.navigate(['estudiante']);
-			}, error => { this.loading = false; });
+			}, error => { });
 		}, error => { this.loading = false; });
 	}
 }
