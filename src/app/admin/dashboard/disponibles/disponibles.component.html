@@ -21,7 +21,7 @@
 								</td>
 							</tr>
 							<tr class="text-s">
-								<ng-container *ngIf="course.number == 0">
+								<ng-container>
 									<td class="text-left">
 										  <div class="form-check">
 											<input class="form-check-input" type="checkbox" id="{{course.CRSE_ID}}" [(ngModel)]="course.value" (change)='onChangeAvailable(course, $event)' value="{{course.CRSE_ID}}">
