@@ -729,7 +729,7 @@ export class DashboardComponent implements OnInit {
 
   goEnrollment() {
     let myFlags = this.enroll_conditions.FLAG_ACADEMICO == 'Y' && this.enroll_conditions.FLAG_FINANCIERO == 'Y';
-    this.session.setObject('conditionsToEnrollment', { turn: this.realDate.timeseconds >= this.queueEnroll.date.timeseconds, conditions: myFlags });
+    this.session.setObject('conditionsToEnrollment', { turn: this.queueEnroll.onTurn, conditions: myFlags });
     this.router.navigate(['/estudiante/matricula/disponibles']);
     // this.newEnrollmentS.getDebt({ EMPLID: this.user.codigoAlumno })
     //   .then((res) => {
