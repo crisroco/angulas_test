@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('schedulePreview') schedulePreview: any;
   @ViewChild('confirmationUploadModal') confirmationUploadModal: any;
   myVirtualClasses: Array<any> = [];
-  viewDate: Date = new Date(2021, 0, 11);
+  viewDate: Date = new Date(2021, 7, 23);
   events: CalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Week;

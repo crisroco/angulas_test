@@ -45,7 +45,7 @@ export class MatriculadosComponent implements OnInit {
       EMPLID: this.session.getItem('emplidSelected'),
       INSTITUTION: allData['institucion'],
       ACAD_CAREER: allData['codigoGrado'],
-      STRM1: allData['cicloAdmision'],
+      STRM1: this.session.getObject('schoolCycle')['CICLO_LECTIVO'],
       STRM2: null
     }).then((res) => {
       let coursesInEnrollment = res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES;

@@ -420,39 +420,39 @@ export class DisponiblesComponent implements OnInit {
     return total;
   }
 
-  loadDataStudentCourses(){
-    this.newEnrollmentS.getCourseClass({
-      EMPLID: this.studentCode,
-      STRM: this.cicleSelected['CICLO_LECTIVO']
-    }).then((res) => {
-      if (res.length > 0) {
-        this.myCoursesinEnrollment = res.sort((a,b) => {
-          return a.CRSE_ID - b.CRSE_ID
-        });
-        let example = res.sort(this.dynamicSortMultiple(["CRSE_ID"]));
-        let credits = 0;
-        let oneTimeCourse;
-        for (let i = 0; i < example.length; i++) {
-          if (oneTimeCourse == example[i]['CRSE_ID']) {
-          } else {
-            oneTimeCourse = example[i]['CRSE_ID'];
-            let existInfo = example[i]['status'] == 'B' && !example[i]['units_repeat_limit2'];
-            let number = existInfo?Number(example[i]['UNITS_REPEAT_LIMIT']):Number(example[i]['units_repeat_limit2']);
-            if ((example[i].status == 'I' && example[i].units_repeat_limit2) || (example[i].status == 'B')) {
-              if (example[i].FLAG2 == 'Y') {
-                credits += Number(example[i]['UNITS_REQUIRED']);
-              } else {
-                credits += number;
-              }
-            }
-          }
-        }
-        this.myCredits = credits;
-        this.loading = false;
-      }
-      this.loading = false;
-    });
-  }
+  // loadDataStudentCourses(){
+  //   this.newEnrollmentS.getCourseClass({
+  //     EMPLID: this.studentCode,
+  //     STRM: this.cicleSelected['CICLO_LECTIVO']
+  //   }).then((res) => {
+  //     if (res.length > 0) {
+  //       this.myCoursesinEnrollment = res.sort((a,b) => {
+  //         return a.CRSE_ID - b.CRSE_ID
+  //       });
+  //       let example = res.sort(this.dynamicSortMultiple(["CRSE_ID"]));
+  //       let credits = 0;
+  //       let oneTimeCourse;
+  //       for (let i = 0; i < example.length; i++) {
+  //         if (oneTimeCourse == example[i]['CRSE_ID']) {
+  //         } else {
+  //           oneTimeCourse = example[i]['CRSE_ID'];
+  //           let existInfo = example[i]['status'] == 'B' && !example[i]['units_repeat_limit2'];
+  //           let number = existInfo?Number(example[i]['UNITS_REPEAT_LIMIT']):Number(example[i]['units_repeat_limit2']);
+  //           if ((example[i].status == 'I' && example[i].units_repeat_limit2) || (example[i].status == 'B')) {
+  //             if (example[i].FLAG2 == 'Y') {
+  //               credits += Number(example[i]['UNITS_REQUIRED']);
+  //             } else {
+  //               credits += number;
+  //             }
+  //           }
+  //         }
+  //       }
+  //       this.myCredits = credits;
+  //       this.loading = false;
+  //     }
+  //     this.loading = false;
+  //   });
+  // }
 
   checkCap(section){
     if (section.TOTAL_INSCRITOS >= section.TOTAL_CAPACIDAD) {
@@ -543,7 +543,7 @@ export class DisponiblesComponent implements OnInit {
           EMPLID: this.studentCode,
           INSTITUTION: this.myData['institucion'],
           ACAD_CAREER: this.myData['codigoGrado'],
-          STRM: this.myData['cicloAdmision'],
+          STRM: this.session.getObject('schoolCycle')['CICLO_LECTIVO'],
           CRSE_ID: this.scheduleAvailables[i]['ID_CURSO'],
           SESSION_CODE: this.scheduleAvailables[i]['CODIGO_SESION'],
           ASSOCIATED_CLASS: this.scheduleAvailables[i]['ASOCIACION_CLASE'],
@@ -584,7 +584,7 @@ export class DisponiblesComponent implements OnInit {
         let index = this.availableCourses.findIndex(val => val['own_enrollment_skillful_load_id'] == this.selectedCourse['own_enrollment_skillful_load_id']);
         this.availableCourses.splice(index, 1);
         this.toastS.success('Curso matriculado');
-        this.loadDataStudentCourses();
+        // this.loadDataStudentCourses();
         this.loading = false;
         this.scheduleSelection.close();
       }else if(res.status == 'fail'){
