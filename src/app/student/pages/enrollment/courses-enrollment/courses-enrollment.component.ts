@@ -93,7 +93,6 @@ export class CoursesEnrollmentComponent implements OnInit {
           }
         }
         this.availableCourses = coursesInEnrollment.sort(this.dynamicSortMultiple(["flag"]));
-        console.log(this.availableCourses);
         this.numberofExtra = this.availableCourses.filter(el => el.flag).length;
         this.allToEmail = this.availableCourses.filter(el => el.PERMITIR_BAJA == 'Y');
       }

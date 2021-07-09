@@ -426,7 +426,7 @@ export class StudentComponent implements OnInit {
 			// this.getParameters();
 		}
 		this.initUpdatePersonalData();
-		// this.checkInList();
+		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -1230,16 +1230,12 @@ export class StudentComponent implements OnInit {
 			if(obj.schedule.length == 0){
 				let schedules = [];
 				for (let i = 0; i < obj.courses_id.length; i++) {
-					this.newEnrollmentS.getScheduleNew({
+					this.newEnrollmentS.getSchedule({
 						CAMPUS: activeData.sede,
 						CRSE_ID: obj.courses_id[i],
-						OFFER_CRSE: '',
-						SESSION_CODE: '',
 						STRM: activeData.STRM
 					}).then((res) => {
-						if(res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES){
-							schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
-						}
+						schedules.push(...res);
 						if (i == obj.courses_id.length-1) {
 							obj.schedule = schedules;
 							obj.isOpen = !obj.isOpen;

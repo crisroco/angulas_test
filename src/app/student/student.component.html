@@ -358,15 +358,15 @@
                                     </thead>
                                     <tbody>
                                         <ng-container *ngFor="let vclass of course.schedule; let s = 'index'">
-                                            <tr class="text-center text-s" *ngFor="let sch of vclass.UCS_REST_DET_MREU">
-                                                <td class="px-2 py-1 text-left">{{ vclass.CODIGO_COMPONENTE }}</td>
-                                                <td class="px-2 py-1">{{ vclass.SECCION }}</td>
-                                                <td class="px-2 py-1">{{ sch.DIA }}</td>
-                                                <td class="px-2 py-1">{{ sch.CODIGO_INSTALACION + ' / ' + sch.DESCR_INSTALACION + ' ' + sch.DESCR_UBI_INS }}</td>
-                                                <td class="px-2 py-1">{{ sch.FECHA_INICIAL }}</td>
-                                                <td class="px-2 py-1">{{ sch.HORA_INICIO }}</td>
-                                                <td class="px-2 py-1">{{ sch.HORA_FIN }}</td>
-                                                <td class="px-2 py-1">{{ sch.UCS_REST_DET_DOC?sch.UCS_REST_DET_DOC[0].NOMBRE_DOCENTE:'-' }}</td>
+                                            <tr class="text-center text-s">
+                                                <td class="px-2 py-1 text-left">{{ vclass.COMPONENT_NAME }}</td>
+                                                <td class="px-2 py-1">{{ vclass.CLASS_SECTION }}</td>
+                                                <td class="px-2 py-1">{{ vclass.DAY }}</td>
+                                                <td class="px-2 py-1">{{ vclass.DESCR7 + ' / ' + vclass.DESCR5 }}</td>
+                                                <td class="px-2 py-1">{{ vclass.START_DT }}</td>
+                                                <td class="px-2 py-1">{{ vclass.METTING_TIME_START }}</td>
+                                                <td class="px-2 py-1">{{ vclass.METTING_TIME_END }}</td>
+                                                <td class="px-2 py-1">{{ vclass.NAME?vclass.NAME:'-' }}</td>
                                             </tr>
                                         </ng-container>
                                         <tr *ngIf="course.schedule.length == 0">
