@@ -451,7 +451,7 @@ export class DashboardEnrollComponent implements OnInit {
               // if (this.myCoursesinEnrollment[i]['CRSE_ATTR'] != 'VIRT' && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
               if (!this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['DESCR_INSTALACION'].includes('VIRT') && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
                 if (BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['INICIO_FECHA'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FIN_FECHA'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['INICIO_FECHA'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FIN_FECHA'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:00')))) {
-                  if (this.getDayY(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]) == pickedCourse.UCS_REST_DET_MREU[o]['DIA'].replace(/\W/g, '').toUpperCase()) {
+                  if (this.getDayY(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]) == pickedCourse.UCS_REST_DET_MREU[o]['DIA'].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
                     if ((this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) >= this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) && this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) < this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']))) {
                       // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
                         // console.log(this.myCoursesinEnrollment);
@@ -565,6 +565,7 @@ export class DashboardEnrollComponent implements OnInit {
         return
       }
     }
+    console.log(result);
     this.enrollmentS.saveCourseClass({
       courses: result,
       emplid_admin: this.user.email
