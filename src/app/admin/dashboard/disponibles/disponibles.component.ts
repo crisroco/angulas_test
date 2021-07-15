@@ -111,6 +111,7 @@ export class DisponiblesComponent implements OnInit {
         for (let i = 0; i < coursesInEnrollment.length; i++) {
           creditos += Number(coursesInEnrollment[i].CREDITOS);
         }
+        this.session.setObject('notInAditional', res.UCS_REST_CONS_HORA_MATR_RES.UCS_REST_DET_HORARIO_RES);
         this.myCoursesinEnrollment = coursesInEnrollment;
       }
       this.myCredits = creditos;
