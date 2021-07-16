@@ -149,7 +149,7 @@ export class DashboardComponent implements OnInit {
   }
 
   showModals(){
-    this.modalComunicado.open();
+    // this.modalComunicado.open();
   }
 
   diaPeople(data:any){
