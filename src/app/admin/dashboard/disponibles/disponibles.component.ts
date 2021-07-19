@@ -165,11 +165,11 @@ export class DisponiblesComponent implements OnInit {
             }).then((res) => {
               data.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
               if (o == allCourses.length-1) {
-                setTimeout(() => {
+                // setTimeout(() => {
                   this.scheduleAvailables = this.checkDuplicates(data);
                   this.loading = false;
                   this.scheduleSelection.open();
-                }, 1000)
+                // }, 1000)
               }
             });
           }
