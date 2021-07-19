@@ -331,8 +331,8 @@
 </ngx-smart-modal>
 
 <ngx-smart-modal #modalComunicado identifier="modalComunicado" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
-	<a href="https://vimeo.com/570387161" target="_blank">
-		<img class="w-100 rounded-1" src="./assets/img/intencion_matricula.png">
+	<a href="https://vimeo.com/574208276/3e3add1bef" target="_blank">
+		<img class="w-100 rounded-1" src="./assets/img/tips.png">
 	</a>
 	<div class="btn-close-float p-2">
 		<a (click)="modalComunicado.close()" class="pointer d-block p-2 bg-black-a circle-x">
@@ -343,9 +343,24 @@
 
 <ngx-smart-modal #postModal identifier="postModal" [closable]="false" [escapable]="true" [dismissable]="true"
 	[customClass]="'smallModall fullModal'">
-	<a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank">
-		<!-- <img class="w-100 rounded-1" src="./assets/img/opinion_no.jpg"> -->
-	</a>
+	<div class="bg-{{company}} p-2 rounded-t-1">Pagos en linea</div>
+	<div class="p-3">
+		<h6 class="text-center">
+			Estimado Alumno, realiza tú pago desde la comodidad de tu hogar.
+			Siguiendo los pasos según tu banco de preferencia:
+		</h6>
+		<div class="list_banks">
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/BCP%20App%20y%20banca.pdf" target="_blank" class="box_bank">
+				<p>BCP</p>
+			</a>
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/Interbank%20-%20APP%20Y%20PAGINA%20WEB.pdf" target="_blank" class="box_bank">
+				<p>INTERBANK</p>
+			</a>
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/scotia.pdf" target="_blank" class="box_bank">
+				<p>SCOTIABANK</p>
+			</a>
+		</div>
+	</div>
 	<div class="btn-close-float p-2">
 		<a (click)="postModal.close()" class="pointer d-block p-2 bg-black-a circle-x">
 			<i class="fa fa-times text-white text-l"></i>
@@ -399,7 +414,6 @@
 	</div>
 </ngx-smart-modal>
 
-<!-- ////////////////////////////////////////////////////////////////MODALES - MATRICULA EXTRACURRICULAR//////////////////////////////////////////////////////////////////////////////////// -->
 <ngx-smart-modal #matriculaExtracurricularModal identifier="matriculaExtracurricularModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
 	<div class="bg-{{company}} p-2 rounded-t-1">Extracurriculares</div>
 	<div class="p-3">
@@ -408,6 +422,17 @@
 	<div class="row d-flex justify-content-center mb-3 px-5">
 		<button class="btn btn-res btn-{{company}} ml-2" (click)="matriculaExtracurricularModal.close()">NO</button>
 		<button class="btn btn-res btn-{{company}} ml-2" (click)="cursosExtracurricularesModal.open()">SI</button>
+	</div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #answerStudentModal identifier="answerStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
+	<div class="bg-{{company}} p-2 rounded-t-1">Pregunta</div>
+	<div class="p-3">
+		<p class="text-center"> ¿Deseas respuesta? </p>
+	</div>
+	<div class="row d-flex justify-content-center mb-3 px-5">
+		<button class="btn btn-res btn-{{company}} ml-2" (click)="saveAnswer(false)">NO</button>
+		<button class="btn btn-res btn-{{company}} ml-2" (click)="saveAnswer(true)">SI</button>
 	</div>
 </ngx-smart-modal>
 

@@ -10,6 +10,31 @@
 	}
 }
 
+.list_banks {
+	font-weight: bold;
+	.box_bank {
+		border: 1px solid #d1d1d1;
+		background-color: #f6f6f6;
+		display: flex;
+		margin: 1rem 0;
+		padding: .5rem;
+		cursor: pointer;
+		p {
+			color: #000000;
+			margin: 0;
+			text-align: center;
+		}
+		transition: all ease 0.4s;
+		&:hover {
+			background-color: #000000;
+			transition: all ease 0.4s;
+			p {
+				color: #FFFFFF;
+			}
+		}
+	}
+}
+
 .ImportantModal {
 	p {
 		font-size: 16.5px;

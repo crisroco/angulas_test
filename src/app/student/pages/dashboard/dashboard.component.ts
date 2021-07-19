@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('postModal') postModal: any;
   @ViewChild('preModal') preModal: any;
   @ViewChild('suspensionModal') suspensionModal: any;
+  @ViewChild('answerStudentModal') answerStudentModal:any;
   @ViewChild('ethnicityModal') ethnicityModal: any;
   @ViewChild('matriculaExtracurricularModal') matriculaExtracurricularModal: any; //MODAL : SI - NO
   @ViewChild('cursosExtracurricularesModal') cursosExtracurricularesModal: any; //MODAL: CURSOS
@@ -116,6 +117,17 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.showModals();
+    this.studentS.getListOfStudentsJson()
+      .then((res) => {
+        // if (res.find(emp => emp == this.user.codigoAlumno)) {
+        //   this.studentS.getAnswerStudent(this.user.codigoAlumno)
+        //   .then((res) => {
+        //     if(!res.answer){
+        //       this.answerStudentModal.open();
+        //     }
+        //   });
+        // }
+      });
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
@@ -148,8 +160,18 @@ export class DashboardComponent implements OnInit {
     //this.matriculaExtracurricularModal.open();
   }
 
+  saveAnswer(answer){
+    this.studentS.saveAnswer({emplid: this.user.codigoAlumno, answer: answer})
+      .then((res) => {
+        console.log(res);
+        this.toastr.success('Gracias!');
+        this.answerStudentModal.close();
+      });
+  }
+
   showModals(){
-    // this.modalComunicado.open();
+    this.modalComunicado.open();
+    this.postModal.open();
   }
 
   diaPeople(data:any){

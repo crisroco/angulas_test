@@ -200,6 +200,14 @@ export class StudentService {
     public getDistrito(data: any): Promise<any>{
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getDistrito', data).toPromise();
     }
+
+    public getAnswerStudent(emplid): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getAnswer/' + emplid).toPromise();
+    }
+
+    public saveAnswer(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/saveAnswer', data).toPromise();
+    }
     
     public getListOfStudentsUbigeoJson(): Promise<any> {
         return this.http.get("assets/ubigeo.json").toPromise();
