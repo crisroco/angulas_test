@@ -75,10 +75,24 @@
 
 }
 ////////////////////////////////////////
+.small-blue {
+	color:rgba(32, 68, 200, 0.8);
+	font-size: 12px;
+}
+
+.small-grey {
+	color:rgba(138, 138, 138, 0.8);
+	font-size: 11px;
+}
+
 .rounded-t-1{
 	color: white;
 	font-size: 20px;
 	text-align: center;
+}
+
+.btn-ra{
+	border-radius: 1rem;
 }
 
 .btn-res{

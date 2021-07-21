@@ -426,13 +426,23 @@
 </ngx-smart-modal>
 
 <ngx-smart-modal #answerStudentModal identifier="answerStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
-	<div class="bg-{{company}} p-2 rounded-t-1">Pregunta</div>
+	<div class="bg-{{company}} p-2 rounded-t-1">MATRICULA 2021-2 SIN TRAMITES</div>
 	<div class="p-3">
-		<p class="text-center"> ¿Deseas respuesta? </p>
+		<p><b>Mejoramos y este semestre somos más agiles:</b></p>
+		<p><b>¿Te matriculaste a todos los cursos que querías en la Intención de Matricula y no deseas hacer ningún cambio?</b></p>
+		<p>Selecciona tu respuesta y luego de realizar los abonos correspondientes <span class="small-blue">(*)</span> nosotros registraremos tu horario y solo deberás ingresar a clases:</p>
 	</div>
 	<div class="row d-flex justify-content-center mb-3 px-5">
-		<button class="btn btn-res btn-{{company}} ml-2" (click)="saveAnswer(false)">NO</button>
-		<button class="btn btn-res btn-{{company}} ml-2" (click)="saveAnswer(true)">SI</button>
+		<button class="btn btn-ra btn-{{company}} ml-2" (click)="saveAnswer(false)">Acepto</button>
+		<button class="btn btn-ra btn-{{company}} ml-2" (click)="saveAnswer(true)">No Acepto</button>
+	</div>
+	<div class="px-3">
+		<p class="small">(si cambias de opinión podrás realizar los cambios que requieras en el turno que te corresponda de la matricula)</p>
+	</div>
+	<div class="p-3">
+		<p>Si no aceptas, luego de realizas los abonos correspondientes <span class="small-blue">(*)</span> podrás ingresar a la matricula regular <span class="small-blue">(**)</span> para realizar los cambios que necesites o adicionar cursos según la nueva oferta horaria.</p>
+		<p class="pt-2 small-blue">(*) Matricula y 1era. Armada mínimo 24 horas antes del inicio de matrícula</p>
+		<p class="small-blue">(**) Según el turno asignado por tu promedio ponderado</p>
 	</div>
 </ngx-smart-modal>
 

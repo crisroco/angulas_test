@@ -119,14 +119,14 @@ export class DashboardComponent implements OnInit {
     this.showModals();
     this.studentS.getListOfStudentsJson()
       .then((res) => {
-        // if (res.find(emp => emp == this.user.codigoAlumno)) {
-        //   this.studentS.getAnswerStudent(this.user.codigoAlumno)
-        //   .then((res) => {
-        //     if(!res.answer){
-        //       this.answerStudentModal.open();
-        //     }
-        //   });
-        // }
+        if (res.find(emp => emp == this.user.codigoAlumno)) {
+          this.studentS.getAnswerStudent(this.user.codigoAlumno)
+          .then((res) => {
+            if(!res.answer){
+              this.answerStudentModal.open();
+            }
+          });
+        }
       });
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
@@ -150,7 +150,7 @@ export class DashboardComponent implements OnInit {
         if (message.institution != 'PSTRG') {
           this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: message.date })
             .then((res) => {
-              this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR);
+              this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, message.institution);
             });
         }
       }
@@ -163,7 +163,6 @@ export class DashboardComponent implements OnInit {
   saveAnswer(answer){
     this.studentS.saveAnswer({emplid: this.user.codigoAlumno, answer: answer})
       .then((res) => {
-        console.log(res);
         this.toastr.success('Gracias!');
         this.answerStudentModal.close();
       });
@@ -546,7 +545,7 @@ export class DashboardComponent implements OnInit {
     this.crossdata.unsubscribe();
   }
 
-  nextClass(arrClass) {
+  nextClass(arrClass, inst) {
     var dt = new Date();
     var secs = dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60 * dt.getHours());
     if (arrClass) {
@@ -560,7 +559,7 @@ export class DashboardComponent implements OnInit {
         var total2 = hour2 + minute2;
         if (total - 600 < secs && secs < total2 - 600) {
           this.currentNextClass = actualC;
-          this.getLink(actualC);
+          this.getLink(actualC, inst);
         }
       }
     }
@@ -660,7 +659,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getLink(cls) {
+  getLink(cls, inst) {
     let d = new Date();
     var hour = cls.MEETING_TIME_START.split(':')[0];
     var minute = cls.MEETING_TIME_START.split(':')[1];
@@ -668,7 +667,7 @@ export class DashboardComponent implements OnInit {
     d.setMinutes(minute);
     d.setSeconds(0);
     let timeStamp = d.getTime().toString().slice(0, -3);
-    this.studentS.getLinkZoom(cls['STRM'], cls['CLASS_NBR2'], Number(timeStamp), cls['DOCENTE'], cls['CLASS_SECTION'])
+    this.studentS.getLinkZoom(cls['STRM'], cls['CLASS_NBR2'], Number(timeStamp), cls['DOCENTE'], cls['CLASS_SECTION'], inst)
       .then((res) => {
         if (!res.includes('false')) {
           this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");

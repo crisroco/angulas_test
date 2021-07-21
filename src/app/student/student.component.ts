@@ -403,7 +403,6 @@ export class StudentComponent implements OnInit {
 			this.user = this.session.getObject('user');
 			if(!this.session.getObject('notRemotex')) {
 				this.retomex = this.session.getObject('remotex');
-				console.log(this.retomex)
 				this.DigitalLibraryAttribute1 = new FormControl('Alumni');
 				this.DigitalLibraryAttribute2 = new FormControl(this.user.codigoAlumno);
 				this.DigitalLibraryAttribute3 = new FormControl(this.retomex.correo);
@@ -815,7 +814,7 @@ export class StudentComponent implements OnInit {
 		  this.countCoursesMatriculados = this.countCoursesMatriculados - 1;
 		  this.toastr.warning("Curso Removido");
 		  this.eliminarMatriculaModal.close();
-		}).catch(err => alert('Error en servicio de eliminar.'));    
+		}).catch(err => alert('Error en servicio de eliminar.'));
 	  }
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1157,7 +1156,7 @@ export class StudentComponent implements OnInit {
 		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
 			.then((res) => {
 				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
-				var one = units.filter(item => item.institucion == 'ECONT');//ECONT - PREGR
+				var one = units.filter(item => item.institucion == 'PREGR');//ECONT - PREGR
 				var inst = one.length?one[0]:null;
 				if (inst) {
 					this.sendDataStudent(inst);
