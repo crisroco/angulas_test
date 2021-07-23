@@ -171,6 +171,10 @@ export class StudentService {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getUploadbyEmplid/' + code).toPromise();
     }
 
+    public getAllFilesV(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getAllFilesV').toPromise();
+    }
+
     public getFlagSendUpload(code): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getFlagSendUpload/' + code).toPromise();
     }

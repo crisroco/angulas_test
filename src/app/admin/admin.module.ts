@@ -14,9 +14,10 @@ import { TooltipModule, TooltipOptions } from '@teamhive/ngx-tooltip';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { HomeComponent } from './home/home.component';
+import { FilesVacunationComponent } from './dashboard/files-vacunation/files-vacunation.component';
 
 @NgModule({
-  declarations: [AdminComponent, LoginComponent, DashboardComponent, DisponiblesComponent, MatriculadosComponent, HomeComponent],
+  declarations: [AdminComponent, LoginComponent, DashboardComponent, DisponiblesComponent, MatriculadosComponent, HomeComponent, FilesVacunationComponent],
   imports: [
     FormsModule,
   	ReactiveFormsModule,

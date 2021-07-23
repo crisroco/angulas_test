@@ -117,17 +117,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.showModals();
-    this.studentS.getListOfStudentsJson()
-      .then((res) => {
-        if (res.find(emp => emp == this.user.codigoAlumno)) {
-          this.studentS.getAnswerStudent(this.user.codigoAlumno)
-          .then((res) => {
-            if(!res.answer){
-              this.answerStudentModal.open();
-            }
-          });
-        }
-      });
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;

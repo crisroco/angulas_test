@@ -1,0 +1,54 @@
+<div class="bg-gray full-content">
+    <div class="row container-2 mx-auto py-2">
+        <div class="col-md-12 col-lg-3 pr-3">
+            <div class="py-3 bg-white full-content rounded-1 d-none d-lg-block">
+                <div class="col-12 ">
+                    <!-- <div class="row justify-content-center mt-5 mb-4">
+                        <img src="{{config_initial.img}}" width="50%" alt="">
+                    </div> -->
+                    <div class="text-center mb-4">
+                        <i class="fa fa-user fa-4x mb-4"></i>
+                        <p class="mb-1 text-m">Te damos la bienvenida</p>
+                        <h6 class="text-xm"><strong>{{ name }}</strong></h6>
+                        <!-- <p class="m-0">{{ user.codigoAlumno }}</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-9 pl-3">
+            <div class="bg-white p-3 rounded-1">
+                <div class="mb-3">
+                    <h5 class="pb-2 bd-b-1 bd-ucs"> Archivos vacunación</h5>
+                </div>
+                <div class="col-lg-3 p-0">
+                    <select [(ngModel)]="type" (change)="changeType(type)" class="form-control" id="type">
+                        <option value="">Selecciona Tipo . . .</option>
+                        <option value="Cartilla">Cartilla</option>
+                        <option value="Declaración">Declaración</option>
+                        <option value="Exoneración">Exoneración</option>
+                    </select>
+                </div>
+                <div class="proyects-table">
+                    <table class="mt-2 table table-striped table-dark">
+                        <thead>
+                            <tr>
+                                <td>Estudiante</td>
+                                <td>Emplid</td>
+                                <td>Tipo</td>
+                                <td>Archivo</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let file of allFilesV">
+                                <td>Emplid</td>
+                                <td>Nombre</td>
+                                <td>{{file.tipo}}</td>
+                                <td><i>Link</i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

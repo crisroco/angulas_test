@@ -74,7 +74,7 @@ export function BetweenDays(first, last, day){
 	if (first == last) {
 		return true;
 	}
-	var sDay = day.year + '-' + day.month + '-' + day.day;
+	var sDay = day.year + '-' + day.month + '-' + day.day + ' ' + day.hour + ':' + day.minute + ':' + day.second;
 	if(sDay < first || sDay > last) return false;
 	else return true;
 }
