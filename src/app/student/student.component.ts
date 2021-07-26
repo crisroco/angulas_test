@@ -338,6 +338,7 @@ export class StudentComponent implements OnInit {
 	@ViewChild('YesIntentionEnrollmentModal') YesIntentionEnrollmentModal: any;
 	@ViewChild('FinalIntentionEnrollmentModal') FinalIntentionEnrollmentModal: any;
 	@ViewChild('EnrollScheduleModal') EnrollScheduleModal: any;
+	@ViewChild('ErrCurrentStudentModal') ErrCurrentStudentModal: any;
 	@ViewChild('UpdateDataAlumnoModal') UpdateDataAlumnoModal: any;
 	@ViewChild('UpdatePersonalDataModal') UpdatePersonalDataModal: any;
 	@ViewChild('UpdateWorkingDataModal') UpdateWorkingDataModal: any;
@@ -425,6 +426,14 @@ export class StudentComponent implements OnInit {
 		else{
 			// this.getParameters();
 		}
+		this.newEnrollmentS.validateCurrent(this.user.codigoAlumno)
+			.then((res) => {
+				if(!res.status){
+					// setTimeout(() => {
+					this.logout(true);
+					// }, 5000);
+				}
+			});
 		this.initUpdatePersonalData();
 		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
@@ -450,6 +459,7 @@ export class StudentComponent implements OnInit {
 				this.innewEnrollment = message.hideFooter;
 			}
 		});
+		
 		// this.initSocket();
 		this.getFileUpload();
 		this.getFlagSendUpload();
@@ -1252,8 +1262,9 @@ export class StudentComponent implements OnInit {
 		}
 	}
 
-	logout(){
+	logout(modal?){
 		this.session.allCLear();
+		modal? this.session.setItem('showModal', true): null;
 		this.router.navigate(['/login']);
 	}
 

@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
 	digital4: any;
 
 	@ViewChild('piezaModal') piezaModal: any;
+	@ViewChild('ErrCurrentStudentModal') ErrCurrentStudentModal: any;
 	constructor(private formBuilder: FormBuilder,
     	private toastr: ToastrService,
     	private loginS: LoginService,
@@ -44,6 +45,13 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
 		// this.piezaModal.open();
+		if(this.session.getItem('showModal')){
+			this.ErrCurrentStudentModal.open();
+			setTimeout(() => {
+				this.session.destroy('showModal');
+				this.ErrCurrentStudentModal.close();
+			}, 5000);
+		}
 		this.loginForm = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],
