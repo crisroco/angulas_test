@@ -35,7 +35,7 @@
             <!-- <a (click)="validationModal()" class="text-m text-white pointer"> Matrícula Extracurricular </a>             -->
             <!-- <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a> -->
             <a *ngIf="showVacunation" (click)="vacunaModal.open()" class="text-m text-white pointer"> Control de vacunas </a>
-            <!-- <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a> -->
+            <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
             <a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
         </div>
     </div>

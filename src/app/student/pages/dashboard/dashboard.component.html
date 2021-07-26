@@ -24,7 +24,7 @@
 								style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px"
 								src="./assets/img/icon/zoom.png" alt=""></a>
 					</div>
-					<!-- <ng-container>
+					<ng-container>
 						<div *ngIf="enroll && queueEnroll"
 							class="btn btn-lg btn-block btn-black text-{{!queueEnroll.turnText?'red':(queueEnroll.onTurn?'green':'red')}}">
 							{{queueEnroll.turnText?queueEnroll.turnText:'Aún no tienes Turno de
@@ -57,7 +57,7 @@
 								</div>
 							</div>
 						</div>
-					</ng-container> -->
+					</ng-container>
 				</div>
 			</div>
 			<div class="col-md-8 p-2 mb-6">
@@ -112,7 +112,7 @@
 							</div>
 						</a>
 					</div>
-					<!-- <div *ngIf="queueEnroll && !timeoutEnroll && enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO == 'Y' && enroll_conditions.FLAG_FINANCIERO == 'Y'"
+					<div *ngIf="queueEnroll && !timeoutEnroll && enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO == 'Y' && enroll_conditions.FLAG_FINANCIERO == 'Y'"
 						class="col-lg-4 col-sm-6 my-2">
 						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
 							(click)="goEnrollment()">
@@ -121,7 +121,7 @@
 								<p class="text-bluesky m-0 text-xm text-black">Reserva Matrícula</p>
 							</div>
 						</a>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
