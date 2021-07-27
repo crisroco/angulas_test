@@ -430,7 +430,7 @@ export class StudentComponent implements OnInit {
 			.then((res) => {
 				if(!res.status){
 					// setTimeout(() => {
-					this.logout(true);
+					// this.logout(true);
 					// }, 5000);
 				}
 			});
