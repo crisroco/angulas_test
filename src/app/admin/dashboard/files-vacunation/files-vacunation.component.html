@@ -1,4 +1,8 @@
 <div class="bg-gray full-content">
+
+    <!-- // BUSCADOR
+    // PAGINADO
+    // FECHA_SUBIDA -->
     <div class="row container-2 mx-auto py-2">
         <div class="col-md-12 col-lg-3 pr-3">
             <div class="py-3 bg-white full-content rounded-1 d-none d-lg-block">
@@ -32,18 +36,18 @@
                     <table class="mt-2 table table-striped table-dark">
                         <thead>
                             <tr>
-                                <td>Estudiante</td>
-                                <td>Emplid</td>
+                                <td>Codigo estudiante</td>
+                                <td>Nombre del archivo</td>
                                 <td>Tipo</td>
                                 <td>Archivo</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let file of allFilesV">
-                                <td>Emplid</td>
-                                <td>Nombre</td>
+                                <td>{{file.emplid}}</td>
+                                <td>{{file.original_name}}</td>
                                 <td>{{file.tipo}}</td>
-                                <td><i>Link</i></td>
+                                <td><a [href]="file.ruta_file" target="_blank"><i>Link</i></a></td>
                             </tr>
                         </tbody>
                     </table>

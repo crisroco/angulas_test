@@ -158,8 +158,8 @@ export class DashboardComponent implements OnInit {
   }
 
   showModals(){
-    this.modalComunicado.open();
-    this.postModal.open();
+    this.suspensionModal.open();
+    // this.postModal.open();
   }
 
   diaPeople(data:any){

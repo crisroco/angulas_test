@@ -447,22 +447,21 @@
 </ngx-smart-modal>
 
 
-<ngx-smart-modal #suspensionModal identifier="suspensionModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">
+<ngx-smart-modal #suspensionModal identifier="suspensionModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
     <div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
         <h5 class="modal-title " style="    padding-left: 30%;">AVISO IMPORTANTE</h5>
         <a (click)="suspensionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-        
     </div>
 
-    <div class="p-2 px-5" style="padding-bottom: 25px !important;">
+    <div class="p-2 px-5 modalT" style="padding-bottom: 25px !important;">
         <p style="margin-top: 5px; margin-bottom: 5px;">
-            Estimados estudiantes,
+            Estimados estudiantes
         </p>
         <p style="margin-top: 15px; margin-bottom: 15px;text-align: justify;">
-            Se les informa que el día Domingo 11 de abril se cancelan todas las clases programadas por motivo de las Elecciones Generales 2021 para Presidencia, Congreso y Parlamento Andino de nuestro país. 
+            (*) La visualización del horario de intención de matrícula 2021-2 es referencial, sujeta a cambios por cierre de actas de notas 2021-1 y validación de pagos correspondientes.
         </p>
         <p style="margin-top: 5px; margin-bottom: 5px;">
-            A todos aquellos estudiantes que tienen clases programadas para esa fecha, recibirán una comunicación de sus docentes hasta el domingo 18 de abril a fin de programar la fecha y hora de recuperación de dichas clases. Esto involucra a las clases de Pregrado y Posgrado de nuestra Universidad.
+            De no realizar los pagos de acuerdo al calendario, se eliminarán los cursos registrados automáticamente.
         </p>
         <br>
     </div>
