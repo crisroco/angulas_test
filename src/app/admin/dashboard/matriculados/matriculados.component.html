@@ -16,11 +16,11 @@
 				  	</thead>
 				  	<tbody>
 					    <ng-container *ngFor="let item of availableCourses; let i = 'index'">
-							<tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[0].flag  && i == 0">
+							<!-- <tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[0].flag  && i == 0">
 								<td colspan="6">
 									Materias en Curso
 								</td>
-							</tr>
+							</tr> -->
 					    	<tr class="text-s">
 					      		<ng-container>
 						      		<td class="text-left docente">
@@ -38,11 +38,11 @@
 							      	</td>
 					      		</ng-container>
 					    	</tr>
-							<tr class="spacer" *ngIf="(numberofExtra > 0) && !availableCourses[i].flag && availableCourses[i+1].flag">
+							<!-- <tr class="spacer" *ngIf="(numberofExtra > 0) && !availableCourses[i].flag && availableCourses[i+1].flag">
 								<td colspan="6">
 									Materias en Curso
 								</td>
-							</tr>
+							</tr> -->
 					    </ng-container>
 					    <ng-container *ngIf="showMessage">
 					    	<tr>
