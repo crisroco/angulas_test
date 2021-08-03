@@ -463,6 +463,13 @@ export class StudentComponent implements OnInit {
 		// this.initSocket();
 		this.getFileUpload();
 		this.getFlagSendUpload();
+		this.studentS.medicineStudents()
+		.then((res) => {
+			if (res.find(emp => emp == this.user.codigoAlumno)) {
+				this.AvisoVacunaModal.open();
+				this.showVacunation = true;
+			}
+		});
 		// if ((this.user.ind_Medicina == 'Y') && this.router.url == '/estudiante') {
 		// 	// this.AvisoVacunaModal.open();
 		// 	this.showVacunation = true;
