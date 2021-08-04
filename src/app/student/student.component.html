@@ -1,6 +1,6 @@
-<div class="row bg-{{company}} header">
+<!-- <div class="row bg-{{company}} header">
     <div class="row container-2 mx-auto px-3 align-items-center justify-content-between">
-        <img src="./assets/img//logo.png" class="img-hs">
+        <img src="./assets/img/logo.png" class="img-hs">
         <a href="/estudiante" class="text-m text-white py-3 bd-b-5 bd-black">
             <h5 class="m-0"> <strong> INICIO </strong> </h5>
         </a>
@@ -10,36 +10,42 @@
                 <span *ngIf="notifications_read > 0" class="badge-student"> {{ notifications_read }} </span>
             </div>
             <div class="bg-white drop" *ngIf="menus">
-                <!-- <a href="https://academico.cientifica.edu.pe/psc/CS90PRD_PWD/EMPLOYEE/HRMS/c/MAINTAIN_SECURITY.EMAIL_PSWD.GBL?" class="d-block m-0 text-{{company}} p-2 px-3 bd-b-1 bd-{{company}}"> <i class="fa fa-lock"></i> Cambiar contraseña</a> -->
                 <a *ngIf="userBackoffice" class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="searchStudent()"> <i class="fa fa-search"></i> Buscar Alumno</a>
                 <a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
-                <!-- <a (click)="notificationModal.open(); notificationRead();" class="d-block m-0 text-{{company}} p-2 px-3 pointer"> <i class="fa fa-circle text-danger"></i> Notificaciones</a> -->
             </div>
         </div>
-
     </div>
-</div>
+</div> -->
+<header class="container-fluid custom-header header-ucsur">
+    <img src="./assets/img/logo1figma.png" class="ml-4" width="170px">
+    <div class="ml-auto" (click)="menus = !menus">
+        <img src="./assets/img/user1figma.png" alt="">
+        <img src="./assets/img/angle-down.png" alt="">
+        <div class="bg-white drop text-dark" *ngIf="menus">
+            <a *ngIf="userBackoffice" class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="searchStudent()"> <i class="fa fa-search"></i> Buscar Alumno</a>
+            <a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+        </div>
+    </div>
+</header>
 
 <!-- <div class="post-header "> -->
 <router-outlet></router-outlet>
 <!-- </div> -->
 
 
-<div class="footer" [ngClass]="{'in_new_enrollment':innewEnrollment}">
+
+<!-- <div class="footer" [ngClass]="{'in_new_enrollment':innewEnrollment}">
     <div class="row bg-{{company}}-a">
         <div class="row container-2 mx-auto px-3 py-3 align-items-center justify-content-between">
             <a (click)="openIntentionEnrollment()" *ngIf="enrollmentStatus && enrollmentStatus.enrollment_intention_status == 'A' && enrollmentStatus.authorizacion && enrollmentStatus.type == 'PM'" class="text-m text-white pointer">Intención de Matrícula</a>
             <a (click)="openIntensiveModal()" *ngIf="enrollmentIntensiveStatus && enrollmentIntensiveStatus.enrollment_intention_status == 'A' && enrollmentIntensiveStatus.authorizacion && enrollmentIntensiveStatus.type == 'MI'" class="text-m text-white pointer">Programa Intensivo</a>
-            <!-- <a (click)="libraryModal.open()" class="text-m text-white pointer"> Biblioteca en Línea </a> -->
             <a (click)="enviar_formulario()" class="text-m text-white pointer"> Biblioteca en Línea </a>
-            <!-- <a (click)="validationModal()" class="text-m text-white pointer"> Matrícula Extracurricular </a>             -->
-            <!-- <a (click)="openPersonalDataModal()" class="text-m text-white pointer"> Actualizar Datos </a> -->
             <a *ngIf="showVacunation" (click)="vacunaModal.open()" class="text-m text-white pointer"> Control de vacunas </a>
             <a *ngIf="enroll && !innewEnrollment" (click)="showEnrollmentSchedule()" class="text-m text-white pointer"> Consulta de Horarios </a>
             <a (click)="linkModal.open()" class="text-m text-white pointer"> Mis Links </a>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- <form action="https://bennett.remotexs.in/alumni/login" method=post id="formulario1" name="formulario1" (ngSubmit)="enviar_formulario()"> -->

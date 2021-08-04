@@ -1,4 +1,4 @@
-<div class="p-post-header row bg-imagebg full-content">
+<!-- <div class="p-post-header row bg-imagebg full-content">
 	<div class="container-2 mx-auto">
 		<div class="row pt-4">
 			<div class="col-md-4 p-2">
@@ -126,7 +126,63 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
+
+<app-sidebar>
+	<div class="row-custom row">
+		<div class="col-lg-9 px-lg-0">
+			<div class="row">
+				<div class="col-12 mb-4">
+					<div class="card-custom p-4 d-flex justify-content-between align-items-center">
+						<div>
+							<h3>
+								<span class="text-ucs">¡Hola Liliana!</span> Bienvenid@.
+							</h3>
+							<p>“La vida es como montar en bicicleta, para mantener el equilibrio hay que seguir
+								avanzando”</p>
+							<p class="text-ucs text-right">Albert Einstein</p>
+						</div>
+						<div class="ml-5">
+							<img width="250px" src="./assets/img/student.png">
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 pr-lg-0">
+					<div class="card-custom py-3 px-4 d-flex justify-content-start align-items-center">
+						<img width="60px" class="pl-1 pr-3" src="./assets/img/library.png">
+						<div>
+							<strong>Biblioteca online</strong>
+							<p class="m-0">Red de bibliotecas</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 pr-lg-0">
+					<div class="card-custom py-3 px-4 d-flex justify-content-start align-items-center">
+						<img width="60px" class="pl-1 pr-3" src="./assets/img/job.png">
+						<div>
+							<strong>Bolsa de trabajo</strong>
+							<p class="m-0">Trabajo y Prácticas</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="card-custom py-3 px-4 d-flex justify-content-start align-items-center">
+						<img width="60px" class="pl-1 pr-3" src="./assets/img/mail.png">
+						<div>
+							<strong>Mi correo</strong>
+							<p class="m-0">Buzón UCSUR</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 pl-lg-0">
+			<div class="card card-body">
+				ada
+			</div>
+		</div>
+	</div>
+</app-sidebar>
 
 <div class="position-fixed float-wsp-br row align-items-end flex-column">
 	<div class="row flex-column bg-white m-2 p-3 rounded-1 shadow position-relative" *ngIf="showwsp">
@@ -213,7 +269,8 @@
 	</div> -->
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
-			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Leer Condiciones</a>
+			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Leer
+			Condiciones</a>
 		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'"
 			class="btn rounded-1 px-4 btn-{{company}}"
 			(click)="saveConditions('FLAG_ACADEMICO', AcademicConditionModal)">ACEPTAR</button>
@@ -236,7 +293,8 @@
 	</div> -->
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
-			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Leer Condiciones</a>
+			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Leer
+			Condiciones</a>
 		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'"
 			class="btn rounded-1 px-4 btn-{{company}} mr-3"
 			(click)="saveConditions('FLAG_FINANCIERO', FinancialConditionModal)">ACEPTAR</button>
@@ -330,7 +388,8 @@
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #modalComunicado identifier="modalComunicado" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
+<ngx-smart-modal #modalComunicado identifier="modalComunicado" [closable]="false" [escapable]="false"
+	[dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
 	<a href="https://vimeo.com/574208276/3e3add1bef" target="_blank">
 		<img class="w-100 rounded-1" src="./assets/img/tips.png">
 	</a>
@@ -350,13 +409,16 @@
 			Siguiendo los pasos según tu banco de preferencia:
 		</h6>
 		<div class="list_banks">
-			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/BCP%20App%20y%20banca.pdf" target="_blank" class="box_bank">
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/BCP%20App%20y%20banca.pdf"
+				target="_blank" class="box_bank">
 				<p>BCP</p>
 			</a>
-			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/Interbank%20-%20APP%20Y%20PAGINA%20WEB.pdf" target="_blank" class="box_bank">
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/Interbank%20-%20APP%20Y%20PAGINA%20WEB.pdf"
+				target="_blank" class="box_bank">
 				<p>INTERBANK</p>
 			</a>
-			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/scotia.pdf" target="_blank" class="box_bank">
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/scotia.pdf" target="_blank"
+				class="box_bank">
 				<p>SCOTIABANK</p>
 			</a>
 		</div>
@@ -386,7 +448,8 @@
 	</div> -->
 </ngx-smart-modal>
 
-<ngx-smart-modal #ethnicityModal identifier="ethnicityModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="''">
+<ngx-smart-modal #ethnicityModal identifier="ethnicityModal" [closable]="false" [escapable]="false"
+	[dismissable]="false" [customClass]="''">
 	<div class="text-center mb-3">
 		<h5>Actualización de Datos</h5>
 	</div>
@@ -394,27 +457,28 @@
 	<p>A solicitud del MINEDU requerimos su apoyo para registrar la siguiente información:</p>
 
 	<div class="form">
-			<div class="form-group">
-					<label class="form-label"> Etnía a la que pertenece </label>
-					<select class="form-control" name="etnia" [(ngModel)]="realEthnicity">
+		<div class="form-group">
+			<label class="form-label"> Etnía a la que pertenece </label>
+			<select class="form-control" name="etnia" [(ngModel)]="realEthnicity">
 				<option value=""> SELECCIONE </option>
 				<option *ngFor="let ethnicity of ethnicities" value="{{ethnicity.value}}"> {{ethnicity.name}} </option>
 			</select>
-			</div>
+		</div>
 
-			<div *ngIf="realEthnicity == '08'" class="form-group">
-					<label class="form-label"> Por favor Registre </label>
-					<input class="form-control" type="text" name="otros" [(ngModel)]="realOther" placeholder="Otros">
-			</div>
+		<div *ngIf="realEthnicity == '08'" class="form-group">
+			<label class="form-label"> Por favor Registre </label>
+			<input class="form-control" type="text" name="otros" [(ngModel)]="realOther" placeholder="Otros">
+		</div>
 	</div>
 
 	<div class="text-center">
-			<button (click)="ethnicityModal.close()" class="btn btn-secondary mr-2">Cerrar</button>
-			<button (click)="saveEthnicity()" class="btn btn-success">Guardar</button>
+		<button (click)="ethnicityModal.close()" class="btn btn-secondary mr-2">Cerrar</button>
+		<button (click)="saveEthnicity()" class="btn btn-success">Guardar</button>
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #matriculaExtracurricularModal identifier="matriculaExtracurricularModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
+<ngx-smart-modal #matriculaExtracurricularModal identifier="matriculaExtracurricularModal" [closable]="false"
+	[escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
 	<div class="bg-{{company}} p-2 rounded-t-1">Extracurriculares</div>
 	<div class="p-3">
 		<p class="text-center"> ¿Deseas matricularte en cursos Extracurriculares? </p>
@@ -425,46 +489,54 @@
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #answerStudentModal identifier="answerStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
+<ngx-smart-modal #answerStudentModal identifier="answerStudentModal" [closable]="false" [escapable]="false"
+	[dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
 	<div class="bg-{{company}} p-2 rounded-t-1">MATRICULA 2021-2 SIN TRAMITES</div>
 	<div class="p-3">
 		<p><b>Mejoramos y este semestre somos más agiles:</b></p>
-		<p><b>¿Te matriculaste a todos los cursos que querías en la Intención de Matricula y no deseas hacer ningún cambio?</b></p>
-		<p>Selecciona tu respuesta y luego de realizar los abonos correspondientes <span class="small-blue">(*)</span> nosotros registraremos tu horario y solo deberás ingresar a clases:</p>
+		<p><b>¿Te matriculaste a todos los cursos que querías en la Intención de Matricula y no deseas hacer ningún
+				cambio?</b></p>
+		<p>Selecciona tu respuesta y luego de realizar los abonos correspondientes <span class="small-blue">(*)</span>
+			nosotros registraremos tu horario y solo deberás ingresar a clases:</p>
 	</div>
 	<div class="row d-flex justify-content-center mb-3 px-5">
 		<button class="btn btn-ra btn-{{company}} ml-2" (click)="saveAnswer(false)">Acepto</button>
 		<button class="btn btn-ra btn-{{company}} ml-2" (click)="saveAnswer(true)">No Acepto</button>
 	</div>
 	<div class="px-3">
-		<p class="small">(si cambias de opinión podrás realizar los cambios que requieras en el turno que te corresponda de la matricula)</p>
+		<p class="small">(si cambias de opinión podrás realizar los cambios que requieras en el turno que te corresponda
+			de la matricula)</p>
 	</div>
 	<div class="p-3">
-		<p>Si no aceptas, luego de realizas los abonos correspondientes <span class="small-blue">(*)</span> podrás ingresar a la matricula regular <span class="small-blue">(**)</span> para realizar los cambios que necesites o adicionar cursos según la nueva oferta horaria.</p>
+		<p>Si no aceptas, luego de realizas los abonos correspondientes <span class="small-blue">(*)</span> podrás
+			ingresar a la matricula regular <span class="small-blue">(**)</span> para realizar los cambios que necesites
+			o adicionar cursos según la nueva oferta horaria.</p>
 		<p class="pt-2 small-blue">(*) Matricula y 1era. Armada mínimo 24 horas antes del inicio de matrícula</p>
 		<p class="small-blue">(**) Según el turno asignado por tu promedio ponderado</p>
 	</div>
 </ngx-smart-modal>
 
 
-<ngx-smart-modal #suspensionModal identifier="suspensionModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
-    <div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
-        <h5 class="modal-title " style="    padding-left: 30%;">AVISO IMPORTANTE</h5>
-        <a (click)="suspensionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-    </div>
+<ngx-smart-modal #suspensionModal identifier="suspensionModal" [closable]="false" [escapable]="false"
+	[dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
+	<div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
+		<h5 class="modal-title " style="    padding-left: 30%;">AVISO IMPORTANTE</h5>
+		<a (click)="suspensionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+	</div>
 
-    <div class="p-2 px-5 modalT" style="padding-bottom: 25px !important;">
-        <p style="margin-top: 5px; margin-bottom: 5px;">
-            Estimados estudiantes
-        </p>
-        <p style="margin-top: 15px; margin-bottom: 15px;text-align: justify;">
-            (*) La visualización del horario de intención de matrícula 2021-2 es referencial, sujeta a cambios por cierre de actas de notas 2021-1 y validación de pagos correspondientes.
-        </p>
-        <p style="margin-top: 5px; margin-bottom: 5px;">
-            De no realizar los pagos de acuerdo al calendario, se eliminarán los cursos registrados automáticamente.
-        </p>
-        <br>
-    </div>
+	<div class="p-2 px-5 modalT" style="padding-bottom: 25px !important;">
+		<p style="margin-top: 5px; margin-bottom: 5px;">
+			Estimados estudiantes
+		</p>
+		<p style="margin-top: 15px; margin-bottom: 15px;text-align: justify;">
+			(*) La visualización del horario de intención de matrícula 2021-2 es referencial, sujeta a cambios por
+			cierre de actas de notas 2021-1 y validación de pagos correspondientes.
+		</p>
+		<p style="margin-top: 5px; margin-bottom: 5px;">
+			De no realizar los pagos de acuerdo al calendario, se eliminarán los cursos registrados automáticamente.
+		</p>
+		<br>
+	</div>
 </ngx-smart-modal>
 
 <!-- <ngx-smart-modal #selecStudentModal identifier="selecStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">

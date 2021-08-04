@@ -3,6 +3,26 @@ span.description {
 	white-space: break-spaces;
 }
 
+.header-ucsur{
+	background-color: #22468F;
+	color: #fff;
+}
+
+.custom-header{
+	position: fixed;
+	z-index: 1	;
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 85px;
+	display: flex;
+	align-items: center;
+	div{
+		cursor: pointer;
+	}
+}
+
 .my_box {
 	border: 1px solid #204491;
 	padding: 5px 10px;

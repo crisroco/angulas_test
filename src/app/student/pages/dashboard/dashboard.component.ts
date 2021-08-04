@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit {
     private intentionS: IntentionService) { }
 
   ngOnInit() {
-    this.showModals();
+    // this.showModals();
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;

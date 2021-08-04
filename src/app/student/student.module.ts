@@ -31,11 +31,13 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { EnrollmentComponent } from './pages/enrollment/enrollment.component';
 import { DashboardEnrollComponent } from './pages/enrollment/dashboard-enroll/dashboard-enroll.component';
 import { CoursesEnrollmentComponent } from './pages/enrollment/courses-enrollment/courses-enrollment.component';
+import { SidebarComponent } from './pages/sidebar/sidebar.component';
+import { FooterComponent } from './pages/footer/footer.component';
 
 const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
 
 @NgModule({
-  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent],
+  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent, SidebarComponent, FooterComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,
