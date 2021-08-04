@@ -118,7 +118,7 @@
 							(click)="goEnrollment()">
 							<div class="text-center px-3">
 								<img style="width: 70px" src="./assets/img/icon/enroll.png">
-								<p class="text-bluesky m-0 text-xm text-black">Reserva Matrícula</p>
+								<p class="text-bluesky m-0 text-xm text-black">Matrícula</p>
 							</div>
 						</a>
 					</div>
@@ -330,7 +330,7 @@
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #modalComunicado identifier="modalComunicado" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
+<!-- <ngx-smart-modal #modalComunicado identifier="modalComunicado" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
 	<a href="https://vimeo.com/574208276/3e3add1bef" target="_blank">
 		<img class="w-100 rounded-1" src="./assets/img/tips.png">
 	</a>
@@ -339,7 +339,7 @@
 			<i class="fa fa-times text-white text-l"></i>
 		</a>
 	</div>
-</ngx-smart-modal>
+</ngx-smart-modal> -->
 
 <ngx-smart-modal #postModal identifier="postModal" [closable]="false" [escapable]="true" [dismissable]="true"
 	[customClass]="'smallModall fullModal'">
@@ -458,10 +458,10 @@
             Estimados estudiantes
         </p>
         <p style="margin-top: 15px; margin-bottom: 15px;text-align: justify;">
-            (*) La visualización del horario de intención de matrícula 2021-2 es referencial, sujeta a cambios por cierre de actas de notas 2021-1 y validación de pagos correspondientes.
+			<span class="warning_icon">⚠</span> La visualización del horario de intención de matrícula 2021-2 es referencial, sujeta a cambios por cierre de actas de notas 2021-1 y validación de pagos correspondientes. De no realizar los pagos de acuerdo al calendario, se eliminarán los cursos registrados automáticamente
         </p>
         <p style="margin-top: 5px; margin-bottom: 5px;">
-            De no realizar los pagos de acuerdo al calendario, se eliminarán los cursos registrados automáticamente.
+            <span class="warning_icon">⚠</span> La consulta de horarios y/o turnos estará disponible el día de hoy 4 de agosto a partir de las 6pm, de acuerdo al calendario académico.
         </p>
         <br>
     </div>

@@ -426,16 +426,16 @@ export class StudentComponent implements OnInit {
 		else{
 			// this.getParameters();
 		}
-		this.newEnrollmentS.validateCurrent(this.user.codigoAlumno)
-			.then((res) => {
-				if(!res.status){
-					// setTimeout(() => {
-					// this.logout(true);
-					// }, 5000);
-				}
-			});
+		// this.newEnrollmentS.validateCurrent(this.user.codigoAlumno)
+		// 	.then((res) => {
+		// 		if(!res.status){
+		// 			// setTimeout(() => {
+		// 			// this.logout(true);
+		// 			// }, 5000);
+		// 		}
+		// 	});
 		this.initUpdatePersonalData();
-		this.checkInList();
+		// this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -461,15 +461,15 @@ export class StudentComponent implements OnInit {
 		});
 		
 		// this.initSocket();
-		this.getFileUpload();
-		this.getFlagSendUpload();
-		this.studentS.medicineStudents()
-		.then((res) => {
-			if (res.find(emp => emp == this.user.codigoAlumno)) {
-				this.AvisoVacunaModal.open();
-				this.showVacunation = true;
-			}
-		});
+		// this.getFileUpload();
+		// this.getFlagSendUpload();
+		// this.studentS.medicineStudents()
+		// .then((res) => {
+		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
+		// 		this.AvisoVacunaModal.open();
+		// 		this.showVacunation = true;
+		// 	}
+		// });
 		// if ((this.user.ind_Medicina == 'Y') && this.router.url == '/estudiante') {
 		// 	// this.AvisoVacunaModal.open();
 		// 	this.showVacunation = true;
@@ -480,51 +480,51 @@ export class StudentComponent implements OnInit {
 		// 	}
 		// })
 
-		this.btnMatricula = true;
-		this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC" })
-			.then((res) => {
-				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
-				if (this.coursesPeople) {
-					this.countCoursesMatriculados = this.coursesPeople.length;
-					let dataPeople = [];
-					for (var i = 0; i < this.coursesPeople.length; i++) {
-						for (var o = 0; o < this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'].length; o++) {
+		// this.btnMatricula = true;
+		// this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC" })
+		// 	.then((res) => {
+		// 		this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
+		// 		if (this.coursesPeople) {
+		// 			this.countCoursesMatriculados = this.coursesPeople.length;
+		// 			let dataPeople = [];
+		// 			for (var i = 0; i < this.coursesPeople.length; i++) {
+		// 				for (var o = 0; o < this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'].length; o++) {
 
-							if (this.coursesPeople[i]) {
-								dataPeople.push({
-									ACAD_CAREER: this.coursesPeople[i]['GRADO_ACADEMICO'],
-									ASSOCIATED_CLASS: '1',
-									CLASS_NBR: this.coursesPeople[i]['CLASE'],
-									CLASS_SECTION: this.coursesPeople[i]['SECCION_CLASE'],
-									CRSE_ID: this.coursesPeople[i]['CRSE_ID'],
-									DESCR: this.coursesPeople[i]['NOMBRE_CURSO'],
-									DIA: this.diaPeople(this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]),
-									EMPLID: this.user.codigoAlumno,
-									END_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['FIN_FECHA'],
-									HORA_FIN: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_FIN'],
-									HORA_INICIO: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_INICIO'],
-									INSTITUTION: this.coursesPeople[i]['INSTITUTION'],
-									OFFER_NBR: this.coursesPeople[i]['NRO_OFERTA'],
-									SESSION_CODE: this.coursesPeople[i]['SESSION_CODE'],
-									SSR_COMPONENT: this.coursesPeople[i]['TIPO_COMPONENTE'],
-									START_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['INICIO_FECHA'],
-									STRM: this.coursesPeople[i]['CICLO_LECTIVO'],
-									equivalent: "-",
-								});
-							}
-						}
-						this.session.setObject('cursoExtracurricular', dataPeople);
-						this.ExistCursoMatriculado();
-					};
-				} else {
-				}
-			});
+		// 					if (this.coursesPeople[i]) {
+		// 						dataPeople.push({
+		// 							ACAD_CAREER: this.coursesPeople[i]['GRADO_ACADEMICO'],
+		// 							ASSOCIATED_CLASS: '1',
+		// 							CLASS_NBR: this.coursesPeople[i]['CLASE'],
+		// 							CLASS_SECTION: this.coursesPeople[i]['SECCION_CLASE'],
+		// 							CRSE_ID: this.coursesPeople[i]['CRSE_ID'],
+		// 							DESCR: this.coursesPeople[i]['NOMBRE_CURSO'],
+		// 							DIA: this.diaPeople(this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]),
+		// 							EMPLID: this.user.codigoAlumno,
+		// 							END_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['FIN_FECHA'],
+		// 							HORA_FIN: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_FIN'],
+		// 							HORA_INICIO: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_INICIO'],
+		// 							INSTITUTION: this.coursesPeople[i]['INSTITUTION'],
+		// 							OFFER_NBR: this.coursesPeople[i]['NRO_OFERTA'],
+		// 							SESSION_CODE: this.coursesPeople[i]['SESSION_CODE'],
+		// 							SSR_COMPONENT: this.coursesPeople[i]['TIPO_COMPONENTE'],
+		// 							START_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['INICIO_FECHA'],
+		// 							STRM: this.coursesPeople[i]['CICLO_LECTIVO'],
+		// 							equivalent: "-",
+		// 						});
+		// 					}
+		// 				}
+		// 				this.session.setObject('cursoExtracurricular', dataPeople);
+		// 				this.ExistCursoMatriculado();
+		// 			};
+		// 		} else {
+		// 		}
+		// 	});
 
-		this.newEnrollmentS.getCoursesExtra()//servicio de cursos extracurriculares de la tabla intermedia
-			.then((res) => {
-				this.courses = res['data'];
-				this.ExistCursoMatriculado();
-			});
+		// this.newEnrollmentS.getCoursesExtra()//servicio de cursos extracurriculares de la tabla intermedia
+		// 	.then((res) => {
+		// 		this.courses = res['data'];
+		// 		this.ExistCursoMatriculado();
+		// 	});
 	}
 
 	validationModal(){		
@@ -942,7 +942,7 @@ export class StudentComponent implements OnInit {
 			// direccion: ['', Validators.required],
 			// referencia: ['', Validators.required],
 		});
-		this.getPersonalDataValidate();
+		// this.getPersonalDataValidate();
 	}
 
 	getPersonalDataValidate(){
@@ -1194,6 +1194,7 @@ export class StudentComponent implements OnInit {
 				this.enroll = units.filter(item => item.institucion == 'PREGR');
 				this.enroll = this.enroll.length?this.enroll[0]:null;
 				if(this.enroll){
+					this.sendDataStudent(this.enroll);
 					this.enroll.OPRID = this.user.email;
 					this.enroll.INSTITUTION = this.enroll.institucion;
 					this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
@@ -1247,12 +1248,15 @@ export class StudentComponent implements OnInit {
 			if(obj.schedule.length == 0){
 				let schedules = [];
 				for (let i = 0; i < obj.courses_id.length; i++) {
-					this.newEnrollmentS.getSchedule({
+					this.newEnrollmentS.getScheduleNew({
 						CAMPUS: activeData.sede,
 						CRSE_ID: obj.courses_id[i],
-						STRM: activeData.STRM
+						STRM: activeData.STRM,
+						OFFER_CRSE: '',
+      					SESSION_CODE: ''
 					}).then((res) => {
-						schedules.push(...res);
+						// schedules.push(...res);
+						schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
 						if (i == obj.courses_id.length-1) {
 							obj.schedule = schedules;
 							obj.isOpen = !obj.isOpen;
