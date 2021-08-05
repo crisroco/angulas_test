@@ -1,6 +1,6 @@
 <div class="card-custom py-2 mb-4">
   <h5 class="px-4 ml-1 my-4">Martes, 20 julio 2021</h5>
-  <div class="course-item px-4 py-2" [class.active-item]="data.active" *ngFor="let data of course">
+  <div class="course-item px-4 py-2" [class.active-course]="data.active" *ngFor="let data of course">
     <div class="d-flex flex-column" style="height: 100px;">
        <label class="mt-1" style="font-size: 16px; width: 155px;">{{data.title}}</label>
       <div class="mt-auto" style="font-size: 16px;">
@@ -11,7 +11,7 @@
       <div *ngIf="data.active" style="width: 98px; line-height: normal; background-color: #FDB22B; border-radius: 6px;" class="d-flex align-items-center px-3 py-2 text-ucs">
         <i class="fa fa-circle mr-2"></i> <small><b>CLASE EN VIVO</b></small>
       </div>
-      <div *ngIf="!data.active" class="border p-1">EN 2 HORAS</div>
+      <div *ngIf="!data.active" class="border p-1" style="width: 95px;">EN 2 HORAS</div>
     </div>
   </div>
 </div>

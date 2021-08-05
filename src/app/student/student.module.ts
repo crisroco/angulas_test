@@ -35,11 +35,12 @@ import { SidebarComponent } from './pages/sidebar/sidebar.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { MenuCourseComponent } from './pages/menu-course/menu-course.component';
 import { MenuItemsComponent } from './pages/menu-items/menu-items.component';
+import { MenuOtherComponent } from './pages/menu-other/menu-other.component';
 
 const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
 
 @NgModule({
-  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent, SidebarComponent, FooterComponent, MenuCourseComponent, MenuItemsComponent],
+  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent, SidebarComponent, FooterComponent, MenuCourseComponent, MenuItemsComponent, MenuOtherComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,

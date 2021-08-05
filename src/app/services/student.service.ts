@@ -14,6 +14,24 @@ export class StudentService {
 
     public showdocLoad = new Subject<boolean>();
     public showMenu = new Subject<boolean>();
+    public showOtherMenu = new Subject<boolean>();
+    public showBiblioteca = new Subject<boolean>();
+
+    public getshowOtherMenu() {
+        return this.showOtherMenu.asObservable();
+    }
+
+    public setshowOtherMenu(data: boolean) {
+        this.showOtherMenu.next(data);
+    }
+
+    public getshowBiblioteca() {
+        return this.showBiblioteca.asObservable();
+    }
+
+    public setshowBiblioteca(data: boolean) {
+        this.showBiblioteca.next(data);
+    }
 
     public getshowMenu() {
         return this.showMenu.asObservable();

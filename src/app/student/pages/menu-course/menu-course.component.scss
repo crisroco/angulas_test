@@ -12,7 +12,8 @@
 	border-left: solid 4px #D5D8E2;
 }
 
-.active-item{
+.active-course:hover{
+	cursor: pointer;
 	background-color: #FFFBE6;
 	border-top: none;
 	border-bottom: solid 1px #FDB22B;

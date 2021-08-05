@@ -124,6 +124,8 @@ export class DashboardComponent implements OnInit {
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
+        // console.log(this.student);
+        
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
         this.session.setObject('student', this.student);
         this.getParameters();
@@ -152,6 +154,10 @@ export class DashboardComponent implements OnInit {
     // this.readConditions();
     var ese = new Array(4);
     //this.matriculaExtracurricularModal.open();
+  }
+
+  showBiblioteca(){
+    this.studentS.setshowBiblioteca(true);
   }
 
   showMore(i){

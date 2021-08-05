@@ -1,75 +1,92 @@
 span.description {
-	font-size: 12px;
+	font-size  : 12px;
 	white-space: break-spaces;
 }
 
-.header-ucsur{
+.other-menu{
+	position: absolute;
+	left: 15px;
+}
+.other-menu-right{
+	position: absolute;
+	right: 15px;
+}
+.header-ucsur {
 	background-color: #22468F;
-	color: #fff;
+	color           : #fff;
 }
 
-.button-bar{
-	cursor: pointer;
-	padding: 10px;	
+.button-bar {
+	cursor   : pointer;
+	padding  : 10px;
 	font-size: 24px;
 }
 
-.drop-custom{
+.drop-custom {
 	border-radius: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-	.pointer
-	{
+	box-shadow   : 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+	.pointer {
 		color: #22468F;
-	}:hover{
-		background-color: #ECF1FF;
+	}
+
+	:hover {
+
+		img,
+		span {
+			filter        : invert(67%) sepia(29%) saturate(5930%) hue-rotate(168deg) brightness(91%) contrast(84%);
+			pointer-events: none;
+		}
 	}
 }
 
-.custom-header{
-	position: fixed;
-	z-index: 1	;
-	width: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 85px;
-	display: flex;
+.custom-header {
+	position   : fixed;
+	z-index    : 1;
+	width      : 100%;
+	top        : 0;
+	left       : 0;
+	right      : 0;
+	height     : 85px;
+	display    : flex;
 	align-items: center;
-	.menu-dropdow{
+
+	.menu-dropdow {
 		cursor: pointer;
 	}
 }
 
 .my_box {
-	border: 1px solid #204491;
+	border : 1px solid #204491;
 	padding: 5px 10px;
 }
 
 .my_box_wsp {
-	border: 1px solid #34bc58;
+	border    : 1px solid #34bc58;
 	background: #34bc58;
-	padding: 5px 10px;
+	padding   : 5px 10px;
+
 	i {
 		color: #ffffff;
 	}
 }
 
 .badge-student {
-	  position: absolute;
-	  top: -10px;
-	  right: -10px;
-	  padding: 5px 10px;
-	  border-radius: 50%;
-	  background: red;
-	  color: white;
-	  line-height: 1;
-	  font-weight: 700;
-	}
+	position     : absolute;
+	top          : -10px;
+	right        : -10px;
+	padding      : 5px 10px;
+	border-radius: 50%;
+	background   : red;
+	color        : white;
+	line-height  : 1;
+	font-weight  : 700;
+}
 
 .hide-acordion {
 	visibility: hidden;
-	opacity: 0;
-	height: 0px;
+	opacity   : 0;
+	height    : 0px;
 }
 
 .acordion-student {
@@ -78,8 +95,8 @@ span.description {
 
 .btn-vacuna {
 	background: #fff;
-	border: 1px #0021d7 solid;
-	color: #2224a2;
+	border    : 1px #0021d7 solid;
+	color     : #2224a2;
 }
 
 .btn-wait {
@@ -87,61 +104,62 @@ span.description {
 }
 
 //matriculaextracurricular
-.rounded-t-1{
-	color: white;
-	font-size: 20px;
+.rounded-t-1 {
+	color     : white;
+	font-size : 20px;
 	text-align: center;
 }
 
-.btn-res{
-	width: 50px;
+.btn-res {
+	width        : 50px;
 	border-radius: 1rem;
 }
 
-.bg-gray-a{
+.bg-gray-a {
 	border-radius: 10px;
 }
 
-table th:first-child{
+table th:first-child {
 	border-radius: 7px 0 0 0;
 }
-  
-table th:last-child{
-	border-radius:0 7px 0 0;
+
+table th:last-child {
+	border-radius: 0 7px 0 0;
 }
 
-table tbody tr{
+table tbody tr {
 	background-color: #fdfdfe
 }
 
 .table .thead-dark th {
 	background-color: #0088C5;
-	border: none;
+	border          : none;
 }
 
-.btnx{
+.btnx {
 	position: absolute;
-  	right: 10px;
-  	top: 10px;
+	right   : 10px;
+	top     : 10px;
 }
 
-#x{
-	width: 30px;
-	height: 30px;
+#x {
+	width     : 30px;
+	height    : 30px;
 	text-align: center;
-	font-size: 30px;
+	font-size : 30px;
 }
 
 //////////////////////////////////////////////////
 
 .header-modal {
-	display: flex;
-	border-radius: 1rem 1rem 0 0;
-	color: #FFFFFF;
-	align-items: center;
-	justify-content: space-between;
-	font-weight: bold;
+	display         : flex;
+	border-radius   : 1rem 1rem 0 0;
+	color           : #FFFFFF;
+	align-items     : center;
+	justify-content : space-between;
+	font-weight     : bold;
 	background-color: #0088C5;
+
 	p {
 		margin: 0;
 	}
@@ -149,64 +167,67 @@ table tbody tr{
 
 #table-students {
 	.theader {
-		color: #204491;
+		color     : #204491;
 		background: rgba(111, 197, 232, 0.5);
 	}
 }
 
 .btn-orange {
-	background: #F68D2E;
-	color: #FFFFFF;
+	background : #F68D2E;
+	color      : #FFFFFF;
 	font-weight: bold;
 }
 
 div.scroll::-webkit-scrollbar {
-    -webkit-appearance: none;
+	-webkit-appearance: none;
 }
 
 div.scroll::-webkit-scrollbar:vertical {
-    width:12px;
+	width: 12px;
 }
 
-div.scroll::-webkit-scrollbar-button:increment,div.scroll::-webkit-scrollbar-button {
-    display: none;
+div.scroll::-webkit-scrollbar-button:increment,
+div.scroll::-webkit-scrollbar-button {
+	display: none;
 }
 
 div.scroll::-webkit-scrollbar-thumb {
-    background-color: #797979;
-    border-radius: 20px;
+	background-color: #797979;
+	border-radius   : 20px;
 }
 
 div.scroll::-webkit-scrollbar-track {
-    border-radius: 10px;  
+	border-radius: 10px;
 }
 
 //////////////////////////////////////////////modal eliminar
 
 .red {
-	color: red;
+	color    : red;
 	font-size: 20px;
 }
 
 .header-modal2 {
-	display: flex;
-	border-radius: 1rem 1rem 0 0;
-	color: #FFFFFF;
-	align-items: center;
-	justify-content: flex-end;
-	font-weight: bold;
+	display         : flex;
+	border-radius   : 1rem 1rem 0 0;
+	color           : #FFFFFF;
+	align-items     : center;
+	justify-content : flex-end;
+	font-weight     : bold;
 	background-color: red;
+
 	p {
 		margin: 0;
 	}
 }
-#formulario1{
+
+#formulario1 {
 	display: none;
 }
 
 .btn_library {
-	border: 1px solid #204491;
-	padding: 5px 10px;
+	border    : 1px solid #204491;
+	padding   : 5px 10px;
 	background: white;
-	color: #007bff;
+	color     : #007bff;
 }

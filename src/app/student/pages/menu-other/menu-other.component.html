@@ -1,0 +1,41 @@
+<div  [style.height.%]="heightOther" class="menu-other">
+  <div class="sidebar-menu pt-2" (click)="heightOtherEmit.emit(0)">
+    <a class="menu" routerLink="/estudiante/inicio" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/homeicon.png">
+      <span>Inicio</span>
+    </a>
+    <a class="menu" routerLink="/estudiante/accion/horario" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/horario.png">
+      <span>Horario</span>
+    </a>
+    <a class="menu" routerLink="/estudiante/accion/estado-cuenta" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/pago.png">
+      <span>Mis Pagos</span>
+    </a>
+    <a class="menu" routerLink="/estudiante/accion/condiciones-academicas" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/academy.png">
+      <span>Record Académico</span>
+    </a>
+    <a class="menu" routerLink="/estudiante/accion/historial-cursos" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/files.png">
+      <span>Historial de Cursos</span>
+    </a>
+    <a class="menu" href="javascript:void(0)" (click)="linkModalOpen()">
+      <img class="img-other" src="./assets/img/document.png">
+      <span>Documentos Académicos</span>
+    </a>
+    <a class="menu" href="javascript:void(0)">
+      <img class="img-other" src="./assets/img/window.png">
+      <span>Matrícula Extracurricular</span>
+    </a>
+    <hr class="bg-light mx-4">
+    <a class="menu menu-item-other" href="javascript:void(0)" (click)="linkModalOpen()">
+      <img src="./assets/img/user-other.png">
+      <span>Mi Perfil</span>
+    </a>
+    <a class="menu menu-item-other" href="javascript:void(0)">
+      <img src="./assets/img/logout-other.png">
+      <span>Cerrar Sesión</span>
+    </a>
+  </div>
+</div>
