@@ -57,17 +57,17 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   getCourses(){
-    // this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
-    //   .then((res)=> {
-    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
-    //     if (!notdeuda) {
-    //       this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-    //       setTimeout(() => {
-    //         this.router.navigate(['/estudiante']);
-    //         return
-    //       }, 1500)
-    //     }
-    //   });
+    this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+      .then((res)=> {
+        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+        if (!notdeuda) {
+          this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+          setTimeout(() => {
+            this.router.navigate(['/estudiante']);
+            return
+          }, 1500)
+        }
+      });
     let myConditions = this.session.getObject('conditionsToEnrollment');
     if (myConditions) {
       if (!myConditions.turn || !myConditions.conditions) {

@@ -6,7 +6,7 @@
 			</div>
 			<div class="buttons">
 				<button class="btn" [routerLink]="'/estudiante/matricula/disponibles'" routerLinkActive="active-link">1. Cursos Disponibles</button>
-				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Reservados</button>
+				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Matriculados</button>
 			</div>
 		</div>
 	</div>
@@ -85,7 +85,7 @@
 	<div class="mt-2 d-flex align-items-center justify-content-around">
 		<div class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
-			<p>Reservado</p>
+			<p>Matriculado</p>
 		</div>
 		<div *ngIf="moreData && moreData.length > 1" class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
