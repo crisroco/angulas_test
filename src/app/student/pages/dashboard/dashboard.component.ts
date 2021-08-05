@@ -124,6 +124,7 @@ export class DashboardComponent implements OnInit {
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
+        this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
         this.session.setObject('student', this.student);
         this.getParameters();
       }, error => { });

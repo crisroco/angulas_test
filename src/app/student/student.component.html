@@ -1,21 +1,3 @@
-<!-- <div class="row bg-{{company}} header">
-    <div class="row container-2 mx-auto px-3 align-items-center justify-content-between">
-        <img src="./assets/img/logo.png" class="img-hs">
-        <a href="/estudiante" class="text-m text-white py-3 bd-b-5 bd-black">
-            <h5 class="m-0"> <strong> INICIO </strong> </h5>
-        </a>
-        <div class="row position-relative">
-            <div class="circle-q bg-white-a pointer" (click)="menus = !menus">
-                <img src="./assets/img/icon/user.png" class="img-q">
-                <span *ngIf="notifications_read > 0" class="badge-student"> {{ notifications_read }} </span>
-            </div>
-            <div class="bg-white drop" *ngIf="menus">
-                <a *ngIf="userBackoffice" class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="searchStudent()"> <i class="fa fa-search"></i> Buscar Alumno</a>
-                <a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
-            </div>
-        </div>
-    </div>
-</div> -->
 <header class="container-fluid custom-header header-ucsur">
     <div class="d-flex align-items-center">
         <div class="button-bar" (click)="showMenu()">
@@ -23,19 +5,22 @@
         </div>
         <img src="./assets/img/logo1figma.png" class="ml-4" width="170px">
     </div>
-    <div class="ml-auto menu-dropdow" (click)="menus = !menus">
+    <div class="ml-auto menu-dropdow mr-3" (click)="menus = !menus">
         <img src="./assets/img/user1figma.png" alt="">
         <img src="./assets/img/angle-down.png" alt="">
-        <div class="bg-white drop text-dark" *ngIf="menus">
-            <a *ngIf="userBackoffice" class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="searchStudent()"> <i class="fa fa-search"></i> Buscar Alumno</a>
-            <a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+        <div class="bg-white drop drop-custom py-3" *ngIf="menus">
+            <i class="fa fa-caret-up text-white" style="position: absolute; right: 27px; top: -17px; font-size: 25px;"></i>
+            <a class="d-block m-0 text-{{company}} py-3 px-4 pointer" routerLink="/estudiante/accion/datos-personales">
+                <img src="./assets/img/user-menu.png" class="mr-3" alt=""> Mi Perfil
+            </a>
+            <a class="d-block m-0 text-{{company}} py-3 px-4 pointer" (click)="logout()">
+                <img src="./assets/img/logout.png" class="mr-3" alt=""> Cerrar Sesión
+            </a>
         </div>
     </div>
 </header>
 
-<!-- <div class="post-header "> -->
 <router-outlet></router-outlet>
-<!-- </div> -->
 
 
 

@@ -1,5 +1,5 @@
-<div class="sidebar d-flex" (click)="showMenu=!showMenu">
-  <div class="sidebar-menu-mobile" [class.d-none]="!showMenu">
+<div class="sidebar d-flex">
+  <div class="sidebar-menu-mobile" [class.d-none]="!showMenu" (click)="showMenu=!showMenu">
     <app-menu-items [widthMenu]="showMenu?263:0"></app-menu-items>
   </div>
   <app-menu-items class="d-none d-lg-block" [widthMenu]="72"></app-menu-items>
