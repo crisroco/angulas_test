@@ -18,6 +18,7 @@ import { BetweenDays, RealDate } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
 import { element } from 'protractor';
+import { course, notice } from './notice';
 
 @Component({
   selector: 'app-dashboard',
@@ -115,6 +116,9 @@ export class DashboardComponent implements OnInit {
     public ngxSmartModalService: NgxSmartModalService,
     private intentionS: IntentionService) { }
 
+  public notice = notice;
+  public course = course;
+
   ngOnInit() {
     // this.showModals();
     this.studentS.getDataStudent({ email: this.user.email })
@@ -147,6 +151,22 @@ export class DashboardComponent implements OnInit {
     // this.readConditions();
     var ese = new Array(4);
     //this.matriculaExtracurricularModal.open();
+  }
+
+  showMore(i){
+    this.notice.forEach((r,ind)=>{
+      if(ind==i){
+        r.expand = true;
+      }else{
+        r.expand = false;
+      }
+    })
+  }
+
+  hideMore(){
+    this.notice.forEach((r)=>{
+        r.expand = false;
+    })
   }
 
   saveAnswer(answer){

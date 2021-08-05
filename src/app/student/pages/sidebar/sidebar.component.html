@@ -1,34 +1,8 @@
-<div class="sidebar d-flex">
-  <div class="bg-white sidebar-menu pt-2">
-    <a class="menu" routerLink="/estudiante/inicio" routerLinkActive="active">
-      <img src="./assets/img/homeicon.png">
-      <span>Inicio</span>
-    </a>
-    <a class="menu" routerLink="/estudiante/accion/horario" routerLinkActive="active">
-      <img src="./assets/img/horario.png">
-      <span>Horario</span>
-    </a>
-    <a class="menu" routerLink="/estudiante/accion/estado-cuenta" routerLinkActive="active">
-      <img src="./assets/img/pago.png">
-      <span>Mis Pagos</span>
-    </a>
-    <a class="menu" routerLink="/estudiante/accion/condiciones-academicas" routerLinkActive="active">
-      <img src="./assets/img/academy.png">
-      <span>Record Académico</span>
-    </a>
-    <a class="menu" routerLink="/estudiante/accion/historial-cursos" routerLinkActive="active">
-      <img src="./assets/img/files.png">
-      <span>Historial de Cursos</span>
-    </a>
-    <a class="menu" href="javascript:void(0)">
-      <img src="./assets/img/document.png">
-      <span>Documentos Académicos</span>
-    </a>
-    <a class="menu" href="javascript:void(0)">
-      <img src="./assets/img/window.png">
-      <span>Matrícula Extracurricular</span>
-    </a>
+<div class="sidebar d-flex" (click)="showMenu=!showMenu">
+  <div class="sidebar-menu-mobile" [class.d-none]="!showMenu">
+    <app-menu-items [widthMenu]="showMenu?263:0"></app-menu-items>
   </div>
+  <app-menu-items class="d-none d-lg-block" [widthMenu]="72"></app-menu-items>
   <div class="sidebar-content d-flex flex-column pt-2">
 
     <div class="px-4 py-3">

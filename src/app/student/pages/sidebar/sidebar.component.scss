@@ -4,40 +4,101 @@
     width      : 100%;
     height     : 100%;
     padding-top: 85px;
+    visibility : visible;
 
-    .sidebar-menu {
-        width     : 272px;
+    ::ng-deep .sidebar-menu-mobile {
+        position  : fixed;
+        top       : 85px;
+        left      : 0;
+        right     : 0;
+        bottom    : 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index   : 3;
+        visibility: visible;
+
+        .sidebar-menu {
+            width             : 0;
+            height            : 100%;
+            overflow-y        : auto;
+            overflow-x        : hidden;
+            visibility        : visible;
+            transition        : all 0.5s;
+            -webkit-transition: all 0.25s;
+
+            .menu {
+                color        : #22468F;
+                margin       : 10px 0;
+                display      : flex;
+                cursor       : pointer;
+                align-items  : center;
+                border-radius: 0 24px 24px 0;
+                height       : 50px;
+
+                img {
+                    margin: 0 24px;
+                }
+            }
+
+            :hover {
+                background: #ECF1FF;
+
+                img,
+                span {
+                    filter        : invert(67%) sepia(29%) saturate(5930%) hue-rotate(168deg) brightness(91%) contrast(84%);
+                    pointer-events: none;
+                }
+            }
+
+            .active {
+                background: #ECF1FF;
+
+                img,
+                span {
+                    filter        : invert(67%) sepia(29%) saturate(5930%) hue-rotate(168deg) brightness(91%) contrast(84%);
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+
+    ::ng-deep .sidebar-menu {
+        width     : 0;
+        height    : 100%;
         overflow-y: auto;
-        
+        overflow-x: hidden;
+        visibility: visible;
+        transition        : all 0.5s;
+        -webkit-transition: all 0.25s;
         .menu {
             color        : #22468F;
-            margin       : 20px;
+            margin       : 10px 0;
             display      : flex;
             cursor       : pointer;
             align-items  : center;
-            border-radius: 24px;
-            padding      : 0 8px;
+            border-radius: 0 24px 24px 0;
             height       : 50px;
 
             img {
-                margin: 0 16px;
+                margin: 0 24px;
             }
         }
 
         :hover {
-            background: #ECF1FF;   
+            background: #ECF1FF;
+
             img,
             span {
-                filter: invert(67%) sepia(29%) saturate(5930%) hue-rotate(168deg) brightness(91%) contrast(84%);
+                filter        : invert(67%) sepia(29%) saturate(5930%) hue-rotate(168deg) brightness(91%) contrast(84%);
                 pointer-events: none;
             }
         }
 
         .active {
-            background: #ECF1FF;   
+            background: #ECF1FF;
+
             img,
             span {
-                filter: invert(67%) sepia(29%) saturate(5930%) hue-rotate(168deg) brightness(91%) contrast(84%);
+                filter        : invert(67%) sepia(29%) saturate(5930%) hue-rotate(168deg) brightness(91%) contrast(84%);
                 pointer-events: none;
             }
         }

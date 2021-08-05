@@ -17,8 +17,13 @@
     </div>
 </div> -->
 <header class="container-fluid custom-header header-ucsur">
-    <img src="./assets/img/logo1figma.png" class="ml-4" width="170px">
-    <div class="ml-auto" (click)="menus = !menus">
+    <div class="d-flex align-items-center">
+        <div class="button-bar" (click)="showMenu()">
+            <i class="fa fa-bars"></i>
+        </div>
+        <img src="./assets/img/logo1figma.png" class="ml-4" width="170px">
+    </div>
+    <div class="ml-auto menu-dropdow" (click)="menus = !menus">
         <img src="./assets/img/user1figma.png" alt="">
         <img src="./assets/img/angle-down.png" alt="">
         <div class="bg-white drop text-dark" *ngIf="menus">

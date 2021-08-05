@@ -327,7 +327,8 @@ export class StudentComponent implements OnInit {
 	provincias: Array<any>;
 	distritos: Array<any>;
 	modalUpdateDataClosable = true
-
+	
+	@ViewChild('linkModal') linkModal: any;
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
@@ -419,6 +420,12 @@ export class StudentComponent implements OnInit {
 		if(this.session.getItem('adminOprid')){//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
 			this.userBackoffice = true;
 		}
+
+		this.studentS.getShowdocLoad().subscribe(
+			resp => {
+				this.linkModal.open()
+			}
+		);
 
 		if(!this.user){
 			this.router.navigate(['/login']);
@@ -525,6 +532,10 @@ export class StudentComponent implements OnInit {
 				this.courses = res['data'];
 				this.ExistCursoMatriculado();
 			});
+	}
+
+	showMenu(){
+		this.studentS.setshowMenu(true);
 	}
 
 	validationModal(){		

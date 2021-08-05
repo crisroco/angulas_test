@@ -1,138 +1,14 @@
-<!-- <div class="p-post-header row bg-imagebg full-content">
-	<div class="container-2 mx-auto">
-		<div class="row pt-4">
-			<div class="col-md-4 p-2">
-				<div class="bg-white-a p-3 mb-5">
-					<h5 class="text-{{company}}"> <strong> ¡Bienvenido! </strong> </h5>
-					<h5 class="text-m"> <strong> {{student?student.nombreAlumno:''}} </strong> </h5>
-					<h5 class="text-normal mb-3 pb-3 bd-b-1 bd-{{company}}"> 
-						<strong>{{student?student.codigoAlumno:''}}</strong>
-					</h5>
-					<p class="m-0">
-						Nuestra Universidad forma líderes comprometidos con el desarrollo humano, social y ambiental.
-						Ofrecemos educación de calidad para el mundo laboral, basadas en una educación personalizada y
-						en el acercamiento a su profesión desde el primer ciclo.
-					</p>
-					<p>
-						Universidad Científica del Sur
-					</p>
-					<a href="https://vimeo.com/295459246/6e1168f864" target="_blank"
-						class="btn btn-lg btn-block btn-black"> Video instructivo </a>
-					<div *ngIf="nextClassLink" class="btn btn-lg btn-block btn-black"> Tu clase ahora: </div>
-					<div *ngIf="nextClassLink" class="btn btn-block next_class my-2 text-center">
-						<a (click)="preGoMoodle()" target="_blank" class="my-0 text-{{company}}"> <span
-								style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px"
-								src="./assets/img/icon/zoom.png" alt=""></a>
-					</div>
-					<ng-container>
-						<div *ngIf="enroll && queueEnroll"
-							class="btn btn-lg btn-block btn-black text-{{!queueEnroll.turnText?'red':(queueEnroll.onTurn?'green':'red')}}">
-							{{queueEnroll.turnText?queueEnroll.turnText:'Aún no tienes Turno de
-							Matricula'}} </div>
-						<div class="row justify-content-center align-items-center mb-2 mt-3">
-							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
-								(click)="AcademicConditionModal.open()">
-								<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
-								<div class="bg-black text-white p-2 text-s">
-									<p class="m-0">Condiciones</p>
-									<p class="m-0">Académicas</p>
-								</div>
-								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO"
-									class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
-									<p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}
-									</p>
-								</div>
-							</div>
-							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
-								(click)="FinancialConditionModal.open()">
-								<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
-								<div class="bg-black text-white p-2 text-s">
-									<p class="m-0">Condiciones</p>
-									<p class="m-0">Financieras</p>
-								</div>
-								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO"
-									class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
-									<p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}
-									</p>
-								</div>
-							</div>
-						</div>
-					</ng-container>
-				</div>
-			</div>
-			<div class="col-md-8 p-2 mb-6">
-				<div class="bg-white-a p-4 row">
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/horario'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/horario.png">
-								<p class="text-blue m-0 text-xm">Horario</p>
-								<p class="text-blue m-0 text-xm">semanal</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/datos-personales'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/datos.png">
-								<p class="text-orange m-0 text-xm">Datos</p>
-								<p class="text-orange m-0 text-xm">personales</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/condiciones-academicas'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/academico.png">
-								<p class="text-purple m-0 text-xm">Condiciones</p>
-								<p class="text-purple m-0 text-xm">académicas</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/estado-cuenta'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/cuenta.png">
-								<p class="text-green m-0 text-xm">Estado</p>
-								<p class="text-green m-0 text-xm">de cuenta</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/historial-cursos'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/cursos.png">
-								<p class="text-bluesky m-0 text-xm">Historial</p>
-								<p class="text-bluesky m-0 text-xm">de cursos</p>
-							</div>
-						</a>
-					</div>
-					<div *ngIf="queueEnroll && !timeoutEnroll && enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO == 'Y' && enroll_conditions.FLAG_FINANCIERO == 'Y'"
-						class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							(click)="goEnrollment()">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/enroll.png">
-								<p class="text-bluesky m-0 text-xm text-black">Reserva Matrícula</p>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> -->
-
 <app-sidebar>
 	<div class="row-custom row">
-		<div class="col-lg-9 px-lg-0">
+		<div class="col-md-6 col-lg-4 pl-md-0 d-block d-md-none mb-4">
+			<h2 class="py-2">
+				<span class="text-ucs">¡Hola Liliana!</span> Bienvenid@.
+			</h2>
+			<app-menu-course [course]="course"></app-menu-course>
+		</div>
+		<div class="col-md-6 col-lg-8 px-0 mb-4">
 			<div class="row">
-				<div class="col-12 mb-4">
+				<div class="col-12 mb-4 d-none d-md-block">
 					<div class="card-custom p-4 d-flex justify-content-between align-items-center">
 						<div>
 							<h3>
@@ -142,44 +18,93 @@
 								avanzando”</p>
 							<p class="text-ucs text-right">Albert Einstein</p>
 						</div>
-						<div class="ml-5">
+						<div class="ml-5 d-none d-lg-block">
 							<img width="250px" src="./assets/img/student.png">
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4 pr-lg-0">
-					<div class="card-custom py-3 px-4 d-flex justify-content-start align-items-center">
-						<img width="60px" class="pl-1 pr-3" src="./assets/img/library.png">
+				<div class="col-lg-4 pr-lg-0 mb-4 d-none d-lg-block">
+					<div class="card-custom h-100 py-3 px-4 d-md-flex justify-content-start align-items-center">
+						<div>
+							<img width="60px" class="pl-md-1 pr-md-3 pl-2" src="./assets/img/library.png">
+						</div>
 						<div>
 							<strong>Biblioteca online</strong>
 							<p class="m-0">Red de bibliotecas</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4 pr-lg-0">
-					<div class="card-custom py-3 px-4 d-flex justify-content-start align-items-center">
-						<img width="60px" class="pl-1 pr-3" src="./assets/img/job.png">
+				<div class="col-4 mb-4 d-block d-lg-none">
+					<div class="card-custom h-100 py-3 px-3 text-center">
+						<img width="30px" src="./assets/img/library.png">
+						<div class="mt-2">
+							<strong>Biblioteca online</strong>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 pr-lg-0 mb-4 d-none d-lg-block">
+					<div class="card-custom h-100 py-3 px-4 d-flex justify-content-start align-items-center">
+						<img width="60px" class="pl-md-1 pr-md-3 pl-2" src="./assets/img/job.png">
 						<div>
 							<strong>Bolsa de trabajo</strong>
 							<p class="m-0">Trabajo y Prácticas</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4">
-					<div class="card-custom py-3 px-4 d-flex justify-content-start align-items-center">
-						<img width="60px" class="pl-1 pr-3" src="./assets/img/mail.png">
+				<div class="col-4 mb-4 d-block d-lg-none">
+					<div class="card-custom h-100 py-3 px-3 text-center">
+						<img width="30px" src="./assets/img/job.png">
+						<div class="mt-2">
+							<strong>Bolsa de trabajo</strong>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 mb-4 d-none d-lg-block">
+					<div class="card-custom h-100 py-3 px-4 d-flex justify-content-start align-items-center">
+						<img width="60px" class="pl-md-1 pr-md-3 pr-2" src="./assets/img/mail.png">
 						<div>
 							<strong>Mi correo</strong>
 							<p class="m-0">Buzón UCSUR</p>
 						</div>
 					</div>
 				</div>
+				<div class="col-4 mb-4 d-block d-lg-none">
+					<div class="card-custom h-100 py-3 px-3 text-center">
+						<img width="30px" src="./assets/img/mail.png">
+						<div class="mt-2">
+							<strong>Mi correo</strong>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-12">
+					<div class="card-custom py-3 px-4">
+						<h5 class="text-{{company}} mb-2"> Eventos y Noticias</h5>
+						<div class="d-lg-flex py-3 border-bottom" *ngFor="let data of notice; let i = index">
+							<img [src]="data.imgPath" class="d-none d-lg-block" height="80px" alt="">
+							<img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
+							<div class="ml-lg-3">
+								<strong class="text-dark">{{data.title}}</strong>
+								<p *ngIf="!data.expand" class="content-event">{{data.limit(data.content)}}</p>
+								<p *ngIf="data.expand" class="content-event">{{data.content}}</p>
+								<div class="text-right">
+									<span (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand"
+										style="cursor: pointer;" class="mt-1 text-{{company}}">
+										Ver más
+									</span>
+									<span (click)="hideMore()" *ngIf="data.content?.length>150 && data.expand"
+										style="cursor: pointer;" class="mt-1 text-{{company}}">
+										Ver menos
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="col-lg-3 pl-lg-0">
-			<div class="card card-body">
-				ada
-			</div>
+		<div class="col-md-6 col-lg-4 pl-md-0 d-none d-md-block">
+			<app-menu-course [course]="course"></app-menu-course>
 		</div>
 	</div>
 </app-sidebar>

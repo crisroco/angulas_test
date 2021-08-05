@@ -8,6 +8,12 @@ span.description {
 	color: #fff;
 }
 
+.button-bar{
+	cursor: pointer;
+	padding: 10px;	
+	font-size: 24px;
+}
+
 .custom-header{
 	position: fixed;
 	z-index: 1	;
@@ -18,7 +24,7 @@ span.description {
 	height: 85px;
 	display: flex;
 	align-items: center;
-	div{
+	.menu-dropdow{
 		cursor: pointer;
 	}
 }

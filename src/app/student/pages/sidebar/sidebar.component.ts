@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('itemsMenu')itemsMenu;
+
+  constructor(
+    private studentS: StudentService
+  ) { }
+
+  public showMenu = false;
 
   ngOnInit() {
+    this.studentS.getshowMenu().subscribe(
+      resp=>{
+        this.showMenu = !this.showMenu;
+      }
+    );
   }
-
 }

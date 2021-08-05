@@ -33,11 +33,13 @@ import { DashboardEnrollComponent } from './pages/enrollment/dashboard-enroll/da
 import { CoursesEnrollmentComponent } from './pages/enrollment/courses-enrollment/courses-enrollment.component';
 import { SidebarComponent } from './pages/sidebar/sidebar.component';
 import { FooterComponent } from './pages/footer/footer.component';
+import { MenuCourseComponent } from './pages/menu-course/menu-course.component';
+import { MenuItemsComponent } from './pages/menu-items/menu-items.component';
 
 const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
 
 @NgModule({
-  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent, SidebarComponent, FooterComponent],
+  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent, SidebarComponent, FooterComponent, MenuCourseComponent, MenuItemsComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,
