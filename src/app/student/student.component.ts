@@ -416,7 +416,7 @@ export class StudentComponent implements OnInit {
 		}
 	}
 
-	public heightOtherMenu: number = 70;
+	public heightOtherMenu: number = 0;
 
 	ngOnInit() {
 		if (this.session.getItem('adminOprid')) {//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
