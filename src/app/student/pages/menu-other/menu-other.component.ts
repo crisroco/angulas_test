@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-menu-other',
@@ -10,12 +11,18 @@ export class MenuOtherComponent implements OnInit {
   @Input('heightOther') heightOther: number;
   @Output('heightOtherEmit') heightOtherEmit = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private studentService:StudentService
+  ) { }
 
   ngOnInit() {
   }
 
-  changeItem(){
-    
+  linkModalOpen(){
+    this.studentService.setemitDocOther(true);
+  }
+
+  logout(){
+    this.studentService.setemitLogout(true);
   }
 }

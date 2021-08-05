@@ -16,6 +16,23 @@ export class StudentService {
     public showMenu = new Subject<boolean>();
     public showOtherMenu = new Subject<boolean>();
     public showBiblioteca = new Subject<boolean>();
+    public emitDocOther = new Subject<boolean>();
+    public emitLogout = new Subject<boolean>();
+
+    public getemitDocOther() {
+        return this.emitDocOther.asObservable();
+    }
+
+    public setemitDocOther(data: boolean) {
+        this.emitDocOther.next(data);
+    }
+    public getemitLogout() {
+        return this.emitLogout.asObservable();
+    }
+
+    public setemitLogout(data: boolean) {
+        this.emitLogout.next(data);
+    }
 
     public getshowOtherMenu() {
         return this.showOtherMenu.asObservable();

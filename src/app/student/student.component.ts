@@ -423,6 +423,18 @@ export class StudentComponent implements OnInit {
 			this.userBackoffice = true;
 		}
 
+		this.studentS.getemitDocOther().subscribe(
+			resp => {
+				this.linkModal.open()
+			}
+		);
+
+		this.studentS.getemitLogout().subscribe(
+			resp => {
+				this.logout()
+			}
+		);
+
 		this.studentS.getShowdocLoad().subscribe(
 			resp => {
 				this.linkModal.open()
