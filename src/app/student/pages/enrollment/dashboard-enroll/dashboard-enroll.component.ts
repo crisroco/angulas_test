@@ -565,7 +565,6 @@ export class DashboardEnrollComponent implements OnInit {
         return
       }
     }
-    console.log(result);
     this.enrollmentS.saveCourseClass({
       courses: result,
       emplid_admin: this.user.email
