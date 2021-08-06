@@ -1,15 +1,15 @@
 <header class="container-fluid custom-header justify-content-center justify-content-sm-start header-ucsur" [class.justify-content-center]="heightOtherMenu==0">
     <div class="d-flex align-items-center">
-        <div class="button-bar d-block d-sm-none other-menu" *ngIf="heightOtherMenu==0" (click)="heightOtherMenu=70">
+        <div class="button-bar d-block d-sm-none other-menu" *ngIf="heightOtherMenu==0" (click)="heightOtherMenu=100">
             <i class="fa fa-bars"></i>
         </div>
-        <div class="button-bar d-block d-sm-none other-menu-right" *ngIf="heightOtherMenu==70" (click)="heightOtherMenu=0">
+        <div class="button-bar d-block d-sm-none other-menu-right" *ngIf="heightOtherMenu==100" (click)="heightOtherMenu=0">
             <img src="./assets/img/times.png">
         </div>
         <div class="button-bar d-sm-block d-none d-xl-none" (click)="showMenu()">
             <i class="fa fa-bars"></i>
         </div>
-        <img src="./assets/img/new-logo.svg" [class.ml-2]="heightOtherMenu==70" class="ml-sm-4 ml-xl-2" width="170px">
+        <img src="./assets/img/new-logo.svg" [class.ml-2]="heightOtherMenu==100" class="ml-sm-4 ml-xl-2" width="170px">
     </div>
     <div class="ml-auto menu-dropdow mr-3 d-none d-sm-block" (click)="menus = !menus">
         <img src="./assets/img/user1figma.png" alt="">

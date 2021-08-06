@@ -1,4 +1,4 @@
-<div  [style.height.%]="heightOther" [style.top.px]="heightOther==0?0:85" [class.menu-other]="heightOther==70">
+<div class="menu-other" [style.height.%]="heightOther" [style.padding-top.px]="heightOther==0?0:60">
   <div class="sidebar-menu pt-2" [class.d-none]="heightOther==0" (click)="heightOtherEmit.emit(0)">
     <a class="menu" routerLink="/estudiante/inicio" routerLinkActive="active">
       <img class="img-other" src="./assets/img/homeicon.png">

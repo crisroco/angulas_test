@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { StudentService } from '../../../services/student.service';
 import { SessionService } from '../../../services/session.service';
-import { ValidationService } from '../../../services/validation.service';
 import { GeneralService } from '../../../services/general.service';
 import { InputsService } from '../../../services/inputs.service';
 import { FormService } from '../../../services/form.service';
@@ -17,8 +16,8 @@ import { AppSettings } from '../../../app.settings';
 import { BetweenDays, RealDate } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
-import { element } from 'protractor';
-import { course, notice } from './notice';
+import { notice } from './notice';
+import { dataClass } from './mock';
 
 @Component({
   selector: 'app-dashboard',
@@ -117,10 +116,10 @@ export class DashboardComponent implements OnInit {
     private intentionS: IntentionService) { }
 
   public notice = notice;
-  public course = course;
+  public course:any[] = [];
 
   ngOnInit() {
-    this.showModals();
+    // this.showModals();
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
@@ -144,8 +143,10 @@ export class DashboardComponent implements OnInit {
       }
       else if (message && message.code) {
         if (message.institution != 'PSTRG') {
-          this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: message.date })
+          this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: '2021-05-05' }) //message.date
             .then((res) => {
+              
+              this.course = dataClass;
               this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, message.institution);
             });
         }
@@ -689,6 +690,11 @@ export class DashboardComponent implements OnInit {
           this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
         }
       });
+  }
+
+  openZoom(event){
+    console.log(event);
+    
   }
 
   goMoodle() {
