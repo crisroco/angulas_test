@@ -120,7 +120,7 @@ export class DashboardComponent implements OnInit {
   public course = course;
 
   ngOnInit() {
-    // this.showModals();
+    this.showModals();
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
