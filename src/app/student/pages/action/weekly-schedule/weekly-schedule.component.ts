@@ -203,7 +203,7 @@ export class WeeklyScheduleComponent implements OnInit {
 			var rdate = Math.floor(Date.now() / 1000);
 			emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', {format: this.generalS.formatJsonCrypto}).toString());
 		}
-		if(this.realClass["STRM"] == '1154' || this.realClass["STRM"] == '1032'){
+		if(this.realClass["STRM"] == '1154' || this.realClass["STRM"] == '1032' || this.realClass["STRM"] == '2223'){
 			window.open(this.virtualRoom["NEWSTRM"] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + emplid, '_self');
 		} else {
 			window.open(this.virtualRoom[this.realClass.INSTITUTION] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + emplid, '_self');

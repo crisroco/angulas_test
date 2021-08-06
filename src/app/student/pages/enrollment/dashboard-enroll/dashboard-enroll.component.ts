@@ -57,17 +57,17 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   getCourses(){
-    // this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
-    //   .then((res)=> {
-    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
-    //     if (!notdeuda) {
-    //       this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-    //       setTimeout(() => {
-    //         this.router.navigate(['/estudiante']);
-    //         return
-    //       }, 1500)
-    //     }
-    //   });
+    this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+      .then((res)=> {
+        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+        if (!notdeuda) {
+          this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+          setTimeout(() => {
+            this.router.navigate(['/estudiante']);
+            return
+          }, 1500)
+        }
+      });
     let myConditions = this.session.getObject('conditionsToEnrollment');
     if (myConditions) {
       if (!myConditions.turn || !myConditions.conditions) {
@@ -165,15 +165,15 @@ export class DashboardEnrollComponent implements OnInit {
       this.myCredits = creditos;
       this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.sede})
         .then((res) => {
-          this.allCoursesId = res.filter(el => el.FLAG == 'A');
-          this.session.setObject('MaterialInCourse', this.allCoursesId);
+          // this.allCoursesId = res.filter(el => el.FLAG == 'A');
+          // this.session.setObject('MaterialInCourse', this.allCoursesId);
           this.availableCourses = res.sort(this.dynamicSortMultiple(["-FLAG","UCS_CICLO"]));
           if (coursesInEnrollment) {
             for (let i = 0; i < coursesInEnrollment.length; i++) {
               this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID2 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID3 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID4 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID5 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID6 != coursesInEnrollment[i].CRSE_ID);
             }
           }
-          this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
+          // this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
           this.maxCredits = this.availableCourses[0]?Math.round(this.availableCourses[0]['FT_MAX_TOTAL_UNIT']):0;
           this.session.setItem('MaxCreditsEnrollment', this.maxCredits);
           this.loading = false;
@@ -565,7 +565,6 @@ export class DashboardEnrollComponent implements OnInit {
         return
       }
     }
-    console.log(result);
     this.enrollmentS.saveCourseClass({
       courses: result,
       emplid_admin: this.user.email

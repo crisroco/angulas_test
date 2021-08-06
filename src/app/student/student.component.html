@@ -413,6 +413,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!-- <ng-container *ngFor="let vclass of course.schedule; let s = 'index'">
+                                            <tr class="text-center text-s" *ngFor="let details of vclass.UCS_REST_DET_MREU">
+                                                <td class="px-2 py-1 text-left">{{ vclass.DESCR_COMPONENTE }}</td>
+                                                <td class="px-2 py-1">{{ vclass.SECCION }}</td>
+                                                <td class="px-2 py-1">{{ details.DIA }}</td>
+                                                <td class="px-2 py-1">{{ details.DESCR_UBI_INS + ' / ' + details.CODIGO_AULA }}</td>
+                                                <td class="px-2 py-1">{{ details.FECHA_INICIAL }}</td>
+                                                <td class="px-2 py-1">{{ details.HORA_INICIO }}</td>
+                                                <td class="px-2 py-1">{{ details.HORA_FIN }}</td>
+                                                <td class="px-2 py-1">{{ details.UCS_REST_DET_DOC?details.UCS_REST_DET_DOC[0].NOMBRE_DOCENTE:'-' }}</td>
+                                            </tr>
+                                        </ng-container> -->
                                         <ng-container *ngFor="let vclass of course.schedule; let s = 'index'">
                                             <tr class="text-center text-s">
                                                 <td class="px-2 py-1 text-left">{{ vclass.COMPONENT_NAME }}</td>
