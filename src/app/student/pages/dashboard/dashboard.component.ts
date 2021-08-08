@@ -147,9 +147,9 @@ export class DashboardComponent implements OnInit {
         if (message.institution != 'PSTRG') {
           this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: '2021-05-05' }) //message.date
             .then((res) => {
-              this.course = dataClass;
+              // this.course = dataClass;
               this.loadCourse = true;
-              // this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR;
+              this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR;
               this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, message.institution);
             });
         }
