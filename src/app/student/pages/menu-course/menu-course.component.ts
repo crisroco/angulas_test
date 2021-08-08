@@ -73,7 +73,9 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   validCourseVisible(){
-    return this.course.filter(f=> !this.validateAfter(f.MEETING_TIME_END) );
+    return this.course?
+    this.course.filter(f=> !this.validateAfter(f.MEETING_TIME_END) ):
+    [];
   }
 
   capitalizarPrimeraLetra(str) {
