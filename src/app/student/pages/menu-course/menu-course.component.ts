@@ -11,7 +11,8 @@ import * as moment from 'moment';
 export class MenuCourseComponent implements OnInit, OnDestroy {
 
   @Input('course') course: any[];
-
+  @Input('loadCourse') loadCourse: any[];
+  
   constructor() { }
   //VARS
   private afterMinutes = 10;
@@ -69,6 +70,10 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
   validateAfter(end) {
     return this.moment(this.dateTimeMoment).isSameOrAfter(`${this.dateMoment} ${end}`);
+  }
+
+  validCourseVisible(){
+    return this.course.filter(f=> !this.validateAfter(f.MEETING_TIME_END) );
   }
 
   capitalizarPrimeraLetra(str) {

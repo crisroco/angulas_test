@@ -1,7 +1,9 @@
 <div class="card-custom py-2 mb-4">
   <h5 class="px-4 ml-1 my-4">{{getDateMoment()}}</h5>
   <ng-container *ngFor="let data of course">
-    <div (click)="openLinkZoom(data)" *ngIf="!this.validateAfter(data.MEETING_TIME_END)" class="course-item px-4 py-2" [class.active-prev-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)" [class.active-course]="validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)">
+    <div (click)="openLinkZoom(data)" *ngIf="!this.validateAfter(data.MEETING_TIME_END)" class="course-item px-4 py-2"
+      [class.active-prev-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)"
+      [class.active-course]="validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)">
       <div class="d-flex flex-column" style="height: 100px;">
         <label class="mt-1" style="font-size: 16px; width: 155px;">{{data.DESCR}}</label>
         <div class="mt-auto" style="font-size: 16px;">
@@ -9,11 +11,23 @@
         </div>
       </div>
       <div class="pt-2">
-        <div *ngIf="validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)" style="width: 98px; line-height: normal; background-color: #FDB22B; border-radius: 6px;" class="d-flex align-items-center px-3 py-2 text-ucs">
+        <div *ngIf="validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)"
+          style="width: 98px; line-height: normal; background-color: #FDB22B; border-radius: 6px;"
+          class="d-flex align-items-center px-3 py-2 text-ucs">
           <i class="fa fa-circle mr-2"></i> <small><b>CLASE EN VIVO</b></small>
         </div>
-        <div *ngIf="!validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)" class="border p-1">{{calculateTime(data.MEETING_TIME_START)}}</div>
+        <div *ngIf="!validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)" class="border p-1">
+          {{calculateTime(data.MEETING_TIME_START)}}</div>
       </div>
     </div>
   </ng-container>
+  <div class="text-center mt-5 pt-4" *ngIf="(course?.length==0 && loadCourse) || (validCourseVisible().length==0 && loadCourse)">
+    <img src="assets/img/not-course.png" class="mb-4" alt="">
+    <br>
+    <strong>No tienes clases el día de hoy</strong>
+    <p class="m-0">¡Disfruta tu día!</p>
+  </div>
+  <div class="text-right px-4 ml-1 my-2" *ngIf="course.length>3">
+    <a routerLink="/estudiante/accion/horario" class="text-ucs text-underline">Ver todo</a>
+  </div>
 </div>

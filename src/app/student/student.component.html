@@ -829,7 +829,7 @@
     </div>
 </ngx-smart-modal>
 
-<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+<ngx-loading [show]="(loading | async)" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 
 <ngx-smart-modal #UpdateDataAlumnoModal identifier="UpdateDataAlumnoModal" [closable]="false" [escapable]="false"
     [dismissable]="false" [customClass]="'mediumModal fullModal p-post-header'">

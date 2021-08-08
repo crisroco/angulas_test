@@ -9,15 +9,16 @@ import {
 } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { SessionService} from './session.service';
+import { map, catchError, finalize } from 'rxjs/operators';
+import { SessionService } from './session.service';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
-    constructor(private router: Router ) {}
+    constructor(private router: Router, private student: SessionService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        this.student.setloadingObserver(true);
         const token: string = JSON.parse(localStorage.getItem('oauth'));
         if (token) {
             request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token['access_token']) });
@@ -45,6 +46,10 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                     // console.log('event--->>>', event);
                 }
                 return event;
-            }));
+            }),
+            finalize(() => {
+                this.student.setloadingObserver(false);
+            })
+        );
     }
 }

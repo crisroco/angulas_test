@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { FormControl, FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SessionService } from '../services/session.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { IntentionService } from '../services/intention.service';
 import { StudentService } from '../services/student.service';
@@ -10,7 +10,7 @@ import { Broadcaster } from '../services/broadcaster';
 import { ValidationService } from '../services/validation.service';
 import { InputsService } from '../services/inputs.service';
 import { FormService } from '../services/form.service';
-import { RealDate, AddDay, BetweenDays } from '../helpers/dates';
+import { RealDate, BetweenDays } from '../helpers/dates';
 import { DynamicSort } from '../helpers/arrays';
 import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from '../app.settings';
@@ -19,13 +19,15 @@ import { QueueService } from '../services/queue.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { NewEnrollmentService } from '../services/newenrollment.service';
 import { HttpClient } from '@angular/common/http';
-import { fi } from 'date-fns/locale';
-import { count } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { HttpConfigInterceptor } from '../services/httpconfig.interceptor';
 
 @Component({
 	selector: 'app-student',
 	templateUrl: './student.component.html',
 	styleUrls: ['./student.component.scss'],
+	providers: [HttpConfigInterceptor],
 	animations: [
 		trigger('openClose', [
 			state('open', style({
@@ -301,7 +303,10 @@ export class StudentComponent implements OnInit {
 	noClosed: boolean = false;
 	crossdata: any;
 	showVacunation: boolean = false;
-	loading: boolean = false;
+	//RXJS
+	loading: Observable<boolean> = this.session.getloadingObserver().pipe(
+		delay(500)
+	  );
 	motives: Array<any>;
 	courses: Array<any>;
 	coursesIntensive: Array<any>;
@@ -596,7 +601,6 @@ export class StudentComponent implements OnInit {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MARCAR CURSO
 	onChangeAvailable(course, evt) {
 		/* if (this.countCoursesMatriculados < 3) { */ //sin limites de cursos matriculados
-		this.loading = true;
 		this.newEnrollmentS.getSchedulesCourse(course.CRSE_ID)
 			.then((res) => {
 				this.arraySchedules = res['SIS_WS_HORCC_RSP']['SIS_WS_HORCC_COM'];
@@ -621,7 +625,6 @@ export class StudentComponent implements OnInit {
 				});
 				//-----------------------------------------------------------------
 				this.selectedCourse = course;
-				this.loading = false;
 				this.horariosModal.open();
 			}).catch(err => alert('No se pudo consultar los horarios del curso.'));
 		/* 		} else {
@@ -733,7 +736,6 @@ export class StudentComponent implements OnInit {
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MATRICULA
 	matricula() {
-		this.loading = true;
 		let data = [];
 		for (var i = 0; i < this.schedulesOfCourse.length; i++) {
 			//if (this.schedulesOfCourse[i]['value']) { //push solo 1 horario
@@ -769,7 +771,7 @@ export class StudentComponent implements OnInit {
 			return acc;
 		}, []);
 		if (data.length == 0 || data == undefined) {
-			this.loading = false;
+
 			this.toastr.warning('No seleccionaste ninguna sección');
 			return
 		}
@@ -792,13 +794,13 @@ export class StudentComponent implements OnInit {
 				}
 				this.selectedCourse.value = true;
 				this.session.destroy('mySchedule');
-				this.loading = false;
+
 				this.ExistCursoMatriculado();
 				this.countCoursesMatriculados = this.countCoursesMatriculados + 1;
 				this.horariosModal.close();
 			} else {
 				this.toastr.warning('No hay vacantes para este curso');
-				this.loading = false;
+
 			}
 		}).catch(err => alert('No se pudo matricular el curso'));
 	}
@@ -853,11 +855,10 @@ export class StudentComponent implements OnInit {
 	}
 
 	deleteEnrollment() {
-		this.loading = true;
 		this.newEnrollmentS.deleteCourseClassExtra(this.user.codigoAlumno, this.user.email, { courses: this.newArray })
 			.then((res) => {
 				this.newArray = [];
-				this.loading = false;
+
 				this.horariosMatriculados = this.schedulesForDelete;
 				this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
 				this.selectedCourse.value = false;
@@ -1018,7 +1019,6 @@ export class StudentComponent implements OnInit {
 		}
 		let data = this.personalUpdateForm.value;
 		data.emplid = this.user.codigoAlumno;
-		this.loading = true;
 		this.studentS.updEmailData(data)
 			.then(res => {
 				let { UCS_RES_EMAIL } = res;
@@ -1031,7 +1031,7 @@ export class StudentComponent implements OnInit {
 
 						this.studentS.savePersonalData(data)
 							.then(res => {
-								this.loading = false;
+
 								this.UpdateDataAlumnoModal.close();
 								this.FinalIntentionEnrollmentModal.open();
 							});
@@ -1039,7 +1039,7 @@ export class StudentComponent implements OnInit {
 					});
 
 			}).catch(error => {
-				this.loading = false;
+
 			});
 	}
 
@@ -1221,48 +1221,48 @@ export class StudentComponent implements OnInit {
 		else {
 			this.student = this.session.getObject('student');
 			this.user = this.session.getObject('user');
-			this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
-			.then(res => {
-				var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
-				this.enroll = units.filter(item => item.institucion == 'PREGR');
-				this.enroll = this.enroll.length?this.enroll[0]:null;
-				if(this.enroll){
-					this.sendDataStudent(this.enroll);
-					this.enroll.OPRID = this.user.email;
-					this.enroll.INSTITUTION = this.enroll.institucion;
-					this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
-					this.enroll.STRM = this.enroll.cicloAdmision;// == '0904'?'0992':'2204';
-					this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-					this.enroll.EMPLID = this.student.codigoAlumno;
-					this.studentS.getSTRM(this.enroll)
-					.then(res => {
-						this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM?res.UCS_OBT_STRM_RES.STRM:this.enroll.STRM;
-						this.broadcaster.sendMessage({enroll: this.enroll});
-						this.studentS.getEnrollQueueNumber(this.enroll)
-						.then(res => {
-							this.queueEnroll = res.UCS_GRUPO_MAT_RES;
-							if(this.queueEnroll.exactDate) {
-								var dateQueue = this.queueEnroll.exactDate.split(' ');
-								var parts = dateQueue[0].split('/');
-								var partsHour = dateQueue[1].split(':');
-								if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
-									if ((this.deviceS.getDeviceInfo().browser == 'Chrome' || this.deviceS.getDeviceInfo().browser == 'Safari') && Number((this.deviceS.userAgent.split('_')[0]).slice(-2)) > 13) {
-										var partsHour = this.queueEnroll.hora_ing.split(':');
-										var hour = Number(partsHour[0] - 5)<10?'0' + (Number(partsHour[0]) - 5).toString():(Number(partsHour[0]) - 5).toString();
-										this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
-										this.queueEnroll.exactDate = ' ' + hour + ':' + partsHour[1];
-									}
-								}
-								var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.exactDate.split(' ')[1] + ':00'));
-								this.queueEnroll.date = enrollDate;
-							}
- 							this.session.setObject('dataEnrollment', this.enroll);
-							this.broadcaster.sendMessage({queueEnroll: this.queueEnroll});
-							this.broadcaster.sendMessage({initSocket: 'Y'});
-						});
-					});
-				}
-			}, error => { });
+			this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
+				.then(res => {
+					var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
+					this.enroll = units.filter(item => item.institucion == 'PREGR');
+					this.enroll = this.enroll.length ? this.enroll[0] : null;
+					if (this.enroll) {
+						this.sendDataStudent(this.enroll);
+						this.enroll.OPRID = this.user.email;
+						this.enroll.INSTITUTION = this.enroll.institucion;
+						this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
+						this.enroll.STRM = this.enroll.cicloAdmision;// == '0904'?'0992':'2204';
+						this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
+						this.enroll.EMPLID = this.student.codigoAlumno;
+						this.studentS.getSTRM(this.enroll)
+							.then(res => {
+								this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM ? res.UCS_OBT_STRM_RES.STRM : this.enroll.STRM;
+								this.broadcaster.sendMessage({ enroll: this.enroll });
+								this.studentS.getEnrollQueueNumber(this.enroll)
+									.then(res => {
+										this.queueEnroll = res.UCS_GRUPO_MAT_RES;
+										if (this.queueEnroll.exactDate) {
+											var dateQueue = this.queueEnroll.exactDate.split(' ');
+											var parts = dateQueue[0].split('/');
+											var partsHour = dateQueue[1].split(':');
+											if (this.deviceS.isMobile() && this.deviceS.getDeviceInfo().device == 'iPhone') {
+												if ((this.deviceS.getDeviceInfo().browser == 'Chrome' || this.deviceS.getDeviceInfo().browser == 'Safari') && Number((this.deviceS.userAgent.split('_')[0]).slice(-2)) > 13) {
+													var partsHour = this.queueEnroll.hora_ing.split(':');
+													var hour = Number(partsHour[0] - 5) < 10 ? '0' + (Number(partsHour[0]) - 5).toString() : (Number(partsHour[0]) - 5).toString();
+													this.queueEnroll.hora_ing = hour + ':' + partsHour[1];
+													this.queueEnroll.exactDate = ' ' + hour + ':' + partsHour[1];
+												}
+											}
+											var enrollDate = RealDate(this.getDates(parts[2] + '-' + parts[1] + '-' + parts[0], this.queueEnroll.exactDate.split(' ')[1] + ':00'));
+											this.queueEnroll.date = enrollDate;
+										}
+										this.session.setObject('dataEnrollment', this.enroll);
+										this.broadcaster.sendMessage({ queueEnroll: this.queueEnroll });
+										this.broadcaster.sendMessage({ initSocket: 'Y' });
+									});
+							});
+					}
+				}, error => { });
 		}
 	}
 
@@ -1276,7 +1276,6 @@ export class StudentComponent implements OnInit {
 
 	toggle(obj) {
 		if (!obj.isOpen) {
-			this.loading = true;
 			let activeData = this.session.getObject('dataEnrollment');
 			if (obj.schedule.length == 0) {
 				let schedules = [];
@@ -1289,16 +1288,16 @@ export class StudentComponent implements OnInit {
 						schedules.push(...res);
 
 						// schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
-						if (i == obj.courses_id.length-1) {
+						if (i == obj.courses_id.length - 1) {
 							obj.schedule = schedules;
 							obj.isOpen = !obj.isOpen;
-							this.loading = false;
+
 						}
 					});
 				}
 			} else {
 				obj.isOpen = !obj.isOpen;
-				this.loading = false;
+
 			}
 		} else {
 			obj.isOpen = !obj.isOpen;
@@ -1312,10 +1311,9 @@ export class StudentComponent implements OnInit {
 	}
 
 	getMotives() {
-		this.loading = true;
 		this.intentionS.getMotives(this.user.codigoAlumno)
 			.then(res => {
-				this.loading = false;
+
 				this.motives = res.data && res.data.motives ? res.data.motives : [];
 				var selecteds = res.data && res.data.selected ? res.data.selected : [];
 				this.motives.forEach(item => {
@@ -1390,10 +1388,9 @@ export class StudentComponent implements OnInit {
 	}
 
 	getCourses() {
-		this.loading = true;
 		this.intentionS.getCourses(this.user.codigoAlumno)
 			.then(res => {
-				this.loading = false;
+
 				this.courses = res.data ? res.data : [];
 				this.courses.forEach(item => {
 					item.value = item.MATRICULA && item.MATRICULA == 'SI' ? true : '';
@@ -1404,10 +1401,9 @@ export class StudentComponent implements OnInit {
 	}
 
 	getCoursesIntensive() {
-		this.loading = true;
 		this.intentionS.getCoursesIntensive(this.user.codigoAlumno)
 			.then(res => {
-				this.loading = false;
+
 				this.coursesIntensive = res.data ? res.data : [];
 				var objCourseIntensive = {};
 				this.coursesIntensive.forEach((item, idx) => {
@@ -1435,7 +1431,6 @@ export class StudentComponent implements OnInit {
 	saveYesIntention() {
 		var courses = this.courses.filter(item => item.value);
 		if (courses.length) {
-			this.loading = true;
 			this.intentionS.saveYesIntention({ emplid: this.user.codigoAlumno, courses: this.courses, comment: this.comment })
 				.then(res => {
 					if (res && res.status) {
@@ -1446,7 +1441,7 @@ export class StudentComponent implements OnInit {
 					else {
 						this.toastr.error('Error! Inténtelo nuevamente.');
 					}
-					this.loading = false;
+
 				});
 		}
 		else {
@@ -1457,7 +1452,6 @@ export class StudentComponent implements OnInit {
 	saveNotIntention() {
 		var motives = this.motives.filter(item => item.value);
 		if (motives.length) {
-			this.loading = true;
 			this.intentionS.saveNotIntention({ emplid: this.user.codigoAlumno, motives: motives })
 				.then(res => {
 					if (res && res.status) {
@@ -1468,7 +1462,7 @@ export class StudentComponent implements OnInit {
 					else {
 						this.toastr.error('Error! Inténtelo nuevamente.');
 					}
-					this.loading = false;
+
 				});
 		}
 		else {
@@ -1509,7 +1503,6 @@ export class StudentComponent implements OnInit {
 	saveYesIntensive() {
 		var courseIntensive = this.coursesIntensive.filter(item => item.value);
 		if (courseIntensive.length) {
-			this.loading = true;
 			this.intentionS.saveYesIntensive(courseIntensive[0])
 				.then(res => {
 					if (res.status) {
@@ -1522,8 +1515,8 @@ export class StudentComponent implements OnInit {
 					else {
 						this.toastr.error(res.message);
 					}
-					this.loading = false;
-				}, error => { this.loading = false; })
+
+				}, error => { })
 		}
 	}
 
@@ -1675,7 +1668,6 @@ export class StudentComponent implements OnInit {
 
 	upload() {
 		if (this.filesCartilla.length > 0 || this.filesDeclaracion.length > 0 || this.filesExoneracion.length > 0) {
-			this.loading = true;
 			const formData = new FormData();
 
 			let file: any = [];
@@ -1710,7 +1702,7 @@ export class StudentComponent implements OnInit {
 					this.getFileUpload();
 					this.getFlagSendUpload();
 					setTimeout(() => {
-						this.loading = false;
+
 						this.botonCerrar = true;
 						this.filesCartilla.splice(0);
 						this.filesDeclaracion.splice(0);
@@ -1751,14 +1743,13 @@ export class StudentComponent implements OnInit {
 	}
 
 	deleteUpload(id) {
-		this.loading = true;
 		this.studentS.deleteUpload(id)
 			.then((res) => {
 				this.ConfirmEliminadUploadModal.close();
 				this.getFileUpload();
 				this.getFlagSendUpload();
 				setTimeout(() => {
-					this.loading = false;
+
 					this.toastr.success('archivo eliminado correctamente!');
 				}, 3000);
 			},
@@ -1768,7 +1759,6 @@ export class StudentComponent implements OnInit {
 	}
 
 	sendUploadPS() {
-		this.loading = true;
 		this.studentS.sendUploadPS({ emplid: this.user.codigoAlumno })
 			.then((res) => {
 				if (res.UCS_REG_VAC_DET_RES.Estado == 'Y') {
@@ -1776,7 +1766,7 @@ export class StudentComponent implements OnInit {
 					this.getFileUpload();
 					this.getFlagSendUpload();
 					setTimeout(() => {
-						this.loading = false;
+
 						this.toastr.success('declaración confirmada correctamente!');
 					}, 3000);
 				} else {
@@ -1784,7 +1774,7 @@ export class StudentComponent implements OnInit {
 				}
 			},
 				error => {
-					this.loading = false;
+
 					this.toastr.error(error);
 				});
 	}
@@ -1849,43 +1839,40 @@ export class StudentComponent implements OnInit {
 
 	getDepartamento() {
 
-		this.loading = true;
 		this.studentS.getDepartamento(null)
 			.then(res => {
 				this.departamentos = res.data;
-				this.loading = false;
+
 				if (this.dataEstudiante != null && this.dataEstudiante.idDepa != null) {
 					this.personalUpdateForm.controls['idDepa'].setValue(this.dataEstudiante.idDepa);
 					if (this.dataEstudiante.idDepa) this.getProvincia(this.dataEstudiante.idDepa, this.dataEstudiante.idProv);
 					if (this.dataEstudiante.idProv) this.getDistrito(this.dataEstudiante.idProv, this.dataEstudiante.idDist);
 				}
 
-			}, error => { this.loading = false; });
+			}, error => { });
 	}
 
 	getProvincia(cmbDepartamento, value) {
 
-		this.loading = true;
 		this.studentS.getProvincia({ idDepa: cmbDepartamento })
 			.then(res => {
 				// debugger
-				this.loading = false;
+
 				this.provincias = res.data;
 				if (value != null) {
 					this.personalUpdateForm.controls['idProv'].setValue(value ? value : '');
 				}
-			}, error => { this.loading = false; });
+			}, error => { });
 	}
 	getDistrito(cmbProvincia, value) {
-		this.loading = true;
 		this.studentS.getDistrito({ idProv: cmbProvincia })
 			.then(res => {
-				this.loading = false;
+
 				this.distritos = res.data;
 				if (value != null) {
 					this.personalUpdateForm.controls['idDist'].setValue(value ? value : '');
 				}
-			}, error => { this.loading = false; });
+			}, error => { });
 	}
 
 }

@@ -5,7 +5,7 @@
 				<span class="text-ucs">¡Hola {{student?.firstNombreAlumno}}!</span>
 				Bienvenid{{student?.sexo=='F'?'a':'o'}}.
 			</h2>
-			<app-menu-course (openZoomEmit)="openZoom($event)" [course]="course"></app-menu-course>
+			<app-menu-course (openZoomEmit)="openZoom($event)" [course]="course" [loadCourse]="loadCourse"></app-menu-course>
 		</div>
 		<div class="col-md-6 col-lg-8 px-0 mb-4">
 			<div class="row">
@@ -20,16 +20,14 @@
 								avanzando”</p>
 							<p class="text-ucs text-right">Albert Einstein</p>
 						</div>
-						<div class="ml-5 d-none d-lg-block">
-							<img width="250px" *ngIf="student?.sexo=='F'" style="margin-bottom: -47px;"
-								src="./assets/img/student.png">
-							<img width="250px" *ngIf="student?.sexo=='M'" style="margin-bottom: -47px;"
-								src="./assets/img/student.png">
+						<div *ngIf="student?.sexo" class="ml-5 d-none d-lg-block">
+							<img width="250px" style="margin-bottom: -47px;" src="./assets/img/student-{{student?.sexo}}.png">
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-4 pr-lg-0 mb-4 d-none d-lg-block">
-					<div (click)="showBiblioteca()" class="card-custom h-100 py-3 px-4 d-md-flex pointer justify-content-center align-items-center">
+					<div (click)="showBiblioteca()"
+						class="card-custom h-100 py-3 px-4 d-md-flex pointer justify-content-center align-items-center">
 						<div>
 							<img width="60px" class="pl-md-1 pr-md-3" src="./assets/img/library.png">
 						</div>
@@ -91,34 +89,12 @@
 				</div>
 
 				<div class="col-lg-12">
-					<div class="card-custom py-3 px-4">
-						<h5 class="text-{{company}} mb-2"> Eventos y Noticias</h5>
-						<div class="d-lg-flex py-3 border-bottom" *ngFor="let data of notice; let i = index">
-							<img [src]="data.imgPath" class="d-none d-lg-block" height="80px" alt="">
-							<img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
-							<div class="ml-lg-3">
-								<strong class="text-dark">{{data.title}}</strong>
-								<p *ngIf="!data.expand" class="content-event">{{data.limit(data.content)}}</p>
-								<p *ngIf="data.expand" class="content-event">{{data.content}}</p>
-								<div class="text-right">
-									<span (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand"
-										style="cursor: pointer;" class="mt-1 text-{{company}}">
-										Ver más
-									</span>
-									<span (click)="hideMore()" *ngIf="data.content?.length>150 && data.expand"
-										style="cursor: pointer;" class="mt-1 text-{{company}}">
-										Ver menos
-									</span>
-								</div>
-
-							</div>
-						</div>
-					</div>
+					<app-notice [notice]="notice"></app-notice>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-6 col-lg-4 pl-md-0 d-none d-md-block">
-			<app-menu-course (openZoomEmit)="openZoom($event)" [course]="course"></app-menu-course>
+			<app-menu-course (openZoomEmit)="openZoom($event)" [course]="course" [loadCourse]="loadCourse"></app-menu-course>
 			<div class="col-lg-12 px-0 mb-4">
 				<a href="https://vimeo.com/295459246/6e1168f864" target="_blank">
 					<div class="card-custom h-100 py-3 px-4 d-flex justify-content-center align-items-center">

@@ -1,0 +1,32 @@
+<div class="card-custom py-3 px-4">
+  <h5 class="text-ucs mb-2"> Eventos y Noticias</h5>
+  <ng-container *ngIf="notice?.length>0; else notCourse">
+    <div class="d-lg-flex py-3 border-bottom" *ngFor="let data of notice; let i = index">
+      <img [src]="data.imgPath" class="d-none d-lg-block" height="80px" alt="">
+      <img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
+      <div class="ml-lg-3">
+        <strong class="text-dark">{{data.title}}</strong>
+        <p *ngIf="!data.expand" class="content-event">{{data.limit(data.content)}}</p>
+        <p *ngIf="data.expand" class="content-event">{{data.content}}</p>
+        <div class="text-right">
+          <span (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand" style="cursor: pointer;"
+            class="mt-1 text-{{company}}">
+            Ver más
+          </span>
+          <span (click)="hideMore()" *ngIf="data.content?.length>150 && data.expand" style="cursor: pointer;"
+            class="mt-1 text-{{company}}">
+            Ver menos
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #notCourse>
+    <div class="text-center my-4">
+      <img src="assets/img/not-events.png" class="mb-4" alt="">
+      <br>
+      <strong>Por el día de hoy</strong>
+      <p class="m-0">No hay eventos y noticias</p>
+    </div>
+  </ng-template>
+</div>
