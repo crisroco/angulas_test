@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-menu-course',
@@ -12,8 +13,10 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
   @Input('course') course: any[];
   @Input('loadCourse') loadCourse: any[];
-  
-  constructor() { }
+
+  constructor(
+    private studentService: StudentService
+  ) { }
   //VARS
   private afterMinutes = 10;
   //MOMENT
@@ -36,14 +39,36 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     ));
   }
 
-  courseSplit(){
-    return this.validCourseVisible().slice(0,3);
+  courseSplit() {
+    return this.validCourseVisible().slice(0, 3);
   }
 
   openLinkZoom(data) {
-    if(this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)){
-      this.openZoomEmit.emit(data);
+    if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)) {
+      let time = moment(`${this.dateMoment} 07:10:00`).format('X');
+      // let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).format('X');
+
+      this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE, data.CLASS_SECTION, data.INSTITUTION)
+        .then((res) => {
+          if (!res.includes('false')) {
+            this.openTabZoom(res);
+          } else {
+            //mostrar que no hay clase
+          }
+        });
     }
+  }
+
+  openTabZoom(res) {
+    let link = res.replace(/<\/?[^>]+(>|$)/g, "");
+
+    let a = document.createElement("a");
+    a.setAttribute('style', 'display: none');
+    a.href = link;
+    a.target = '_blank'
+    a.click();
+    window.URL.revokeObjectURL(link);
+    a.remove();
   }
 
   getDateMoment() {
@@ -61,7 +86,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   validateRange(init, end) {
     let initDate = `${this.dateMoment} ${init}`;
     let endDate = `${this.dateMoment} ${end}`;
-    
+
     return this.moment(this.dateTimeMoment).isBetween(initDate, endDate);
   }
 
@@ -76,10 +101,10 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     return this.moment(this.dateTimeMoment).isSameOrAfter(`${this.dateMoment} ${end}`);
   }
 
-  validCourseVisible(){
-    return this.course?
-    this.course.filter(f=> !this.validateAfter(f.MEETING_TIME_END) ):
-    [];
+  validCourseVisible() {
+    return this.course ?
+      this.course.filter(f => !this.validateAfter(f.MEETING_TIME_END)) :
+      [];
   }
 
   capitalizarPrimeraLetra(str) {
