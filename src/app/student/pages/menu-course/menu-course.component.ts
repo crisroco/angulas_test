@@ -36,6 +36,10 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     ));
   }
 
+  courseSplit(){
+    return this.validCourseVisible().slice(0,3);
+  }
+
   openLinkZoom(data) {
     if(this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)){
       this.openZoomEmit.emit(data);
@@ -57,7 +61,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   validateRange(init, end) {
     let initDate = `${this.dateMoment} ${init}`;
     let endDate = `${this.dateMoment} ${end}`;
-
+    
     return this.moment(this.dateTimeMoment).isBetween(initDate, endDate);
   }
 

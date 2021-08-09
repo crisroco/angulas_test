@@ -145,11 +145,29 @@ export class DashboardComponent implements OnInit {
       }
       else if (message && message.code) {
         if (message.institution != 'PSTRG') {
-          this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: '2021-05-05' }) //message.date
+          this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: message.date })
             .then((res) => {
-              // this.course = dataClass;
+              this.course = dataClass.sort((a, b) => {
+                if (a.MEETING_TIME_START > b.MEETING_TIME_START) {
+                  return 1;
+                }
+                if (a.MEETING_TIME_START < b.MEETING_TIME_START) {
+                  return -1;
+                }
+                return 0;
+              });
+              console.log(this.course);
+              
               this.loadCourse = true;
-              this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR;
+              // this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR.sort((a, b) => {
+              //   if (a.MEETING_TIME_START > b.MEETING_TIME_START) {
+              //     return 1;
+              //   }
+              //   if (a.MEETING_TIME_START < b.MEETING_TIME_START) {
+              //     return -1;
+              //   }
+              //   return 0;
+              // });
               this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, message.institution);
             });
         }
@@ -675,13 +693,14 @@ export class DashboardComponent implements OnInit {
       .then((res) => {
         if (!res.includes('false')) {
           this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
+          console.log(this.nextClassLink);
+          
         }
       });
   }
 
   openZoom(event) {
-    console.log(event);
-
+    this.getLink(event, event.INSTITUTION);
   }
 
   goMoodle() {

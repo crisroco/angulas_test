@@ -1,6 +1,6 @@
 <div class="card-custom py-2 mb-4">
   <h5 class="px-4 ml-1 my-4">{{getDateMoment()}}</h5>
-  <ng-container *ngFor="let data of course">
+  <ng-container *ngFor="let data of courseSplit()">
     <div (click)="openLinkZoom(data)" *ngIf="!this.validateAfter(data.MEETING_TIME_END)" class="course-item px-4 py-2"
       [class.active-prev-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)"
       [class.active-course]="validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)">
@@ -16,8 +16,8 @@
           class="d-flex align-items-center px-3 py-2 text-ucs">
           <i class="fa fa-circle mr-2"></i> <small><b>CLASE EN VIVO</b></small>
         </div>
-        <div *ngIf="!validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)" class="border p-1">
-          {{calculateTime(data.MEETING_TIME_START)}}</div>
+        <div *ngIf="!validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)" class="border px-1">
+          <small>{{calculateTime(data.MEETING_TIME_START)}}</small></div>
       </div>
     </div>
   </ng-container>

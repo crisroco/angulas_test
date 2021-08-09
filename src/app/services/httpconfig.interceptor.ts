@@ -36,6 +36,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 
         return next.handle(request).pipe(
             catchError(err => {
+                this.student.setloadingObserver(false);
                 if (err.error == "Unauthorized.") {
                     this.router.navigate(['/login']);
                 }
