@@ -3,14 +3,23 @@ span.description {
 	white-space: break-spaces;
 }
 
-.other-menu{
-	position: absolute;
-	left: 15px;
+.up-move {
+	-moz-transform    : rotate(-180deg);
+	-o-transform      : rotate(-180deg);
+	-webkit-transform : rotate(-180deg);
+	transform         : rotate(-180deg);
 }
-.other-menu-right{
+
+.other-menu {
 	position: absolute;
-	right: 15px;
+	left    : 15px;
 }
+
+.other-menu-right {
+	position: absolute;
+	right   : 15px;
+}
+
 .header-ucsur {
 	background-color: #22468F;
 	color           : #fff;

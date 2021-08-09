@@ -16,29 +16,27 @@
 								<span class="text-ucs">¡Hola {{student?.firstNombreAlumno}}!</span>
 								Bienvenid{{student?.sexo=='F'?'a':'o'}}.
 							</h3>
-							<p>“La vida es como montar en bicicleta, para mantener el equilibrio hay que seguir
+							<p class="text-justify">“La vida es como montar en bicicleta, para mantener el equilibrio hay que seguir
 								avanzando”</p>
 							<p class="text-ucs text-right">Albert Einstein</p>
 						</div>
-						<div *ngIf="student?.sexo" class="ml-5 d-none d-lg-block">
-							<img width="250px" style="margin-bottom: -47px;" src="./assets/img/student-{{student?.sexo}}.png">
+						<div *ngIf="student?.sexo" class="ml-4 d-none d-lg-block">
+							<img width="250px" src="./assets/img/student-{{student?.sexo}}.png">
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-4 pr-lg-0 mb-4 d-none d-lg-block">
 					<div (click)="showBiblioteca()"
-						class="card-custom h-100 py-3 px-4 d-md-flex pointer justify-content-center align-items-center">
-						<div>
-							<img width="60px" class="pl-md-1 pr-md-3" src="./assets/img/library.png">
-						</div>
+						class="card-custom hover-links h-100 py-3 px-4 d-md-flex pointer justify-content-center align-items-center">
+						<img width="45px" class="pl-md-1 pr-md-3" src="./assets/img/library.png">
 						<div>
 							<strong class="text-dark">Biblioteca online</strong>
-							<p class="m-0 text-lead">Red de bibliotecas</p>
+							<p class="m-0 text-secondary small-11">Red de bibliotecas</p>
 						</div>
 					</div>
 				</div>
 				<div class="col-4 mb-4 d-block d-lg-none">
-					<div (click)="showBiblioteca()" class="card-custom h-100 py-3 px-3 text-center pointer">
+					<div (click)="showBiblioteca()" class="card-custom hover-links h-100 py-3 px-3 text-center pointer">
 						<img width="30px" src="./assets/img/library.png">
 						<div class="mt-2">
 							<strong class="text-dark">Biblioteca online</strong>
@@ -47,18 +45,19 @@
 				</div>
 				<div class="col-lg-4 pr-lg-0 mb-4 d-none d-lg-block">
 					<a href="https://empleabilidad.cientifica.edu.pe/" target="_blank">
-						<div class="card-custom h-100 py-3 px-4 d-flex justify-content-center align-items-center">
-							<img width="60px" class="pl-md-1 pr-md-3" src="./assets/img/job.png">
+						<div
+							class="card-custom hover-links h-100 py-3 px-4 d-flex justify-content-center align-items-center">
+							<img width="45px" class="pl-md-1 pr-md-3" src="./assets/img/job.png">
 							<div>
 								<strong class="text-dark">Bolsa de trabajo</strong>
-								<p class="m-0 text-secondary">Trabajo y Prácticas</p>
+								<p class="m-0 text-secondary small-11">Trabajo y Prácticas</p>
 							</div>
 						</div>
 					</a>
 				</div>
 				<div class="col-4 mb-4 d-block d-lg-none">
 					<a href="https://empleabilidad.cientifica.edu.pe/" target="_blank">
-						<div class="card-custom h-100 py-3 px-3 text-center">
+						<div class="card-custom hover-links h-100 py-3 px-3 text-center">
 							<img width="30px" src="./assets/img/job.png">
 							<div class="mt-2">
 								<strong class="text-dark">Bolsa de trabajo</strong>
@@ -68,18 +67,19 @@
 				</div>
 				<div class="col-lg-4 mb-4 d-none d-lg-block">
 					<a href="https://mail.office365.com/" target="_blank">
-						<div class="card-custom h-100 py-3 px-4 d-flex justify-content-center align-items-center">
-							<img width="60px" class="pl-md-1 pr-md-3" src="./assets/img/mail.png">
+						<div
+							class="card-custom hover-links h-100 py-3 px-4 d-flex justify-content-center align-items-center">
+							<img width="45px" class="pl-md-1 pr-md-3" src="./assets/img/mail.png">
 							<div>
 								<strong class="text-dark">Mi correo</strong>
-								<p class="m-0 text-secondary">Buzón UCSUR</p>
+								<p class="m-0 text-secondary small-11">Buzón UCSUR</p>
 							</div>
 						</div>
 					</a>
 				</div>
 				<div class="col-4 mb-4 d-block d-lg-none">
 					<a href="https://mail.office365.com/" target="_blank">
-						<div class="card-custom h-100 py-3 px-3 text-center">
+						<div class="card-custom hover-links h-100 py-3 px-3 text-center">
 							<img width="30px" src="./assets/img/mail.png">
 							<div class="mt-2">
 								<strong class="text-dark">Mi correo</strong>
@@ -97,11 +97,12 @@
 			<app-menu-course [course]="course" [loadCourse]="loadCourse"></app-menu-course>
 			<div class="col-lg-12 px-0 mb-4">
 				<a href="https://vimeo.com/295459246/6e1168f864" target="_blank">
-					<div class="card-custom h-100 py-3 px-4 d-flex justify-content-center align-items-center">
-						<img width="60px" class="pl-md-1 pr-md-3 pr-2" src="./assets/img/video.png">
+					<div
+						class="card-custom hover-links h-100 py-3 px-4 d-flex justify-content-center align-items-center">
+						<img width="45px" class="pl-md-1 pr-md-3 pr-2" src="./assets/img/video.png">
 						<div>
 							<strong class="text-dark">Tutoriales</strong>
-							<p class="m-0 text-secondary">Guía sobre intranet</p>
+							<p class="m-0 text-secondary small-11">Guía sobre intranet</p>
 						</div>
 					</div>
 				</a>
@@ -109,11 +110,11 @@
 		</div>
 		<div class="col-lg-12 mb-2 d-block d-md-none">
 			<a href="https://vimeo.com/295459246/6e1168f864" target="_blank">
-				<div class="card-custom h-100 py-3 px-4 d-flex justify-content-center align-items-center">
-					<img width="60px" class="pl-md-1 pr-md-3 pr-2" src="./assets/img/video.png">
+				<div class="card-custom hover-links h-100 py-3 px-4 d-flex justify-content-center align-items-center">
+					<img width="45px" class="pl-md-1 pr-md-3 pr-2" src="./assets/img/video.png">
 					<div>
 						<strong class="text-dark">Tutoriales</strong>
-						<p class="m-0 text-secondary">Guía sobre intranet</p>
+						<p class="m-0 text-secondary small-11">Guía sobre intranet</p>
 					</div>
 				</div>
 			</a>

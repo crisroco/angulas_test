@@ -1,30 +1,30 @@
 <div [style.width.px]="widthMenuValid" class="bg-white sidebar-menu pt-2">
   <a class="menu" routerLink="/estudiante/inicio" routerLinkActive="active">
     <img src="./assets/img/homeicon.png">
-    <span>Inicio</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Inicio</span>
   </a>
   <a class="menu" routerLink="/estudiante/accion/horario" routerLinkActive="active">
     <img src="./assets/img/horario.png">
-    <span>Horario</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Horario</span>
   </a>
   <a class="menu" routerLink="/estudiante/accion/estado-cuenta" routerLinkActive="active">
     <img src="./assets/img/pago.png">
-    <span>Mis Pagos</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Mis Pagos</span>
   </a>
   <a class="menu" routerLink="/estudiante/accion/condiciones-academicas" routerLinkActive="active">
     <img src="./assets/img/academy.png">
-    <span>Record Académico</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Record Académico</span>
   </a>
   <a class="menu" routerLink="/estudiante/accion/historial-cursos" routerLinkActive="active">
     <img src="./assets/img/files.png">
-    <span>Historial de Cursos</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Historial de Cursos</span>
   </a>
   <a class="menu" href="javascript:void(0)" (click)="linkModalOpen()">
     <img src="./assets/img/document.png">
-    <span>Documentos Académicos</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Documentos Académicos</span>
   </a>
   <a class="menu" href="javascript:void(0)">
     <img src="./assets/img/window.png">
-    <span>Matrícula Extracurricular</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula Extracurricular</span>
   </a>
 </div>

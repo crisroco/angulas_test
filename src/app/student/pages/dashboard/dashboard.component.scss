@@ -260,3 +260,13 @@ div.scroll::-webkit-scrollbar-track {
     position: relative;
     margin: 0;
 }
+
+.small-11{
+	font-size: 12px;
+}
+
+.hover-links:hover{
+	div strong,p{
+		color: #007bff !important;
+	}
+}

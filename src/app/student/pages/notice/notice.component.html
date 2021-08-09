@@ -6,18 +6,20 @@
       <img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
       <div class="ml-lg-3">
         <strong class="text-dark">{{data.title}}</strong>
-        <p *ngIf="!data.expand" class="content-event">{{data.limit(data.content)}}</p>
-        <p *ngIf="data.expand" class="content-event">{{data.content}}</p>
-        <div class="text-right">
+        <p *ngIf="!data.expand" class="content-event">
+          {{data.limit(data.content)}}
           <span (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand" style="cursor: pointer;"
-            class="mt-1 text-ucs text-underline">
+            class="text-ucs text-underline">
             Ver más
           </span>
+        </p>
+        <p *ngIf="data.expand" class="content-event">
+          {{data.content}}
           <span (click)="hideMore()" *ngIf="data.content?.length>150 && data.expand" style="cursor: pointer;"
-            class="mt-1 text-ucs text-underline">
+            class="text-ucs text-underline">
             Ver menos
           </span>
-        </div>
+        </p>
       </div>
     </div>
   </ng-container>

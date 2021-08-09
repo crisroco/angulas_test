@@ -13,8 +13,8 @@
     </div>
     <div class="ml-auto menu-dropdow mr-3 d-none d-sm-block" (click)="menus = !menus">
         <img src="./assets/img/user1figma.png" alt="">
-        <img src="./assets/img/angle-down.png" alt="">
-        <div class="bg-white drop drop-custom py-3" *ngIf="menus">
+        <img src="./assets/img/angle-down.png" style="transition: all 0.5s; -webkit-transition: all 0.25s;" [class.up-move]="menus" alt="">
+        <div class="bg-white drop drop-custom py-3" [class.d-none]="!menus">
             <i class="fa fa-caret-up text-white"
                 style="position: absolute; right: 27px; top: -17px; font-size: 25px;"></i>
             <a class="d-block m-0 text-{{company}} py-3 px-4 pointer" routerLink="/estudiante/accion/datos-personales">
