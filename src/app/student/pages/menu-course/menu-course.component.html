@@ -1,5 +1,5 @@
 <div class="card-custom py-2 mb-4">
-  <h6 class="px-4 ml-1 my-4" style="font-size: 1.3rem;">{{getDateMoment()}}</h6>
+  <h6 class="px-4 ml-1 my-4">{{getDateMoment()}}</h6>
   <ng-container *ngFor="let data of courseSplit()">
     <div (click)="openLinkZoom(data)" *ngIf="!this.validateAfter(data.MEETING_TIME_END)" class="course-item px-4 py-2"
       [class.active-prev-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)"
