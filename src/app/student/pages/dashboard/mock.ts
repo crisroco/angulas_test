@@ -4,7 +4,7 @@ export const dataClass = [
         "STRM": "2222",
         "CLASS_NBR": "1009",
         "CLASS_MTG_NBR": "1",
-        "DESCR": "Desempeño Universitario",
+        "DESCR": "Desempeño Universitario y Toma de Decisiones",
         "CRSE_ID": "001002",
         "SUBJECT": "HUM",
         "CATALOG_NBR": "2",

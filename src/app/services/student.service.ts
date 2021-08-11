@@ -187,7 +187,8 @@ export class StudentService {
     }
 
     public getLinkZoom(cicle, myclass, date, teacher, section, inst): Promise<any> {
-        return this.http.get("https://aulavirtualcpe.cientifica.edu.pe/mod/zoom/client/zoom_link.php?strm=" + cicle + '&nbr=' + myclass + '&date=' + date + '&teacher=' + teacher + '&section=' + section + '&institution=' + inst, { responseType: 'text' }).toPromise();
+        return this.http.get("https://dev-cientificavirtual.cientifica.edu.pe//mod/zoom/client/zoom_link.php?strm=" + cicle + '&nbr=' + myclass + '&date=' + date + '&teacher=' + teacher + '&section=' + section + '&institution=' + inst, { responseType: 'text' }).toPromise();
+        // return this.http.get("https://aulavirtualcpe.cientifica.edu.pe/mod/zoom/client/zoom_link.php?strm=" + cicle + '&nbr=' + myclass + '&date=' + date + '&teacher=' + teacher + '&section=' + section + '&institution=' + inst, { responseType: 'text' }).toPromise();
     }
     public getFidelityLink(emplid): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getFidelitySurvey/' + emplid).toPromise();

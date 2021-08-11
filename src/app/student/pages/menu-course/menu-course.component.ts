@@ -102,6 +102,15 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     return this.moment(this.dateTimeMoment).isSameOrAfter(`${this.dateMoment} ${end}`);
   }
 
+  limitCharacter(string:string){
+    if(!string) return '';
+    if(string.length>30){
+      return `${string.substr(0,30)}...`
+    } else{
+      return string;
+    }
+  }
+
   validCourseVisible() {
     return this.course ?
       this.course.filter(f => !this.validateAfter(f.MEETING_TIME_END)) :
