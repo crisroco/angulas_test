@@ -16,13 +16,13 @@
           class="d-flex align-items-center px-3 py-2 text-ucs">
           <i class="fa fa-circle mr-2"></i> <small><b>CLASE EN VIVO</b></small>
         </div>
-        <div *ngIf="!validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)" class="border px-1">
+        <div *ngIf="!validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)" style="border-radius: 6px;" class="border px-1">
           <small>{{calculateTime(data.MEETING_TIME_START)}}</small></div>
       </div>
     </div>
   </ng-container>
   <div class="text-center mt-5 pt-4" *ngIf="(course?.length==0 && loadCourse) || (validCourseVisible().length==0 && loadCourse)">
-    <img src="assets/img/not-course.png" class="mb-4" alt="">
+    <img src="assets/img/not-course-{{student?.sexo}}.svg" class="mb-4" alt="">
     <br>
     <strong>No tienes clases el día de hoy</strong>
     <p class="m-0">¡Disfruta tu día!</p>

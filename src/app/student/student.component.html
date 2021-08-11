@@ -4,7 +4,7 @@
             <i class="fa fa-bars"></i>
         </div>
         <div class="button-bar d-block d-sm-none other-menu-right" *ngIf="heightOtherMenu==100" (click)="heightOtherMenu=0">
-            <img src="./assets/img/times.png">
+            <img src="./assets/img/times.svg">
         </div>
         <div class="button-bar d-sm-block d-none d-xl-none" (click)="showMenu()">
             <i class="fa fa-bars"></i>
@@ -12,16 +12,16 @@
         <img src="./assets/img/new-logo.svg" [class.ml-2]="heightOtherMenu==100" class="ml-sm-4 ml-xl-2" width="170px">
     </div>
     <div class="ml-auto menu-dropdow mr-3 d-none d-sm-block" (click)="menus = !menus">
-        <img src="./assets/img/user1figma.png" alt="">
-        <img src="./assets/img/angle-down.png" style="transition: all 0.5s; -webkit-transition: all 0.25s;" [class.up-move]="menus" alt="">
+        <img src="./assets/img/user-menu.svg" alt="">
+        <img src="./assets/img/angle-down.svg" style="transition: all 0.5s; -webkit-transition: all 0.25s;" [class.up-move]="menus" alt="">
         <div class="bg-white drop drop-custom py-3" [class.d-none]="!menus">
             <i class="fa fa-caret-up text-white"
                 style="position: absolute; right: 27px; top: -17px; font-size: 25px;"></i>
             <a class="d-block m-0 text-{{company}} py-3 px-4 pointer" routerLink="/estudiante/accion/datos-personales">
-                <img src="./assets/img/user-menu.png" class="mr-3" alt=""> <span>Mi Perfil</span>
+                <img src="./assets/img/user-menu2.svg" class="mr-3" alt=""> <span>Mi Perfil</span>
             </a>
             <a class="d-block m-0 text-{{company}} py-3 px-4 pointer" (click)="logout()">
-                <img src="./assets/img/logout.png" class="mr-3" alt=""> <span>Cerrar Sesión</span>
+                <img src="./assets/img/logout.svg" class="mr-3" alt=""> <span>Cerrar Sesión</span>
             </a>
         </div>
     </div>
@@ -64,16 +64,14 @@
         type="text" /><br />
 </form>
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-
+<!-- 
 <ngx-smart-modal #libraryModal identifier="libraryModal" [closable]="false" [escapable]="false" [dismissable]="false"
     [customClass]="'mediumModal p-post-header'">
     <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">
         <h5 class=""> <strong> BIBLIOTECA EN LÍNEA </strong> </h5>
         <a (click)="libraryModal.close()" class="pointer"><i class="fa fa-times text-{{company}} text-l"></i></a>
     </div>
-    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-    <!-- <button class="btn_library mb-3 text-center" (click)="enviar_formulario()"><i class="fa fa-book"></i> Biblioteca</button> -->
-    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+   
     <div class="scroll">
         <div class="rounded-s bd-1 mb-3 overflow-hidden bd-{{company}}" *ngFor="let typelibrary of typeLibraries">
             <div (click)="toggle(typelibrary)" class="bg-{{company}} p-2 text-white pointer">
@@ -124,7 +122,7 @@
             </div>
         </div>
     </div>
-</ngx-smart-modal>
+</ngx-smart-modal> -->
 
 <ngx-smart-modal #humanityModal identifier="humanityModal" [closable]="false" [customClass]="''">
     <div class="mb-3 row justify-content-between pb-2 bd-b-1 bd-{{company}}">

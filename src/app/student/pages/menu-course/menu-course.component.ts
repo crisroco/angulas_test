@@ -12,6 +12,7 @@ import { StudentService } from 'src/app/services/student.service';
 export class MenuCourseComponent implements OnInit, OnDestroy {
 
   @Input('course') course: any[];
+  @Input('student') student: any[];
   @Input('loadCourse') loadCourse: any[];
 
   constructor(
@@ -45,8 +46,8 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
   openLinkZoom(data) {
     if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)) {
-      let time = moment(`${this.dateMoment} 07:10:00`).format('X');
-      // let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).format('X');
+      // let time = moment(`${this.dateMoment} 07:10:00`).format('X');
+      let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).format('X');
 
       this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE, data.CLASS_SECTION, data.INSTITUTION)
         .then((res) => {

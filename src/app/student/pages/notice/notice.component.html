@@ -10,14 +10,14 @@
           {{data.limit(data.content)}}
           <span (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand" style="cursor: pointer;"
             class="text-ucs text-underline">
-            Ver más
+            ver más
           </span>
         </p>
         <p *ngIf="data.expand" class="content-event text-justify">
           {{data.content}}
           <span (click)="hideMore()" *ngIf="data.content?.length>150 && data.expand" style="cursor: pointer;"
             class="text-ucs text-underline">
-            Ver menos
+            ver menos
           </span>
         </p>
       </div>
