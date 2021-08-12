@@ -158,7 +158,7 @@ export class DashboardComponent implements OnInit {
   }
 
   showModals(){
-    this.suspensionModal.open();
+    // this.suspensionModal.open();
     // this.postModal.open();
   }
 
