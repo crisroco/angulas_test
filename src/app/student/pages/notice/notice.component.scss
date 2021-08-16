@@ -13,3 +13,17 @@
 h5{
 	font-size: 1.1rem;
 }
+.times-close{
+	background: #202A48;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 50%;
+    position: absolute;
+	cursor: pointer;
+    right: -16px;
+    top: -16px;
+}

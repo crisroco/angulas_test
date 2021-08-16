@@ -2,21 +2,24 @@
   <h5 class="text-ucs my-3"> Eventos y Noticias</h5>
   <ng-container *ngIf="notice?.length>0; else notCourse">
     <div class="d-lg-flex py-3 border-bottom" *ngFor="let data of notice; let i = index">
-      <img [src]="data.imgPath" class="d-none d-lg-block" width="130px" height="80px" alt="">
-      <img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
+      <div style="position: relative;">
+        <img [src]="data.imgPath" class="d-none d-lg-block" width="130px" height="80px" alt="">
+        <img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
+        <img (click)="showImageHandler(data)" src="assets/img/zoom-img.svg" alt="" style="cursor: pointer; position: absolute; right: 10px; bottom: 10px;">
+      </div>
       <div class="ml-lg-3">
         <strong class="text-dark">{{data.title}}</strong>
-        <p *ngIf="!data.expand" class="content-event text-justify">
+        <p *ngIf="!data.expand" class="content-event text-justify mb-0">
           {{data.limit(data.content)}}
           <label (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand" style="cursor: pointer;"
-            class="text-ucs text-underline">
+            class="text-ucs text-underline mb-0">
             ver más
           </label>
         </p>
-        <p *ngIf="data.expand" class="content-event text-justify">
+        <p *ngIf="data.expand" class="content-event text-justify mb-0">
           {{data.content}}
           <label (click)="hideMore()" *ngIf="data.content?.length>150 && data.expand" style="cursor: pointer;"
-            class="text-ucs text-underline">
+            class="text-ucs text-underline mb-0">
             ver menos
           </label>
         </p>
@@ -25,10 +28,19 @@
   </ng-container>
   <ng-template #notCourse>
     <div class="text-center my-4">
-      <img src="assets/img/not-events.png" class="mb-4" alt="">
+      <div>
+        <img src="assets/img/not-events.png" class="mb-4" alt="">
+      </div>
       <br>
       <strong>Por el día de hoy</strong>
       <p class="m-0">No hay eventos y noticias</p>
     </div>
   </ng-template>
 </div>
+<ngx-smart-modal #showImage identifier="showImage" [closable]="false" [escapable]="false" [dismissable]="false"
+[customClass]="'smallModall p-post-header custom-padding d-flex align-items-center justify-content-center h-100'">
+  <div (click)="showImage.close()" class="times-close">
+      <img src="assets/img/times-modal.svg" alt="">
+  </div>
+  <img [src]="imgFile" width="500px" alt="">
+</ngx-smart-modal>

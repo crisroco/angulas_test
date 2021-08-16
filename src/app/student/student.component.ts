@@ -424,6 +424,11 @@ export class StudentComponent implements OnInit {
 	public heightOtherMenu: number = 0;
 
 	ngOnInit() {
+
+		document.body.addEventListener('click', ()=>{
+			this.menus = false;
+		}, true); 
+
 		if (this.session.getItem('adminOprid')) {//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
 			this.userBackoffice = true;
 		}
@@ -1208,6 +1213,7 @@ export class StudentComponent implements OnInit {
 				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 				var one = units.filter(item => item.institucion == 'PREGR');//ECONT - PREGR
 				var inst = one.length ? one[0] : null;
+				
 				if (inst) {
 					this.sendDataStudent(inst);
 				}
