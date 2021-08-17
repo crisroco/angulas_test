@@ -121,11 +121,11 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     //valida el grado academico
     if (["PREGR"].includes(data.INSTITUTION)) {
       //valida ciclo electivo
-      if (["1032", "2222"].includes(data.STRM)) {
+      if (["1032", "2223"].includes(data.STRM)) {
         //valida que sea pregrado
         if ("PREGR" == data.INSTITUTION) {
           //valida la lista de cursos externado
-          return !["001071", "001072", "001073", "666911", "667233"].includes(data.CRSE_ID);
+          return !["001070", "001071", "001072", "001073", "666911", "667233"].includes(data.CRSE_ID);
         }
         return true;
       }
