@@ -37,8 +37,8 @@ export class AppSettings {
         { value: "07", name: 'MESTIZO' },
         { value: "08", name: 'OTROS' },
     ];
-    public static BASE = "https://back-miportal.cientifica.edu.pe";
-    // public static BASE = "https://docker-lumen.cientifica.edu.pe";
+    // public static BASE = "https://back-miportal.cientifica.edu.pe";
+    public static BASE = "https://docker-lumen.cientifica.edu.pe";
     // public static BASE = "https://back-miportal-dev.cientifica.edu.pe";
     // public static BASE = "https://back-miportal.sise.edu.pe";
     // public static BASE = "http://localhost:8000";

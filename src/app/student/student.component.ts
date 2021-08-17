@@ -306,7 +306,7 @@ export class StudentComponent implements OnInit {
 	//RXJS
 	loading: Observable<boolean> = this.session.getloadingObserver().pipe(
 		delay(500)
-	  );
+	);
 	motives: Array<any>;
 	courses: Array<any>;
 	coursesIntensive: Array<any>;
@@ -334,6 +334,7 @@ export class StudentComponent implements OnInit {
 	modalUpdateDataClosable = true
 
 	@ViewChild('linkModal') linkModal: any;
+	@ViewChild('showModalError') showModalError: any;
 	@ViewChild('IntensiveEnrollmentModal') IntensiveEnrollmentModal: any;
 	@ViewChild('YesIntensiveEnrollmentModal') YesIntensiveEnrollmentModal: any;
 	@ViewChild('ConfirmIntensiveEnrollmentModal') ConfirmIntensiveEnrollmentModal: any;
@@ -425,9 +426,15 @@ export class StudentComponent implements OnInit {
 
 	ngOnInit() {
 
-		document.body.addEventListener('click', ()=>{
+		this.session.geterrorModal().subscribe(
+			r => {
+				this.showModalError.open();
+			}
+		);
+
+		document.body.addEventListener('click', () => {
 			this.menus = false;
-		}, true); 
+		}, true);
 
 		if (this.session.getItem('adminOprid')) {//validación para mostrar la búsqueda de alumno solo al 'userBackoffice'
 			this.userBackoffice = true;
@@ -1213,7 +1220,7 @@ export class StudentComponent implements OnInit {
 				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 				var one = units.filter(item => item.institucion == 'PREGR');//ECONT - PREGR
 				var inst = one.length ? one[0] : null;
-				
+
 				if (inst) {
 					this.sendDataStudent(inst);
 				}

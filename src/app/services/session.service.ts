@@ -9,6 +9,15 @@ export class SessionService {
 
   constructor() { }
   public loadingObserver = new Subject<boolean>();
+  public errorModal = new Subject<boolean>();
+
+  public geterrorModal() {
+    return this.errorModal.asObservable();
+  }
+
+  public seterrorModal(data: boolean) {
+    this.errorModal.next(data);
+  }
 
   public getloadingObserver() {
     return this.loadingObserver.asObservable();

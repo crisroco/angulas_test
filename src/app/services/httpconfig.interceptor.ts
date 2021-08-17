@@ -18,7 +18,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     constructor(private router: Router, private student: SessionService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if(request.url.indexOf('getEnrollQueueNumber')===-1 && request.url.indexOf('checkConditions')===-1){
+        if(request.url.indexOf('getEnrollQueueNumber')===-1 && request.url.indexOf('checkConditions')===-1 && request.url.indexOf('zoom_link.php')===-1){
             this.student.setloadingObserver(true);
         }
         

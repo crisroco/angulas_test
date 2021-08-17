@@ -1081,3 +1081,14 @@
         <button class="btn rounded-1 px-4 btn-{{company}} mr-3" (click)="deleteEnrollment()">Confirmar</button>
     </div>
 </ngx-smart-modal>
+<ngx-smart-modal #showModalError identifier="showModalError" [closable]="false" [escapable]="false" [dismissable]="false"
+[customClass]="'smallModall p-post-header custom-modal-error d-flex align-items-center justify-content-center h-100'">
+  <div (click)="showModalError.close()" class="times-close">
+      <img src="assets/img/times-modal.svg" width="11px" alt="">
+  </div>
+  <div class="text-center">
+      <img src="assets/img/exclamation.svg" width="50px" alt="">
+      <strong class="text-dark d-block mt-3">Ha ocurrido un error en el sistema</strong>
+      <p class="mb-0">Vuelve a intentarlo en unos minutos</p>
+    </div>
+</ngx-smart-modal>

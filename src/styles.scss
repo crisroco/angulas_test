@@ -794,6 +794,16 @@ a.text-black:hover {
 	border-radius: 0;
 }
 
+.custom-modal-error .nsm-content{
+	width: 320px;
+	height: 298px;
+	.nsm-body{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
 .fullModal .nsm-content {
 	padding: 0;
 }

@@ -14,6 +14,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { ToastrModule } from 'ngx-toastr';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { InterceptorService } from './student/services/interceptor.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
   ],
   providers: [
     SessionService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })

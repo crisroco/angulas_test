@@ -45,16 +45,12 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   openLinkZoom(data) {
-    if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END)) {
-      // let time = moment(`${this.dateMoment} 07:10:00`).format('X');
+    if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && this.validateClick(data)) {
       let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).format('X');
-
       this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE, data.CLASS_SECTION, data.INSTITUTION)
         .then((res) => {
           if (!res.includes('false')) {
             this.openTabZoom(res);
-          } else {
-            //mostrar que no hay clase
           }
         });
     }
@@ -102,11 +98,11 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     return this.moment(this.dateTimeMoment).isSameOrAfter(`${this.dateMoment} ${end}`);
   }
 
-  limitCharacter(string:string){
-    if(!string) return '';
-    if(string.length>30){
-      return `${string.substr(0,30)}...`
-    } else{
+  limitCharacter(string: string) {
+    if (!string) return '';
+    if (string.length > 30) {
+      return `${string.substr(0, 30)}...`
+    } else {
       return string;
     }
   }
@@ -119,6 +115,22 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
   capitalizarPrimeraLetra(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  validateClick(data) {
+    //valida el grado academico
+    if (["PREGR"].includes(data.INSTITUTION)) {
+      //valida ciclo electivo
+      if (["1032", "2222"].includes(data.STRM)) {
+        //valida que sea pregrado
+        if ("PREGR" == data.INSTITUTION) {
+          //valida la lista de cursos excluidos excluidos
+          return !["001071", "001072", "001073", "666911", "667233"].includes(data.CRSE_ID);
+        }
+        return true;
+      }
+    }
+    return false;
   }
 
   ngOnDestroy(): void {

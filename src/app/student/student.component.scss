@@ -9,7 +9,20 @@ span.description {
 	-webkit-transform : rotate(-180deg);
 	transform         : rotate(-180deg);
 }
-
+.times-close{
+	background: #202A48;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 50%;
+    position: absolute;
+	cursor: pointer;
+    right: -2px;
+    top: -2px;
+}
 .other-menu {
 	position: absolute;
 	left    : 15px;
