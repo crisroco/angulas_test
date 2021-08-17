@@ -16,7 +16,7 @@ export class NoticeComponent implements OnInit {
   }
 
   showImageHandler(data){
-    console.log(data);
+    // console.log(data);
     this.imgFile = data.imgPath;
     this.showImage.open();
   }

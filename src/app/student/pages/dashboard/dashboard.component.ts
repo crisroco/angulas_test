@@ -148,10 +148,10 @@ export class DashboardComponent implements OnInit {
           this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: message.date })
             .then((res) => {
               this.loadCourse = true;
-              // this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR?
-              // res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR:
-              // []
-              this.course = dataClass
+              this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR?
+              res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR:
+              []
+              // this.course = dataClass
               .sort((a, b) => {
                 if (a.MEETING_TIME_START > b.MEETING_TIME_START) {
                   return 1;
