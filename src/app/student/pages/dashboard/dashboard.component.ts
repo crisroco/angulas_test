@@ -17,7 +17,7 @@ import { BetweenDays, RealDate } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
 import { notice } from './notice';
-import { dataClass } from './mock';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -125,12 +125,13 @@ export class DashboardComponent implements OnInit {
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
-        // console.log(this.student);
-
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
         this.session.setObject('student', this.student);
         this.getParameters();
-      }, error => { });
+      }, error => {
+
+      });
+
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       // if (message && message.enroll_conditions) {
       //   this.enroll_conditions = message.enroll_conditions;
@@ -143,15 +144,17 @@ export class DashboardComponent implements OnInit {
       else if (message && message.enroll) {
         this.enroll = message.enroll;
       }
-      else if (message && message.code) {
-        if (message.institution != 'PSTRG') {
-          this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: message.date })
-            .then((res) => {
-              this.loadCourse = true;
-              this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR?
-              res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR:
-              []
-              // this.course = dataClass
+
+      // else if (message && message.code) {
+      //PORQUE NO TRAE DATA DE LOS DIFERENTES A POSGRADO????????????
+      // if (message.institution != 'PSTRG') {
+      this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution:this.student.institucion, date: moment().format('YYYY-MM-DD') })
+      // this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: message.date })
+        .then((res) => {
+          this.loadCourse = true;
+          this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR ?
+            res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR :
+            []
               .sort((a, b) => {
                 if (a.MEETING_TIME_START > b.MEETING_TIME_START) {
                   return 1;
@@ -161,10 +164,10 @@ export class DashboardComponent implements OnInit {
                 }
                 return 0;
               });
-              this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, message.institution);
-            });
-        }
-      }
+          this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, message.institution);
+        });
+      // }
+      // }
     });
     // this.readConditions();
     var ese = new Array(4);
@@ -183,7 +186,7 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  showModals(){
+  showModals() {
     // this.suspensionModal.open();
     // this.postModal.open();
   }
@@ -437,8 +440,10 @@ export class DashboardComponent implements OnInit {
   }
 
   readConditions() {
+
     this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
       .then((res) => {
+
         this.enroll = true;
         this.enroll_conditions = res;
       });
@@ -679,7 +684,7 @@ export class DashboardComponent implements OnInit {
     var hour = cls.MEETING_TIME_START.split(':')[0];
     var minute = cls.MEETING_TIME_START.split(':')[1];
     d.setHours(hour);
-    d.setMinutes(minute); 
+    d.setMinutes(minute);
     d.setSeconds(0);
 
     let timeStamp = d.getTime().toString().slice(0, -3);
@@ -687,8 +692,6 @@ export class DashboardComponent implements OnInit {
       .then((res) => {
         if (!res.includes('false')) {
           this.nextClassLink = res.replace(/<\/?[^>]+(>|$)/g, "");
-          console.log(this.nextClassLink);
-          
         }
       });
   }

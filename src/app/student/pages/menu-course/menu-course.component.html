@@ -21,7 +21,7 @@
         </div>
         <ng-template #tempDefault>
           <div style="border-radius: 6px;" class="border px-1">
-            <small>{{validateClick(data)?calculateTime(data.MEETING_TIME_START):'AHORA'}}</small>
+            <small>{{validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END)?'AHORA':calculateTime(data.MEETING_TIME_START)}}</small>
           </div>
         </ng-template>
       </div>

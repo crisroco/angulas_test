@@ -2,7 +2,7 @@
   <h5 class="text-ucs my-3"> Eventos y Noticias</h5>
   <ng-container *ngIf="notice?.length>0; else notCourse">
     <div class="d-lg-flex py-3 border-bottom" *ngFor="let data of notice; let i = index">
-      <div style="position: relative;">
+      <div style="position: relative; width: 130px; height: 80px;">
         <img [src]="data.imgPath" class="d-none d-lg-block" width="130px" height="80px" alt="">
         <img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
         <img (click)="showImageHandler(data)" src="assets/img/zoom-img.svg" alt="" style="cursor: pointer; position: absolute; right: 10px; bottom: 10px;">
@@ -39,8 +39,11 @@
 </div>
 <ngx-smart-modal #showImage identifier="showImage" [closable]="false" [escapable]="false" [dismissable]="false"
 [customClass]="'smallModall p-post-header custom-padding d-flex align-items-center justify-content-center h-100'">
-  <div (click)="showImage.close()" class="times-close">
+  <div (click)="showImage.close();imgFile = null" class="times-close">
       <img src="assets/img/times-modal.svg" alt="">
   </div>
-  <img [src]="imgFile" width="100%" alt="">
+  <img *ngIf="imgFile" [class.d-none]="!loadImg" [src]="imgFile" width="100%" (load)="imgload()" alt="">
+  <div class="text-center py-5" *ngIf="!loadImg">
+    Cargando...
+  </div>
 </ngx-smart-modal>

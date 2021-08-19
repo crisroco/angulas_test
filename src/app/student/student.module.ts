@@ -43,7 +43,28 @@ import { InterceptorService } from './services/interceptor.service';
 const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
 
 @NgModule({
-  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent, SidebarComponent, FooterComponent, MenuCourseComponent, MenuItemsComponent, MenuOtherComponent, NoticeComponent],
+  declarations: [
+    StudentComponent, 
+    EnrollmentComponent, 
+    DashboardEnrollComponent, 
+    DashboardComponent, 
+    ActionComponent, 
+    WeeklyScheduleComponent, 
+    PersonalInformationComponent, 
+    AcademicConditionsComponent, 
+    AccountStatusComponent, 
+    CourseHistoryComponent, 
+    FinalGradesComponent, 
+    CourseAssistanceComponent, 
+    EnrollComponent, 
+    CoursesEnrollmentComponent, 
+    SidebarComponent, 
+    FooterComponent, 
+    MenuCourseComponent, 
+    MenuItemsComponent, 
+    MenuOtherComponent, 
+    NoticeComponent
+  ],
   imports: [
     FormsModule,
     ReactiveFormsModule,

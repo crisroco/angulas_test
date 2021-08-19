@@ -61,7 +61,9 @@ span.description {
 		}
 	}
 }
-
+.pointer-none{
+	pointer-events: none;
+}
 .custom-header {
 	position   : fixed;
 	z-index    : 4;
