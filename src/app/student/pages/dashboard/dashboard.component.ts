@@ -169,7 +169,8 @@ export class DashboardComponent implements OnInit {
 
   getAllClass(r) {
     this.course = [];
-    let day = moment().format('YYYY-MM-DD');
+    let day = "2021-08-23";
+    // let day = moment().format('YYYY-MM-DD');
     let obj = {};
 
     r.map(re => {

@@ -22,8 +22,10 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   private afterMinutes = 10;
   //MOMENT
   private moment = moment;
-  private dateMoment = moment().format('YYYY-MM-DD');
-  private dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
+  private dateMoment = "2021-08-23";
+  // private dateMoment = moment().format('YYYY-MM-DD');
+  private dateTimeMoment = "2021-08-23 " + moment().format('HH:mm:ss');
+  // private dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
   //RXJS
   private interval = interval(1000);
   private subscription = new Subscription();
@@ -35,7 +37,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
     this.subscription.add(this.interval.subscribe(
       resp => {
-        this.dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
+        this.dateTimeMoment = "2021-08-23 "+moment().format('HH:mm:ss');
       }
     ));
   }
@@ -69,7 +71,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   getDateMoment() {
-    return this.capitalizarPrimeraLetra(this.moment().format('dddd, D MMMM YYYY'));
+    return this.capitalizarPrimeraLetra(this.moment(this.dateMoment).format('dddd, D MMMM YYYY'));
   }
 
   calculateTime(time) {
