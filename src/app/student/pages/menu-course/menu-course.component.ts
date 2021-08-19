@@ -22,10 +22,10 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   private afterMinutes = 10;
   //MOMENT
   private moment = moment;
-  // private dateMoment = "2021-08-23";
-  private dateMoment = moment().format('YYYY-MM-DD');
-  // private dateTimeMoment = "2021-08-23 " + moment().format('HH:mm:ss');
-  private dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
+  private dateMoment = "2021-08-23";
+  // private dateMoment = moment().format('YYYY-MM-DD');
+  private dateTimeMoment = "2021-08-23 " + moment().format('HH:mm:ss');
+  // private dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
   //RXJS
   private interval = interval(1000);
   private subscription = new Subscription();
@@ -35,11 +35,11 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   ngOnInit() {
     moment.locale('es');
 
-    // this.subscription.add(this.interval.subscribe(
-    //   resp => {
-    //     this.dateTimeMoment = "2021-08-23 "+moment().format('HH:mm:ss');
-    //   }
-    // ));
+    this.subscription.add(this.interval.subscribe(
+      resp => {
+        this.dateTimeMoment = "2021-08-23 "+moment().format('HH:mm:ss');
+      }
+    ));
   }
 
   courseSplit() {
@@ -47,15 +47,15 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   openLinkZoom(data) {
-    if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && this.validateClick(data)) {
+    // if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && this.validateClick(data)) {
       let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).format('X');
-      this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE.replace('?','@'), data.CLASS_SECTION, data.INSTITUTION)
+      this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE, data.CLASS_SECTION, data.INSTITUTION)
         .then((res) => {
           if (!res.includes('false')) {
             this.openTabZoom(res);
           }
         });
-    }
+    // }
   }
 
   openTabZoom(res) {
@@ -110,9 +110,10 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   validCourseVisible() {
-    return this.course ?
-      this.course.filter(f => !this.validateAfter(f.MEETING_TIME_END)) :
-      [];
+    // return this.course ?
+    //   this.course.filter(f => !this.validateAfter(f.MEETING_TIME_END)) :
+    //   [];
+    return this.course;
   }
 
   capitalizarPrimeraLetra(str) {

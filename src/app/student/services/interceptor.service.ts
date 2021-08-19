@@ -25,6 +25,12 @@ export class InterceptorService implements HttpInterceptor {
         return m
       }),
       catchError(e => {
+        // console.log('entro');
+        
+        // if (e instanceof HttpResponse && req.url.indexOf('zoom_link.php') !== -1) {
+            this._s.seterrorModal(true);
+          
+        // }
         // this._s.setemitModalError();
         return throwError(e);
       })
