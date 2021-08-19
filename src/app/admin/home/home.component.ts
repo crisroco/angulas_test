@@ -146,7 +146,7 @@ export class HomeComponent implements OnInit {
 
   uploadData(){
     this.loading = true;
-    this.newEnrollmentS.getSkillFullLoadAutoServicePre({EMPLID: this.studentCode})
+    this.newEnrollmentS.getSkillFullLoadAutoService({EMPLID: this.studentCode})
       .then((res) => {
         this.toastr.success('Carga completa del alumno');
         this.confirmationUploadModal.close();
