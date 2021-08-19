@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AppSettings } from '../app.settings';
 import { GeneralService } from './general.service';
 
@@ -18,6 +18,15 @@ export class StudentService {
     public showBiblioteca = new Subject<boolean>();
     public emitDocOther = new Subject<boolean>();
     public emitLogout = new Subject<boolean>();
+    public dataStudent = new Subject<any[]>();
+
+    public getdataStudent() {
+        return this.dataStudent.asObservable();
+    }
+
+    public setdataStudent(data: any) {
+        this.dataStudent.next(data);
+    }
 
     public getemitDocOther() {
         return this.emitDocOther.asObservable();

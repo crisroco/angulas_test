@@ -1236,16 +1236,12 @@ export class StudentComponent implements OnInit {
 			this.user = this.session.getObject('user');
 			this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
 				.then(res => {
-					var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
+					let units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 
-					//PORQUE FILTRA POR PREGRADO Y LUEGO NO HACE NADA MAS??????
-					//==============================================================
+					this.studentS.setdataStudent(units);
+
 					this.enroll = units.filter(item => item.institucion == 'PREGR');
 					this.enroll = this.enroll.length ? this.enroll[0] : null;
-					//==============================================================
-
-					//con esto se arregla
-					// this.enroll = units[0];
 					
 					if (this.enroll) {
 						this.sendDataStudent(this.enroll);

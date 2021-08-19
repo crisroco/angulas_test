@@ -19,7 +19,6 @@ export class NoticeComponent implements OnInit {
   showImageHandler(data){
     this.loadImg = false;
     this.imgFile = data.imgPath;
-    // this.imgFile = 'https://www.tooltyp.com/wp-content/uploads/2014/10/1900x920-8-beneficios-de-usar-imagenes-en-nuestros-sitios-web.jpg';
     this.showImage.open();
   }
 

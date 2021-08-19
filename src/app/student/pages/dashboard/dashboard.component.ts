@@ -119,6 +119,7 @@ export class DashboardComponent implements OnInit {
   public notice = notice;
   public course: any[] = [];
   public loadCourse: boolean = false;
+  public dataObsStudent:any[] = [];
 
   ngOnInit() {
     // this.showModals();
@@ -131,6 +132,15 @@ export class DashboardComponent implements OnInit {
       }, error => {
 
       });
+
+    this.studentS.getdataStudent().subscribe(
+      r => {
+        if(this.dataObsStudent.length==0){
+          this.dataObsStudent = r;
+          this.getAllClass(r);
+        }
+      }
+    );
 
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       // if (message && message.enroll_conditions) {
@@ -148,30 +158,42 @@ export class DashboardComponent implements OnInit {
       // else if (message && message.code) {
       //PORQUE NO TRAE DATA DE LOS DIFERENTES A POSGRADO????????????
       // if (message.institution != 'PSTRG') {
-      this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution:this.student.institucion, date: moment().format('YYYY-MM-DD') })
-      // this.studentS.getAllClasses({ code: message.code, institution: message.institution, date: message.date })
-        .then((res) => {
-          this.loadCourse = true;
-          this.course = res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR ?
-            res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR :
-            []
-              .sort((a, b) => {
-                if (a.MEETING_TIME_START > b.MEETING_TIME_START) {
-                  return 1;
-                }
-                if (a.MEETING_TIME_START < b.MEETING_TIME_START) {
-                  return -1;
-                }
-                return 0;
-              });
-          this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, message.institution);
-        });
+
       // }
       // }
     });
     // this.readConditions();
     var ese = new Array(4);
     //this.matriculaExtracurricularModal.open();
+  }
+
+  getAllClass(r) {
+    this.course = [];
+    let day = moment().format('YYYY-MM-DD');
+    let obj = {};
+
+    r.map(re => {
+      if (!obj[re.institucion]) {
+        this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution: re.institucion, date: day })
+          .then((res) => {
+            this.loadCourse = true;
+            if (res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR) {
+              res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR.map(
+                (rmap) => {
+                  this.course.push(rmap);
+                }
+              );
+              this.course.sort(function (a, b) {
+                a = new Date(`${day} ${a.MEETING_TIME_START}`);
+                b = new Date(`${day} ${b.MEETING_TIME_START}`);
+                return a > b ? 1 : a < b ? -1 : 0;
+              });
+            }
+            // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
+          });
+        obj[re.institucion] = true;
+      }
+    });
   }
 
   showBiblioteca() {
