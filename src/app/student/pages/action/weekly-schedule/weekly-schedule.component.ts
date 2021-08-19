@@ -203,10 +203,10 @@ export class WeeklyScheduleComponent implements OnInit {
 			var rdate = Math.floor(Date.now() / 1000);
 			emplid = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(this.student.codigoAlumno + '//' + rdate), 'Educad123', {format: this.generalS.formatJsonCrypto}).toString());
 		}
-		if(this.realClass["STRM"] == '1154' || this.realClass["STRM"] == '1032' || this.realClass["STRM"] == '2223'){
-			window.open(this.virtualRoom["NEWSTRM"] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + emplid, '_self');
-		} else {
+		if(this.realClass["STRM"] == '1072' || this.realClass["STRM"] == '1073' || this.realClass["STRM"] == '1117' || this.realClass["STRM"] == '1118' || this.realClass["STRM"] == '1156' || this.realClass["STRM"] == '1157' || this.realClass["STRM"] == '2220' || this.realClass["STRM"] == '2222' || this.realClass["STRM"] == '2225' || this.realClass["STRM"] == '2235' || this.realClass["STRM"] == '2237' || this.realClass["STRM"] == '2238'){
 			window.open(this.virtualRoom[this.realClass.INSTITUTION] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + emplid, '_self');
+		} else {
+			window.open(this.virtualRoom["NEWSTRM"] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2?this.realClass.CLASS_NBR:this.realClass.CLASS_NBR2) + '&emplid=' + emplid, '_self');
 		}
 	}
 
