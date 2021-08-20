@@ -55,8 +55,9 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
           if (!res.includes('false')) {
             this.openTabZoom(res);
             this.openZoomEmit.emit(data);
+          } else {
+            this._s.seterrorModal(true);
           }
-          this._s.seterrorModal(true);
         });
     }
   }
