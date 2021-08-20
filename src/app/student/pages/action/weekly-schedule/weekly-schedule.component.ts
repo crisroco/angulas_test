@@ -207,7 +207,11 @@ export class WeeklyScheduleComponent implements OnInit {
 		if (this.realClass["STRM"] == '1072' || this.realClass["STRM"] == '1073' || this.realClass["STRM"] == '1117' || this.realClass["STRM"] == '1118' || this.realClass["STRM"] == '1156' || this.realClass["STRM"] == '1157' || this.realClass["STRM"] == '2220' || this.realClass["STRM"] == '2222' || this.realClass["STRM"] == '2225' || this.realClass["STRM"] == '2235' || this.realClass["STRM"] == '2237' || this.realClass["STRM"] == '2238') {
 			url = this.virtualRoom[this.realClass.INSTITUTION] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2 ? this.realClass.CLASS_NBR : this.realClass.CLASS_NBR2) + '&emplid=' + emplid;
 		} else {
-			url = this.virtualRoom["NEWSTRM"] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2 ? this.realClass.CLASS_NBR : this.realClass.CLASS_NBR2) + '&emplid=' + emplid;
+			if(this.realClass.INSTITUTION == 'PSTGR' || this.realClass.INSTITUTION == 'ESPEC'){
+				url = this.virtualRoom["PSTGR"] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2 ? this.realClass.CLASS_NBR : this.realClass.CLASS_NBR2) + '&emplid=' + emplid;
+			} else {
+				url = this.virtualRoom["NEWSTRM"] + 'local/wseducad/auth/sso.php?strm=' + this.realClass.STRM + '&class=' + (this.realClass.CLASS_NBR2 == '0' || !this.realClass.CLASS_NBR2 ? this.realClass.CLASS_NBR : this.realClass.CLASS_NBR2) + '&emplid=' + emplid;
+			}
 		}
 		this.openTabZoom(url);
 	}
