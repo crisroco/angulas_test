@@ -119,6 +119,9 @@ export class LoginComponent implements OnInit {
 					}, error => { this.loading = false; });
 				});
 			}, error => { });
-		}, error => { this.loading = false; });
+		}, error => {
+			this.toastr.error('Hubo un error al momento de ingresar, Por favor intentalo más tarde.');
+			this.loading = false;
+		});
 	}
 }
