@@ -27,7 +27,7 @@ export class AccountStatusComponent implements OnInit {
 		this.studentS.getAccountStatus({code: this.user.codigoAlumno})
 		.then(res => { 
 			this.accounts = res.UcsMetodoEstadoCuentaRespuesta && res.UcsMetodoEstadoCuentaRespuesta.UcsMetodoEstadoCuentaDetalle?res.UcsMetodoEstadoCuentaRespuesta.UcsMetodoEstadoCuentaDetalle:[];
-			console.log(this.accounts);
+			// console.log(this.accounts);
 		}, error => { });
 	}
 

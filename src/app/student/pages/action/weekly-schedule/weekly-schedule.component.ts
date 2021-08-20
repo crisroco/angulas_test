@@ -193,7 +193,7 @@ export class WeeklyScheduleComponent implements OnInit {
 			}, error => { this.goMoodle(); });
 		setTimeout(() => {
 			this.loading = false;
-			console.log('!err');
+			// console.log('!err');
 		}, 15000);
 	}
 

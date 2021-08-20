@@ -169,8 +169,7 @@ export class DashboardComponent implements OnInit {
 
   getAllClass(r) {
     this.course = [];
-    let day = "2021-08-20";
-    // let day = moment().format('YYYY-MM-DD');
+    let day = moment().format('YYYY-MM-DD');
     let obj = {};
 
     r.map(re => {
@@ -609,7 +608,7 @@ export class DashboardComponent implements OnInit {
   }
 
   checkAssist() {
-    console.log(this.nextClassLink);
+    // console.log(this.nextClassLink);
     
     window.open(this.nextClassLink, '_blank');
   }

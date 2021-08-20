@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { StudentService } from 'src/app/services/student.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-menu-course',
@@ -17,16 +18,15 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   @Output() emitMarcacion = new EventEmitter();
 
   constructor(
-    private studentService: StudentService
+    private studentService: StudentService,
+    private _s:SessionService
   ) { }
   //VARS
   private afterMinutes = 10;
   //MOMENT
   private moment = moment;
-  private dateMoment = "2021-08-20";
-  // private dateMoment = moment().format('YYYY-MM-DD');
-  private dateTimeMoment = "2021-08-20 " + moment().format('HH:mm:ss');
-  // private dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
+  private dateMoment = moment().format('YYYY-MM-DD');
+  private dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
   //RXJS
   private interval = interval(1000);
   private subscription = new Subscription();
@@ -38,7 +38,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
     this.subscription.add(this.interval.subscribe(
       resp => {
-        this.dateTimeMoment = "2021-08-20 "+moment().format('HH:mm:ss');
+        this.dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
       }
     ));
   }
@@ -48,7 +48,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   openLinkZoom(data) {
-    // if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && this.validateClick(data)) {
+    if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && this.validateClick(data)) {
       let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).format('X');
       this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE, data.CLASS_SECTION, data.INSTITUTION)
         .then((res) => {
@@ -56,8 +56,9 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
             this.openTabZoom(res);
             this.openZoomEmit.emit(data);
           }
+          this._s.seterrorModal(true);
         });
-    // }
+    }
   }
 
   openTabZoom(res) {
@@ -77,10 +78,11 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   calculateTime(time) {
-    return this.transformTime(this.moment(`${this.dateMoment} ${time}`).from(this.dateTimeMoment));
+    return this.transformTime(this.moment(`${this.dateMoment} ${time}`).fromNow());
   }
 
   transformTime(time: string) {
+    time = time.replace("unos",'');
     return time.replace(/\b(?: un | una )\b/gi, ' 1 ').toUpperCase();
   }
 
@@ -112,10 +114,9 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   validCourseVisible() {
-    // return this.course ?
-    //   this.course.filter(f => !this.validateAfter(f.MEETING_TIME_END)) :
-    //   [];
-    return this.course;
+    return this.course ?
+      this.course.filter(f => !this.validateAfter(f.MEETING_TIME_END)) :
+      [];
   }
 
   capitalizarPrimeraLetra(str) {

@@ -37,7 +37,7 @@ import { InterceptorService } from './student/services/interceptor.service';
   providers: [
     SessionService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true},
-    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}
+    // { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })

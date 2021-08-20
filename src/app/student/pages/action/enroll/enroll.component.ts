@@ -81,7 +81,7 @@ export class EnrollComponent implements OnInit {
       }
     })
     .catch( err => {
-      console.log('catch!', err);
+      // console.log('catch!', err);
     });
     this.wsService.listenEnroll().subscribe( (res: any) => {
       this.enroll.wait = false;
