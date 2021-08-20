@@ -66,7 +66,6 @@ export class LoginComponent implements OnInit {
 		this.loading = true;
 		this.loginS.userLogin(data).then(res => {
 			this.student = res.UcsMetodoLoginRespuesta;
-			this.loading = false;
 			if (!this.student || this.student['valor'] != 'Y') {
 				this.toastr.error(this.student && this.student.descripcion ? this.student.descripcion : 'No pudo loguearse, vuelva a intentarlo en unos minutos.');
 				return;
@@ -114,6 +113,7 @@ export class LoginComponent implements OnInit {
 						client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
 						grant_type: "password"
 					}).then((res) => {
+						this.loading = false;
 						this.session.setObject('oauth', res);
 						this.router.navigate(['estudiante']);
 					}, error => { this.loading = false; });
