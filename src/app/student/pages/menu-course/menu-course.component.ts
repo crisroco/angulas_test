@@ -14,6 +14,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   @Input('course') course: any[];
   @Input('student') student: any[];
   @Input('loadCourse') loadCourse: any[];
+  @Output() emitMarcacion = new EventEmitter();
 
   constructor(
     private studentService: StudentService
@@ -53,6 +54,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
         .then((res) => {
           if (!res.includes('false')) {
             this.openTabZoom(res);
+            this.openZoomEmit.emit(data);
           }
         });
     // }

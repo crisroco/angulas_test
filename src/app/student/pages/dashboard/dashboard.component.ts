@@ -190,7 +190,7 @@ export class DashboardComponent implements OnInit {
                 return a > b ? 1 : a < b ? -1 : 0;
               });
             }
-            this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
+            // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
           });
         obj[re.institucion] = true;
       }
@@ -609,11 +609,15 @@ export class DashboardComponent implements OnInit {
   }
 
   checkAssist() {
+    console.log(this.nextClassLink);
+    
     window.open(this.nextClassLink, '_blank');
   }
 
-  preGoMoodle() {
-    var realClass = JSON.parse(JSON.stringify(this.currentNextClass));
+  preGoMoodle(data) {
+
+    let realClass = data;
+    
     realClass.CLASS_ATTEND_DT = realClass.FECH_INI;
     let dates = this.getDates(realClass.FECH_INI, realClass.MEETING_TIME_START, realClass.MEETING_TIME_END);
     this.realHourStart = RealDate(dates.start);
@@ -625,8 +629,6 @@ export class DashboardComponent implements OnInit {
       CLASS_ATTEND_DT: realClass.CLASS_ATTEND_DT,
       CLASS_NBR: realClass.CLASS_NBR
     }).then((res) => {
-      var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
-      var realHourStart = this.realHourStart.year + '-' + this.realHourStart.month + '-' + this.realHourStart.day;
       let clases = res['RES_INST_CRSE_MAT_NBR']['COM_INST_CRSE_MAT_NBR'];
       if (clases) {
         for (let i = 0; i < clases.length; i++) {
@@ -698,7 +700,7 @@ export class DashboardComponent implements OnInit {
             });
         }
       }
-      this.checkAssist();
+      // this.checkAssist();
     });
   }
 
