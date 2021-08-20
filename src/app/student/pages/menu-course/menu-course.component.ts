@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import { StudentService } from 'src/app/services/student.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -24,9 +24,8 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   //VARS
   private afterMinutes = 10;
   //MOMENT
-  private moment = moment;
-  private dateMoment = moment().format('YYYY-MM-DD');
-  private dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
+  private dateMoment = moment().tz('America/Lima').format('YYYY-MM-DD');
+  private dateTimeMoment = moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss');
   //RXJS
   private interval = interval(1000);
   private subscription = new Subscription();
@@ -35,10 +34,9 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     moment.locale('es');
-
     this.subscription.add(this.interval.subscribe(
       resp => {
-        this.dateTimeMoment = moment().format('YYYY-MM-DD HH:mm:ss');
+        this.dateTimeMoment = moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss');
       }
     ));
   }
@@ -49,7 +47,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
   openLinkZoom(data) {
     if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && this.validateClick(data)) {
-      let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).format('X');
+      let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).tz('America/Lima').format('X');
       this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE, data.CLASS_SECTION, data.INSTITUTION)
         .then((res) => {
           if (!res.includes('false')) {
@@ -75,11 +73,11 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   getDateMoment() {
-    return this.capitalizarPrimeraLetra(this.moment(this.dateMoment).format('dddd, D MMMM YYYY'));
+    return this.capitalizarPrimeraLetra(moment(this.dateMoment).format('dddd, D MMMM YYYY'));
   }
 
   calculateTime(time) {
-    return this.transformTime(this.moment(`${this.dateMoment} ${time}`).fromNow());
+    return this.transformTime(moment(`${this.dateMoment} ${time}`).fromNow());
   }
 
   transformTime(time: string) {
@@ -91,18 +89,18 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     let initDate = `${this.dateMoment} ${init}`;
     let endDate = `${this.dateMoment} ${end}`;
 
-    return this.moment(this.dateTimeMoment).isBetween(initDate, endDate);
+    return moment(this.dateTimeMoment).isBetween(initDate, endDate);
   }
 
   validateRangeWithAfterMinutes(init, end) {
     let initDate = `${this.dateMoment} ${init}`;
     let endDate = `${this.dateMoment} ${end}`;
 
-    return this.moment(this.dateTimeMoment).isBetween(this.moment(initDate).subtract(this.afterMinutes, 'minutes'), endDate);
+    return moment(this.dateTimeMoment).isBetween(moment(initDate).tz('America/Lima').subtract(this.afterMinutes, 'minutes'), endDate);
   }
 
   validateAfter(end) {
-    return this.moment(this.dateTimeMoment).isSameOrAfter(`${this.dateMoment} ${end}`);
+    return moment(this.dateTimeMoment).isSameOrAfter(`${this.dateMoment} ${end}`);
   }
 
   limitCharacter(string: string) {

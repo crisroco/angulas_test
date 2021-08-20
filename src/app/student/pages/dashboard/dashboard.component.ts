@@ -17,7 +17,8 @@ import { BetweenDays, RealDate } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
 import { notice } from './notice';
-import * as moment from 'moment';
+// import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-dashboard',
@@ -169,7 +170,7 @@ export class DashboardComponent implements OnInit {
 
   getAllClass(r) {
     this.course = [];
-    let day = moment().format('YYYY-MM-DD');
+    let day = moment().tz('America/Lima').format('YYYY-MM-DD');
     let obj = {};
 
     r.map(re => {

@@ -228,6 +228,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	closeOpenMonthViewDay() {
+		console.log(this.viewDate);
 		var firstDate = GetFirstDayWeek(this.viewDate);
 		var days = {
 			MON: RealDate(firstDate),

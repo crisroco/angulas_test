@@ -68,10 +68,12 @@ export class LoginComponent implements OnInit {
 			this.student = res.UcsMetodoLoginRespuesta;
 			if (!this.student || this.student['valor'] != 'Y') {
 				this.toastr.error(this.student && this.student.descripcion ? this.student.descripcion : 'No pudo loguearse, vuelva a intentarlo en unos minutos.');
+				this.loading = false;
 				return;
 			}
 			if (this.student.tipo_usuario == 'D' || this.student.tipo_usuario == 'O') {
 				this.toastr.error('El Acceso solo esta permitido a los ALUMNOS.');
+				this.loading = false;
 				return;
 			}
 			//SET OBJECT dataStudent
@@ -118,7 +120,7 @@ export class LoginComponent implements OnInit {
 						this.router.navigate(['estudiante']);
 					}, error => { this.loading = false; });
 				});
-			}, error => { });
+			}, error => { this.loading = false;});
 		}, error => {
 			this.toastr.error('Hubo un error al momento de ingresar, Por favor intentalo más tarde.');
 			this.loading = false;
