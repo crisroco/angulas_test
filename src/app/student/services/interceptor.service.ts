@@ -18,7 +18,7 @@ export class InterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       map((m: HttpResponse<any>) => {
         if (m instanceof HttpResponse && req.url.indexOf('zoom_link.php') !== -1) {
-          if(m.body.trim()=='false2'){
+          if(m.body.trim().includes('false')){
             this._s.seterrorModal(true);
           }
         }
