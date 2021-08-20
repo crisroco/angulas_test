@@ -1,0 +1,29 @@
+.card-custom {
+	border-radius: 15px;
+	background   : #FFFFFF;
+	box-shadow   : 0px 0px 10px rgba(0, 0, 0, 0.1);
+	h5{
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+}
+.text-underline{
+	text-decoration: underline !important;
+}
+h5{
+	font-size: 1.1rem;
+}
+.times-close{
+	background: #202A48;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 50%;
+    position: absolute;
+	cursor: pointer;
+    right: -16px;
+    top: -16px;
+}

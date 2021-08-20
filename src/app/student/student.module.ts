@@ -31,11 +31,40 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { EnrollmentComponent } from './pages/enrollment/enrollment.component';
 import { DashboardEnrollComponent } from './pages/enrollment/dashboard-enroll/dashboard-enroll.component';
 import { CoursesEnrollmentComponent } from './pages/enrollment/courses-enrollment/courses-enrollment.component';
+import { SidebarComponent } from './pages/sidebar/sidebar.component';
+import { FooterComponent } from './pages/footer/footer.component';
+import { MenuCourseComponent } from './pages/menu-course/menu-course.component';
+import { MenuItemsComponent } from './pages/menu-items/menu-items.component';
+import { MenuOtherComponent } from './pages/menu-other/menu-other.component';
+import { NoticeComponent } from './pages/notice/notice.component';
+import { HttpConfigInterceptor } from '../services/httpconfig.interceptor';
+import { InterceptorService } from './services/interceptor.service';
 
 const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
 
 @NgModule({
-  declarations: [StudentComponent, EnrollmentComponent, DashboardEnrollComponent, DashboardComponent, ActionComponent, WeeklyScheduleComponent, PersonalInformationComponent, AcademicConditionsComponent, AccountStatusComponent, CourseHistoryComponent, FinalGradesComponent, CourseAssistanceComponent, EnrollComponent, CoursesEnrollmentComponent],
+  declarations: [
+    StudentComponent, 
+    EnrollmentComponent, 
+    DashboardEnrollComponent, 
+    DashboardComponent, 
+    ActionComponent, 
+    WeeklyScheduleComponent, 
+    PersonalInformationComponent, 
+    AcademicConditionsComponent, 
+    AccountStatusComponent, 
+    CourseHistoryComponent, 
+    FinalGradesComponent, 
+    CourseAssistanceComponent, 
+    EnrollComponent, 
+    CoursesEnrollmentComponent, 
+    SidebarComponent, 
+    FooterComponent, 
+    MenuCourseComponent, 
+    MenuItemsComponent, 
+    MenuOtherComponent, 
+    NoticeComponent
+  ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -45,12 +74,12 @@ const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
     NgxLoadingModule.forRoot({}),
     DeviceDetectorModule.forRoot(),
     TooltipModule.forRoot({
-          placement: 'left',
-          arrow: true,
-          arrowType: 'sharp',
-          allowHTML: true,
-          maxWidth: 200
-      } as TooltipOptions),
+      placement: 'left',
+      arrow: true,
+      arrowType: 'sharp',
+      allowHTML: true,
+      maxWidth: 200
+    } as TooltipOptions),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
@@ -62,7 +91,9 @@ const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
   providers: [
     StudentService,
     IntentionService,
-    WebsocketService
+    WebsocketService,
+    HttpConfigInterceptor,
+    InterceptorService
   ],
 })
 export class StudentModule { }

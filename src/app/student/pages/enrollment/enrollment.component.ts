@@ -374,7 +374,7 @@ export class EnrollmentComponent implements OnInit {
   }
 
   eventClicked(event){
-    console.log(event);
+    // console.log(event);
   }
 
   getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {

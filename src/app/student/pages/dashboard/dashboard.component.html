@@ -1,132 +1,127 @@
-<div class="p-post-header row bg-imagebg full-content">
-	<div class="container-2 mx-auto">
-		<div class="row pt-4">
-			<div class="col-md-4 p-2">
-				<div class="bg-white-a p-3 mb-5">
-					<h5 class="text-{{company}}"> <strong> ¡Bienvenido! </strong> </h5>
-					<h5 class="text-m"> <strong> {{student?student.nombreAlumno:''}} </strong> </h5>
-					<h5 class="text-normal mb-3 pb-3 bd-b-1 bd-{{company}}"> 
-						<strong>{{student?student.codigoAlumno:''}}</strong>
-					</h5>
-					<p class="m-0">
-						Nuestra Universidad forma líderes comprometidos con el desarrollo humano, social y ambiental.
-						Ofrecemos educación de calidad para el mundo laboral, basadas en una educación personalizada y
-						en el acercamiento a su profesión desde el primer ciclo.
-					</p>
-					<p>
-						Universidad Científica del Sur
-					</p>
-					<a href="https://vimeo.com/295459246/6e1168f864" target="_blank"
-						class="btn btn-lg btn-block btn-black"> Video instructivo </a>
-					<div *ngIf="nextClassLink" class="btn btn-lg btn-block btn-black"> Tu clase ahora: </div>
-					<div *ngIf="nextClassLink" class="btn btn-block next_class my-2 text-center">
-						<a (click)="preGoMoodle()" target="_blank" class="my-0 text-{{company}}"> <span
-								style="width: 80%;">{{currentNextClass.DESCR}}</span><img style="width: 30px"
-								src="./assets/img/icon/zoom.png" alt=""></a>
+<app-sidebar>
+	<div class="row-custom row">
+		<div class="col-md-6 col-lg-4 pl-md-0 d-block d-md-none mb-1">
+			<h2 class="py-2 text-inital">
+				<span class="text-ucs">¡Hola {{student?.firstNombreAlumno | uppercase }}!</span>
+				Bienvenid{{student?.sexo=='F'?'a':'o'}}.
+			</h2>
+			<app-menu-course (openZoomEmit)="preGoMoodle($event)" [student]="student" [course]="course" [loadCourse]="loadCourse"></app-menu-course>
+		</div>
+		
+		<div class="col-md-6 col-lg-8 px-0 mb-4">
+			<div class="row">
+				<div class="col-12 mb-4 d-none d-md-block">
+					<div class="card-custom p-4 d-flex justify-content-between align-items-center">
+						<div>
+							<h3 class="text-inital">
+								<span class="text-ucs">¡Hola {{student?.firstNombreAlumno | uppercase }}!</span>
+								Bienvenid{{student?.sexo=='F'?'a':'o'}}.
+							</h3>
+							<p class="text-justify">“La vida es como montar en bicicleta, para mantener el equilibrio hay que seguir
+								avanzando”</p>
+							<p class="text-ucs text-right">Albert Einstein</p>
+						</div>
+						<div *ngIf="student?.sexo" class="ml-4 d-none d-lg-block">
+							<img width="250px" src="./assets/img/student-{{student?.sexo}}.png">
+						</div>
 					</div>
-					<ng-container>
-						<div *ngIf="enroll && queueEnroll"
-							class="btn btn-lg btn-block btn-black text-{{!queueEnroll.turnText?'red':(queueEnroll.onTurn?'green':'red')}}">
-							{{queueEnroll.turnText?queueEnroll.turnText:'Aún no tienes Turno de
-							Matricula'}} </div>
-						<div class="row justify-content-center align-items-center mb-2 mt-3">
-							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
-								(click)="AcademicConditionModal.open()">
-								<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
-								<div class="bg-black text-white p-2 text-s">
-									<p class="m-0">Condiciones</p>
-									<p class="m-0">Académicas</p>
-								</div>
-								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO"
-									class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
-									<p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}
-									</p>
-								</div>
-							</div>
-							<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
-								(click)="FinancialConditionModal.open()">
-								<i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
-								<div class="bg-black text-white p-2 text-s">
-									<p class="m-0">Condiciones</p>
-									<p class="m-0">Financieras</p>
-								</div>
-								<div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO"
-									class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
-									<p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}
-									</p>
-								</div>
+				</div>
+				<div class="col-lg-4 pr-lg-0 mb-4 d-none d-xl-block">
+					<div (click)="showBiblioteca()"
+						class="card-custom hover-links h-100 py-3 d-md-flex pointer justify-content-center align-items-center">
+						<img class="pl-md-1 pr-md-3" src="./assets/img/library.svg">
+						<div>
+							<strong class="text-dark">Biblioteca online</strong>
+							<p class="m-0 text-secondary small-11">Red de bibliotecas</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-4 mb-4 d-block d-xl-none pr-md-0">
+					<div (click)="showBiblioteca()" class="card-custom hover-links h-100 py-3 px-1 text-center pointer">
+						<img src="./assets/img/library.svg">
+						<div class="mt-2" style="line-height: normal !important">
+							<strong class="text-dark">Biblioteca online</strong>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 pr-lg-0 mb-4 d-none d-xl-block">
+					<a href="https://empleabilidad.cientifica.edu.pe/" target="_blank">
+						<div
+							class="card-custom hover-links h-100 py-3 d-flex justify-content-center align-items-center">
+							<img class="pr-md-3" src="./assets/img/job.svg">
+							<div>
+								<strong class="text-dark">Bolsa de trabajo</strong>
+								<p class="m-0 text-secondary small-11">Trabajo y Prácticas</p>
 							</div>
 						</div>
-					</ng-container>
+					</a>
 				</div>
-			</div>
-			<div class="col-md-8 p-2 mb-6">
-				<div class="bg-white-a p-4 row">
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/horario'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/horario.png">
-								<p class="text-blue m-0 text-xm">Horario</p>
-								<p class="text-blue m-0 text-xm">semanal</p>
+				<div class="col-4 mb-4 d-block d-xl-none pr-md-0">
+					<a href="https://empleabilidad.cientifica.edu.pe/" target="_blank">
+						<div class="card-custom hover-links h-100 py-3 px-1 text-center">
+							<img src="./assets/img/job.svg">
+							<div class="mt-2" style="line-height: normal !important">
+								<strong class="text-dark">Bolsa de trabajo</strong>
 							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/datos-personales'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/datos.png">
-								<p class="text-orange m-0 text-xm">Datos</p>
-								<p class="text-orange m-0 text-xm">personales</p>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 mb-4 d-none d-xl-block">
+					<a href="https://mail.office365.com/" target="_blank">
+						<div
+							class="card-custom hover-links h-100 py-3 d-flex justify-content-center align-items-center">
+							<img class="pr-md-3" src="./assets/img/mail.svg">
+							<div>
+								<strong class="text-dark">Mi correo</strong>
+								<p class="m-0 text-secondary small-11">Buzón UCSUR</p>
 							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/condiciones-academicas'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/academico.png">
-								<p class="text-purple m-0 text-xm">Condiciones</p>
-								<p class="text-purple m-0 text-xm">académicas</p>
+						</div>
+					</a>
+				</div>
+				<div class="col-4 mb-4 d-block d-xl-none">
+					<a href="https://mail.office365.com/" target="_blank">
+						<div class="card-custom hover-links h-100 py-3 px-1 text-center">
+							<img class="mt-2" src="./assets/img/mail.svg">
+							<div class="mt-2" style="line-height: normal !important">
+								<strong class="text-dark">Mi correo</strong>
 							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/estado-cuenta'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/cuenta.png">
-								<p class="text-green m-0 text-xm">Estado</p>
-								<p class="text-green m-0 text-xm">de cuenta</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							[href]="'/estudiante/accion/historial-cursos'">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/cursos.png">
-								<p class="text-bluesky m-0 text-xm">Historial</p>
-								<p class="text-bluesky m-0 text-xm">de cursos</p>
-							</div>
-						</a>
-					</div>
-					<div *ngIf="queueEnroll && !timeoutEnroll && enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO == 'Y' && enroll_conditions.FLAG_FINANCIERO == 'Y'"
-						class="col-lg-4 col-sm-6 my-2">
-						<a class="pointer circle-m bg-white row flex-wrap justify-content-center align-items-center m-auto"
-							(click)="goEnrollment()">
-							<div class="text-center px-3">
-								<img style="width: 70px" src="./assets/img/icon/enroll.png">
-								<p class="text-bluesky m-0 text-xm text-black">Matrícula</p>
-							</div>
-						</a>
-					</div>
+						</div>
+					</a>
+				</div>
+
+				<div class="col-lg-12">
+					<app-notice [notice]="notice"></app-notice>
 				</div>
 			</div>
 		</div>
+		<div class="col-md-6 col-lg-4 pl-md-0 d-none d-md-block">
+			<app-menu-course (openZoomEmit)="preGoMoodle($event)" [student]="student" [course]="course" [loadCourse]="loadCourse"></app-menu-course>
+			<div class="col-lg-12 px-0 mb-4">
+				<a href="https://vimeo.com/295459246/6e1168f864" target="_blank">
+					<div
+						class="card-custom hover-links h-100 py-3 px-4 d-flex justify-content-center align-items-center">
+						<img class="pl-md-1 pr-md-3 pr-2" src="./assets/img/video.svg">
+						<div>
+							<strong class="text-dark">Tutoriales</strong>
+							<p class="m-0 text-secondary small-11">Guía sobre Aula virtual</p>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-12 mb-2 d-block d-md-none">
+			<a href="https://vimeo.com/295459246/6e1168f864" target="_blank">
+				<div class="card-custom hover-links h-100 py-3 px-4 d-flex justify-content-center align-items-center">
+					<img class="pl-md-1 pr-md-3 pr-2" src="./assets/img/video.svg">
+					<div>
+						<strong class="text-dark">Tutoriales</strong>
+						<p class="m-0 text-secondary small-11">Guía sobre Aula virtual</p>
+					</div>
+				</div>
+			</a>
+		</div>
 	</div>
-</div>
+</app-sidebar>
 
 <div class="position-fixed float-wsp-br row align-items-end flex-column">
 	<div class="row flex-column bg-white m-2 p-3 rounded-1 shadow position-relative" *ngIf="showwsp">
@@ -140,8 +135,8 @@
 		<!-- <a href="https://api.whatsapp.com/send?phone=5117071824&text=Hola,%20me%20puedes%20ayudar%20con%20temas%20acad%C3%A9micos" target="_blank" class="text-black text-xm p-1"><i class="fa fa-whatsapp text-wsp text-l"></i> Registros y Programación </a> -->
 	</div>
 	<div class="text-right">
-		<a (click)="showwsp = !showwsp" class="circle-xmi row justify-content-center align-items-center bg-wsp pointer">
-			<img style="width: 50px" src="./assets/img/icon/wsp.png">
+		<a (click)="showwsp = !showwsp" class="pointer">
+			<img style="width: 73px" src="./assets/img/whatsapp.svg">
 		</a>
 	</div>
 </div>
@@ -213,7 +208,8 @@
 	</div> -->
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_academicas.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
-			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Leer Condiciones</a>
+			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_ACADEMICO != 'Y'?'mr-3':''}}">Leer
+			Condiciones</a>
 		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO != 'Y'"
 			class="btn rounded-1 px-4 btn-{{company}}"
 			(click)="saveConditions('FLAG_ACADEMICO', AcademicConditionModal)">ACEPTAR</button>
@@ -236,7 +232,8 @@
 	</div> -->
 	<div class="row justify-content-center my-3">
 		<a href="assets/pdfjs/web/condiciones_financieras.pdf" target="_blank" *ngIf="enroll && enroll_conditions"
-			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Leer Condiciones</a>
+			class="btn rounded-1 px-4 btn-{{company}} {{enroll_conditions.FLAG_FINANCIERO != 'Y'?'mr-3':''}}">Leer
+			Condiciones</a>
 		<button *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO != 'Y'"
 			class="btn rounded-1 px-4 btn-{{company}} mr-3"
 			(click)="saveConditions('FLAG_FINANCIERO', FinancialConditionModal)">ACEPTAR</button>
@@ -254,7 +251,9 @@
 		<h4 class="text-{{company}} font-weight-bold text-center">Encuesta de Servicios 2020-2</h4>
 	</div>
 	<div class="scroll px-2">
-		<a target="_blank" [href]="fidelityLink"><img class="w-100" src="./assets/img/fidelidad_survey.png"></a>
+		<a target="_blank" [href]="fidelityLink">
+			<!-- <img class="w-100" src="./assets/img/fidelidad_survey.png"> -->
+		</a>
 		<p class="mt-2 text-center"><a class="text-{{company}}" target="_blank" [href]="fidelityLink">Ingresar a la
 				encuesta</a></p>
 	</div>
@@ -297,7 +296,7 @@
 
 <ngx-smart-modal #medicineModal identifier="medicineModal" [closable]="false" [escapable]="true" [dismissable]="true"
 	[customClass]="'smallModal fullModal'">
-	<img class="w-100 rounded-1" src="./assets/img/comunicado_medicina.jpg">
+	<!-- <img class="w-100 rounded-1" src="./assets/img/comunicado_medicina.jpg"> -->
 	<div class="btn-close-float p-2">
 		<a (click)="medicineModal.close()" class="pointer d-block p-2 bg-black-a circle-x"><i
 				class="fa fa-times text-white text-l"></i></a>
@@ -306,7 +305,7 @@
 
 <ngx-smart-modal #aficheModal identifier="aficheModal" [closable]="false" [escapable]="true" [dismissable]="true"
 	[customClass]="'smallModal fullModal'">
-	<img class="w-100 rounded-1" src="./assets/img/afiche1.png">
+	<!-- <img class="w-100 rounded-1" src="./assets/img/afiche1.png"> -->
 	<div class="btn-close-float p-2">
 		<a (click)="aficheModal.close()" class="pointer d-block p-2 bg-black-a circle-x">
 			<i class="fa fa-times text-white text-l"></i>
@@ -321,7 +320,7 @@
 
 <ngx-smart-modal #allModal identifier="allModal" [closable]="false" [customClass]="'fullModal p-post-header'">
 	<a [href]="linktoSurvey" target="_blank">
-		<img class="w-100 rounded-1" src="./assets/img/encuesta_cpe.jpg">
+		<!-- <img class="w-100 rounded-1" src="./assets/img/encuesta_cpe.jpg"> -->
 	</a>
 	<div class="btn-close-float p-2">
 		<a (click)="allModal.close()" class="pointer d-block p-2 bg-black-a circle-x">
@@ -350,13 +349,16 @@
 			Siguiendo los pasos según tu banco de preferencia:
 		</h6>
 		<div class="list_banks">
-			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/BCP%20App%20y%20banca.pdf" target="_blank" class="box_bank">
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/BCP%20App%20y%20banca.pdf"
+				target="_blank" class="box_bank">
 				<p>BCP</p>
 			</a>
-			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/Interbank%20-%20APP%20Y%20PAGINA%20WEB.pdf" target="_blank" class="box_bank">
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/Interbank%20-%20APP%20Y%20PAGINA%20WEB.pdf"
+				target="_blank" class="box_bank">
 				<p>INTERBANK</p>
 			</a>
-			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/scotia.pdf" target="_blank" class="box_bank">
+			<a href="https://www.cientifica.edu.pe/sites/default/files/2021-07/scotia.pdf" target="_blank"
+				class="box_bank">
 				<p>SCOTIABANK</p>
 			</a>
 		</div>
@@ -386,7 +388,8 @@
 	</div> -->
 </ngx-smart-modal>
 
-<ngx-smart-modal #ethnicityModal identifier="ethnicityModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="''">
+<ngx-smart-modal #ethnicityModal identifier="ethnicityModal" [closable]="false" [escapable]="false"
+	[dismissable]="false" [customClass]="''">
 	<div class="text-center mb-3">
 		<h5>Actualización de Datos</h5>
 	</div>
@@ -394,27 +397,28 @@
 	<p>A solicitud del MINEDU requerimos su apoyo para registrar la siguiente información:</p>
 
 	<div class="form">
-			<div class="form-group">
-					<label class="form-label"> Etnía a la que pertenece </label>
-					<select class="form-control" name="etnia" [(ngModel)]="realEthnicity">
+		<div class="form-group">
+			<label class="form-label"> Etnía a la que pertenece </label>
+			<select class="form-control" name="etnia" [(ngModel)]="realEthnicity">
 				<option value=""> SELECCIONE </option>
 				<option *ngFor="let ethnicity of ethnicities" value="{{ethnicity.value}}"> {{ethnicity.name}} </option>
 			</select>
-			</div>
+		</div>
 
-			<div *ngIf="realEthnicity == '08'" class="form-group">
-					<label class="form-label"> Por favor Registre </label>
-					<input class="form-control" type="text" name="otros" [(ngModel)]="realOther" placeholder="Otros">
-			</div>
+		<div *ngIf="realEthnicity == '08'" class="form-group">
+			<label class="form-label"> Por favor Registre </label>
+			<input class="form-control" type="text" name="otros" [(ngModel)]="realOther" placeholder="Otros">
+		</div>
 	</div>
 
 	<div class="text-center">
-			<button (click)="ethnicityModal.close()" class="btn btn-secondary mr-2">Cerrar</button>
-			<button (click)="saveEthnicity()" class="btn btn-success">Guardar</button>
+		<button (click)="ethnicityModal.close()" class="btn btn-secondary mr-2">Cerrar</button>
+		<button (click)="saveEthnicity()" class="btn btn-success">Guardar</button>
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #matriculaExtracurricularModal identifier="matriculaExtracurricularModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
+<ngx-smart-modal #matriculaExtracurricularModal identifier="matriculaExtracurricularModal" [closable]="false"
+	[escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
 	<div class="bg-{{company}} p-2 rounded-t-1">Extracurriculares</div>
 	<div class="p-3">
 		<p class="text-center"> ¿Deseas matricularte en cursos Extracurriculares? </p>
@@ -425,46 +429,54 @@
 	</div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #answerStudentModal identifier="answerStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
+<ngx-smart-modal #answerStudentModal identifier="answerStudentModal" [closable]="false" [escapable]="false"
+	[dismissable]="false" [customClass]="'smallModall fullModal pt-5 mt-5'">
 	<div class="bg-{{company}} p-2 rounded-t-1">MATRICULA 2021-2 SIN TRAMITES</div>
 	<div class="p-3">
 		<p><b>Mejoramos y este semestre somos más agiles:</b></p>
-		<p><b>¿Te matriculaste a todos los cursos que querías en la Intención de Matricula y no deseas hacer ningún cambio?</b></p>
-		<p>Selecciona tu respuesta y luego de realizar los abonos correspondientes <span class="small-blue">(*)</span> nosotros registraremos tu horario y solo deberás ingresar a clases:</p>
+		<p><b>¿Te matriculaste a todos los cursos que querías en la Intención de Matricula y no deseas hacer ningún
+				cambio?</b></p>
+		<p>Selecciona tu respuesta y luego de realizar los abonos correspondientes <span class="small-blue">(*)</span>
+			nosotros registraremos tu horario y solo deberás ingresar a clases:</p>
 	</div>
 	<div class="row d-flex justify-content-center mb-3 px-5">
 		<button class="btn btn-ra btn-{{company}} ml-2" (click)="saveAnswer(false)">Acepto</button>
 		<button class="btn btn-ra btn-{{company}} ml-2" (click)="saveAnswer(true)">No Acepto</button>
 	</div>
 	<div class="px-3">
-		<p class="small">(si cambias de opinión podrás realizar los cambios que requieras en el turno que te corresponda de la matricula)</p>
+		<p class="small">(si cambias de opinión podrás realizar los cambios que requieras en el turno que te corresponda
+			de la matricula)</p>
 	</div>
 	<div class="p-3">
-		<p>Si no aceptas, luego de realizas los abonos correspondientes <span class="small-blue">(*)</span> podrás ingresar a la matricula regular <span class="small-blue">(**)</span> para realizar los cambios que necesites o adicionar cursos según la nueva oferta horaria.</p>
+		<p>Si no aceptas, luego de realizas los abonos correspondientes <span class="small-blue">(*)</span> podrás
+			ingresar a la matricula regular <span class="small-blue">(**)</span> para realizar los cambios que necesites
+			o adicionar cursos según la nueva oferta horaria.</p>
 		<p class="pt-2 small-blue">(*) Matricula y 1era. Armada mínimo 24 horas antes del inicio de matrícula</p>
 		<p class="small-blue">(**) Según el turno asignado por tu promedio ponderado</p>
 	</div>
 </ngx-smart-modal>
 
 
-<ngx-smart-modal #suspensionModal identifier="suspensionModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
-    <div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
-        <h5 class="modal-title " style="    padding-left: 30%;">AVISO IMPORTANTE</h5>
-        <a (click)="suspensionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
-    </div>
+<ngx-smart-modal #suspensionModal identifier="suspensionModal" [closable]="false" [escapable]="false"
+	[dismissable]="false" [customClass]="'smallModal fullModal p-post-header'">
+	<div class="modal-header bg-{{company}} rounded-t-1 text-white text-l">
+		<h5 class="modal-title " style="    padding-left: 30%;">AVISO IMPORTANTE</h5>
+		<a (click)="suspensionModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
+	</div>
 
-    <div class="p-2 px-5 modalT" style="padding-bottom: 25px !important;">
-        <p style="margin-top: 5px; margin-bottom: 5px;">
-            Estimados estudiantes
-        </p>
-        <p style="margin-top: 15px; margin-bottom: 15px;text-align: justify;">
-			<span class="warning_icon">⚠</span> La visualización del horario de intención de matrícula 2021-2 es referencial, sujeta a cambios por cierre de actas de notas 2021-1 y validación de pagos correspondientes. De no realizar los pagos de acuerdo al calendario, se eliminarán los cursos registrados automáticamente
-        </p>
-        <p style="margin-top: 5px; margin-bottom: 5px;">
-            <span class="warning_icon">⚠</span> La consulta de horarios y/o turnos estará disponible el día de hoy 4 de agosto a partir de las 6pm, de acuerdo al calendario académico.
-        </p>
-        <br>
-    </div>
+	<div class="p-2 px-5 modalT" style="padding-bottom: 25px !important;">
+		<p style="margin-top: 5px; margin-bottom: 5px;">
+			Estimados estudiantes
+		</p>
+		<p style="margin-top: 15px; margin-bottom: 15px;text-align: justify;">
+			(*) La visualización del horario de intención de matrícula 2021-2 es referencial, sujeta a cambios por
+			cierre de actas de notas 2021-1 y validación de pagos correspondientes.
+		</p>
+		<p style="margin-top: 5px; margin-bottom: 5px;">
+			De no realizar los pagos de acuerdo al calendario, se eliminarán los cursos registrados automáticamente.
+		</p>
+		<br>
+	</div>
 </ngx-smart-modal>
 
 <!-- <ngx-smart-modal #selecStudentModal identifier="selecStudentModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'smallModall fullModal pt-4'">

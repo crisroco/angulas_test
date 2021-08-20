@@ -9,15 +9,19 @@ import {
 } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { SessionService} from './session.service';
+import { map, catchError, finalize } from 'rxjs/operators';
+import { SessionService } from './session.service';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
-    constructor(private router: Router ) {}
+    constructor(private router: Router, private student: SessionService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if(request.url.indexOf('getEnrollQueueNumber')===-1 && request.url.indexOf('checkConditions')===-1 && request.url.indexOf('zoom_link.php')===-1){
+            this.student.setloadingObserver(true);
+        }
+        
         const token: string = JSON.parse(localStorage.getItem('oauth'));
         if (token) {
             request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token['access_token']) });
@@ -35,6 +39,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 
         return next.handle(request).pipe(
             catchError(err => {
+                this.student.setloadingObserver(false);
                 if (err.error == "Unauthorized.") {
                     this.router.navigate(['/login']);
                 }
@@ -45,6 +50,10 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                     // console.log('event--->>>', event);
                 }
                 return event;
-            }));
+            }),
+            finalize(() => {
+                this.student.setloadingObserver(false);
+            })
+        );
     }
 }

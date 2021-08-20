@@ -1,0 +1,30 @@
+<div [style.width.px]="widthMenuValid" class="bg-white sidebar-menu pt-2">
+  <a class="menu" routerLink="/estudiante/inicio" routerLinkActive="active">
+    <img src="./assets/img/homeicon.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Inicio</span>
+  </a>
+  <a class="menu" routerLink="/estudiante/accion/horario" routerLinkActive="active">
+    <img src="./assets/img/horario.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Horario</span>
+  </a>
+  <a class="menu" routerLink="/estudiante/accion/estado-cuenta" routerLinkActive="active">
+    <img src="./assets/img/pago.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Mis Pagos</span>
+  </a>
+  <a class="menu" routerLink="/estudiante/accion/condiciones-academicas" routerLinkActive="active">
+    <img src="./assets/img/academy.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Record Académico</span>
+  </a>
+  <a class="menu" routerLink="/estudiante/accion/historial-cursos" routerLinkActive="active">
+    <img src="./assets/img/history.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Historial de Cursos</span>
+  </a>
+  <a class="menu" href="javascript:void(0)" (click)="linkModalOpen()">
+    <img src="./assets/img/document.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Documentos Académicos</span>
+  </a>
+  <!-- <a class="menu" href="javascript:void(0)">
+    <img src="./assets/img/matricula.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula Extracurricular</span>
+  </a> -->
+</div>

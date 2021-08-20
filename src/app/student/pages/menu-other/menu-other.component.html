@@ -1,0 +1,41 @@
+<div class="menu-other" [style.height.%]="heightOther" [style.padding-top.px]="heightOther==0?0:60">
+  <div class="sidebar-menu pt-2" [class.d-none]="heightOther==0" (click)="heightOtherEmit.emit(0)">
+    <a class="menu" routerLink="/estudiante/inicio" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/homeicon.svg">
+      <span>Inicio</span>
+    </a>
+    <a class="menu" routerLink="/estudiante/accion/horario" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/horario.svg">
+      <span>Horario</span>
+    </a>
+    <a class="menu" routerLink="/estudiante/accion/estado-cuenta" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/pago.svg">
+      <span>Mis Pagos</span>
+    </a>
+    <a class="menu" routerLink="/estudiante/accion/condiciones-academicas" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/academy.svg">
+      <span>Record Académico</span>
+    </a>
+    <a class="menu" routerLink="/estudiante/accion/historial-cursos" routerLinkActive="active">
+      <img class="img-other" src="./assets/img/history.svg">
+      <span>Historial de Cursos</span>
+    </a>
+    <a class="menu" href="javascript:void(0)" (click)="linkModalOpen()">
+      <img class="img-other" src="./assets/img/document.svg">
+      <span>Documentos Académicos</span>
+    </a>
+    <!-- <a class="menu" href="javascript:void(0)">
+      <img class="img-other" src="./assets/img/matricula.svg">
+      <span>Matrícula Extracurricular</span>
+    </a> -->
+    <hr class="bg-light mx-4">
+    <a class="menu menu-item-other" routerLink="/estudiante/accion/datos-personales">
+      <img src="./assets/img/user-other.svg">
+      <span>Mi Perfil</span>
+    </a>
+    <a class="menu menu-item-other" href="javascript:void(0)" (click)="logout()">
+      <img src="./assets/img/logout-other.svg">
+      <span>Cerrar Sesión</span>
+    </a>
+  </div>
+</div>

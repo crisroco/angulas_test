@@ -1,0 +1,75 @@
+.menu-other {
+    position          : fixed;
+    left              : 0;
+    right             : 0;
+    background        : #22468F;
+    color             : #fff;
+    z-index           : 3;
+    transition        : all 0.5s;
+    -webkit-transition: all 0.25s;
+    height: 0;
+
+    .sidebar-menu {
+        overflow-y        : auto;
+        overflow-x        : hidden;
+        visibility        : visible;
+        transition        : all 0.5s;
+        -webkit-transition: all 0.25s;
+        background        : #22468F !important;
+        width             : 100% !important;
+        height            : 100%;
+
+        .menu {
+            color        : #ffffff !important;
+            margin       : 10px 0;
+            display      : flex;
+            cursor       : pointer;
+            align-items  : center;
+            border-radius: 0 24px 24px 0;
+            height       : 50px;
+
+            span {
+                color: #ffffff;
+
+            }
+
+            .img-other {
+                filter: invert(95%) sepia(4%) saturate(15%) hue-rotate(136deg) brightness(105%) contrast(105%);
+                margin: 0 24px;
+            }
+        }
+    }
+}
+
+.menu-item-other {
+    span {
+        color: #FDB22B !important;
+    }
+
+    img {
+        margin: 0 24px;
+    }
+}
+
+
+/* width */
+.menu-other ::-webkit-scrollbar {
+	width: 8px;
+}
+
+/* Track */
+.menu-other ::-webkit-scrollbar-track {
+	background: #22468F;
+}
+
+/* Handle */
+.menu-other ::-webkit-scrollbar-thumb {
+	background   : rgb(96, 123, 167);
+	border-radius: 10px;
+
+}
+
+/* Handle on hover */
+.menu-other ::-webkit-scrollbar-thumb:hover {
+	background: #a5b6c1;
+}

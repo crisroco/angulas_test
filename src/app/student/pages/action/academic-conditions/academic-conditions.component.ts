@@ -327,7 +327,7 @@ export class AcademicConditionsComponent implements OnInit {
 			var body = []
 			var totalCredits = 0;
 			var higherProm = 0;
-			console.log(item);
+			// console.log(item);
 			item.courses.forEach(item => {
 				body.push([item.ID_Curso, item.Descr, (item.Caracter == 0?'Obligatorio':'Electivo'), item.Ciclo, item.Uni_Matrd, item.GRADE, item.Comentario]);
 				totalCredits += parseInt(item.Uni_Matrd);
@@ -380,7 +380,7 @@ export class AcademicConditionsComponent implements OnInit {
 			var limit = doc.autoTableEndPosY();
 			if(limit >= 730){
 				var npages = doc.internal.getNumberOfPages();
-				console.log('numero de paginas: ' + npages);
+				// console.log('numero de paginas: ' + npages);
 				doc.autoTable({
 					head: [['']],
 					startY: doc.autoTableEndPosY() + 5,
