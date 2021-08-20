@@ -510,13 +510,12 @@ export class StudentComponent implements OnInit {
 
 		// this.getFileUpload();
 		// this.getFlagSendUpload();
-		// this.studentS.medicineStudents()
-		// .then((res) => {
-		// 	if (res.find(emp => emp == this.user.codigoAlumno)) {
-		// 		this.AvisoVacunaModal.open();
-		// 		this.showVacunation = true;
-		// 	}
-		// });
+		this.studentS.medicineStudents()
+		.then((res) => {
+			if (res.find(emp => emp == this.user.codigoAlumno)) {
+				this.AvisoVacunaModal.open();
+			}
+		});
 		// if ((this.user.ind_Medicina == 'Y') && this.router.url == '/estudiante') {
 		// 	// this.AvisoVacunaModal.open();
 		// 	this.showVacunation = true;
