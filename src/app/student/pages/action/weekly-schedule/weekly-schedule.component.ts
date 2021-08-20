@@ -11,6 +11,8 @@ import { Observable, Subject } from 'rxjs';
 import { setHours, setMinutes } from 'date-fns';
 import { RealDate, AddDay, SameDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../../helpers/dates';
 import * as CryptoJS from 'crypto-js';
+import * as moment from 'moment-timezone';
+import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-weekly-schedule',
@@ -47,7 +49,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	events: CalendarEvent[] = [];
 	CalendarView = CalendarView;
 	view: CalendarView = CalendarView.Week;
-	viewDate: Date = new Date();
+	viewDate: Date = new Date(RealDate().toText);
 	refresh: Subject<any> = new Subject();
 	locale: string = 'en';
 	hourSegments: number = 2;
@@ -76,6 +78,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		private studentS: StudentService) { }
 
 	ngOnInit() {
+		console.log(this.viewDate);
 		this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
 			.then(res => {
 				this.programs = res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
@@ -215,7 +218,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		}
 		this.openTabZoom(url);
 	}
-
+	
 	openTabZoom(res) {
 		let link = res.replace(/<\/?[^>]+(>|$)/g, "");
 		let a = document.createElement("a");
@@ -228,7 +231,6 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	closeOpenMonthViewDay() {
-		console.log(this.viewDate);
 		var firstDate = GetFirstDayWeek(this.viewDate);
 		var days = {
 			MON: RealDate(firstDate),

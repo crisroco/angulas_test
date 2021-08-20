@@ -1,6 +1,7 @@
 import { AppSettings } from '../app.settings';
+import * as moment from 'moment-timezone';
 
-export function RealDate(d = null){
+export function RealDate(d = null, timezone = "America/Lima"){
 	var real = {
 		year: '',
 		month: '',
@@ -13,27 +14,33 @@ export function RealDate(d = null){
 		nday: '',
 		nmonth: '',
 		timeseconds: 0,
+		toText: ''
 	};
-	var date = d?d:(new Date());
-	real.year = date.getFullYear() + '';
-	var month = date.getMonth() + 1;
-	real.month = (month < 10? '0':'') + month;
-	var day = date.getDate();
-	real.day = (day < 10? '0':'') + day;
-	var hour = date.getHours();
+	var date = d?d:Date.now();
+	var localDate = new Date(date);
+    var sdtz = new Date(date).toLocaleString('en-US', {timeZone: "America/Lima"});
+    const parts = sdtz.split(', ');
+    const partsDate = parts[0].split('/');
+    const parts2 = parts[1].split(' ');
+    const partsHour = parts2[0].split(':');
+	real.year = partsDate[2];
+	real.month = partsDate[0];
+	real.day = partsDate[1];
+	let hour = parseInt(partsHour[0]) + (parts2[1] && parts2[1] == 'PM'?12:0);
+	real.hour = (hour < 10?'0':'') + hour;
 	real.thour = hour >= 12?'PM':'AM';
 	real.hour12 = hour % 12;
 	real.hour12 = real.hour12 == 0?12:real.hour12;
-	real.hour = (hour < 10? '0':'') + hour;
-	var minute = date.getMinutes();
-	real.minute = (minute < 10? '0':'') + minute;
-	var second = date.getSeconds();
-	real.second = (second < 10? '0':'') + second;
-	real.nday = AppSettings.NAMES_DAYS[date.getDay()];
-	real.nmonth = AppSettings.NAMES_MONTH[month - 1];
-	real.timeseconds = date.getTime();
+	real.minute = partsHour[1];
+	real.second = partsHour[2];
+	real.nday = AppSettings.NAMES_DAYS[new Date(sdtz).getDay()];
+	real.nmonth = AppSettings.NAMES_MONTH[(Number(real.month) - 1)];
+	real.timeseconds = localDate.getTime();
+	real.toText = real.year + '-' + real.month + '-' + real.day + ' ' + real.hour + ':' + real.minute + ':' + real.second;
 	return real;
 }
+
+
 
 export function GetFirstDayWeek(d) {
 	d = new Date(d);
