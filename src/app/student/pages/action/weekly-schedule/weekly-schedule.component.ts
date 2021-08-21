@@ -9,7 +9,7 @@ import { AssistanceService } from '../../../../services/assistance.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { Observable, Subject } from 'rxjs';
 import { setHours, setMinutes } from 'date-fns';
-import { RealDate, AddDay, SameDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../../helpers/dates';
+import { RealDateTz, RealDate, AddDay, SameDay, DateFixedSO, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../../helpers/dates';
 import * as CryptoJS from 'crypto-js';
 import * as moment from 'moment-timezone';
 import { first } from 'rxjs/operators';
@@ -28,7 +28,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	realClass: any;
 	virtualClass: Array<any>;
 	realModal: any;
-	realDate = RealDate();
+	realDate = RealDateTz();
 	realHourStart;
 	public loading = false;
 	realHourEnd;
@@ -49,7 +49,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	events: CalendarEvent[] = [];
 	CalendarView = CalendarView;
 	view: CalendarView = CalendarView.Week;
-	viewDate: Date = new Date(RealDate().toText);
+	viewDate: Date = DateFixedSO(this.realDate.sDate, this.realDate.sTime);
 	refresh: Subject<any> = new Subject();
 	locale: string = 'en';
 	hourSegments: number = 2;
@@ -78,7 +78,6 @@ export class WeeklyScheduleComponent implements OnInit {
 		private studentS: StudentService) { }
 
 	ngOnInit() {
-		console.log(this.viewDate);
 		this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
 			.then(res => {
 				this.programs = res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
@@ -87,6 +86,8 @@ export class WeeklyScheduleComponent implements OnInit {
 					this.getData();
 				}
 			}, error => { });
+			alert(JSON.stringify(this.realDate));
+		console.log(navigator.userAgent.toLowerCase());
 	}
 
 	getData() {
@@ -155,7 +156,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		realClass.CLASS_ATTEND_DT = realClass.date;
 		this.assistanceS.getAssistanceNBR(realClass)
 			.then(res => {
-				this.realDate = RealDate();
+				this.realDate = RealDateTz();
 				var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0] ? res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR : '';
 				var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
 				var realHourStart = this.realHourStart.year + '-' + this.realHourStart.month + '-' + this.realHourStart.day;
@@ -196,7 +197,6 @@ export class WeeklyScheduleComponent implements OnInit {
 			}, error => { this.goMoodle(); });
 		setTimeout(() => {
 			this.loading = false;
-			// console.log('!err');
 		}, 15000);
 	}
 
@@ -231,7 +231,9 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	closeOpenMonthViewDay() {
+		// alert((this.viewDate));
 		var firstDate = GetFirstDayWeek(this.viewDate);
+		// alert(JSON.stringify(RealDate(firstDate)));
 		var days = {
 			MON: RealDate(firstDate),
 			TUES: RealDate(AddDay(firstDate, 1)),
@@ -244,6 +246,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		var events = [];
 		var objEvents = {};
 		let dates: any = {};
+		// alert(JSON.stringify(days));
 		this.classDay.forEach(classD => {
 			for (var kDay in days) {
 				if (classD[kDay] == 'Y') {
