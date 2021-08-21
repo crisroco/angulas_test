@@ -197,7 +197,7 @@ export class StudentService {
     
     public getLinkZoom(cicle, myclass, date, teacher, section, inst): Promise<any> {
         let url = "https://cientificavirtual.cientifica.edu.pe//mod/zoom/client/zoom_link.php?strm=";
-        if(cicle == '1072' || cicle == '1073' || cicle == '1117' || cicle == '1118' || cicle == '1156' || cicle == '1157' || cicle == '2220' || cicle == '2222' || cicle == '2225' || cicle == '2235' || cicle == '2237' || cicle == '2238'){
+        if(cicle == '1072' || cicle == '1073' || cicle == '1117' || cicle == '1118' || cicle == '1156' || cicle == '1157' || cicle == '2220' || cicle == '2222' || cicle == '2225' || cicle == '2228' || cicle == '2235' || cicle == '2237' || cicle == '2238'){
             url = "https://aulavirtualcpe.cientifica.edu.pe/mod/zoom/client/zoom_link.php?strm=";
         }
         return this.http.get(url + cicle + '&nbr=' + myclass + '&date=' + date + '&teacher=' +  teacher.replaceAll('?','@@') + '&section=' + section + '&institution=' + inst, { responseType: 'text' }).toPromise();
