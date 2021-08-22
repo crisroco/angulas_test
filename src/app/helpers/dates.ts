@@ -34,7 +34,7 @@ export function RealDateTz(d = null, timezone = "America/Lima"){
 	real.month = parseInt(month) > 9?month:'0' + month;
 	let day = partsDate[1];
 	real.day = parseInt(day) > 9?day:'0' + day;
-	let hour = parseInt(partsHour[0]) + (parts2[1] && parts2[1] == 'PM'?12:0);
+	let hour = parseInt(partsHour[0]) + (parts2[1] && parts2[1] == 'PM' && parseInt(partsHour[0]) != 12?12:0);
 	real.hour = (hour < 10?'0':'') + hour;
 	real.thour = hour >= 12?'PM':'AM';
 	real.hour12 = hour % 12;
