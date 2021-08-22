@@ -9,8 +9,10 @@ import { AssistanceService } from '../../../../services/assistance.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
 import { Observable, Subject } from 'rxjs';
 import { setHours, setMinutes } from 'date-fns';
-import { RealDate, AddDay, SameDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../../helpers/dates';
+import { RealDateTz, RealDate, AddDay, SameDay, DateFixedSO, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../../helpers/dates';
 import * as CryptoJS from 'crypto-js';
+import * as moment from 'moment-timezone';
+import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-weekly-schedule',
@@ -26,11 +28,12 @@ export class WeeklyScheduleComponent implements OnInit {
 	realClass: any;
 	virtualClass: Array<any>;
 	realModal: any;
-	realDate = RealDate();
+	realDate = RealDateTz();
 	realHourStart;
 	public loading = false;
 	realHourEnd;
 	offsetHour = 1000 * 60 * 10;
+  	// public dateMoment = moment().tz('America/Lima').format('dddd, D MMMM YYYY HH:mm:ss');
 
 	virtualRoom: any = {
 		"PSTGR": "https://aulavirtualposgrado.cientifica.edu.pe/",
@@ -47,7 +50,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	events: CalendarEvent[] = [];
 	CalendarView = CalendarView;
 	view: CalendarView = CalendarView.Week;
-	viewDate: Date = new Date();
+	viewDate: Date = DateFixedSO(this.realDate.sDate, this.realDate.sTime);
 	refresh: Subject<any> = new Subject();
 	locale: string = 'en';
 	hourSegments: number = 2;
@@ -84,6 +87,14 @@ export class WeeklyScheduleComponent implements OnInit {
 					this.getData();
 				}
 			}, error => { });
+	}
+
+	capitalizarPrimeraLetra(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	getDateMoment() {
+		return this.capitalizarPrimeraLetra(moment().tz('America/Lima').format('dddd, D MMMM YYYY HH:mm'));
 	}
 
 	getData() {
@@ -152,7 +163,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		realClass.CLASS_ATTEND_DT = realClass.date;
 		this.assistanceS.getAssistanceNBR(realClass)
 			.then(res => {
-				this.realDate = RealDate();
+				this.realDate = RealDateTz();
 				var templt_nbr = res.UCS_ASIST_ALUM_RES && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM && res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0] ? res.UCS_ASIST_ALUM_RES.UCS_ASIST_ALUM_COM[0].ATTEND_TMPLT_NBR : '';
 				var realDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
 				var realHourStart = this.realHourStart.year + '-' + this.realHourStart.month + '-' + this.realHourStart.day;
@@ -193,7 +204,6 @@ export class WeeklyScheduleComponent implements OnInit {
 			}, error => { this.goMoodle(); });
 		setTimeout(() => {
 			this.loading = false;
-			// console.log('!err');
 		}, 15000);
 	}
 
@@ -215,7 +225,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		}
 		this.openTabZoom(url);
 	}
-
+	
 	openTabZoom(res) {
 		let link = res.replace(/<\/?[^>]+(>|$)/g, "");
 		let a = document.createElement("a");
@@ -228,7 +238,6 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	closeOpenMonthViewDay() {
-		console.log(this.viewDate);
 		var firstDate = GetFirstDayWeek(this.viewDate);
 		var days = {
 			MON: RealDate(firstDate),
@@ -274,20 +283,8 @@ export class WeeklyScheduleComponent implements OnInit {
 	getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
 		let start: Date;
 		let end: Date;
-		const ua = navigator.userAgent.toLowerCase();
-		if (ua.indexOf('safari') !== -1) {
-			if (ua.indexOf('chrome') > -1) {
-				start = new Date(rDay + 'T' + MEETING_TIME_START);
-				end = new Date(rDay + 'T' + MEETING_TIME_END);
-			} else {
-				start = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_START)));
-				end = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_END)));
-			}
-		} else {
-			start = new Date(rDay + 'T' + MEETING_TIME_START);
-			end = new Date(rDay + 'T' + MEETING_TIME_END);
-		}
-
+		start = DateFixedSO(rDay, MEETING_TIME_START);
+		end = DateFixedSO(rDay, MEETING_TIME_END);
 		return { start, end };
 	}
 
