@@ -2,8 +2,7 @@
   <h6 class="px-4 ml-1 my-4" style="font-weight: 500">{{getDateMoment()}}</h6>
   <ng-container *ngFor="let data of courseSplit()">
     <div *ngIf="!this.validateAfter(data.MEETING_TIME_END)" (click)="openLinkZoom(data)" class="course-item px-4 py-2"
-      [class.active-prev-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data)"
-      [class.active-course]="validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data)">
+      [class.active-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data)">
       <div class="d-flex flex-column" style="height: 100px;">
         <div>
           <strong class="mt-1 d-block" style="width: 155px;">{{limitCharacter(data?.DESCR)}}</strong>
@@ -15,7 +14,7 @@
       </div>
       <div class="pt-2">
         <div
-          *ngIf="validateRange(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data); else tempDefault"
+          *ngIf="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data); else tempDefault"
           style="width: 95px; line-height: normal; background-color: #FDB22B; border-radius: 6px;"
           class="d-flex align-items-center px-3 py-2 text-ucs">
           <i class="fa fa-circle mr-2"></i> <small style="font-size: 10px;"><b>CLASE EN VIVO</b></small>

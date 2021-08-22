@@ -24,6 +24,8 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   //VARS
   private afterMinutes = 10;
   //MOMENT
+  // private dateMoment = moment().tz('America/Lima').format('YYYY-MM-DD');
+  // private dateTimeMoment = moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss');
   private dateMoment = moment().tz('America/Lima').format('YYYY-MM-DD');
   private dateTimeMoment = moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss');
   //RXJS
@@ -46,6 +48,8 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   openLinkZoom(data) {
+    console.log(this.dateTimeMoment)
+    console.log(this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END));
     if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && this.validateClick(data)) {
       let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).tz('America/Lima').format('X');
       this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE, data.CLASS_SECTION, data.INSTITUTION)
@@ -66,7 +70,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     let a = document.createElement("a");
     a.setAttribute('style', 'display: none');
     a.href = link;
-    a.target = '_blank'
+    a.target = '_self'
     a.click();
     window.URL.revokeObjectURL(link);
     a.remove();
@@ -77,7 +81,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   calculateTime(time) {
-    return this.transformTime(moment(`${this.dateMoment} ${time}`).fromNow());
+    return this.transformTime(moment(`${this.dateMoment} ${time}`).from(this.dateTimeMoment));
   }
 
   transformTime(time: string) {
