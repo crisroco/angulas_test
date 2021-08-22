@@ -13,7 +13,7 @@ import { IntentionService } from '../../../services/intention.service';
 import { AssistanceService } from '../../../services/assistance.service';
 import { NewEnrollmentService } from '../../../services/newenrollment.service';
 import { AppSettings } from '../../../app.settings';
-import { BetweenDays, RealDate } from '../../../helpers/dates';
+import { BetweenDays, RealDate, RealDateTz, DateFixedSO } from '../../../helpers/dates';
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
 import { notice } from './notice';
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
   academicData: any;
   enrollmentStatus: any;
   loading: boolean = false;
-  realDate: any = RealDate();
+  realDate: any = RealDateTz();
   noClosed: boolean;
   enroll: any;
   enroll_conditions: any = '';
@@ -124,6 +124,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     // this.showModals();
+    this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
@@ -579,7 +580,8 @@ export class DashboardComponent implements OnInit {
       this.toastr.error('Aún no tienes Turno de Matricula.');
       return;
     }
-    this.realDate = RealDate();
+    this.realDate = RealDateTz();
+    this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
     if (this.realDate.timeseconds >= this.queueEnroll.date.timeseconds) { window.open('/estudiante/accion/matricula', '_self'); } //this.router.navigate(['/estudiante/accion/matricula']);
     else { this.toastr.error(this.queueEnroll.mensaje, '', { enableHtml: true }) };
   }
@@ -609,8 +611,6 @@ export class DashboardComponent implements OnInit {
   }
 
   checkAssist() {
-    // console.log(this.nextClassLink);
-    
     window.open(this.nextClassLink, '_blank');
   }
 
@@ -694,9 +694,9 @@ export class DashboardComponent implements OnInit {
               }
               // if (sending) {
               this.assistanceS.sendAssistanceOnlinePs(data3)
-                .then(res => {
-                });
-              // }
+              .then(res => {
+                if(data.callback) data.callback();
+              });
             });
         }
       }
@@ -731,20 +731,8 @@ export class DashboardComponent implements OnInit {
   getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
     let start: Date;
     let end: Date;
-    const ua = navigator.userAgent.toLowerCase();
-    if (ua.indexOf('safari') !== -1) {
-      if (ua.indexOf('chrome') > -1) {
-        start = new Date(rDay + 'T' + MEETING_TIME_START);
-        end = new Date(rDay + 'T' + MEETING_TIME_END);
-      } else {
-        start = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_START)));
-        end = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_END)));
-      }
-    } else {
-      start = new Date(rDay + 'T' + MEETING_TIME_START);
-      end = new Date(rDay + 'T' + MEETING_TIME_END);
-    }
-
+    start = DateFixedSO(rDay, MEETING_TIME_START);
+    end = DateFixedSO(rDay, MEETING_TIME_END);
     return { start, end };
   }
 

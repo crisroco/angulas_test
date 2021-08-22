@@ -3,6 +3,7 @@ import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment-timezone';
 import { StudentService } from 'src/app/services/student.service';
 import { SessionService } from 'src/app/services/session.service';
+import { DateFixedSOTz } from '../../../helpers/dates';
 
 @Component({
   selector: 'app-menu-course',
@@ -24,8 +25,6 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   //VARS
   private afterMinutes = 10;
   //MOMENT
-  // private dateMoment = moment().tz('America/Lima').format('YYYY-MM-DD');
-  // private dateTimeMoment = moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss');
   private dateMoment = moment().tz('America/Lima').format('YYYY-MM-DD');
   private dateTimeMoment = moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss');
   //RXJS
@@ -48,15 +47,17 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   openLinkZoom(data) {
-    console.log(this.dateTimeMoment)
-    console.log(this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END));
-    if (this.validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && this.validateClick(data)) {
-      let time = moment(`${this.dateMoment} ${data.MEETING_TIME_START}`).tz('America/Lima').format('X');
-      this.studentService.getLinkZoom(data.STRM, data.CLASS_NBR2, Number(time), data.DOCENTE, data.CLASS_SECTION, data.INSTITUTION)
+     let sendData = JSON.parse(JSON.stringify(data));
+    if (this.validateRangeWithAfterMinutes(sendData.MEETING_TIME_START, sendData.MEETING_TIME_END) && this.validateClick(sendData)) {
+      // let time2 = moment(`${this.dateMoment} ${sendData.MEETING_TIME_START}`).format('X');
+      let time = Math.floor(Number(DateFixedSOTz(this.dateMoment, sendData.MEETING_TIME_START))/1000);
+      this.studentService.getLinkZoom(sendData.STRM, sendData.CLASS_NBR2, time, sendData.DOCENTE, sendData.CLASS_SECTION, sendData.INSTITUTION)
         .then((res) => {
           if (!res.includes('false')) {
-            this.openTabZoom(res);
-            this.openZoomEmit.emit(data);
+            sendData.callback = (() => {
+              this.openTabZoom(res);
+            })
+            this.openZoomEmit.emit(sendData);
           } else {
             this._s.seterrorModal(true);
           }
@@ -100,7 +101,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
     let initDate = `${this.dateMoment} ${init}`;
     let endDate = `${this.dateMoment} ${end}`;
 
-    return moment(this.dateTimeMoment).isBetween(moment(initDate).tz('America/Lima').subtract(this.afterMinutes, 'minutes'), endDate);
+    return moment(this.dateTimeMoment).isBetween(moment(initDate).subtract(this.afterMinutes, 'minutes'), endDate);
   }
 
   validateAfter(end) {

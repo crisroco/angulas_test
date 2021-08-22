@@ -97,6 +97,18 @@ export function DateFixedSO(sDay, sTime){
 	return start;
 }
 
+export function DateFixedSOTz(sDay, sTime, timezone = 'GMT-0500'){
+	const ua = navigator.userAgent.toLowerCase();
+	let start;
+	if (ua.indexOf('windows') !== -1) {
+		start = new Date(sDay + ' ' + sTime + ' ' + timezone);
+	} else {
+		var date = sDay.split('-');
+		start = new Date(parseInt(date[1]) + '/' + parseInt(date[2]) + '/' + date[0] + ', ' + sTime + ' ' + timezone);
+	}
+	return start;
+}
+
 export function GetHour(pHour: string): string {
 	const arrHour = pHour.split(':');
 	let hour = Number(arrHour[0]);
