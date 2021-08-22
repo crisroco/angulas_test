@@ -33,6 +33,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	public loading = false;
 	realHourEnd;
 	offsetHour = 1000 * 60 * 10;
+  	// public dateMoment = moment().tz('America/Lima').format('dddd, D MMMM YYYY HH:mm:ss');
 
 	virtualRoom: any = {
 		"PSTGR": "https://aulavirtualposgrado.cientifica.edu.pe/",
@@ -86,8 +87,14 @@ export class WeeklyScheduleComponent implements OnInit {
 					this.getData();
 				}
 			}, error => { });
-			alert(JSON.stringify(this.realDate));
-		console.log(navigator.userAgent.toLowerCase());
+	}
+
+	capitalizarPrimeraLetra(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	getDateMoment() {
+		return this.capitalizarPrimeraLetra(moment().tz('America/Lima').format('dddd, D MMMM YYYY HH:mm'));
 	}
 
 	getData() {
@@ -231,9 +238,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	closeOpenMonthViewDay() {
-		// alert((this.viewDate));
 		var firstDate = GetFirstDayWeek(this.viewDate);
-		// alert(JSON.stringify(RealDate(firstDate)));
 		var days = {
 			MON: RealDate(firstDate),
 			TUES: RealDate(AddDay(firstDate, 1)),
@@ -246,7 +251,6 @@ export class WeeklyScheduleComponent implements OnInit {
 		var events = [];
 		var objEvents = {};
 		let dates: any = {};
-		// alert(JSON.stringify(days));
 		this.classDay.forEach(classD => {
 			for (var kDay in days) {
 				if (classD[kDay] == 'Y') {
@@ -279,20 +283,8 @@ export class WeeklyScheduleComponent implements OnInit {
 	getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
 		let start: Date;
 		let end: Date;
-		const ua = navigator.userAgent.toLowerCase();
-		if (ua.indexOf('safari') !== -1) {
-			if (ua.indexOf('chrome') > -1) {
-				start = new Date(rDay + 'T' + MEETING_TIME_START);
-				end = new Date(rDay + 'T' + MEETING_TIME_END);
-			} else {
-				start = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_START)));
-				end = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_END)));
-			}
-		} else {
-			start = new Date(rDay + 'T' + MEETING_TIME_START);
-			end = new Date(rDay + 'T' + MEETING_TIME_END);
-		}
-
+		start = DateFixedSO(rDay, MEETING_TIME_START);
+		end = DateFixedSO(rDay, MEETING_TIME_END);
 		return { start, end };
 	}
 

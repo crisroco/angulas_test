@@ -16,11 +16,15 @@ export function RealDateTz(d = null, timezone = "America/Lima"){
 		timeseconds: 0,
 		toText: '',
 		sDate: '',
-		sTime: ''
+		sTime: '',
+		localDate: null,
+		sdtz: ''
 	};
 	var date = d?d:Date.now();
 	var localDate = new Date(date);
     var sdtz = new Date(date).toLocaleString('en-US', {timeZone: "America/Lima"});
+    real.sdtz = sdtz;
+    real.localDate = localDate;
     const parts = sdtz.split(', ');
     const partsDate = parts[0].split('/');
     const parts2 = parts[1].split(' ');
@@ -87,7 +91,8 @@ export function DateFixedSO(sDay, sTime){
 	if (ua.indexOf('windows') !== -1) {
 		start = new Date(sDay + ' ' + sTime);
 	} else {
-		start = new Date(GetDay(sDay, GetHour(sTime)));
+		var date = sDay.split('-');
+		start = new Date(parseInt(date[1]) + '/' + parseInt(date[2]) + '/' + date[0] + ', ' + sTime);
 	}
 	return start;
 }
