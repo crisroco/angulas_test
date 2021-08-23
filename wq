@@ -1,0 +1,2494 @@
+[33mcommit 983db3768d84a2da4c40df93eda19f97a6aa7248[m[33m ([m[1;36mHEAD -> [m[1;32mtest[m[33m)[m
+Merge: 99e5986 90f6ba0
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Sun Aug 22 18:41:37 2021 +1100
+
+    Merge remote-tracking branch 'origin' into test
+
+[33mcommit 99e5986ec75f7cd4e40fe92bacdcfa83e041f89e[m[33m ([m[1;31morigin/test[m[33m)[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Sat Aug 21 20:42:14 2021 -0500
+
+    schedule with timezone Lima
+
+[33mcommit 31556062a4eb628cde0605a29753a893b8673394[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Sat Aug 21 23:05:46 2021 +0200
+
+    u
+
+[33mcommit 90f6ba0599826e06f7d353d735cf04c4a76819cb[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Sun Aug 22 07:31:38 2021 +1100
+
+    adding strm
+
+[33mcommit 00c9cfde5a48e38c6d4526faf96de9baa3c4ac4d[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Sun Aug 22 04:26:54 2021 +1100
+
+    changing wsp number
+
+[33mcommit 90ebf345f5c629cec6ad23e73f1fd5e9bb0ff789[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Sat Aug 21 10:29:38 2021 +1100
+
+    schedule
+
+[33mcommit ea0d36cffd547d8693877802ba2e01e9f504fd5f[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Sat Aug 21 07:33:27 2021 +1100
+
+    timezone added
+
+[33mcommit fd417584ac2f28ca9282791aeddba1360ed66b3a[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Aug 20 13:24:04 2021 -0500
+
+    modal when err moddle
+
+[33mcommit 33017e249f8e3cdf82916ced92801bed5fb77887[m[33m ([m[1;32mmigration-components-ui[m[33m)[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Aug 20 11:40:41 2021 -0500
+
+    text-center to schedule and login loader
+
+[33mcommit 3b60dec581fa76dd9d43eb0c446cb008c7a313b7[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Aug 20 11:40:39 2021 -0500
+
+    text-center to schedule and login loader
+
+[33mcommit f148d01e8a1288122d27aecbec5f8ba44f3d4382[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Aug 20 11:19:05 2021 -0500
+
+    adding oprids to BO
+
+[33mcommit 28f8925e2ea508c40a846c728382f18a4bd7fb3d[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Aug 20 00:57:38 2021 -0500
+
+    adding vacunation modal
+
+[33mcommit 935070a3079dd9c6b8f6cb5edd9c99592709734a[m
+Merge: edcb399 c191943
+Author: mario alzamora benavides <marioalzamorabenavides@gmail.com>
+Date:   Fri Aug 20 04:38:26 2021 +0000
+
+    Fusionado en migration-components-ui (solicitud de integración #2)
+    
+    Migration components ui
+
+[33mcommit c1919431de08e3614a24ce95cff90e9d7fb3dde6[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 23:35:33 2021 -0500
+
+    restar config show course
+
+[33mcommit 76bb14d87f63ea2ea7955cde6569c6b7955eda9b[m
+Author: Joseph Infante <josephinfante.y@gmail.com>
+Date:   Thu Aug 19 22:05:14 2021 -0500
+
+    adding post
+
+[33mcommit 1f1fe1e02c369bd04f1f7d8e04928f1ae62da691[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 21:20:02 2021 -0500
+
+    fixed response false false1 flase2
+
+[33mcommit 47ded91c2007759ca6031527e36c7395a9fde0a5[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 21:09:56 2021 -0500
+
+    change fecha
+
+[33mcommit 6517b7f9ae77afc6c54cd457514127b541c43031[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 19:08:01 2021 -0500
+
+    test course
+
+[33mcommit a2ad3f24a9fcb325b27da191d21f7150de4895e4[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 17:09:34 2021 -0500
+
+    fixed bug redirect zoom and moodle
+
+[33mcommit 1d3c1330832ee8c8e48e94e8882d776f32bc778e[m[33m ([m[1;31morigin/migration-components-ui[m[33m)[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Aug 19 14:32:25 2021 -0500
+
+    adding strm to new moddle
+
+[33mcommit 1b0a32bf8e9254d38f6452b7c238780b7e9c8fb6[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 13:03:23 2021 -0500
+
+    change ruta zoom
+
+[33mcommit aab0884cd92bda7798829299e5fa10ba67e4b480[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 11:38:50 2021 -0500
+
+    pruebas link
+
+[33mcommit 1162aea2d9c5ed2c8ba0238d95cf2622939a2543[m
+Merge: c59c517 edcb399
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 10:57:32 2021 -0500
+
+    Merge branch 'master' of https://bitbucket.org/ucs_development/miportal_cientifica into migration-components-ui
+
+[33mcommit c59c51751020ac837c5fc8a87c8fa915c3637897[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 10:54:23 2021 -0500
+
+    space
+
+[33mcommit eec66b93db6b082dcb184af964db1a11b38f33e0[m
+Merge: 6bf0f6f 4b83639
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 10:49:45 2021 -0500
+
+    Merge branch 'master' into migration-components-ui
+
+[33mcommit 6bf0f6fc0e6458325d63040f75f84d8c3af111fc[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 10:41:04 2021 -0500
+
+    fixed bud fetch
+
+[33mcommit edcb399f4211d0076a48281d6fd870c0a299da79[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Aug 19 08:57:57 2021 -0500
+
+    enrollment load data
+
+[33mcommit 98074532e19a362187ccb8c51aaad1a6a0462ab1[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 08:56:35 2021 -0500
+
+    fixed all course
+
+[33mcommit db78766b6c37303aa6e44ce836969df81684e481[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 19 05:44:33 2021 -0500
+
+    fixed bug
+
+[33mcommit 850aa7f50f4ec03dfe652201808ad3a379a50e38[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Tue Aug 17 13:34:06 2021 -0500
+
+    image responsive
+
+[33mcommit 2749420b5d6d42f3f83fad15dd339b4553ed4418[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Tue Aug 17 13:18:35 2021 -0500
+
+    modify strm filter
+
+[33mcommit d2a594efa560ae96fdaa99b99771593dd7ccdf44[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Tue Aug 17 12:59:16 2021 -0500
+
+    update msg
+
+[33mcommit 970125f5ace6af2fe2c7f261d6dbec156c9b969e[m
+Merge: 0970151 ac6dca2
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Tue Aug 17 10:37:29 2021 -0500
+
+    merge to master
+
+[33mcommit 09701513e20514d9f2c6581bba73b507123578e7[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Tue Aug 17 10:33:03 2021 -0500
+
+    config course and add modal error
+
+[33mcommit 4b8363999716742ae8cbb3f7130f213a957f4b93[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Aug 17 10:28:20 2021 -0500
+
+    fixing BO
+
+[33mcommit 98f0cd79bd6ed09e96f1e471f559d7b78c12a104[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Mon Aug 16 03:34:03 2021 -0500
+
+    add zoom in img and menu toggle hide click body
+
+[33mcommit ac6dca231fc315a0a4ec13499885bbe0749bc546[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Aug 13 09:58:02 2021 -0500
+
+    changing message
+
+[33mcommit 8627eac52afe711645297cc2361aec9718c6b595[m
+Author: Mario Alzamora benavides <marioalzamorabenavides@gmail.com>
+Date:   Fri Aug 13 03:51:52 2021 -0500
+
+    modify styles
+
+[33mcommit 5ffffbf76e865c07859217ed3d08805afdf2ff01[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Aug 12 15:54:01 2021 -0500
+
+    removing modal
+
+[33mcommit 2f1f00ff307a2ae4b8e53902170affbbf47426cf[m
+Author: Mario Alzamora benavides <marioalzamorabenavides@gmail.com>
+Date:   Wed Aug 11 16:42:36 2021 -0500
+
+    change view course add components
+
+[33mcommit b0531af4b6e4ec4862df6aac9156f23d65ec7b55[m
+Author: Mario Alzamora benavides <marioalzamorabenavides@gmail.com>
+Date:   Wed Aug 11 13:29:26 2021 -0500
+
+    remove image and up performance
+
+[33mcommit 1f6ef5459a9f5d3a17ec8b24d010380a621bd88f[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Mon Aug 9 19:43:02 2021 -0500
+
+    modify text css
+
+[33mcommit 92f80fbddee6d6166cec8f534029705236b7b8ea[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Mon Aug 9 16:49:03 2021 -0500
+
+    letters and img
+
+[33mcommit 10feef70c4f0eb90f5e3b899515eec0c420e44ab[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Mon Aug 9 14:12:12 2021 -0500
+
+    add order and link zoom mock
+
+[33mcommit 84de3ad926265acf9243f98ccab1ed944b85a9d0[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Mon Aug 9 12:49:41 2021 -0500
+
+    add link zoom
+
+[33mcommit 50f3b1f843d4f2c22fc22a17a3f68679b3d2e854[m[33m ([m[1;32msurveys[m[33m)[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Aug 9 11:43:00 2021 -0500
+
+    video enrollment
+
+[33mcommit 60aa32232c39f9a7535165c76a9475fcca9a10c4[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Sun Aug 8 01:14:16 2021 -0500
+
+    fixed course undefined
+
+[33mcommit b02f492179827122836ec5c8ca7fdb19d8805437[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Sun Aug 8 01:02:23 2021 -0500
+
+    change mock data
+
+[33mcommit f1002c8da4be606ace1264674b13a094d214ed48[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Sun Aug 8 00:43:28 2021 -0500
+
+    change img and fixed loader
+
+[33mcommit c02f5f73eade3785ec7b37364b1f801572cb8516[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Fri Aug 6 14:34:35 2021 -0500
+
+    add course reactive component
+
+[33mcommit 5f7cfd387584766c40d03166ce8d421863050b36[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Aug 6 11:14:18 2021 -0500
+
+    Link to virtual room
+
+[33mcommit c2198e80af23644daa557d679c2f3e8e11d646d2[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Fri Aug 6 02:44:21 2021 -0500
+
+    remove double submit in form
+
+[33mcommit 9c9a62f1ae8c41127af04758f70d2a2a0a39bd5e[m
+Merge: fafd08a 67e3fe1
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Fri Aug 6 01:22:32 2021 -0500
+
+    fixed conflict
+
+[33mcommit fafd08a78db92d85fa8f7430b5946d908dcdae02[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Fri Aug 6 00:56:15 2021 -0500
+
+    change route dev
+
+[33mcommit 67e3fe10d9a945b163497d0a358ca76ceee23362[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Aug 5 23:42:59 2021 -0500
+
+    fixing crosses in BO
+
+[33mcommit e09dde83e22a7d0683e475305807a90920581fa5[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 5 15:55:04 2021 -0500
+
+    modify click other components
+
+[33mcommit 41768c75dec6e63ee611d791df9d860701f4b093[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 5 15:39:50 2021 -0500
+
+    fixed menu responsive
+
+[33mcommit 00379b30678337e43580d7df7a25e923a2580916[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 5 15:29:12 2021 -0500
+
+    add mini menu responsive and header responsive
+
+[33mcommit d14b4603df92b615d36c2629ebcd838233ad91bf[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 5 12:01:03 2021 -0500
+
+    add menu person and block responsive
+
+[33mcommit b01305ef3fb90860767a4f79eaa95651b06fe8b6[m[33m ([m[1;32mupdateAngular[m[33m)[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Aug 5 09:06:37 2021 -0500
+
+    validate deuda
+
+[33mcommit 8ffe0ab0102c747b886486eaa7fa01d6691abf37[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Thu Aug 5 04:26:54 2021 -0500
+
+    add sidebar and responsive
+
+[33mcommit ed10bc601ad213724b1703f6c8402f451c227534[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Aug 4 19:30:09 2021 -0500
+
+    to my tables
+
+[33mcommit 738e453a85e4066b019a5a423c5b93a1bbef4eec[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Aug 4 15:02:54 2021 -0500
+
+    adding newStrm
+
+[33mcommit dac224564216950838dc7996d5071ad42df1f4eb[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Aug 4 14:51:33 2021 -0500
+
+    changes for enrollment
+
+[33mcommit 75359cb6dd6cf85fae4e28ecdf33d8aa9a90e36b[m
+Author: unknown <marioalzamorabenavides@gmail.com>
+Date:   Wed Aug 4 04:10:52 2021 -0500
+
+    migration to components ui
+
+[33mcommit b871eda5df37e1874e6668f4e73900da2c44cd55[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Aug 3 18:06:40 2021 -0500
+
+    changes for tst
+
+[33mcommit 0611f89db9ca85161926961b63f60b4c6a1a1222[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Aug 3 12:43:09 2021 -0500
+
+    vacunationModal
+
+[33mcommit 30f14a1f363038791baf4dc35e4539cba5604f9c[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Aug 3 11:44:51 2021 -0500
+
+    moodle strm
+
+[33mcommit 43fe7309050d880be3e8df2dd31077bf127c43bc[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Aug 2 09:38:20 2021 -0500
+
+    modal august
+
+[33mcommit dd629d7c07c1040f20ba328294f62f8966b38c23[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jul 27 09:49:13 2021 -0500
+
+    notvalidate
+
+[33mcommit 65102512f3aa1ae083f7063fe3ce60fb2c5787dd[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 26 13:35:32 2021 -0500
+
+    enrollment ready
+
+[33mcommit 4056dbe504bba3ce12e7c06d73ed7d7f1d5d65d7[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 26 09:54:35 2021 -0500
+
+    fixing session change actions_page
+
+[33mcommit fba3db9d3ed41f9aa723998970ba9b4ce29793ef[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 26 09:37:37 2021 -0500
+
+    fixing session change
+
+[33mcommit a7cceabf55668a75e965d94050bde93ea8760dcc[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 26 09:36:39 2021 -0500
+
+    fixing session change
+
+[33mcommit 150fffd11897fa9e6b894c9f81b6455bf42d0377[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 23 17:31:00 2021 -0500
+
+    test
+
+[33mcommit 2b811fd34b09bd345d55f635b849b145aeffa356[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 23 16:29:37 2021 -0500
+
+    vacunation and disabled modal
+
+[33mcommit 2072bbddaa0503b2d1e8b37038425cef4be8fafe[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jul 21 10:37:25 2021 -0500
+
+    modal and nextclasslink
+
+[33mcommit 5a54ee4353bbf5a646d531f7227cb99a8ab1c0bf[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jul 20 15:15:33 2021 -0500
+
+    fixing wsp msg
+
+[33mcommit 9074ff48b3a35cd622a49c6aa96faf274851a69c[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 19 17:48:05 2021 -0500
+
+    change modal
+
+[33mcommit edf42193e954bab1d7452aed0d81ecd9b5e49011[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 19 17:10:40 2021 -0500
+
+    modals monday
+
+[33mcommit 3a154e9d92357877d16332e7956f57a340aaee2d[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 19 11:19:48 2021 -0500
+
+    removing enrollment
+
+[33mcommit f1f176d17c9af9499f50d08c1aaf4b9cad21db68[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 19 10:32:48 2021 -0500
+
+    removing schedule
+
+[33mcommit c44f5915775c68104d6ffc87de27fca3f050ef9a[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 16 13:36:40 2021 -0500
+
+    removing enrollmetn
+
+[33mcommit 32d3deeb5b54d43599928b9f88edc21fbbb5f053[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 15 10:25:16 2021 -0500
+
+    dashboard
+
+[33mcommit 50f19ffdf10edb6aafc2b0e07c5fa862c9a3cb0c[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jul 12 13:13:21 2021 -0500
+
+    crosses
+
+[33mcommit a454d1723b3bf5ca97fcb8b1ca35e29ef2f0840d[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 9 15:31:32 2021 -0500
+
+    fix
+
+[33mcommit 7ef22c714e61e1bdf2f8c1a8a14bc06d6a8046f6[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 9 14:48:11 2021 -0500
+
+    oprid to BO
+
+[33mcommit c6495f1e2b5642bede2bfa4fedb1b3f4d9b27fcc[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 9 14:22:01 2021 -0500
+
+    number !=0
+
+[33mcommit b2cf5652a9b425d8fa9999fd42f4f35206888999[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 9 11:34:03 2021 -0500
+
+    fix en BO
+
+[33mcommit f591b48e6b87c03fc9aa0fe49114dc929d0a8800[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 9 11:04:29 2021 -0500
+
+    data from PS
+
+[33mcommit 9483c7dff9bd185e2e0be78f23ed26f16aca263b[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 9 10:52:52 2021 -0500
+
+    check in enrollment to PS
+
+[33mcommit 61934ea3762b7662936156f7566c819e9b963921[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 8 16:16:33 2021 -0500
+
+    last changes in enrollment
+
+[33mcommit 2101f30b4079ab109204d52386e01e3ee2f647ed[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 8 15:31:53 2021 -0500
+
+    fixing remotex
+
+[33mcommit f982c18440d4c187d0118a6d7846891e244a3b21[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 8 15:10:43 2021 -0500
+
+    fixing remotex
+
+[33mcommit d0951dd718400f179570cf6c1a5a09bd4595801a[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 8 15:03:50 2021 -0500
+
+    fixing remotex
+
+[33mcommit 49c72b2bd66d56701ff817d2142f34edf81e680d[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 8 12:16:56 2021 -0500
+
+    fixed
+
+[33mcommit ab2eeac38911ea278ad25dcfd66c778999328f9b[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 8 11:08:28 2021 -0500
+
+    lective courses
+
+[33mcommit 594302add61a60ed3f5704f81da0ff4d6757f2c9[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 8 09:56:41 2021 -0500
+
+    fixing turn
+
+[33mcommit b0123479f0b18a9af4244a7692a623970de052f9[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jul 7 10:02:07 2021 -0500
+
+    removing console.log
+
+[33mcommit ca4eb5230d8e7d96a4f0134fff49a1dd6048691d[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jul 7 09:59:17 2021 -0500
+
+    disclaimer 3 views
+
+[33mcommit 1a7ab7e0797c0d6cc459cecc7b575637f1ceda99[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jul 6 22:19:28 2021 -0500
+
+    fixing schedules
+
+[33mcommit 5b3f7e0f578981497f3550f089e68ccbdc63a2ea[m
+Merge: 57cf168 c806273
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jul 6 16:49:16 2021 -0500
+
+    preenrollment ready
+
+[33mcommit 57cf1680789dc2eb241a1ba655a609822a5e6fcd[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jul 6 11:19:30 2021 -0500
+
+    fixing BO
+
+[33mcommit c806273ad33ad715634d50d81c4ef874a7ecaf8c[m[33m ([m[1;31morigin/new_enrollment[m[33m)[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 2 16:14:16 2021 -0500
+
+    tablet added
+
+[33mcommit 74aafc58c6bae8b898d0a0311c05687a6cf728fd[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jul 2 14:50:59 2021 -0500
+
+    new video modal
+
+[33mcommit 24ea24b1ec4b3c499db0ab0029d44ba4d4d84378[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 1 17:30:50 2021 -0500
+
+    fixing crash when not day
+
+[33mcommit f499b289140945f226e3eea1bfda62a42509b721[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 1 13:47:47 2021 -0500
+
+    adding link to vimeo
+
+[33mcommit ce6982e4cf7d9a61c4d685d6b301999411ca6af0[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 1 12:25:42 2021 -0500
+
+    session
+
+[33mcommit 52a00a1d7953d74338dbb2b5a9e3d6c9a1455cf5[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 1 10:35:09 2021 -0500
+
+    removing encrypt
+
+[33mcommit 4216c57dac03dd5b403e73a188416c11f07fb028[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jul 1 09:59:56 2021 -0500
+
+    fixing css christian campos
+
+[33mcommit 1924476a45834407d715528e128b110eb7f20f3a[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 30 13:15:21 2021 -0500
+
+    removing img not existing from modal
+
+[33mcommit 13bc4a3c01686398224d24c6a330c176a409841d[m
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Wed Jun 30 12:33:47 2021 -0500
+
+    remotex pase prod
+
+[33mcommit f4ae53e21f8776b034811f8fa6c455e0b242a9be[m
+Merge: 8e7dd7e 392e501
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Wed Jun 30 10:56:27 2021 -0500
+
+    Merge branch 'biblioteca'
+
+[33mcommit 392e501e8e6761e8631d25f9f011b1e9d38a3102[m
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Wed Jun 30 10:24:48 2021 -0500
+
+    remotex prod
+
+[33mcommit 8e7dd7e47504d8100d434b1945d24866257bc6e0[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 28 13:30:24 2021 -0500
+
+    removing enrollment
+
+[33mcommit fc0460fce0753c74c19015b1622f5c4c9669bc63[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 28 11:46:10 2021 -0500
+
+    encrypt test
+
+[33mcommit 26f7771067a6da98f9af7b4af7daee5684441a61[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 28 09:27:43 2021 -0500
+
+    new_enrollment BO
+
+[33mcommit dd65b1ac8720c648647175c659266cf8f4e553cf[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 28 09:27:19 2021 -0500
+
+    new_enrollment BO
+
+[33mcommit 4e48e1cfed397946e7b9c2156f9f0c44d11e3ff6[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jun 24 15:20:22 2021 -0500
+
+    changes in BO (enrollment, schedule, aditional, equivalents, delete)
+
+[33mcommit c0635e47a24bec8537565e1322a931ae250171b6[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jun 24 10:03:32 2021 -0500
+
+    adding autoservice
+
+[33mcommit b3ad31880e6fb70de2bac5085fbd4e1e2c50b5be[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 23 16:57:13 2021 -0500
+
+    adding CPE modal
+
+[33mcommit 17c668b50b5b8c9550a807c57e5e3d34d2939ff2[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 23 16:52:26 2021 -0500
+
+    removing modal survey
+
+[33mcommit 0b08696c625e2ff4fa551c8ad27cd9218cbc7496[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 23 16:47:20 2021 -0500
+
+    fixing aditional courses
+
+[33mcommit 688ff4cbd1f596f342461cac63f107634a98ebcd[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 23 12:40:31 2021 -0500
+
+    detecting browser and OS
+
+[33mcommit 7eba9b403b5e9bb2768776fd35ba4af493569720[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 23 09:32:22 2021 -0500
+
+    pdf view
+
+[33mcommit 6c6253abba52733e7c4443791881fcdc6705897a[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jun 22 16:02:42 2021 -0500
+
+    adding aditionalCourses
+
+[33mcommit d0e77b790729f1a7e57610a07b0d150ff1b8caff[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 21 16:53:35 2021 -0500
+
+    modals
+
+[33mcommit da780f7a953294c1011d2d4c177969875fa31dd9[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 21 15:50:31 2021 -0500
+
+    fixing name teacher
+
+[33mcommit fde4022c91ea399d67217344b08b45cbba403219[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jun 18 15:44:25 2021 -0500
+
+    strm in conditions and jpg conditions
+
+[33mcommit ab5463fab565718e225ad4d6373e47c0384548a4[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 16 17:17:18 2021 -0500
+
+    removing console.log
+
+[33mcommit 7904de35b640f3b88ec47a15a4792c0e8aea9717[m
+Merge: 929b07d 0c58ee8
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 16 17:10:48 2021 -0500
+
+    Merge branch 'master' of https://bitbucket.org/ucs_development/miportal_cientifica
+
+[33mcommit 929b07d183747bfe3100c06be8815c9be1c0d30b[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 16 17:09:55 2021 -0500
+
+    adding console.log
+
+[33mcommit 0c58ee8c98ebbf6bea147cd0338ca714f148de00[m
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Mon Jun 14 11:13:18 2021 -0500
+
+    TOPIC
+
+[33mcommit a5b2a0ffd4d9e5f1774d1877d6c18f49875e238f[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jun 11 16:29:53 2021 -0500
+
+    aditionals and equivalents
+
+[33mcommit 256dd97c4878aeca7a9f50f829488504eb9b5c17[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jun 11 15:12:48 2021 -0500
+
+    cpe modal
+
+[33mcommit 116e355a52969216bdaef236a89002ad79e27444[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Fri Jun 11 15:06:49 2021 -0500
+
+    extraCurr courses
+
+[33mcommit 72f401263ac3c7b3d8397e350012ed1ebeb31099[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jun 10 12:27:27 2021 -0500
+
+    fixing total_cap
+
+[33mcommit 8831f8abf645daf092979458b536a21ab2dae7f8[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Thu Jun 10 10:16:53 2021 -0500
+
+    fixing equivalents
+
+[33mcommit c2c0524d8354a534a2060d5f4d9efedd0624f855[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 9 16:13:55 2021 -0500
+
+    fixing pdf and new Modal
+
+[33mcommit f1662770f5564f8e1f04936217c2ad6dcfb08ef0[m
+Merge: 8d5ba77 a75ae96
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Wed Jun 9 15:51:35 2021 -0500
+
+    fixing merge
+
+[33mcommit a75ae961bb81fe632e6dc7314cf81ea30c10512b[m[33m ([m[1;31morigin/matricula_extracurricular2[m[33m)[m
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Wed Jun 9 15:09:27 2021 -0500
+
+    nuevos cursos prod
+
+[33mcommit 22ff81c842fa25c9c6867bd8a228dd2dacf1fe57[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jun 8 16:59:33 2021 -0500
+
+    warning in red
+
+[33mcommit 8d5ba77e2f561855ec7c9c891ea9cb1ebdb8be36[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jun 8 16:47:41 2021 -0500
+
+    removing last pdfs, and adding news. Also new link videos in login
+
+[33mcommit 96e8ccbfa17ec375a526b9347f85db59f72ab38e[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Tue Jun 8 16:29:32 2021 -0500
+
+    warning in materia
+
+[33mcommit 2004bc6583a37e71a2b5cf8cd6a01b432eccbf37[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 7 17:18:34 2021 -0500
+
+    student10 all courses FLAG A
+
+[33mcommit 4f7487122b8b2d53720912ec693467583df9f135[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 7 15:55:37 2021 -0500
+
+    fixing typo
+
+[33mcommit 621904ed81d561df821af271f87cd979b61cb37c[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 7 14:39:55 2021 -0500
+
+    fixing in_enrollment
+
+[33mcommit 0676b7ff55e78f25313853f07a1bb59d702bc1b5[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 7 12:50:25 2021 -0500
+
+    adding courses matricula
+
+[33mcommit c06709cb5fe01b116bcd2030609739e5a28d8e7e[m
+Author: Edmundo <eacostac@cientifica.edu.pe>
+Date:   Mon Jun 7 11:10:24 2021 -0500
+
+    adding extra courses
+
+[33mcommit 68a70c564f78a9ed74c63f7bc00eee63ae6f3cef[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Jun 6 16:40:16 2021 -0500
+
+    new_enrollment
+
+[33mcommit 7eeb50ef69d813cbf556441bce4f6882c95bb0b9[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Jun 3 17:34:57 2021 -0500
+
+    skillful_load
+
+[33mcommit 90f9d3bf0bc030fd342bc1fa679b32eba5b2a01e[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Jun 2 15:23:22 2021 -0500
+
+    done regular workflow with student
+
+[33mcommit 7880bb56c080dcd4513defebcc2cbd9accc8f40d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Jun 1 20:33:36 2021 -0500
+
+    removing own_enrollment_table
+
+[33mcommit 4c15199145d1d1fb539401af6384d6b608d20d3b[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon May 31 18:32:34 2021 -0500
+
+    fixing maxCredits
+
+[33mcommit f20bdb1e80504cfb44c7b0e880fcfe7c48a9ef9b[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon May 31 12:15:37 2021 -0500
+
+    checking more than 1 PRA if one TEO selected
+
+[33mcommit ad1c7a110bc7c87b5937da56fbaaffbb774c33e1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon May 31 11:18:06 2021 -0500
+
+    sendind assistance in dashboard and not in schedule
+
+[33mcommit 1cbd88a327495159378bf5f68d6ce1fdb817ef55[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon May 31 10:23:34 2021 -0500
+
+    adding bug to fix
+
+[33mcommit 364b4594525378a6652f8c2bbb986ac0256f628d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri May 28 16:13:20 2021 -0500
+
+    adding survey for pre,pos,cpe students
+
+[33mcommit 4e5d9416325dde11aa09fcae53e22772756128db[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri May 28 15:48:45 2021 -0500
+
+    adding new_enrollment new get schedule
+
+[33mcommit f5d15546751a6647f2086b700ab57e812b937d95[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri May 28 10:39:06 2021 -0500
+
+    adding DOBANDO
+
+[33mcommit 0a9cc8892dbb41d81d5f4c86dea36139c2831731[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri May 28 09:02:20 2021 -0500
+
+    adding oprids to usersPortal BO
+
+[33mcommit 5fca32b97a385d8e0c578ade261bf95f44a9defa[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu May 27 18:16:47 2021 -0500
+
+    removing zoom png and fixing modal
+
+[33mcommit c94c82ec5ce4e56f24f74c32eb7fbd2868ce73e3[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu May 27 15:25:04 2021 -0500
+
+    adding modal zoom
+
+[33mcommit bf465046c412ec8349a4784966b454b7f6d8a8ef[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu May 27 10:49:13 2021 -0500
+
+    adding videos from tickets
+
+[33mcommit c57518c510b61a26c9abd6ebb18a9969ce55407b[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu May 27 09:36:07 2021 -0500
+
+    fixing conditions when divider = 0
+
+[33mcommit b4d10d3a7e2e89053216650455fd192d3a130702[m[33m ([m[1;31morigin/biblioteca[m[33m)[m
+Author: Christian Campos <user@SCORAUD03.educad.edu.pe>
+Date:   Wed May 26 17:16:51 2021 -0500
+
+    remotex footer -dev
+
+[33mcommit 3de8406d1bccae026d187356a5d7e6077348bcb5[m
+Author: Christian Campos <user@SCORAUD03.educad.edu.pe>
+Date:   Wed May 26 13:41:22 2021 -0500
+
+    remotexs en footer
+
+[33mcommit ad462df78e48a2cf2628a6bdcc635322e1d9c0aa[m
+Author: Christian Campos <user@SCORAUD03.educad.edu.pe>
+Date:   Wed May 26 13:39:38 2021 -0500
+
+    remotexs in footer
+
+[33mcommit e097cc0bc0af1d8a8753432a1a9c129c05363622[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed May 26 00:49:54 2021 -0500
+
+    test new_enrollment
+
+[33mcommit d334af59665a64a625c3fc6ca799913c7547d18f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon May 17 16:01:03 2021 -0500
+
+    removing modals and same link in login for pos,pre
+
+[33mcommit 4aecad34087808dcd54fb2b6d5d4efc87ac9abd2[m
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Wed May 12 16:48:59 2021 -0500
+
+    botón biblioteca - remoteX
+
+[33mcommit 04cd8ec509721513f5a4e8f1f60b1df5cc06c66f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed May 12 00:36:19 2021 -0500
+
+    fixing sendAssistance
+
+[33mcommit 76f44aae80aaffcaf614bc7e3343cd2dc78d5153[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon May 3 12:54:04 2021 -0500
+
+    vacunation working
+
+[33mcommit 5cbd2e85a6f1b92a4cb7d8b9d74a2a2006466fbd[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Apr 30 15:50:19 2021 -0500
+
+    adding vacunation
+
+[33mcommit 085846ac79d0f9934603836fcaff82cc73ddae67[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Apr 29 18:37:42 2021 -0500
+
+    opinion_yes
+
+[33mcommit a8762a3a958e8157fb64a1a05b72ce6bd0866035[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Apr 28 17:23:43 2021 -0500
+
+    pdf fix
+
+[33mcommit 69a56d1a2ad2a6a4fc0fa71d2a18c716c0e7eba8[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Apr 27 15:05:53 2021 -0500
+
+    luis and christian merge
+
+[33mcommit 16efa06d95a2fcbf593c7aa3df4f03b3bfab7c5f[m
+Merge: bfa8eb3 e66b509
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Apr 27 14:02:09 2021 -0500
+
+    Merge branch 'matricula_extracurricular' of https://bitbucket.org/ucs_development/miportal_cientifica into master
+
+[33mcommit bfa8eb3195dc6f46c571895adc18eaebca780ce9[m
+Merge: 00b916e 75d3c17
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Apr 27 13:52:30 2021 -0500
+
+    Merge branch 'master' of https://bitbucket.org/ucs_development/miportal_cientifica into master
+
+[33mcommit 75d3c17435efb31326fd95574ea07632629d66c6[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Tue Apr 27 12:48:59 2021 -0500
+
+    avance modal ubigeo
+
+[33mcommit e66b509226208e29188578a43a41314d763b0e1f[m[33m ([m[1;31morigin/matricula_extracurricular[m[33m)[m
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Tue Apr 27 08:49:59 2021 -0500
+
+    max tres cursos por alumno
+
+[33mcommit 00b916ebc640c1a447d6c435378fc05e4a42f6e2[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Apr 23 11:48:09 2021 -0500
+
+    message if err
+
+[33mcommit 2a238c6cb43922c6ecfad2d83712c71438bfa7e6[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Apr 22 16:50:58 2021 -0500
+
+    login BO password not uppercase
+
+[33mcommit 782ec63f1b7a040a55b7f491fd25306c263539fd[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Apr 20 11:44:20 2021 -0500
+
+    adding oprids to BO
+
+[33mcommit a1fa7511fac05bc4aeb2799fdb714d8415792b50[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Apr 19 10:11:56 2021 -0500
+
+    removing extra
+
+[33mcommit 98fd4dcfce36e2599fd841747c7421c5dd3ddab7[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Apr 18 11:14:42 2021 -0500
+
+    ready prod
+
+[33mcommit 6df77ceea6e925695c3416daf76d4cfc2af218f1[m
+Merge: 3763408 584d904
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Apr 16 11:59:01 2021 -0500
+
+    adding BO student-side
+
+[33mcommit 3763408cf9fdd66151083915ed5bf109fe2f2fd0[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Apr 12 09:25:42 2021 -0500
+
+    get correct strm
+
+[33mcommit 19d5af8c24dbcfddd12e5b4b1b38e2dacfa48798[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Apr 12 00:07:14 2021 -0500
+
+    removing modal from student.component
+
+[33mcommit 1f499ff4dec5a53ac7eae5afc868942335390a30[m
+Merge: 714fe53 b1f1c86
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Apr 11 23:57:55 2021 -0500
+
+    Merging extracurrenrollment
+
+[33mcommit 714fe538f022d7204757ba52cc50f6da3efd959a[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Fri Apr 9 16:28:55 2021 -0500
+
+    ajustes modal etnia
+
+[33mcommit b1f1c86d23e72512ea77d4c6fb9131c19fc6bd3f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Apr 9 13:07:02 2021 -0500
+
+    deleting console.logs
+
+[33mcommit 900e6dca3a850715b1b786dce229cd10576d1e46[m[33m ([m[1;31morigin/modal_etnia[m[33m)[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Fri Apr 9 12:10:21 2021 -0500
+
+    add modal etnia
+
+[33mcommit 76a072699d7c63e16c880231936c0db9083894b6[m[33m ([m[1;31morigin/master2[m[33m)[m
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Fri Apr 9 11:52:36 2021 -0500
+
+    matricula extracurricular terminado
+
+[33mcommit 7e55b71cc650ed04f630bb84736c825cde1cf5ce[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Apr 6 13:11:03 2021 -0500
+
+    adding assistance
+
+[33mcommit 44af941378e4a144557fabc637e32413bf358d12[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Apr 6 11:09:07 2021 -0500
+
+    adding wsp library
+
+[33mcommit b7e0c2c8c43acdf089ca77319b4db3fb0f669b80[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Apr 5 14:46:25 2021 -0500
+
+    merge with extra
+
+[33mcommit 8327d5f938e8b72644c027808a13c366fce194e7[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Apr 5 12:59:29 2021 -0500
+
+    removing unused functions
+
+[33mcommit 5aa0b15bd037219ed4d73d8a0dcf3535eda857b6[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Apr 5 06:55:32 2021 -0500
+
+    removing enrollment and adding covid popup
+
+[33mcommit cc342234767cf0bfc1e562c50c5e6918f41c3db6[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sat Apr 3 10:22:21 2021 -0500
+
+    adding 2 oprids to BO
+
+[33mcommit 8903097b830feacf4d0f1b1b7d064af621dc253c[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Apr 2 20:23:36 2021 -0500
+
+    removing delete
+
+[33mcommit 6ce4c2bb99a2f1f0b17ce0f7592835447df543e9[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 31 17:40:20 2021 -0500
+
+    removing popups
+
+[33mcommit 584d904adf625d5263fe274b5cc878befd3b5730[m
+Author: Christian Campos <ccampost@cientifica.edu.pe>
+Date:   Tue Mar 30 15:30:59 2021 -0500
+
+    se setearon las 3 listas en duro de los oprid usuarios
+
+[33mcommit 30edcba68dc371151f90e4f8ad3276fee7350fcf[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 24 16:10:11 2021 -0500
+
+    adding CROJASCO
+
+[33mcommit 91e24293e3f5a5ae60f35d04c3bc97386e67bf2f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Mar 22 16:59:29 2021 -0500
+
+    fixing empty response for PS
+
+[33mcommit afb607562eac62ea904d512e5ec4847f9a2d8ac6[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Mar 22 16:50:53 2021 -0500
+
+    if error in save
+
+[33mcommit 40e868b57656c293ffae7e8ebf5d36c978100532[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Mar 19 15:53:02 2021 -0500
+
+    adding CGRANDAC in BO
+
+[33mcommit 5933cc8a5ce74f79ac371a47114d4dfe9abc394f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 17 07:36:27 2021 -0500
+
+    check if debt
+
+[33mcommit 837214d5693fd1bec919501c2666c0abbc7d0357[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Mar 16 21:58:36 2021 -0500
+
+    ready for enrollment
+
+[33mcommit ef90c4472d9fe645a43a655ee14b38787f522ad4[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Mar 16 17:02:46 2021 -0500
+
+    adding conditions
+
+[33mcommit a4b76b01832374354bbe616a8c9eae5d4af0add1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Mar 15 21:47:33 2021 -0500
+
+    adding oprids to BO
+
+[33mcommit e7d7267f9838d069f3a5e1a4820fd277cde826ab[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Mar 15 15:35:54 2021 -0500
+
+    adding crse_id
+
+[33mcommit 628e57e70df55d7a5e71941dbdd4a43ee40ca564[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Mar 15 13:21:47 2021 -0500
+
+    removing AM-PM
+
+[33mcommit 686b7564f7c09a861bf13db7e5d2235c26d27ae1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Mar 14 22:09:09 2021 -0500
+
+    ready for turn
+
+[33mcommit 6cce840e8f995f39076f8f19c1d3d2e1fe94e575[m
+Merge: 3a067c3 d3aca35
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Mar 14 16:35:29 2021 -0500
+
+    fixing merge
+
+[33mcommit ccf2aaed338a4d489808887b42d9058efc3c2339[m
+Author: Christian <ccampost@cientifica.edu.pe>
+Date:   Fri Mar 12 15:21:55 2021 -0500
+
+    terminado: proceso de mi portal y matricula
+
+[33mcommit 3a067c381dda81baddcf3de7f1488cab0c1ce162[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 11 16:57:04 2021 -0500
+
+    enrollmentModal
+
+[33mcommit d3aca35f7a31750c2d15c372e468ce4d5fafe6c3[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 11 16:38:52 2021 -0500
+
+    removing extra courses
+
+[33mcommit 50e4351536beef5a183d7cb178894ee0a56dd924[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 11 15:35:11 2021 -0500
+
+    new conditions
+
+[33mcommit 269ddee58b95c0aaf9c453ccbff209c165a0de0e[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 11 13:50:33 2021 -0500
+
+    dev for prod
+
+[33mcommit 65c78a8e9718756fb7266c3dbf1f242e969adbab[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 11 11:39:45 2021 -0500
+
+    test schedule
+
+[33mcommit 4c3b3a4c1435d9ddc3ca1092c1b5a2e1b485a58d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 11 09:37:41 2021 -0500
+
+    removing vacunation
+
+[33mcommit 8f7f41022fa2126877ff26b8546e6c765d9a50f1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 11 02:00:11 2021 -0500
+
+    removing modal
+
+[33mcommit 5ff923773e2a3ed9d573101287940f93eebbf3d3[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 10 14:52:49 2021 -0500
+
+    test for prod
+
+[33mcommit 8fa3033d58ef96379b7f487566b29c6bbe438462[m
+Merge: 9b7edb3 88c0434
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 10 13:00:10 2021 -0500
+
+    fixing merge
+
+[33mcommit 88c04347886c679a32fdd20440e681d2766f76a0[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 10 11:31:50 2021 -0500
+
+    testing
+
+[33mcommit 87d221fbd74b11c5ac23556d53e1a882dceeb3e9[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 10 11:25:33 2021 -0500
+
+    fixing calendar
+
+[33mcommit 9b7edb379d9d3c6ff2057c7648e78db90ee4a539[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 10 10:47:15 2021 -0500
+
+    text in my-links
+
+[33mcommit 9c6697ba84cfde2848842cd79b911b86cf2c48a0[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 10 10:22:16 2021 -0500
+
+    numbers credits witouth decimal
+
+[33mcommit 87c27e56f988c46af10a212c3b0026ac49e7967e[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Mar 10 09:53:47 2021 -0500
+
+    lock in some courses
+
+[33mcommit 86c7722251298290c229cdbab5e385972fd19aa6[m
+Author: Christian <ccampost@cientifica.edu.pe>
+Date:   Tue Mar 9 23:30:42 2021 -0500
+
+    creación de componente buscarAlumno
+
+[33mcommit 15eae6601c0c687cd3c15d3789fe275f06d3e8a3[m
+Author: Christian <ccampost@cientifica.edu.pe>
+Date:   Tue Mar 9 00:02:32 2021 -0500
+
+    condición de buscar alumno terminada - falta cambiar el fondo
+
+[33mcommit 32fec62e66b6b2295bedf0d84123d188a182278d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Mar 8 09:20:04 2021 -0500
+
+    adding 100045279 emplid
+
+[33mcommit f71b202805ef835b8a9c277bef0c616062a01b80[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Mar 7 02:38:34 2021 -0500
+
+    removing vacunation
+
+[33mcommit a37e2199824f26de30fd2c90a5b67416c2433d04[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Mar 5 11:03:50 2021 -0500
+
+    adding emplid to vacunation_modal
+
+[33mcommit 56ebc6f842ce08778637f5c5f0e22f8edb64d962[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 4 16:31:55 2021 -0500
+
+    adding modal
+
+[33mcommit 3e2449f2daebb66e1b751bbf25316136866dea4c[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Mar 4 11:37:54 2021 -0500
+
+    adding one emplid
+
+[33mcommit ce298533db470bf5fc98835d5694c3bfd53a76f9[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Mar 2 16:53:05 2021 -0500
+
+    removing new_enrollment
+
+[33mcommit 4b15a1af0b7a6852e5430791d83f7dd024c23c17[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Mar 1 10:03:43 2021 -0500
+
+    adding buttons disabled
+
+[33mcommit 739a8b86fb1ea27a8d41d166820c28fc32391513[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Feb 25 09:38:11 2021 -0500
+
+    adding 2 emplids to vacunation
+
+[33mcommit 82edba9e65ba991c3f8d2025ba9a8abeb7441f46[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Feb 25 09:23:55 2021 -0500
+
+    adding newenrollment
+
+[33mcommit 83c5ed3e3e7070db9ceabd95fc002b63de97cad6[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Feb 23 13:37:56 2021 -0500
+
+    test
+
+[33mcommit 0701f592d16021086f67fca27ff0e25b395aaa5d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Feb 23 11:27:12 2021 -0500
+
+    removing code for ios
+
+[33mcommit 3ffb6f6a793fd41c1e37d5d36763816794439923[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Feb 22 23:54:05 2021 -0500
+
+    testing timestamp
+
+[33mcommit 835deb062151a0fd1624186f1cedd9ea1336a9e1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Feb 19 16:31:12 2021 -0500
+
+    modifications of new enrollment
+
+[33mcommit e8302ca7b9fc7a747b82f18571f9dcf69dec1c6f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Feb 18 19:16:22 2021 -0500
+
+    adding emplid to vacunation modal
+
+[33mcommit 69825d0875b9c9a0b4b620384300dfb5b2030d17[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Feb 18 19:14:45 2021 -0500
+
+    reading conditions
+
+[33mcommit 6887864ccf5aae28e3d79e7f36eff2c4a5ee84e6[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Feb 18 16:49:04 2021 -0500
+
+    env settings
+
+[33mcommit 4d683c3275947387564c75ed2fd37ee03d7c37a0[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Feb 16 09:38:49 2021 -0500
+
+    adding emplid 100015598 to medicine.json
+
+[33mcommit 13a3eda12eae1fc1b6eb6091651433c57f2cc26d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Feb 12 23:01:56 2021 -0500
+
+    enrollment
+
+[33mcommit caf2173aaecac709fbc6f820f8903334adbf5423[m
+Merge: 1f75ff7 968fa2f
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Feb 11 19:00:11 2021 -0500
+
+    fixing merge
+
+[33mcommit 1f75ff77ae7a86a0aa4ebc18dad59d09f539db66[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Feb 11 13:42:06 2021 -0500
+
+    exte and inter students
+
+[33mcommit e9fad6f5bd4b7ec9d8d36f99267ebff02a065f7f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Feb 11 10:54:47 2021 -0500
+
+    adding inter_students
+
+[33mcommit 968fa2f507578abb26b91a7b1fde5caa4b447ef7[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Feb 10 16:41:37 2021 -0500
+
+    adding BO
+
+[33mcommit af0233cdf3cd9cb64581abb32c3e271fd0477d97[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Feb 10 12:11:34 2021 +1100
+
+    enrollment
+
+[33mcommit e8716b85e4266fe82031c90b7cd19d5c18fffc48[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Feb 9 16:29:59 2021 -0500
+
+    check creditos
+
+[33mcommit 717a2b1cd17dd546959be773eaee1cf581b94304[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Feb 8 17:56:25 2021 -0500
+
+    test
+
+[33mcommit 612d097be7163d21056aa17712c91634c7fd7549[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Feb 8 13:37:49 2021 -0500
+
+    adding rotation pdf
+
+[33mcommit b684621d20f6767453955be6f125eb76b09c3b8c[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Tue Feb 2 16:48:08 2021 -0500
+
+    ajustes vacunacion
+
+[33mcommit d88c8035538d2042cc3d2626048f37ac47f3b4b9[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Feb 2 10:49:42 2021 -0500
+
+    hiding vacunation
+
+[33mcommit aea145c9b7680487a6cb3953e2ea89789ed57d12[m
+Merge: 5f24a84 92dbff1
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Feb 2 00:59:55 2021 -0500
+
+    Merge branch 'master' of https://bitbucket.org/ucs_development/miportal_cientifica into master
+
+[33mcommit 5f24a84e7430e2af44cabafecc7a5d3f4ef5ed1b[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Feb 2 00:59:08 2021 -0500
+
+    changing schedule pregrado pdf
+
+[33mcommit 92dbff15c7e581ce94c268113de9faa0e9c440b0[m[33m ([m[1;31morigin/vacunacion_27012021[m[33m)[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Fri Jan 29 18:54:12 2021 -0500
+
+    pase a prod
+
+[33mcommit 6a75e31165cd2711609acef16cb1d61f344ed4af[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Fri Jan 29 08:58:38 2021 -0500
+
+    ajuste descripcion de tipos a ajuntar
+
+[33mcommit 77ffbce1dfd0961520b178159e017229447c39a9[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Thu Jan 28 17:27:56 2021 -0500
+
+    correcion documento exoneracion
+
+[33mcommit 3c48fee3968aff80a5541f710ca1d9651e530994[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Thu Jan 28 13:17:34 2021 -0500
+
+    ajustes observaciones
+
+[33mcommit bb1267645980e405338626713fdd96d68277643a[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Wed Jan 27 17:45:36 2021 -0500
+
+    avance vacunacion
+
+[33mcommit c54300035b6472af74ffc9818b304c0b726b96e0[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Wed Jan 27 17:42:52 2021 -0500
+
+    avance vacunacion
+
+[33mcommit e364815e3452ce1320487c08282c84d7ab140f04[m
+Merge: acf81d5 e8ba208
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Wed Jan 27 16:23:31 2021 -0500
+
+    Merge branch 'vacunacion_25012021' into vacunacion_27012021
+
+[33mcommit acf81d559dfce1fae8df1466f368744c966f08a9[m
+Merge: 6128344 716d892
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Wed Jan 27 16:18:13 2021 -0500
+
+    Merge branch 'master' of https://bitbucket.org/ucs_development/miportal_cientifica into master
+
+[33mcommit f88e977bf0998a099b171de706011b6594fec5fc[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Jan 25 15:57:58 2021 -0500
+
+    test
+
+[33mcommit 716d89264676fd5decc03f5525f77c8c423892c3[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Jan 25 12:57:28 2021 -0500
+
+    fixing .png in library
+
+[33mcommit e8ba20803470f8ba8c1b89929413ca080698d7c6[m
+Merge: 6128344 25c7915
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Mon Jan 25 10:35:09 2021 -0500
+
+    Merge branch 'vacunacion_angular' into vacunacion_25012021
+
+[33mcommit 61283449b5014a673a7c2d5d86bdfe2aba5bfa89[m
+Merge: 3c7a2a2 ba5b28b
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Mon Jan 25 10:34:38 2021 -0500
+
+    Merge branch 'master' of https://bitbucket.org/ucs_development/miportal_cientifica into master
+
+[33mcommit 25c79155c0dca32092a3e3cfde9ab8774a854cf9[m[33m ([m[1;31morigin/vacunacion_angular[m[33m)[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Mon Jan 25 09:58:45 2021 -0500
+
+    avance vacunacion
+
+[33mcommit c8451b0b2f69203ad6b9ce3078db6d644c5314ed[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Mon Jan 25 09:30:41 2021 -0500
+
+    avance vacunacion
+
+[33mcommit ba5b28bd97c404d082c3e81b44dc45d05796f75c[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Jan 24 18:02:09 2021 -0500
+
+    removing some links
+
+[33mcommit 04e11c5ae42bbeccd7ec1441719ddb6f3448f035[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Jan 24 13:13:31 2021 -0500
+
+    modal for pre and post
+
+[33mcommit c7f6f8536d0b534aad1a1683acdc5be0659bfa22[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Jan 22 16:10:49 2021 -0500
+
+    adding more cycles in academic-conditions
+
+[33mcommit 0a057526d1adbf5a83e1b3376500ac8a9094da83[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Jan 22 14:59:47 2021 -0500
+
+    course-assistance
+
+[33mcommit 1ee416046c48e2074b40515435b8ef20bd8a6fad[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Jan 22 11:59:06 2021 -0500
+
+    renaming pdf
+
+[33mcommit ac39e7f48ac6d3f9c505c76c8a333e2ee44041a3[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Jan 21 16:15:29 2021 -0500
+
+    fixing pdf and values in conditions
+
+[33mcommit df4df0db478fa21784e4150aa97cbf21ce356ec9[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Jan 21 13:29:41 2021 -0500
+
+    academic-conditions
+
+[33mcommit 3f5914afff81510694727107428d94fa67be8a59[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Jan 21 09:50:09 2021 -0500
+
+    adding manual portal student pptx
+
+[33mcommit 3c7a2a20a047a78933afafcb2b49ee4db0f5d7bb[m
+Author: jbravop <jbravop@cientifica.edu.pe>
+Date:   Mon Jan 18 20:47:47 2021 -0500
+
+    ajustes
+
+[33mcommit f5012229c20417ebd3c8d3dfb417d3911a3192c6[m
+Merge: 099f2ee 7be90e4
+Author: jbravop <jbravop@cientifica.edu.pe>
+Date:   Mon Jan 18 20:46:16 2021 -0500
+
+    ajustes
+
+[33mcommit 7be90e410afa05d6d1c294fa4592730557d400da[m
+Author: jbravop <jbravop@cientifica.edu.pe>
+Date:   Mon Jan 18 16:46:46 2021 -0500
+
+    ajustes
+
+[33mcommit 099f2ee9d643bb15852c4c5a63a361eb98ca380f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Jan 14 14:34:09 2021 -0500
+
+    pdfs calendar 2021
+
+[33mcommit 1cca772bc0e11f00a33291888fdc4ac0bf9d9dff[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Jan 12 15:09:29 2021 -0500
+
+    removing post classes modal
+
+[33mcommit 6750a303ff76e53954a103e0d0ba6e22e365b7ec[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Jan 11 10:14:01 2021 -0500
+
+    removing schedule and adding datos updateModal
+
+[33mcommit beff80b018103f69bf40fa7e24a27b2d5ccf0889[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sat Jan 9 12:57:38 2021 -0500
+
+    removing enrollment button
+
+[33mcommit b92a830a7d3448e054935642dd3061ba9dfffbf1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Jan 8 17:20:56 2021 -0500
+
+    endpoint prod
+
+[33mcommit a8fe8e35191cdabd3447216bcc1fcc5befc1fdc6[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Jan 8 16:29:25 2021 -0500
+
+    fixLinkZoom
+
+[33mcommit 8068a5696086501c6ab647c4d03ea04e9d24f70e[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Jan 6 13:25:34 2021 -0500
+
+    fixing conditions in backoffice
+
+[33mcommit 709e0b7572ff30a2b0fcbe2d1a253737b0664bae[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Jan 6 13:15:43 2021 -0500
+
+    loading set to false in backOffice
+
+[33mcommit 26ddb32cbf81f49bb02053477537dd6fa06cec27[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Jan 4 20:12:39 2021 -0500
+
+    comming back to horario_v2
+
+[33mcommit 696862e74adc22ba35578592c6ec6debb279dc1c[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Jan 4 16:09:03 2021 -0500
+
+    rollback to LastService
+
+[33mcommit 3bce497a019acf4c8484b70a8c8fde696153a093[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Jan 3 22:19:53 2021 -0500
+
+    adding christian emplid
+
+[33mcommit c9845dc97128ec7eb98ad6a399375cdf3d0c174f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sat Jan 2 10:06:52 2021 -0500
+
+    cap in section
+
+[33mcommit a5ae73d2d31cf8d2f554de9a0a5f654fe90e0f24[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Dec 30 12:02:50 2020 -0500
+
+    fixing cap in section and hour in Ios
+
+[33mcommit cf286c3d236e41c092e2f21114b7dbef3c70f8fb[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Dec 29 16:44:01 2020 -0500
+
+    fixing backoffice
+
+[33mcommit 96effd2874fb5329ac1c96e41b3aa4f77ec96814[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Dec 29 10:34:49 2020 -0500
+
+    adding adminEmplid toservices
+
+[33mcommit f74023d4dfe3b26b837ea93bfa7095f3ef817d0d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Dec 29 10:05:45 2020 -0500
+
+    new link to tutorial enrollment
+
+[33mcommit e0e6d3f7443f9d7fed0213bedee39e4d60c86628[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Dec 29 01:12:42 2020 -0500
+
+    adding javier emplid
+
+[33mcommit 97fef5f5086d181933b2113481e8de143d3b36e2[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Dec 29 00:51:26 2020 -0500
+
+    uploadSingleData
+
+[33mcommit 47728445b138abb087c32d4e8fc83cf97720fae1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Dec 28 17:02:20 2020 -0500
+
+    adding popup before login
+
+[33mcommit 9045d253c78151dce793c721ec5204640d9ea6c2[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Dec 28 13:35:31 2020 -0500
+
+    adding javier emplid
+
+[33mcommit 5f10118d695e73654cc05f3b28ba576cea188145[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Dec 28 10:27:06 2020 -0500
+
+    removing enrollment from action-view
+
+[33mcommit 280b193d31d92e0d26d10c456f14683ebb30146a[m
+Merge: b8fdee6 e4948b3
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Dec 23 16:29:37 2020 -0500
+
+    Merge branch 'master2' into master
+
+[33mcommit e4948b3d93c4da1bcf68aeee5ecc912a6345864e[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Dec 23 16:29:13 2020 -0500
+
+    ready for prod
+
+[33mcommit b8fdee6faba14c9cb516af31f6e252d3f43f34e1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Dec 22 23:34:21 2020 -0500
+
+    enrollment-popup
+
+[33mcommit 68fd81802662969c59a44023ce7947aba4f3d7e3[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Dec 22 23:22:28 2020 -0500
+
+    settings
+
+[33mcommit 8df66278961b74b9539eba640bf9a0900b9f1df1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Dec 22 15:02:38 2020 -0500
+
+    adding emplid to deleteService
+
+[33mcommit cf9cb9117c32837fcdefd161aa3c95fb1b8963c0[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Dec 21 17:19:13 2020 -0500
+
+    link to chats wsp
+
+[33mcommit e36e9c2506f4fa6a7cb9d63521fbb9a00cc0f28d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Dec 21 17:12:57 2020 -0500
+
+    new_enrollment
+
+[33mcommit 37a49e2b20aa42af00d1800f4f457406cd2c451b[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Dec 21 15:25:24 2020 -0500
+
+    fixing merge
+
+[33mcommit 3247109cfa439b05fd2b2cb60eb0d573eee82683[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Dec 18 13:04:10 2020 -0500
+
+    updated xlsx and links
+
+[33mcommit 4538ab9c6d5a50c167a43ac84741ab2d3e212346[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Dec 18 10:25:22 2020 -0500
+
+    removing docente survey
+
+[33mcommit b0fc5e258f9123989581e2dfa2416c6bc8db98b5[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Dec 16 20:59:11 2020 -0500
+
+    adding excels in link
+
+[33mcommit 7b4f45ea81dd3d3aa1db7e64cf4fea5ddb088f71[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Dec 16 13:24:40 2020 -0500
+
+    adding summer pdfs
+
+[33mcommit 9fa1bef40ff845e0f306956ec9fd7c956a670fcd[m
+Merge: 0e49e7a 799667c
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Dec 14 17:36:03 2020 -0500
+
+    fixing grades
+
+[33mcommit 0e49e7a80345e1dbff938babb26934f15f462ee9[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Dec 14 17:35:14 2020 -0500
+
+    fixing grades
+
+[33mcommit 799667c16860a3e6fd9c54d99e16943e56329b41[m
+Author: jbravop <jbravop@cientifica.edu.pe>
+Date:   Thu Dec 10 11:56:29 2020 -0500
+
+    upd datos alumno
+
+[33mcommit 9632ab6d547a3436911f23a7871bdab182aeda2c[m
+Author: jbravop <jbravop@cientifica.edu.pe>
+Date:   Thu Dec 10 11:20:48 2020 -0500
+
+    upd datos alumno
+
+[33mcommit 815d5a2c077fd0d766cee974e2eb2f84d460fe1a[m
+Author: Luis Vallejo <vallejoaguilar@gmail.com>
+Date:   Wed Dec 9 11:01:42 2020 -0500
+
+    notificaciones mi portal
+
+[33mcommit f7d31919429ebb1c0dcbe0c36a3503588f3ae0de[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Dec 4 02:17:34 2020 -0500
+
+    library fixing tickets
+
+[33mcommit 71abf50ea75e9217039884ef0733489b942951c5[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Dec 2 21:16:30 2020 -0500
+
+    surveyModal
+
+[33mcommit f0e47c3ed2b5cc8b81ab97a7c14b4188e0fe6220[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Dec 2 10:27:03 2020 -0500
+
+    fixing image for medicine-students
+
+[33mcommit 19257cc493466fdd0980119985f07d95f4195066[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Nov 30 10:04:47 2020 -0500
+
+    medicina-humana
+
+[33mcommit f23602512c661bec0abc2631f4afb24d1b670446[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Nov 30 10:02:24 2020 -0500
+
+    pdfs in my-links
+
+[33mcommit 3e2a83f094cce2c886aa5cf59389afce0282ab6d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Nov 27 16:25:33 2020 -0500
+
+    surveymodal
+
+[33mcommit aecf2ee29becb51bf9f1306312164dc24773c048[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Nov 25 23:57:01 2020 -0500
+
+    links to PDF
+
+[33mcommit 25de120f446ff04b56322d5b20f030e596e5b48f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Tue Nov 24 17:51:40 2020 -0500
+
+    medicine_students modal
+
+[33mcommit a165c01cfef471db6313d329fc0ca262180d10af[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Nov 18 17:21:03 2020 -0500
+
+    modal to Survey
+
+[33mcommit 50489f7fa583b336a700a95a72470d433e671935[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Nov 15 23:39:33 2020 -0500
+
+    ucs-mensaje
+
+[33mcommit 6c5b5d961855570b681eead1a166a8e449c72eca[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Nov 13 01:38:15 2020 -0500
+
+    aplying assistance in virtual class
+
+[33mcommit 5f7ac03641959f49fe045e42d748f6acd199f79f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Nov 12 17:20:23 2020 -0500
+
+    nextClassLink
+
+[33mcommit d14b737c7ae16ea4df67aee27d3fbf0a75dca72d[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Nov 12 15:42:42 2020 -0500
+
+    dobleLink
+
+[33mcommit 678896423589b4b5f7596c2972b44614c0b2434e[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Nov 9 18:18:59 2020 -0500
+
+    assistence in next_class
+
+[33mcommit f1fef57c5b95c5035d45e63b2a93d07c51310aef[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Tue Nov 3 23:02:53 2020 -0500
+
+    u intentionenrollment
+
+[33mcommit ffcefe476dc6620f81f781f6fbdbf07e7b104ead[m
+Merge: 208e125 0ed1b6e
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Nov 2 11:23:03 2020 -0500
+
+    Merge branch 'master' of https://bitbucket.org/ucs_development/miportal_cientifica
+
+[33mcommit 0ed1b6e2fa1d2ab4f2b7451d5e492c4164cc24c9[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Oct 30 18:43:40 2020 -0500
+
+    changing date in survey
+
+[33mcommit a1d0b50cfb58e167ca32b7a05f811d2cef639817[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Oct 29 11:24:13 2020 -0500
+
+    moodleLink2
+
+[33mcommit 22b083c66fd93455cd31674f14a647339d19e195[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Oct 29 09:37:19 2020 -0500
+
+    new ModalModdle
+
+[33mcommit 97a6974f3fd8eadaddef37bf47b1a6d79fa0c137[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 26 13:06:28 2020 -0500
+
+    fidelity modal added
+
+[33mcommit 87471f9beea23085e1ab7a1ffc9a4f307ae0bf0a[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 26 09:01:13 2020 -0500
+
+    removing function goModdle
+
+[33mcommit 72803d3e99201a79e35ee3b3cbda2de2e247f87b[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 26 08:59:16 2020 -0500
+
+    removing modalToModdle
+
+[33mcommit 1c886342972a856c610f1275b26d98d95770d56f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sat Oct 24 21:40:22 2020 -0500
+
+    moddle Modal
+
+[33mcommit 043737660ca0837e771902b29dd1d761092e6c90[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 19 13:57:07 2020 -0500
+
+    link to survey in dashboard
+
+[33mcommit 6487a15176f52279290712ca75118e0288497b54[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Oct 16 18:04:44 2020 -0500
+
+    adding image to library-view
+
+[33mcommit 35b44dc7f2e1f61c4dea70a235d5b26e818e68c5[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 12 23:34:42 2020 -0500
+
+    removing black line in footer
+
+[33mcommit ff7a163111e9ed51bb3300f80bf83ba5ffa2bf6f[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 12 22:16:00 2020 -0500
+
+    removing surveyModal and ready for prod 12/10/20
+
+[33mcommit a170bb396da4e3d00a27dc4de772f0b5883abf2e[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 12 11:49:28 2020 -0500
+
+    showing next_class
+
+[33mcommit f2c210f3a584cf7b74e2b2523fb778f6dec25c75[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Oct 9 20:24:13 2020 -0500
+
+    student dashboard
+
+[33mcommit 3a94d486652ae5909b638e2cb9752ecc9acc31ef[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Oct 8 17:33:01 2020 -0500
+
+    poiting to prod
+
+[33mcommit 36934e8953c9a36e0c644dafee0b088ac2a16029[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Oct 8 17:23:52 2020 -0500
+
+    email and linkToZoom
+
+[33mcommit c8b9040b867e05de476a5e5fc96c6941ba5f09ab[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Thu Oct 8 12:18:48 2020 -0500
+
+    adding peopleSoft api
+
+[33mcommit 70feebe88736c586fb4d96092a7f3bee14d13c76[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Wed Oct 7 09:37:36 2020 -0500
+
+    adding next-class text
+
+[33mcommit 5a46b230a5f2016289361bb61946ccf5012782c1[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 5 13:40:21 2020 -0500
+
+    holidaymodal first
+
+[33mcommit 0ff527c7d092edf04783abc131d213cfa191c59c[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 5 11:22:44 2020 -0500
+
+    fixing text in holidayModal
+
+[33mcommit 0d04f5222c1bf3a8c695bbc6395482c04453d4d5[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Oct 5 11:15:05 2020 -0500
+
+    adding holidayModal
+
+[33mcommit 208e125bfdf0fa7dab2b464f83f805a3c7b0ab91[m
+Merge: a470ff1 6927f9d
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Sun Oct 4 16:57:00 2020 -0500
+
+    Merge branch 'master' of https://bitbucket.org/ucs_development/miportal_cientifica
+
+[33mcommit 6927f9d0779a003b66017db80250e50ca9f203a3[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sat Oct 3 12:12:20 2020 -0500
+
+    removing modal personalInformation after login
+
+[33mcommit c3e108367b335408d87190510bbb22992f97b699[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Mon Sep 28 00:43:46 2020 -0500
+
+    my links commented
+
+[33mcommit e3c74695b14f4344d5d3ef28153bace7fa80419c[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Sun Sep 27 20:47:19 2020 -0500
+
+    adding survey modal
+
+[33mcommit 157b015d24d04d6fac5b87e3b46e2da8833a19d4[m
+Author: Edmundo <edmundoach@hotmail.com>
+Date:   Fri Sep 25 17:37:38 2020 -0500
+
+    adding new
+
+[33mcommit a470ff14cff7060743b2b3d05f651a94c07776d2[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Sep 21 11:05:21 2020 -0500
+
+    u
+
+[33mcommit 4c647b0ac1be84f2f1fd85fc356882600291ba9c[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Sep 11 17:38:15 2020 -0500
+
+    add dataPersonal
+
+[33mcommit e3b6a4cbd1a1752f47ed9357c60d7a2514f65a2a[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Wed Sep 9 23:14:17 2020 -0500
+
+    u assistance
+
+[33mcommit da716e1671eee204b7ec9b91cb6b00c691a0469a[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Aug 28 18:14:27 2020 -0500
+
+    feriados
+
+[33mcommit c8d134e7584ff5346e1d92ba1a5ee8ac926f89dd[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Wed Aug 26 17:07:47 2020 -0500
+
+    u horario de cursos - tardanza a la mitad de horario
+
+[33mcommit 068b1105a1c0ee80242b4e7b368139a207ad7da9[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 24 21:36:20 2020 -0500
+
+    delete survey2
+
+[33mcommit 4fbf2bd493edb882fedbcfc44bc44adbf4a684be[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 24 10:46:13 2020 -0500
+
+    u new survey
+
+[33mcommit 84a8f33fea6e98ab11566628ed4539c16aa06028[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 24 10:27:24 2020 -0500
+
+    delete survey enrollment
+
+[33mcommit 7184bc72b2b64d7cd1d532ebe3255a1db554b528[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 24 10:12:40 2020 -0500
+
+    u new survey
+
+[33mcommit b597174c06d9a8271b8bde8a5cec536be9975442[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 24 09:51:29 2020 -0500
+
+    u new survey
+
+[33mcommit 4cfd66b63dbdfd22f5280f44e05ad5ec4a0e9a5b[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 24 09:00:45 2020 -0500
+
+    add survey static
+
+[33mcommit 96f9f861dd08c5f7dcedc7487289836140639baf[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Sun Aug 23 19:33:57 2020 -0500
+
+    f sunday horario semanal
+
+[33mcommit eeff6e3de79e94f76bf5809e38344b3b413d58c3[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Aug 21 10:37:00 2020 -0500
+
+    u wsp atencion alumno
+
+[33mcommit cdfd87ec9af2416685ab6edff876323866bbd76c[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Thu Aug 20 16:05:41 2020 -0500
+
+    rm video tutorial cpe
+
+[33mcommit 1b3eb4512a091153f9ffacab93d55d1c5d7f62bf[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 10 15:32:32 2020 -0500
+
+    u login wsp button
+
+[33mcommit 13c001c9f755b011a0fd257d424e12ac7e893c0d[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Aug 7 16:44:28 2020 -0500
+
+    electives in 'Consulta de Horarios'
+
+[33mcommit 0d0fa2afab6fdd968a29e89a44dabe11423da282[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Aug 7 11:37:18 2020 -0500
+
+    u links
+
+[33mcommit 3dd4c2de60716f6e4ede305819d18e0307a67792[m
+Author: Fernando Vallejo <vallejoaguilar@gmail.com>
+Date:   Thu Aug 6 22:00:56 2020 -0500
+
+    correccion de errres ortografictos
+
+[33mcommit d873f513efd04c9213c9ddce7852c3cfbc21cd7b[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Thu Aug 6 13:25:25 2020 -0500
+
+    u login
+
+[33mcommit 4c1b2fb39d12b5128b3bd816f0d73ce99b67de09[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Wed Aug 5 15:52:12 2020 -0500
+
+    u login
+
+[33mcommit 9e973990fd1474ef65562307897f64ef947316a3[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Tue Aug 4 13:31:36 2020 -0500
+
+    f hour12
+
+[33mcommit 11e591e29eba442fdf2ab5ad8a5877ac7bc348c9[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 3 22:19:11 2020 -0500
+
+    show fecha ing within ind grupo N
+
+[33mcommit daaa5305d6183a6f40943f0ac06dce5c3dc64414[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 3 15:17:59 2020 -0500
+
+    u wsp 2 central cientifica
+
+[33mcommit 08b5ba778430a2e035a8390ee2ee16a1f4a678c7[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 3 13:21:10 2020 -0500
+
+    link in login and new wsp in dashboard
+
+[33mcommit 2189d6996dc3b7774cd9b6aeb7418873f0e33689[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Aug 3 12:00:25 2020 -0500
+
+    wsp2
+
+[33mcommit 47eb4e3ea11112d9a49f27e359a9be216140ae2a[m
+Author: Fernando Vallejo <vallejoaguilar@gmail.com>
+Date:   Sun Aug 2 23:04:32 2020 -0500
+
+    Da click aqui por matriculate(boton matricula)
+
+[33mcommit f2d9fe38753316c332a2bf50f8d53168f4151a77[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Sat Aug 1 18:40:58 2020 -0500
+
+     u load
+
+[33mcommit c39860d062c7a4a13165b363c761675ba4156212[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Jul 31 12:08:17 2020 -0500
+
+    u enroll
+
+[33mcommit d9af2b1fb839c17741fcd215b4cef09c4403bd5f[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Thu Jul 30 16:05:17 2020 -0500
+
+    u enroll and wsp cobranzas
+
+[33mcommit 46e35604fd5f56ed360313074159b737e0329346[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Thu Jul 30 12:18:17 2020 -0500
+
+    u academic conditions
+
+[33mcommit 031297332221996e63911a76a4368f83cba3b413[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Wed Jul 29 20:24:42 2020 -0500
+
+    u enrollment intensive
+
+[33mcommit a709e20c203f561faf7a2848216ab499b280ce65[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Wed Jul 29 17:52:02 2020 -0500
+
+    -u enrollment intensive
+
+[33mcommit 3dda50bc1c0ea76cb6c50a5cfb60c2447ddc3e69[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Wed Jul 29 15:42:34 2020 -0500
+
+    add enrollment intensive
+
+[33mcommit 57f54b189fc50edba4497e83ed41c7974962ba91[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Jul 27 12:44:33 2020 -0500
+
+    u websocket service
+
+[33mcommit 74f0bf44f3e5c2ac346b928e5798a9a247469849[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Sun Jul 26 01:09:08 2020 -0500
+
+    u session moodle encrypt
+
+[33mcommit fd405b36e3ee0ba65c40751c5f7cd6cfd27ab74a[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Jul 24 16:35:10 2020 -0500
+
+    u icon enroll
+
+[33mcommit e85a6ce4ab7bf998db58fb4fb9ef297326bc3cad[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Jul 24 16:19:24 2020 -0500
+
+    f hour of enrollment
+
+[33mcommit 05c5c1ee52327e8427357b7a79ada7860050702d[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Jul 24 15:58:00 2020 -0500
+
+    merge queuesocket
+
+[33mcommit 6ea37ff8cffe3e66dadd21d56224403d2ec6e31e[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Thu Jul 23 13:11:59 2020 -0500
+
+    u new survey
+
+[33mcommit c3b1c9d9a5e434dde8f924d47c499bb1e325e4f7[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Wed Jul 22 22:57:10 2020 -0500
+
+    u enroll
+
+[33mcommit 492b49b3af7f460375628a15d2f917533582102e[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Tue Jul 21 21:55:31 2020 -0500
+
+    u schedule enroll
+
+[33mcommit 0bfdd88cda86345544112e8a3b999313ca0d1ef3[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Fri Jul 10 01:50:57 2020 -0500
+
+    u assistance history
+
+[33mcommit 89ec9ed02068ef31b0c4afc53e72d9db6cc3e038[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Thu Jul 9 16:09:54 2020 -0500
+
+    u color institution
+
+[33mcommit b9b81ef24d2609ee099dc012442ff296f2dde561[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Mon Jul 6 12:19:38 2020 -0500
+
+    change image encuesta
+
+[33mcommit 292485a60653b695ee5dc2677096e673b55f79d6[m
+Author: Esteban Torres Rivera <darkmegion@gmail.com>
+Date:   Sun Jul 5 23:03:02 2020 -0500
+
+    first upload

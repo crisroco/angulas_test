@@ -124,6 +124,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     // this.showModals();
+    this.notice = this.notice.filter(el => el.filtroInst.includes(this.session.getObject('student').institucion));
     this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
