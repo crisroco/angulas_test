@@ -6,7 +6,7 @@ export const notice = [
         limit: (content)=>{
             return content.length>500? content.substring(0,500)+'...': content; 
         },
-        filtroInst: ['PREGR'],
+        filtroInst: ['PREG'],
         expand: true
     },
     // {

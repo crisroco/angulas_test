@@ -124,18 +124,17 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     // this.showModals();
-    this.notice = this.notice.filter(el => el.filtroInst.includes(this.session.getObject('student').institucion));
     this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
     this.studentS.getDataStudent({ email: this.user.email })
       .then(res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
         this.session.setObject('student', this.student);
+        this.notice = this.notice.filter(el => el.filtroInst.includes(this.session.getObject('student').ind_modalidad));
         this.getParameters();
       }, error => {
 
       });
-
     this.studentS.getdataStudent().subscribe(
       r => {
         if(this.dataObsStudent.length==0){
