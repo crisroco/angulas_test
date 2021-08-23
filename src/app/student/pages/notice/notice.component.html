@@ -2,22 +2,22 @@
   <h5 class="text-ucs my-3"> Eventos y Noticias</h5>
   <ng-container *ngIf="notice?.length>0; else notCourse">
     <div class="d-lg-flex py-3 border-bottom" *ngFor="let data of notice; let i = index">
-      <div style="position: relative; width: 130px; height: 80px;">
+      <div style="position: relative">
         <img [src]="data.imgPath" class="d-none d-lg-block" width="130px" height="80px" alt="">
         <img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
         <img (click)="showImageHandler(data)" src="assets/img/zoom-img.svg" alt="" style="cursor: pointer; position: absolute; right: 10px; bottom: 10px;">
       </div>
       <div class="ml-lg-3">
         <strong class="text-dark">{{data.title}}</strong>
-        <p *ngIf="!data.expand" class="content-event text-justify mb-0">
-          {{data.limit(data.content)}}
+        <div *ngIf="!data.expand" class="content-event text-justify mb-0" [innerHTML]="data.content">
+          <!-- {{data.limit(data.content)}} -->
           <label (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver más
           </label>
-        </p>
-        <p *ngIf="data.expand" class="content-event text-justify mb-0">
-          {{data.content}}
+        </div>
+        <p *ngIf="data.expand" class="content-event text-justify mb-0" [innerHTML]="data.content">
+          <!-- {{data.content}} -->
           <label (click)="hideMore()" *ngIf="data.content?.length>150 && data.expand" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver menos
