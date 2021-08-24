@@ -11,6 +11,8 @@ import { Encrypt } from '../helpers/general';
 import { NewEnrollmentService } from '../services/newenrollment.service';
 import { StudentService } from '../services/student.service';
 import * as CryptoJS from 'crypto-js';
+import { Gtag } from 'angular-gtag';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -35,6 +37,7 @@ export class LoginComponent implements OnInit {
 	@ViewChild('ErrCurrentStudentModal') ErrCurrentStudentModal: any;
 	constructor(private formBuilder: FormBuilder,
     	private toastr: ToastrService,
+    	private gtag: Gtag,
     	private loginS: LoginService,
     	private session: SessionService,
     	private queueS: QueueService,

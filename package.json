@@ -22,6 +22,7 @@
     "@teamhive/ngx-tooltip": "^0.3.15",
     "@vimeo/player": "^2.12.2",
     "angular-calendar": "^0.28.16",
+    "angular-gtag": "^1.0.4",
     "bootstrap": "^4.5.0",
     "core-js": "^2.5.4",
     "crypto-js": "^4.0.0",

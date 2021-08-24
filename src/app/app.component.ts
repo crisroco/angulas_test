@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Gtag } from 'angular-gtag';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'alumno';
+	constructor(gtag: Gtag){ }
+	
+  	title = 'alumno';
 }

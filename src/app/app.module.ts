@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
+import { GtagModule } from 'angular-gtag';
 
 import { SessionService } from './services/session.service';
 import { HttpConfigInterceptor } from './services/httpconfig.interceptor';
@@ -24,6 +25,7 @@ import { InterceptorService } from './student/services/interceptor.service';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    GtagModule.forRoot({ trackingId: 'UA-152516910-5', trackPageviews: true }),
     HttpClientModule,
     NgxSmartModalModule.forRoot(),
     NgxLoadingModule.forRoot({}),
