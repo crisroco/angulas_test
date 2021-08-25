@@ -4,7 +4,7 @@ import * as moment from 'moment-timezone';
 import { StudentService } from 'src/app/services/student.service';
 import { SessionService } from 'src/app/services/session.service';
 import { DateFixedSOTz } from '../../../helpers/dates';
-
+import { Gtag } from 'angular-gtag';
 @Component({
   selector: 'app-menu-course',
   templateUrl: './menu-course.component.html',
@@ -20,6 +20,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
   constructor(
     private studentService: StudentService,
+    private gtag: Gtag,
     private _s:SessionService
   ) { }
   //VARS
@@ -55,6 +56,10 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
         .then((res) => {
           if (!res.includes('false')) {
             sendData.callback = (() => {
+              this.gtag.event('zoom_link', { 
+                method: 'click',
+                event_category: 'zoom_link_' + sendData.STRM + '_' + sendData.CLASS_NBR2
+              });
               this.openTabZoom(res);
             })
             this.openZoomEmit.emit(sendData);
@@ -67,7 +72,6 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
 
   openTabZoom(res) {
     let link = res.replace(/<\/?[^>]+(>|$)/g, "");
-
     let a = document.createElement("a");
     a.setAttribute('style', 'display: none');
     a.href = link;

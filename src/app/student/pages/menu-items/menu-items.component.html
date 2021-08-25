@@ -19,7 +19,7 @@
     <img src="./assets/img/history.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Historial de Cursos</span>
   </a>
-  <a class="menu" href="javascript:void(0)" (click)="linkModalOpen()">
+  <a class="menu" href="javascript:void(0)" (click)="linkModalOpen()" gtagEvent trackOn="click" action="academic_documents" category="modal">
     <img src="./assets/img/document.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Documentos Académicos</span>
   </a>
