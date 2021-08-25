@@ -56,9 +56,9 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
         .then((res) => {
           if (!res.includes('false')) {
             sendData.callback = (() => {
-              this.gtag.event('zoom_link', { 
+              this.gtag.event('zoom_link_' + sendData.STRM + '_' + sendData.CLASS_NBR2, { 
                 method: 'click',
-                event_category: 'zoom_link_' + sendData.STRM + '_' + sendData.CLASS_NBR2
+                event_category: 'zoom_link'
               });
               this.openTabZoom(res);
             })

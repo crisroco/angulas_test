@@ -25,7 +25,7 @@ import { InterceptorService } from './student/services/interceptor.service';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    GtagModule.forRoot({ trackingId: 'UA-152516910-5', trackPageviews: true }),
+    GtagModule.forRoot({ trackingId: 'UA-152516910-5', trackPageviews: false }),
     HttpClientModule,
     NgxSmartModalModule.forRoot(),
     NgxLoadingModule.forRoot({}),
