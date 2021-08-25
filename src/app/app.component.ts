@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
     this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd){
         this.gtag.pageview({
-          page_title: 'Alumno2',
+          page_title: 'Alumno',
           page_path: this.router.url,
           page_location: 'L'+ this.router.url
         })
