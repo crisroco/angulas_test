@@ -5,9 +5,10 @@ import { NewEnrollmentService } from '../../../services/newenrollment.service';
 import { ToastrService } from 'ngx-toastr';
 import { SessionService } from '../../../services/session.service';
 import { CalendarDateFormatter, CalendarView, CalendarEventAction, CalendarEvent } from 'angular-calendar';
-import { RealDate, AddDay, GetFirstDayWeek, GetFirstDayWeek2, SubstractDay, BetweenDays } from '../../../helpers/dates';
+import { RealDate, AddDay, GetFirstDayWeek, GetFirstDayWeek2, RealDateTz, DateFixedSO, BetweenDays } from '../../../helpers/dates';
 import { ValidateEmail } from '../../../helpers/general';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-enrollment',
@@ -32,7 +33,8 @@ export class EnrollmentComponent implements OnInit {
   student: any = this.session.getObject('student');
   dataEnrollment: any;
   myVirtualClasses:Array<any> = [];
-  viewDate: Date = new Date(2021,7,23);
+  tzDate = RealDateTz();
+  viewDate: Date = DateFixedSO(this.tzDate.sDate, this.tzDate.sTime);
   events:CalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Week;
@@ -47,6 +49,7 @@ export class EnrollmentComponent implements OnInit {
     if(((this.deviceS.isMobile() || this.deviceS.isTablet()) && this.deviceS.getDeviceInfo().browser != 'Chrome' && this.deviceS.getDeviceInfo().os == 'Android') || (this.deviceS.getDeviceInfo().browser == 'Chrome' && this.deviceS.getDeviceInfo().os == 'Windows' && Number(this.deviceS.getDeviceInfo().browser_version.split('.')[0]) < 90)){
       this.changeToChromeModal.open();
     }
+    moment.locale('es');
     this.session.destroy('mySchedule');
     this.student = this.session.getObject('student');
     this.allData = this.session.getObject('dataEnrollment');
@@ -260,6 +263,7 @@ export class EnrollmentComponent implements OnInit {
                 var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
                 clase.date = rDay;
                 if(!objEvents[rDay + ' ' + clase.HORA_INICIO + ':00' + ' ' + classD.CRSE_ID]){
+                  console.log(clase);
                   dates = this.getDates(rDay, clase.HORA_INICIO + ':00', clase.HORA_FIN + ':00');
                   events.push({
                     start: dates.start,//new Date(rDay + ' ' + clase.MEETING_TIME_START),
@@ -373,82 +377,24 @@ export class EnrollmentComponent implements OnInit {
     return inSeconds[0]*60*60 + inSeconds[1]*60
   }
 
+  capitalizarPrimeraLetra(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+  getDateMoment() {
+		return this.capitalizarPrimeraLetra(moment().tz('America/Lima').format('dddd, D MMMM YYYY HH:mm'));
+	}
+
   eventClicked(event){
     // console.log(event);
   }
 
   getDates(rDay: string, MEETING_TIME_START: string, MEETING_TIME_END: string) {
-    let start: Date;
-    let end: Date;
-    const ua = navigator.userAgent.toLowerCase();
-    if (ua.indexOf('safari') !== -1) {
-      if (ua.indexOf('chrome') > -1) {
-        start = new Date(rDay + 'T' + MEETING_TIME_START);
-        end = new Date(rDay + 'T' + MEETING_TIME_END);
-      } else {
-        start = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_START)));
-        end = new Date(this.getDay(rDay, this.getHour(MEETING_TIME_END)));
-      }
-    } else {
-      start = new Date(rDay + 'T' + MEETING_TIME_START);
-      end = new Date(rDay + 'T' + MEETING_TIME_END);
-    }
-
-    return { start, end };
-  }
-
-  getHour(pHour: string): string {
-
-    const arrHour = pHour.split(':');
-    let hour =  Number(arrHour[0]);
-    hour += 5;
-    const hourModified = this.pad(hour, 2);
-    const minute =  arrHour[1];
-    const second =  arrHour[2];
-
-    return `${hourModified}:${minute}:${second}`;
-  }
-
-  getDay(pDay: string, pHour: string): string {
-
-    let rDate = `${pDay}T${pHour}`;
-
-    const arrHour = pHour.split(':');
-    let hour =  Number(arrHour[0]);
-    if (hour > 23) {
-
-      const arrDate = pDay.split('-'); // 2020-07-06
-
-      let day =  Number(arrDate[2]);
-      day += 1;
-
-      const dayModified = this.pad(day, 2);
-      const month =  arrDate[1];
-      const year =  arrDate[0];
-
-      const vDate = `${year}-${month}-${dayModified}`;
-
-      hour -= 24;
-      const hourModified = this.pad(hour, 2);
-      const minute =  arrHour[1];
-      const second =  arrHour[2];
-
-      const vHour = `${hourModified}:${minute}:${second}`;
-
-      rDate = `${vDate}T${vHour}`;
-    }
-    return rDate;
-  }
-
-  pad(num: number, size: number): string {
-    let s = num + '';
-    while (s.length < size) { s = '0' + s; }
-    return s;
-  }
-
-  invertDates(date_format){
-    let x = date_format.split('-');
-    return x[2] + '-' + x[1] + '-' + x[0]
-  }
+		let start: Date;
+		let end: Date;
+		start = DateFixedSO(rDay, MEETING_TIME_START);
+		end = DateFixedSO(rDay, MEETING_TIME_END);
+		return { start, end };
+	}
 
 }
