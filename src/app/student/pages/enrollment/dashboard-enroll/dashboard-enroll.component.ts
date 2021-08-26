@@ -70,8 +70,9 @@ export class DashboardEnrollComponent implements OnInit {
       });
     let myConditions = this.session.getObject('conditionsToEnrollment');
     if (myConditions) {
-      if (!myConditions.turn || !myConditions.conditions) {
-        this.toastS.error('Aún no tienes turno de matricula, o no aceptaste las condiciones');
+      if (!myConditions.turn) {
+        // this.toastS.error('Aún no tienes turno de matricula, o no aceptaste las condiciones');
+        this.toastS.error('Aún no tienes turno de matricula');
         setTimeout(() => {
           this.router.navigate(['/estudiante']);
           return
@@ -79,7 +80,8 @@ export class DashboardEnrollComponent implements OnInit {
       }
     }
     if (!myConditions) {
-      this.toastS.error('Aún no tienes turno de matricula, o no aceptaste las condiciones');
+      this.toastS.error('Aún no tienes turno de matricula');
+      // this.toastS.error('Aún no tienes turno de matricula, o no aceptaste las condiciones');
       setTimeout(() => {
         this.router.navigate(['/estudiante']);
         return
