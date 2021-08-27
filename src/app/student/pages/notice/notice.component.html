@@ -8,7 +8,7 @@
         <img (click)="showImageHandler(data)" src="assets/img/zoom-img.svg" alt="" style="cursor: pointer; position: absolute; right: 10px; bottom: 10px;">
       </div>
       <div class="ml-lg-3">
-        <strong class="text-dark">{{data.title}} <span class="new_notice">NUEVO</span></strong>
+        <strong class="text-dark">{{data.title}} <span *ngIf="data.new" class="new_notice">NUEVO</span></strong>
         <div *ngIf="!data.expand" class="content-event text-justify mb-0 mt-2" [innerHTML]="data.content">
           <!-- {{data.limit(data.content)}} -->
           <label (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand" style="cursor: pointer;"

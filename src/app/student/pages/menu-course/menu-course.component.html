@@ -6,7 +6,7 @@
       <div class="d-flex flex-column" style="height: 100px;">
         <div>
           <strong class="mt-1 d-block" style="width: 155px;">{{limitCharacter(data?.DESCR)}}</strong>
-          {{data.SSR_COMPONENT}}
+          <span class="ssr">SECCIÓN {{data.CLASS_SECTION}}- {{data.SSR_COMPONENT}}</span>
         </div>
         <div class="mt-auto" style="font-size: 14px;">
           {{data.MEETING_TIME_START.substr(0,5)}} - {{data.MEETING_TIME_END.substr(0,5)}} hrs

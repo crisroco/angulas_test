@@ -122,6 +122,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   validCourseVisible() {
+    console.log(this.course);
     return this.course ?
       this.course.filter(f => !this.validateAfter(f.MEETING_TIME_END)) :
       [];
