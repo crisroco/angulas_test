@@ -7,6 +7,14 @@
 		font-weight: 600;
 	}
 }
+.notice_box {
+	&:hover {
+		.zoom {
+			width: 16.5px;
+			height: 16.5px;
+		}
+	}
+}
 .text-underline{
 	text-decoration: underline !important;
 }
