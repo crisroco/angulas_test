@@ -1,41 +1,41 @@
 <div class="card-custom py-2 mb-4 d-flex flex-column">
-  <h6 class="px-4 ml-1 my-4" style="font-weight: 500">{{getDateMoment()}}</h6>
-  <ng-container *ngFor="let data of courseSplit()">
-    <div *ngIf="!this.validateAfter(data.MEETING_TIME_END)" (click)="openLinkZoom(data)" class="course-item px-4 py-2"
-      [class.active-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data)">
-      <div class="d-flex flex-column" style="height: 100px;">
-        <div>
-          <strong class="mt-1 d-block" style="width: 155px;">{{limitCharacter(data?.DESCR)}}</strong>
-          <span class="ssr">SECCIÓN {{data.CLASS_SECTION}}- {{data.SSR_COMPONENT}}</span>
+    <h6 class="px-4 ml-1 my-4" style="font-weight: 500">{{getDateMoment()}}</h6>
+    <ng-container *ngFor="let data of courseSplit()">
+        <div *ngIf="!this.validateAfter(data.MEETING_TIME_END)" (click)="openLinkZoom(data)" class="course-item px-4 py-2"
+        [class.active-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data)">
+        <div class="d-flex flex-column" style="height: 100px;">
+            <div>
+            <strong class="mt-1 d-block" style="width: 155px;">{{limitCharacter(data?.DESCR)}}</strong>
+            <span class="ssr">SECCIÓN {{data.CLASS_SECTION}}- {{data.SSR_COMPONENT}}</span>
+            </div>
+            <div class="mt-auto" style="font-size: 14px;">
+            {{data.MEETING_TIME_START.substr(0,5)}} - {{data.MEETING_TIME_END.substr(0,5)}} hrs
+            </div>
         </div>
-        <div class="mt-auto" style="font-size: 14px;">
-          {{data.MEETING_TIME_START.substr(0,5)}} - {{data.MEETING_TIME_END.substr(0,5)}} hrs
+        <div class="pt-2">
+            <div
+            *ngIf="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data); else tempDefault"
+            style="width: 95px; line-height: normal; background-color: #FDB22B; border-radius: 6px;"
+            class="d-flex align-items-center px-3 py-2 text-ucs">
+            <i class="fa fa-circle mr-2"></i> <small style="font-size: 10px;"><b>CLASE EN VIVO</b></small>
+            </div>
+            <ng-template #tempDefault>
+            <div style="border-radius: 6px;" class="border px-1">
+                <small>{{validateRange(data.MEETING_TIME_START,
+                data.MEETING_TIME_END)?'AHORA':calculateTime(data.MEETING_TIME_START)}}</small>
+            </div>
+            </ng-template>
         </div>
-      </div>
-      <div class="pt-2">
-        <div
-          *ngIf="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data); else tempDefault"
-          style="width: 95px; line-height: normal; background-color: #FDB22B; border-radius: 6px;"
-          class="d-flex align-items-center px-3 py-2 text-ucs">
-          <i class="fa fa-circle mr-2"></i> <small style="font-size: 10px;"><b>CLASE EN VIVO</b></small>
         </div>
-        <ng-template #tempDefault>
-          <div style="border-radius: 6px;" class="border px-1">
-            <small>{{validateRange(data.MEETING_TIME_START,
-              data.MEETING_TIME_END)?'AHORA':calculateTime(data.MEETING_TIME_START)}}</small>
-          </div>
-        </ng-template>
-      </div>
+    </ng-container>
+    <div class="text-center mt-5 pt-4"
+        *ngIf="course && ((course?.length==0 && loadCourse) || (validCourseVisible().length==0 && loadCourse))">
+        <img src="assets/img/not-course-{{student?.sexo}}.svg" class="mb-4" alt="">
+        <br>
+        <strong>No tienes clases ahora</strong>
+        <p class="m-0">¡Disfruta tu día!</p>
     </div>
-  </ng-container>
-  <div class="text-center mt-5 pt-4"
-    *ngIf="(course?.length==0 && loadCourse) || (validCourseVisible().length==0 && loadCourse)">
-    <img src="assets/img/not-course-{{student?.sexo}}.svg" class="mb-4" alt="">
-    <br>
-    <strong>No tienes clases ahora</strong>
-    <p class="m-0">¡Disfruta tu día!</p>
-  </div>
-  <div class="text-center px-4 ml-1 mt-auto py-2">
-    <a routerLink="/estudiante/accion/horario" class="text-ucs text-underline">Ver Horario</a>
-  </div>
+    <div class="text-center px-4 ml-1 mt-auto py-2">
+        <a routerLink="/estudiante/accion/horario" class="text-ucs text-underline">Ver Horario</a>
+    </div>
 </div>

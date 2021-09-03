@@ -17,8 +17,10 @@ import { BetweenDays, RealDate, RealDateTz, DateFixedSO } from '../../../helpers
 import { ToastrService } from 'ngx-toastr';
 import * as CryptoJS from 'crypto-js';
 import { notice } from './notice';
+import { phrases } from './phrases';
 // import * as moment from 'moment';
 import * as moment from 'moment-timezone';
+import { Gtag } from 'angular-gtag';
 
 @Component({
   selector: 'app-dashboard',
@@ -50,6 +52,7 @@ export class DashboardComponent implements OnInit {
   linktoSurvey = '';
   company = AppSettings.COMPANY;
   user: any = this.session.getObject('user');
+  phrase = phrases[Math.floor(Math.random()*phrases.length)];
   student: any = {};
   academicData: any;
   enrollmentStatus: any;
@@ -82,7 +85,7 @@ export class DashboardComponent implements OnInit {
   realOther = '';
 
   /////////////////////////////////////
-  courses = [];
+  courses = null;
   coursesSession = [];
   coursesPeople = [];
   arraySchedules: [];
@@ -112,6 +115,7 @@ export class DashboardComponent implements OnInit {
     private deviceS: DeviceDetectorService,
     public generalS: GeneralService,
     private toastr: ToastrService,
+    private gtag: Gtag,
     public newEnrollmentS: NewEnrollmentService,
     public ngxSmartModalService: NgxSmartModalService,
     private intentionS: IntentionService
@@ -170,7 +174,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getAllClass(r) {
-    this.course = [];
+    this.course = null;
+    let fakeArray = [];
     let day = moment().tz('America/Lima').format('YYYY-MM-DD');
     let obj = {};
 
@@ -182,14 +187,15 @@ export class DashboardComponent implements OnInit {
             if (res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR) {
               res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR.map(
                 (rmap) => {
-                  this.course.push(rmap);
+                  fakeArray.push(rmap);
                 }
               );
-              this.course.sort(function (a, b) {
+              fakeArray.sort(function (a, b) {
                 a = new Date(`${day} ${a.MEETING_TIME_START}`);
                 b = new Date(`${day} ${b.MEETING_TIME_START}`);
                 return a > b ? 1 : a < b ? -1 : 0;
               });
+              this.course = fakeArray;
             }
             // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
           });
@@ -199,6 +205,10 @@ export class DashboardComponent implements OnInit {
   }
 
   showBiblioteca() {
+    this.gtag.event('libraryRemotexs', { 
+      method: 'click',
+      event_category: 'link'
+    });
     this.studentS.setshowBiblioteca(true);
   }
 

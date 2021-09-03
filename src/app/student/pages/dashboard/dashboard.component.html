@@ -5,7 +5,7 @@
 				<span class="text-ucs">¡Hola {{student?.firstNombreAlumno | uppercase }}!</span>
 				Bienvenid{{student?.sexo=='F'?'a':'o'}}.
 			</h2>
-			<app-menu-course (openZoomEmit)="preGoMoodle($event)" [student]="student" [course]="course" [loadCourse]="loadCourse"></app-menu-course>
+			<!-- <app-menu-course (openZoomEmit)="preGoMoodle($event)" [student]="student" [course]="course" [loadCourse]="loadCourse"></app-menu-course> -->
 		</div>
 		
 		<div class="col-md-6 col-lg-8 px-0 mb-4">
@@ -17,9 +17,8 @@
 								<span class="text-ucs">¡Hola {{student?.firstNombreAlumno | uppercase }}!</span>
 								Bienvenid{{student?.sexo=='F'?'a':'o'}}.
 							</h3>
-							<p class="text-justify">“La vida es como montar en bicicleta, para mantener el equilibrio hay que seguir
-								avanzando”</p>
-							<p class="text-ucs text-right">Albert Einstein</p>
+							<p class="text-justify">“{{phrase.text}}”</p>
+							<p class="text-ucs text-right">{{phrase.author}}</p>
 						</div>
 						<div *ngIf="student?.sexo" class="ml-4 d-none d-lg-block">
 							<img width="250px" src="./assets/img/student-{{student?.sexo}}.png">
@@ -45,7 +44,7 @@
 					</div>
 				</div>
 				<div class="col-lg-4 pr-lg-0 mb-4 d-none d-xl-block">
-					<a href="https://empleabilidad.cientifica.edu.pe/" target="_blank">
+					<a href="https://empleabilidad.cientifica.edu.pe/" target="_blank" gtagEvent trackOn="click" action="employability" category="link">
 						<div
 							class="card-custom hover-links h-100 py-3 d-flex justify-content-center align-items-center">
 							<img class="pr-md-3" src="./assets/img/job.svg">
@@ -57,7 +56,7 @@
 					</a>
 				</div>
 				<div class="col-4 mb-4 d-block d-xl-none pr-md-0">
-					<a href="https://empleabilidad.cientifica.edu.pe/" target="_blank">
+					<a href="https://empleabilidad.cientifica.edu.pe/" target="_blank" gtagEvent trackOn="click" action="employability" category="link">
 						<div class="card-custom hover-links h-100 py-3 px-1 text-center">
 							<img src="./assets/img/job.svg">
 							<div class="mt-2" style="line-height: normal !important">
@@ -67,7 +66,7 @@
 					</a>
 				</div>
 				<div class="col-lg-4 mb-4 d-none d-xl-block">
-					<a href="https://mail.office365.com/" target="_blank">
+					<a href="https://mail.office365.com/" target="_blank" gtagEvent trackOn="click" action="mail_ucsur" category="link">
 						<div
 							class="card-custom hover-links h-100 py-3 d-flex justify-content-center align-items-center">
 							<img class="pr-md-3" src="./assets/img/mail.svg">
@@ -79,7 +78,7 @@
 					</a>
 				</div>
 				<div class="col-4 mb-4 d-block d-xl-none">
-					<a href="https://mail.office365.com/" target="_blank">
+					<a href="https://mail.office365.com/" target="_blank" gtagEvent trackOn="click" action="mail_ucsur" category="link">
 						<div class="card-custom hover-links h-100 py-3 px-1 text-center">
 							<img class="mt-2" src="./assets/img/mail.svg">
 							<div class="mt-2" style="line-height: normal !important">

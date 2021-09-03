@@ -391,6 +391,8 @@ export class StudentComponent implements OnInit {
 	DigitalLibraryAttribute6: FormControl;
 	DigitalLibraryAttribute7: FormControl;
 	DigitalLibraryAttribute8: FormControl;
+	DigitalLibraryAttribute9: FormControl;
+	DigitalLibraryAttribute10: FormControl;
 	formulario1: FormControl;
 
 	constructor(
@@ -419,6 +421,8 @@ export class StudentComponent implements OnInit {
 			this.DigitalLibraryAttribute6 = new FormControl(this.retomex.programa_actual);
 			this.DigitalLibraryAttribute7 = new FormControl(this.retomex.ind_modalidad);
 			this.DigitalLibraryAttribute8 = new FormControl(this.retomex.campus);
+			this.DigitalLibraryAttribute9 = new FormControl(this.retomex.ciclo_lectivo);
+			this.DigitalLibraryAttribute10 = new FormControl(this.retomex.institucion);
 		}
 	}
 
@@ -884,6 +888,7 @@ export class StudentComponent implements OnInit {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	enviar_formulario() {//
+		console.log(1);
 		var formularioRemoteX = document.forms['formulario1'];
 		/* var elemento1 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute1")).value;
 		var elemento2 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute2")).value;

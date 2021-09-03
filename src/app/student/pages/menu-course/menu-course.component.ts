@@ -48,7 +48,7 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   }
 
   openLinkZoom(data) {
-     let sendData = JSON.parse(JSON.stringify(data));
+    let sendData = JSON.parse(JSON.stringify(data));
     if (this.validateRangeWithAfterMinutes(sendData.MEETING_TIME_START, sendData.MEETING_TIME_END) && this.validateClick(sendData)) {
       // let time2 = moment(`${this.dateMoment} ${sendData.MEETING_TIME_START}`).format('X');
       let time = Math.floor(Number(DateFixedSOTz(this.dateMoment, sendData.MEETING_TIME_START))/1000);
