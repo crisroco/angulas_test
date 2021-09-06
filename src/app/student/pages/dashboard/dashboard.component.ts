@@ -196,6 +196,8 @@ export class DashboardComponent implements OnInit {
                 return a > b ? 1 : a < b ? -1 : 0;
               });
               this.course = fakeArray;
+            } else {
+              this.course = [];
             }
             // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
           });

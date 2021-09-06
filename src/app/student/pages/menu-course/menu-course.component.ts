@@ -41,6 +41,8 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
         this.dateTimeMoment = moment().tz('America/Lima').format('YYYY-MM-DD HH:mm:ss');
       }
     ));
+    console.log(this.course);
+    console.log(this.loadCourse);
   }
 
   courseSplit() {
