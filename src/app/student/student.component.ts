@@ -462,6 +462,12 @@ export class StudentComponent implements OnInit {
 			}
 		);
 
+		this.studentS.getShowMatricula().subscribe(
+			resp => {
+				this.matriculaExtracurricularModal.open()
+			}
+		);
+
 		this.studentS.getshowBiblioteca().subscribe(
 			resp => {
 				this.enviar_formulario()
@@ -530,51 +536,50 @@ export class StudentComponent implements OnInit {
 		// 	}
 		// })
 
-		// this.btnMatricula = true;
-		// this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC" })
-		// 	.then((res) => {
-		// 		this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
-		// 		if (this.coursesPeople) {
-		// 			this.countCoursesMatriculados = this.coursesPeople.length;
-		// 			let dataPeople = [];
-		// 			for (var i = 0; i < this.coursesPeople.length; i++) {
-		// 				for (var o = 0; o < this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'].length; o++) {
+		this.btnMatricula = true;
+		this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC" })
+			.then((res) => {
+				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
+				if (this.coursesPeople) {
+					this.countCoursesMatriculados = this.coursesPeople.length;
+					let dataPeople = [];
+					for (var i = 0; i < this.coursesPeople.length; i++) {
+						for (var o = 0; o < this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'].length; o++) {
+							if (this.coursesPeople[i]) {
+								dataPeople.push({
+									ACAD_CAREER: this.coursesPeople[i]['GRADO_ACADEMICO'],
+									ASSOCIATED_CLASS: '1',
+									CLASS_NBR: this.coursesPeople[i]['CLASE'],
+									CLASS_SECTION: this.coursesPeople[i]['SECCION_CLASE'],
+									CRSE_ID: this.coursesPeople[i]['CRSE_ID'],
+									DESCR: this.coursesPeople[i]['NOMBRE_CURSO'],
+									DIA: this.diaPeople(this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]),
+									EMPLID: this.user.codigoAlumno,
+									END_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['FIN_FECHA'],
+									HORA_FIN: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_FIN'],
+									HORA_INICIO: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_INICIO'],
+									INSTITUTION: this.coursesPeople[i]['INSTITUTION'],
+									OFFER_NBR: this.coursesPeople[i]['NRO_OFERTA'],
+									SESSION_CODE: this.coursesPeople[i]['SESSION_CODE'],
+									SSR_COMPONENT: this.coursesPeople[i]['TIPO_COMPONENTE'],
+									START_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['INICIO_FECHA'],
+									STRM: this.coursesPeople[i]['CICLO_LECTIVO'],
+									equivalent: "-",
+								});
+							}
+						}
+						this.session.setObject('cursoExtracurricular', dataPeople);
+						this.ExistCursoMatriculado();
+					};
+				} else {
+				}
+			});
 
-		// 					if (this.coursesPeople[i]) {
-		// 						dataPeople.push({
-		// 							ACAD_CAREER: this.coursesPeople[i]['GRADO_ACADEMICO'],
-		// 							ASSOCIATED_CLASS: '1',
-		// 							CLASS_NBR: this.coursesPeople[i]['CLASE'],
-		// 							CLASS_SECTION: this.coursesPeople[i]['SECCION_CLASE'],
-		// 							CRSE_ID: this.coursesPeople[i]['CRSE_ID'],
-		// 							DESCR: this.coursesPeople[i]['NOMBRE_CURSO'],
-		// 							DIA: this.diaPeople(this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]),
-		// 							EMPLID: this.user.codigoAlumno,
-		// 							END_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['FIN_FECHA'],
-		// 							HORA_FIN: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_FIN'],
-		// 							HORA_INICIO: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_INICIO'],
-		// 							INSTITUTION: this.coursesPeople[i]['INSTITUTION'],
-		// 							OFFER_NBR: this.coursesPeople[i]['NRO_OFERTA'],
-		// 							SESSION_CODE: this.coursesPeople[i]['SESSION_CODE'],
-		// 							SSR_COMPONENT: this.coursesPeople[i]['TIPO_COMPONENTE'],
-		// 							START_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['INICIO_FECHA'],
-		// 							STRM: this.coursesPeople[i]['CICLO_LECTIVO'],
-		// 							equivalent: "-",
-		// 						});
-		// 					}
-		// 				}
-		// 				this.session.setObject('cursoExtracurricular', dataPeople);
-		// 				this.ExistCursoMatriculado();
-		// 			};
-		// 		} else {
-		// 		}
-		// 	});
-
-		// this.newEnrollmentS.getCoursesExtra()//servicio de cursos extracurriculares de la tabla intermedia
-		// 	.then((res) => {
-		// 		this.courses = res['data'];
-		// 		this.ExistCursoMatriculado();
-		// 	});
+		this.newEnrollmentS.getCoursesExtra()
+			.then((res) => {
+				this.courses = res['data'];
+				this.ExistCursoMatriculado();
+			});
 	}
 
 	showMenu() {
@@ -595,7 +600,7 @@ export class StudentComponent implements OnInit {
 			.then((res) => {
 				this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
 				this.numberOfCicles.forEach(ci => {
-					if (ci["CICLO_LECTIVO"] == 1116) { //validación con el ciclo electivo actual//1087
+					if (ci["CICLO_LECTIVO"] == 1178) { //validación con el ciclo electivo actual//1087
 						this.cycleOn = true;
 						return;
 					} else {
@@ -729,7 +734,7 @@ export class StudentComponent implements OnInit {
 		if (this.horariosMatriculados) {
 			for (let i = 0; i < this.horariosMatriculados.length; i++) {
 				/* if (this.horariosMatriculados[i].STRM == "1087") { */
-				if (this.horariosMatriculados[i].STRM == "1116") {
+				if (this.horariosMatriculados[i].STRM == "1178") {
 					if (BetweenDays(this.horariosMatriculados[i]['START_DT'], this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['START_DT'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.horariosMatriculados[i]['START_DT'], this.horariosMatriculados[i]['END_DT'], RealDate(new Date(pickedCourse['END_DT'].replaceAll('-', '/') + ' 00:00:00')))) {
 						if (this.horariosMatriculados[i]['DIA'] == pickedCourse['DIA']) {
 							if ((this.timeToSeconds(pickedCourse['HORA_INICIO']) >= this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_INICIO']) < this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse['HORA_FIN']) > this.timeToSeconds(this.horariosMatriculados[i]['HORA_INICIO']) && this.timeToSeconds(pickedCourse['HORA_FIN']) <= this.timeToSeconds(this.horariosMatriculados[i]['HORA_FIN']))) {
@@ -796,26 +801,27 @@ export class StudentComponent implements OnInit {
 			emplid_admin: this.user.email
 		}).then((res) => {
 			if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
-				this.toastr.success('Curso matriculado');
+				if (res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] === 'Correcto') {
+					this.toastr.success('Curso matriculado');
+					let primerCurso = this.session.getObject('cursoExtracurricular');
+					if (!primerCurso) {
+						this.session.setObject('cursoExtracurricular', data);
+						this.horariosMatriculados = data;
+					} else {
+						this.horariosMatriculados = this.session.getObject('cursoExtracurricular') ? this.session.getObject('cursoExtracurricular').concat(data) : [];
+						this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
+					}
+					this.selectedCourse.value = true;
+					this.session.destroy('mySchedule');
 
-				let primerCurso = this.session.getObject('cursoExtracurricular');
-
-				if (!primerCurso) {
-					this.session.setObject('cursoExtracurricular', data);
-					this.horariosMatriculados = data;
+					this.ExistCursoMatriculado();
+					this.countCoursesMatriculados = this.countCoursesMatriculados + 1;
+					this.horariosModal.close();
 				} else {
-					this.horariosMatriculados = this.session.getObject('cursoExtracurricular') ? this.session.getObject('cursoExtracurricular').concat(data) : [];
-					this.session.setObject('cursoExtracurricular', this.horariosMatriculados);
+					this.toastr.warning('No se pudo completar la matrícula, revise activación, comunicarse al canal Whatsapp');
 				}
-				this.selectedCourse.value = true;
-				this.session.destroy('mySchedule');
-
-				this.ExistCursoMatriculado();
-				this.countCoursesMatriculados = this.countCoursesMatriculados + 1;
-				this.horariosModal.close();
 			} else {
-				this.toastr.warning('No hay vacantes para este curso');
-
+				this.toastr.warning('No se pudo completar la matrícula, revise activación, comunicarse al canal Whatsapp');
 			}
 		}).catch(err => alert('No se pudo matricular el curso'));
 	}
@@ -860,7 +866,7 @@ export class StudentComponent implements OnInit {
 		this.selectedCourse = course;
 		course.INSTITUCION = "ECONT";
 		course.GRADO_ACADEMICO = "EDUC";
-		course.CICLO_LECTIVO = 1116;
+		course.CICLO_LECTIVO = 1178;
 		course.SESSION_CODE = 1;
 		course.CLASE_ASOCIADA = 1;
 		course.CLASE = this.class_nbr;

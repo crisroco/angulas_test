@@ -63,6 +63,10 @@ export class MenuItemsComponent implements OnInit, OnChanges {
     this.studentS.setShowdocLoad(true);
   }
 
+  matriculaExtracurricularModalOpen(){
+    this.studentS.setShowMatricula(true);
+  }
+
   goEnrollment(){
     this.session.setObject('conditionsToEnrollment', { turn: this.timeOut, conditions: true });
     this.newEnrollmentS.getDebt({ EMPLID: this.session.getObject('user').codigoAlumno })

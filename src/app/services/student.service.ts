@@ -13,6 +13,7 @@ export class StudentService {
         private generalS: GeneralService) { }
 
     public showdocLoad = new Subject<boolean>();
+    public showMatricula = new Subject<boolean>();
     public showMenu = new Subject<boolean>();
     public showOtherMenu = new Subject<boolean>();
     public showBiblioteca = new Subject<boolean>();
@@ -73,6 +74,14 @@ export class StudentService {
 
     public setShowdocLoad(data: boolean) {
         this.showdocLoad.next(data);
+    }
+
+    public getShowMatricula() {
+        return this.showMatricula.asObservable();
+    }
+
+    public setShowMatricula(data: boolean) {
+        this.showMatricula.next(data);
     }
 
     public getDataStudent(data): Promise<any> {

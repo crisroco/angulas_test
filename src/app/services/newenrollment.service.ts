@@ -15,7 +15,7 @@ export class NewEnrollmentService {
     }
 
     public getSchedulesCourse(data): Promise<any> {
-        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleExtra/1116/' + data).toPromise();
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleExtra/1178/' + data).toPromise();
     }
 
     public getCoursesExtraInEnrollment(data): Promise<any>  {
