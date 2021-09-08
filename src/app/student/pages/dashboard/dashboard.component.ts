@@ -178,8 +178,11 @@ export class DashboardComponent implements OnInit {
     let fakeArray = [];
     let day = moment().tz('America/Lima').format('YYYY-MM-DD');
     let obj = {};
-
-    r.map(re => {
+    let total = r.map((el => el.institucion));
+    let allInst = total.filter((item, index) => {
+      return total.indexOf(item) === index;
+    });
+    r.forEach((re, index) => {
       if (!obj[re.institucion]) {
         this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution: re.institucion, date: day })
           .then((res) => {
@@ -196,8 +199,10 @@ export class DashboardComponent implements OnInit {
                 return a > b ? 1 : a < b ? -1 : 0;
               });
               this.course = fakeArray;
-            } else {
+            } else if(index+1 == allInst.length) {
               this.course = [];
+            } else {
+
             }
             // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
           });
