@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-
 @Component({
   selector: 'app-notice',
   templateUrl: './notice.component.html',

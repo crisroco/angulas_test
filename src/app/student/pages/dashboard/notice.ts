@@ -1,26 +1,16 @@
 export const notice = [
-    // {
-    //     imgPath: './assets/img/notice_3.jpg',
-    //     title: 'Participa en las Actividades extracurriculares 2021 2 de VGU',
-    //     new: true,
-    //     content: 'En el semestre 2021 2, Vida y Gestión Universitaria estará desarrollando Actividades extracurriculares que contribuyen al desarrollo y formación integral de los estudiantes, promoviendo estilos de vida saludables y favoreciendo el contacto de la comunidad universitaria con el arte, la cultura, y espacios de sana distensión. <a href="https://drive.google.com/file/d/1eg5BCiFR8Coe4KfCu2vXVR1lwvVvK8Q9/view?usp=sharing">Más info aquí.</a>',
-    //     limit: (content)=>{
-    //         return content.length>500? content.substring(0,500)+'...': content; 
-    //     },
-    //     filtroInst: ['CPE','PREG'],
-    //     expand: true
-    // },
-    // {
-    //     imgPath: './assets/img/notice_2.jpg',
-    //     title: 'Conéctate a clases fácil y rápido',
-    //     new: false,
-    //     content: 'Ahora puedes conectarte más rápido a tus clases por Zoom desde la página de Inicio. Para ingresar, dale clic a “Clase en vivo”, sigue las indicaciones y listo.  ⏰Recuerda: El botón se activa 10 minutos antes de iniciar la clase.',
-    //     limit: (content)=>{
-    //         return content.length>500? content.substring(0,500)+'...': content; 
-    //     },
-    //     filtroInst: ['CPE','PREG'],
-    //     expand: true
-    // },
+    {
+        imgPath: './assets/img/notice_4.png',
+        title: 'INTENCIÓN DE MATRÍCULA 2021-2 📚',
+        new: true,
+        content: ' ¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia en el nuevo proceso de INTENCIÓN DE MATRÍCULA 2021-2. Tu aporte es muy importante para nosotros y así seguir mejorando tu experiencia en los próximos procesos. Completa la encuesta <a href="https://bit.ly/38XSjUN">aquí.</a>',
+        limit: (content)=>{
+            return content.length>500? content.substring(0,500)+'...': content; 
+        },
+        filtroInst: [],
+        useCSV: true,
+        expand: true
+    },
     {
         imgPath: 'https://us.123rf.com/450wm/antonioguillem/antonioguillem2004/antonioguillem200400060/144517200-close-up-of-woman-hand-filling-out-form-with-pen-on-a-desk.jpg?ver=6',
         title: 'Proyecto de investigación de UCSUR',
@@ -30,6 +20,7 @@ export const notice = [
             return content.length>500? content.substring(0,500)+'...': content; 
         },
         filtroInst: ['PREG'],
+        useCSV: false,
         expand: true
     }
     // {

@@ -121,7 +121,8 @@ export class DashboardComponent implements OnInit {
     private intentionS: IntentionService
   ) { }
 
-  public notice = notice;
+  public notice:any[] = [];
+  public realNotices = notice;
   public course: any[] = [];
   public loadCourse: boolean = false;
   public dataObsStudent:any[] = [];
@@ -134,7 +135,20 @@ export class DashboardComponent implements OnInit {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
         this.session.setObject('student', this.student);
-        this.notice = this.notice.filter(el => el.filtroInst.includes(this.session.getObject('student').ind_modalidad));
+        let temp = [];
+        this.realNotices.map((el) => {
+          if(el.useCSV){
+            this.studentS.getListOfStudentsJson()
+              .then((res) => {
+                if (res.find(emp => emp == this.user.codigoAlumno)) {
+                  el.filtroInst.push('ALL');
+                }
+              });
+          }
+        });
+        setTimeout(() => {
+          this.notice = this.realNotices.filter(el => el.filtroInst.includes(this.session.getObject('student').ind_modalidad) || el.filtroInst[0] == 'ALL');
+        }, 1000);
         this.getParameters();
       }, error => {
 
