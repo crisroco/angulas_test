@@ -1,5 +1,17 @@
 export const notice = [
     {
+        imgPath: './assets/img/notice_4.png',
+        title: 'INTENCIÓN DE MATRÍCULA 2021-2 📚',
+        new: true,
+        content: ' ¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia en el nuevo proceso de INTENCIÓN DE MATRÍCULA 2021-2. Tu aporte es muy importante para nosotros y así seguir mejorando tu experiencia en los próximos procesos. Completa la encuesta <a href="https://bit.ly/38XSjUN">aquí.</a>',
+        limit: (content)=>{
+            return content.length>300? content.substring(0,300)+'...': content; 
+        },
+        filtroInst: [],
+        useCSV: true,
+        expand: false
+    },
+    {
         imgPath: './assets/img/notice_5.png',
         title: 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL',
         new: true,
@@ -9,23 +21,11 @@ export const notice = [
         Recuerda: Podrás seguir conectándote al Aula virtual, desde Intranet Científica. La marcación de asistencia se realiza cuando te conectas desde el Aula Virtual o Intranet.
         `,
         limit: (content)=>{
-            return content.length>150? content.substring(0,150)+'...': content; 
+            return content.length>300? content.substring(0,300)+'...': content; 
         },
         filtroInst: ['PREG', 'CPE'],
         useCSV: false,
-        expand: true
-    },
-    {
-        imgPath: './assets/img/notice_4.png',
-        title: 'INTENCIÓN DE MATRÍCULA 2021-2 📚',
-        new: true,
-        content: ' ¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia en el nuevo proceso de INTENCIÓN DE MATRÍCULA 2021-2. Tu aporte es muy importante para nosotros y así seguir mejorando tu experiencia en los próximos procesos. Completa la encuesta <a href="https://bit.ly/38XSjUN">aquí.</a>',
-        limit: (content)=>{
-            return content.length>500? content.substring(0,500)+'...': content; 
-        },
-        filtroInst: [],
-        useCSV: true,
-        expand: true
+        expand: false
     },
     {
         imgPath: 'https://us.123rf.com/450wm/antonioguillem/antonioguillem2004/antonioguillem200400060/144517200-close-up-of-woman-hand-filling-out-form-with-pen-on-a-desk.jpg?ver=6',
@@ -33,11 +33,11 @@ export const notice = [
         new: false,
         content: '¡Hola! Estamos realizando un estudio sobre participación política, educación democrática y comunicación digital. ¡Ayúdanos a completar esta encuesta! 📚: <a href="https://forms.gle/tfycy7D8t98nAmzi7"> https://forms.gle/tfycy7D8t98nAmzi7 </a>',
         limit: (content)=>{
-            return content.length>500? content.substring(0,500)+'...': content; 
+            return content.length>300? content.substring(0,300)+'...': content; 
         },
         filtroInst: ['PREG'],
         useCSV: false,
-        expand: true
+        expand: false
     },
     // {
     //     imgPath: './assets/img/pre-matricula.svg',

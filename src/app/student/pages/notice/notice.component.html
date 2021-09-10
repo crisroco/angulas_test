@@ -11,20 +11,22 @@
       </div>
       <div class="ml-lg-3">
         <strong class="text-dark">{{data.title}} <span *ngIf="data.new" class="new_notice">NUEVO</span></strong>
-        <div *ngIf="!data.expand" class="content-event text-justify mb-0 mt-1" [innerHTML]="data.content">
+        <div *ngIf="!data.expand" class="content-event text-justify mb-0 mt-1">
           <!-- {{data.limit(data.content)}} -->
-          <label (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand" style="cursor: pointer;"
+          <div [innerHTML]="data.limit(data.content)"></div>
+          <label (click)="showMore(i)" *ngIf="data.content?.length>300" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver más
           </label>
         </div>
-        <p *ngIf="data.expand" class="content-event text-justify mb-0 mt-1" [innerHTML]="data.content">
+        <div *ngIf="data.expand" class="content-event text-justify mb-0 mt-1">
           <!-- {{data.content}} -->
-          <label (click)="hideMore()" *ngIf="data.content?.length>150 && data.expand" style="cursor: pointer;"
+          <div [innerHTML]="data.content"></div>
+          <label (click)="hideMore()" *ngIf="data.content?.length>300" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver menos
           </label>
-        </p>
+        </div>
       </div>
     </div>
   </ng-container>
