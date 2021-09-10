@@ -82,6 +82,7 @@ export class DashboardComponent implements OnInit {
   realDevice = this.deviceS.getDeviceInfo();
   ethnicities = AppSettings.ETHNICITIES;
   realEthnicity = '';
+  notSTRM:any = ['2236','2228','2239','2238','1073','2225'];
   realOther = '';
 
   /////////////////////////////////////
@@ -148,6 +149,9 @@ export class DashboardComponent implements OnInit {
         });
         setTimeout(() => {
           this.notice = this.realNotices.filter(el => el.filtroInst.includes(this.session.getObject('student').ind_modalidad) || el.filtroInst[0] == 'ALL');
+          if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
+            this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
+          }
         }, 1000);
         this.getParameters();
       }, error => {

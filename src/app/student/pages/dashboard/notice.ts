@@ -1,5 +1,21 @@
 export const notice = [
     {
+        imgPath: './assets/img/notice_5.png',
+        title: 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL',
+        new: true,
+        content: `Ahora podrás ingresar al Aula virtual Científica de una manera más fácil: <br>
+        1. Dale clic a <a href="https://cientificavirtual.cientifica.edu.pe"> https://cientificavirtual.cientifica.edu.pe </a> <br>
+        2. Ingresa los datos de tu correo institucional (correo y contraseña) y listo. <br>
+        Recuerda: Podrás seguir conectándote al Aula virtual, desde Intranet Científica. La marcación de asistencia se realiza cuando te conectas desde el Aula Virtual o Intranet.
+        `,
+        limit: (content)=>{
+            return content.length>150? content.substring(0,150)+'...': content; 
+        },
+        filtroInst: ['PREG', 'CPE'],
+        useCSV: false,
+        expand: true
+    },
+    {
         imgPath: './assets/img/notice_4.png',
         title: 'INTENCIÓN DE MATRÍCULA 2021-2 📚',
         new: true,
@@ -22,7 +38,7 @@ export const notice = [
         filtroInst: ['PREG'],
         useCSV: false,
         expand: true
-    }
+    },
     // {
     //     imgPath: './assets/img/pre-matricula.svg',
     //     title: 'Mira el Calendario de Pre-Matrícula',
