@@ -14,7 +14,7 @@
         <div *ngIf="!data.expand" class="content-event text-justify mb-0 mt-1">
           <!-- {{data.limit(data.content)}} -->
           <div [innerHTML]="data.limit(data.content)"></div>
-          <label (click)="showMore(i)" *ngIf="data.content?.length>300" style="cursor: pointer;"
+          <label (click)="showMore(i)" *ngIf="data.content?.length>300 && !data.full" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver más
           </label>
@@ -22,7 +22,7 @@
         <div *ngIf="data.expand" class="content-event text-justify mb-0 mt-1">
           <!-- {{data.content}} -->
           <div [innerHTML]="data.content"></div>
-          <label (click)="hideMore()" *ngIf="data.content?.length>300" style="cursor: pointer;"
+          <label (click)="hideMore()" *ngIf="data.content?.length>300 && !data.full" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver menos
           </label>

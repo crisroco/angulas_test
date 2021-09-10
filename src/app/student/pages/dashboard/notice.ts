@@ -9,7 +9,8 @@ export const notice = [
         },
         filtroInst: [],
         useCSV: true,
-        expand: false
+        expand: true,
+        full: true
     },
     {
         imgPath: './assets/img/notice_5.png',
@@ -25,7 +26,8 @@ export const notice = [
         },
         filtroInst: ['PREG', 'CPE'],
         useCSV: false,
-        expand: false
+        expand: false,
+        full: false,
     },
     {
         imgPath: 'https://us.123rf.com/450wm/antonioguillem/antonioguillem2004/antonioguillem200400060/144517200-close-up-of-woman-hand-filling-out-form-with-pen-on-a-desk.jpg?ver=6',
@@ -37,7 +39,8 @@ export const notice = [
         },
         filtroInst: ['PREG'],
         useCSV: false,
-        expand: false
+        expand: false,
+        full: false,
     },
     // {
     //     imgPath: './assets/img/pre-matricula.svg',
