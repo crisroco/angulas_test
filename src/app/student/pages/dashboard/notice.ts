@@ -27,6 +27,19 @@ export const notice = [
         full: false,
     },
     {
+        imgPath: './assets/img/notice_8.jpg',
+        title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
+        new: true,
+        content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2 haciendo <a href="https://sedd.cientifica.edu.pe/login/ingresar"> CLICK AQUÍ </a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['PREG', 'CPE'],
+        useCSV: false,
+        expand: false,
+        full: false,
+    },
+    {
         imgPath: './assets/img/notice_4.png',
         title: 'INTENCIÓN DE MATRÍCULA 2021-2 📚',
         new: false,
