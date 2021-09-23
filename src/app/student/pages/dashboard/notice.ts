@@ -17,7 +17,8 @@ export const notice = [
         imgPath: './assets/img/notice_7.jpg',
         title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
         new: true,
-        content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2, mediante la cual recogeremos tus apreciaciones con respecto a la labor que realizan. Recuerda que esta encuesta es confidencial y anónima. Tu participación en este proceso es importante, por ello apelamos al compromiso con tu educación y te pedimos realizar esta evaluación con total honestidad y conciencia, pues los resultados nos permitirán asegurar la calidad de tus cursos y docentes. ¡Contamos contigo!`,
+        content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes en tu <b>"AULA VIRTUAL</b>"
+        completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2.`,
         limit: (content)=>{
             return content.length>333? content.substring(0,333)+'...': content; 
         },
