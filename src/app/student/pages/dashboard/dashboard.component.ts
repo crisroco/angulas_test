@@ -191,7 +191,7 @@ export class DashboardComponent implements OnInit {
     //this.matriculaExtracurricularModal.open();
   }
 
-  getAllClass(r) {
+  async getAllClass(r) {
     this.course = null;
     let fakeArray = [];
     let day = moment().tz('America/Lima').format('YYYY-MM-DD');
@@ -200,33 +200,47 @@ export class DashboardComponent implements OnInit {
     let allInst = total.filter((item, index) => {
       return total.indexOf(item) === index;
     });
-    r.forEach((re, index) => {
-      if (!obj[re.institucion]) {
-        this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution: re.institucion, date: day })
-          .then((res) => {
-            this.loadCourse = true;
-            if (res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR) {
-              res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR.map(
-                (rmap) => {
-                  fakeArray.push(rmap);
-                }
-              );
-              fakeArray.sort(function (a, b) {
-                a = new Date(`${day} ${a.MEETING_TIME_START}`);
-                b = new Date(`${day} ${b.MEETING_TIME_START}`);
-                return a > b ? 1 : a < b ? -1 : 0;
-              });
-              this.course = fakeArray;
-            } else if(index+1 == allInst.length) {
-              this.course = [];
-            } else {
-
-            }
-            // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
-          });
-        obj[re.institucion] = true;
+    let classes = new Promise<void>((resolve, reject) => {
+      r.forEach((re, index, arr) => {
+        if (!obj[re.institucion]) {
+          this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution: re.institucion, date: day })
+            .then((res) => {
+              this.loadCourse = true;
+              if (res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR) {
+                res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR.map(
+                  (rmap) => {
+                    fakeArray.push(rmap);
+                  }
+                );
+                fakeArray.sort(function (a, b) {
+                  a = new Date(`${day} ${a.MEETING_TIME_START}`);
+                  b = new Date(`${day} ${b.MEETING_TIME_START}`);
+                  return a > b ? 1 : a < b ? -1 : 0;
+                });
+                this.course = fakeArray;
+              }
+              if(index === arr.length - 1){
+                resolve();
+              }
+              // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
+            });
+          obj[re.institucion] = true;
+        }
+      });
+    });
+    classes.then(() => {
+      if(fakeArray == []){
+        this.course = [];
       }
     });
+  }
+
+  async checkIfEmpty(arr) {
+    if(arr.length>0){
+      return false
+    } else {
+      return true
+    }
   }
 
   showBiblioteca() {
