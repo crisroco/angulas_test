@@ -1,8 +1,21 @@
 export const notice = [
     {
+        imgPath: './assets/img/notice_9.jpg',
+        title: '¡CUIDAMOS DE TI!',
+        new: true,
+        content: `¡Hola!, estamos tomando medidas para prevenir y controlar el COVID-19; que forman parte de la reanudación de componentes presenciales del servicio educativo superior universitario exigido por la SUNEDU, necesitamos que puedan completar en el <a href="https://bit.ly/3o1KtSX"> siguiente formulario </a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['ALL'],
+        useCSV: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: './assets/img/notice_7.jpg',
         title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
-        new: true,
+        new: false,
         content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes en tu <b>"AULA VIRTUAL</b>"
         completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2.`,
         limit: (content)=>{
@@ -16,7 +29,7 @@ export const notice = [
     {
         imgPath: './assets/img/notice_8.jpg',
         title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
-        new: true,
+        new: false,
         content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2 haciendo <a href="https://sedd.cientifica.edu.pe/login/ingresar"> CLICK AQUÍ </a>`,
         limit: (content)=>{
             return content.length>333? content.substring(0,333)+'...': content; 
@@ -29,7 +42,7 @@ export const notice = [
     {
         imgPath: './assets/img/notice_6.jpg',
         title: 'Semana de Empleabilidad y Feria laboral virtual',
-        new: true,
+        new: false,
         content: `Te invitamos a participar de la Semana de Empleabilidad de la Universidad Científica del Sur y capacítate con empresas líderes en el país. Además, podrás realizar evaluaciones para conocer tu perfil de emplebilidad y postular a ofertas laborales en nuestra <a href="https://ferialaboralcientifica.taalentfy.com/fair/home"> Feria Virtual </a> 
         Conoce la programación de charlas <a href="https://bit.ly/Charlassemanadeempleabilidad2021"> aquí </a>`,
         limit: (content)=>{
