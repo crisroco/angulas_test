@@ -1,6 +1,6 @@
 export const notice = [
     {
-        imgPath: './assets/img/notice_9.jpg',
+        imgPath: './assets/img/notice_9.png',
         title: '¡CUIDAMOS DE TI!',
         new: true,
         content: `¡Hola!, estamos tomando medidas para prevenir y controlar el COVID-19; que forman parte de la reanudación de componentes presenciales del servicio educativo superior universitario exigido por la SUNEDU, necesitamos que puedan completar en el <a href="https://bit.ly/3o1KtSX"> siguiente formulario </a>`,

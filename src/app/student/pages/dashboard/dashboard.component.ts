@@ -159,6 +159,7 @@ export class DashboardComponent implements OnInit {
       });
     this.studentS.getdataStudent().subscribe(
       r => {
+        console.log(r);
         if(this.dataObsStudent.length==0){
           this.dataObsStudent = r;
           this.getAllClass(r);
@@ -195,42 +196,44 @@ export class DashboardComponent implements OnInit {
     this.course = null;
     let fakeArray = [];
     let day = moment().tz('America/Lima').format('YYYY-MM-DD');
-    let obj = {};
+    let obj = [];
     let total = r.map((el => el.institucion));
     let allInst = total.filter((item, index) => {
       return total.indexOf(item) === index;
     });
     let classes = new Promise<void>((resolve, reject) => {
-      r.forEach((re, index, arr) => {
-        if (!obj[re.institucion]) {
-          this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution: re.institucion, date: day })
-            .then((res) => {
-              this.loadCourse = true;
-              if (res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR) {
-                res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR.map(
-                  (rmap) => {
-                    fakeArray.push(rmap);
-                  }
-                );
-                fakeArray.sort(function (a, b) {
-                  a = new Date(`${day} ${a.MEETING_TIME_START}`);
-                  b = new Date(`${day} ${b.MEETING_TIME_START}`);
-                  return a > b ? 1 : a < b ? -1 : 0;
-                });
-                this.course = fakeArray;
-              }
-              if(index === arr.length - 1){
+      allInst.forEach((re, index) => {
+        this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution: re, date: day })
+          .then((res) => {
+            this.loadCourse = true;
+            if (res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR) {
+              res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR.map(
+                (rmap) => {
+                  fakeArray.push(rmap);
+                }
+              );
+              fakeArray.sort(function (a, b) {
+                a = new Date(`${day} ${a.MEETING_TIME_START}`);
+                b = new Date(`${day} ${b.MEETING_TIME_START}`);
+                return a > b ? 1 : a < b ? -1 : 0;
+              });
+              this.course = fakeArray;
+            }
+            obj[index] = true;
+            if(index === allInst.length - 1){
+              setTimeout(() => {
                 resolve();
-              }
-              // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
-            });
-          obj[re.institucion] = true;
-        }
+              }, 1000);
+            }
+            // this.nextClass(res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR, this.student.institucion);
+          });
       });
     });
     classes.then(() => {
-      if(fakeArray == []){
-        this.course = [];
+      if(fakeArray.length == 0){
+          console.log(1);
+          // this.loadCourse = true;
+          this.course = [];
       }
     });
   }

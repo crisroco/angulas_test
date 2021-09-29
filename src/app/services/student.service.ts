@@ -200,8 +200,8 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/updEmailData', data).toPromise();
     }
 
-    public getAllClasses(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAllClass', data).toPromise();
+    public async getAllClasses(data): Promise<any> {
+        return await this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAllClass', data).toPromise();
     }
     
     public getLinkZoom(cicle, myclass, date, teacher, section, inst): Promise<any> {
