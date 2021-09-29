@@ -22,7 +22,7 @@
         <div *ngIf="data.expand" class="content-event text-justify mb-0 mt-1">
           <!-- {{data.content}} -->
           <div [innerHTML]="data.content"></div>
-          <label (click)="hideMore()" *ngIf="data.content?.length>300 && !data.full" style="cursor: pointer;"
+          <label (click)="hideMore(i)" *ngIf="data.content?.length>300 && !data.full" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver menos
           </label>

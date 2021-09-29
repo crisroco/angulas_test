@@ -34,7 +34,7 @@ export const notice = [
         limit: (content)=>{
             return content.length>333? content.substring(0,333)+'...': content; 
         },
-        filtroInst: ['PREG', 'CPE'],
+        filtroInst: ['PREGR', 'CPE'],
         useCSV: false,
         expand: false,
         full: false,
@@ -48,41 +48,41 @@ export const notice = [
         limit: (content)=>{
             return content.length>333? content.substring(0,333)+'...': content; 
         },
-        filtroInst: ['PREG', 'CPE'],
+        filtroInst: ['PREGR', 'CPE'],
         useCSV: false,
         expand: true,
         full: true,
     },
-    {
-        imgPath: './assets/img/notice_4.png',
-        title: 'INTENCIÓN DE MATRÍCULA 2021-2 📚',
-        new: false,
-        content: ' ¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia en el nuevo proceso de INTENCIÓN DE MATRÍCULA 2021-2. Tu aporte es muy importante para nosotros y así seguir mejorando tu experiencia en los próximos procesos. Completa la encuesta <a href="https://bit.ly/38XSjUN">aquí.</a>',
-        limit: (content)=>{
-            return content.length>300? content.substring(0,300)+'...': content; 
-        },
-        filtroInst: [],
-        useCSV: true,
-        expand: true,
-        full: true
-    },
-    {
-        imgPath: './assets/img/notice_5.png',
-        title: 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL',
-        new: false,
-        content: `Ahora podrás ingresar al Aula virtual Científica de una manera más fácil: <br>
-        1. Dale clic a <a href="https://cientificavirtual.cientifica.edu.pe"> https://cientificavirtual.cientifica.edu.pe </a> <br>
-        2. Ingresa los datos de tu correo institucional (correo y contraseña) y listo. <br>
-        Recuerda: Podrás seguir conectándote al Aula virtual, desde Intranet Científica. La marcación de asistencia se realiza cuando te conectas desde el Aula Virtual o Intranet.
-        `,
-        limit: (content)=>{
-            return content.length>300? content.substring(0,300)+'...': content; 
-        },
-        filtroInst: ['PREG', 'CPE'],
-        useCSV: false,
-        expand: false,
-        full: false,
-    },
+    // {
+    //     imgPath: './assets/img/notice_4.png',
+    //     title: 'INTENCIÓN DE MATRÍCULA 2021-2 📚',
+    //     new: false,
+    //     content: ' ¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia en el nuevo proceso de INTENCIÓN DE MATRÍCULA 2021-2. Tu aporte es muy importante para nosotros y así seguir mejorando tu experiencia en los próximos procesos. Completa la encuesta <a href="https://bit.ly/38XSjUN">aquí.</a>',
+    //     limit: (content)=>{
+    //         return content.length>300? content.substring(0,300)+'...': content; 
+    //     },
+    //     filtroInst: [],
+    //     useCSV: true,
+    //     expand: true,
+    //     full: true
+    // },
+    // {
+    //     imgPath: './assets/img/notice_5.png',
+    //     title: 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL',
+    //     new: false,
+    //     content: `Ahora podrás ingresar al Aula virtual Científica de una manera más fácil: <br>
+    //     1. Dale clic a <a href="https://cientificavirtual.cientifica.edu.pe"> https://cientificavirtual.cientifica.edu.pe </a> <br>
+    //     2. Ingresa los datos de tu correo institucional (correo y contraseña) y listo. <br>
+    //     Recuerda: Podrás seguir conectándote al Aula virtual, desde Intranet Científica. La marcación de asistencia se realiza cuando te conectas desde el Aula Virtual o Intranet.
+    //     `,
+    //     limit: (content)=>{
+    //         return content.length>300? content.substring(0,300)+'...': content; 
+    //     },
+    //     filtroInst: ['PREGR', 'CPE'],
+    //     useCSV: false,
+    //     expand: false,
+    //     full: false,
+    // },
     // {
     //     imgPath: 'https://us.123rf.com/450wm/antonioguillem/antonioguillem2004/antonioguillem200400060/144517200-close-up-of-woman-hand-filling-out-form-with-pen-on-a-desk.jpg?ver=6',
     //     title: 'Proyecto de investigación de UCSUR',

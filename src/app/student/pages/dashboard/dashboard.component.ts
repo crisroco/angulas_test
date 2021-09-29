@@ -136,8 +136,9 @@ export class DashboardComponent implements OnInit {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
         this.session.setObject('student', this.student);
-        let temp = [];
+        let temp = this.session.getObject('AllInst').map(el => el.institucion);
         this.realNotices.map((el) => {
+          console.log(el.filtroInst.some(r => temp.indexOf(r) >= 0));
           if(el.useCSV){
             this.studentS.getListOfStudentsJson()
               .then((res) => {
@@ -146,9 +147,12 @@ export class DashboardComponent implements OnInit {
                 }
               });
           }
+          if(el.filtroInst.some(r => temp.indexOf(r) >= 0)){
+            el['finallShow'] = true;
+          }
         });
         setTimeout(() => {
-          this.notice = this.realNotices.filter(el => el.filtroInst.includes(this.session.getObject('student').ind_modalidad) || el.filtroInst[0] == 'ALL');
+          this.notice = this.realNotices.filter(el => el['finallShow'] || el.filtroInst[0] == 'ALL');
           if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
             this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
           }
@@ -159,7 +163,6 @@ export class DashboardComponent implements OnInit {
       });
     this.studentS.getdataStudent().subscribe(
       r => {
-        console.log(r);
         if(this.dataObsStudent.length==0){
           this.dataObsStudent = r;
           this.getAllClass(r);

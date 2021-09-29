@@ -491,7 +491,7 @@ export class StudentComponent implements OnInit {
 		// 	});
 
 		this.initUpdatePersonalData();
-		// this.checkInList();
+		this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -1228,6 +1228,7 @@ export class StudentComponent implements OnInit {
 		this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
 			.then((res) => {
 				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
+				this.session.setObject('AllInst', units);
 				var one = units.filter(item => item.institucion == 'PREGR');//ECONT - PREGR
 				var inst = one.length ? one[0] : null;
 				if (inst) {
@@ -1246,7 +1247,6 @@ export class StudentComponent implements OnInit {
 			this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
 				.then(res => {
 					let units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
-
 					this.studentS.setdataStudent(units);
 
 					this.enroll = units.filter(item => item.institucion == 'PREGR');
