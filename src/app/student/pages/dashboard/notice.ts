@@ -39,20 +39,20 @@ export const notice = [
         expand: false,
         full: false,
     },
-    {
-        imgPath: './assets/img/notice_6.jpg',
-        title: 'Semana de Empleabilidad y Feria laboral virtual',
-        new: false,
-        content: `Te invitamos a participar de la Semana de Empleabilidad de la Universidad Científica del Sur y capacítate con empresas líderes en el país. Además, podrás realizar evaluaciones para conocer tu perfil de emplebilidad y postular a ofertas laborales en nuestra <a href="https://ferialaboralcientifica.taalentfy.com/fair/home"> Feria Virtual </a> 
-        Conoce la programación de charlas <a href="https://bit.ly/Charlassemanadeempleabilidad2021"> aquí </a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['PREGR', 'CPE'],
-        useCSV: false,
-        expand: true,
-        full: true,
-    },
+    // {
+    //     imgPath: './assets/img/notice_6.jpg',
+    //     title: 'Semana de Empleabilidad y Feria laboral virtual',
+    //     new: false,
+    //     content: `Te invitamos a participar de la Semana de Empleabilidad de la Universidad Científica del Sur y capacítate con empresas líderes en el país. Además, podrás realizar evaluaciones para conocer tu perfil de emplebilidad y postular a ofertas laborales en nuestra <a href="https://ferialaboralcientifica.taalentfy.com/fair/home"> Feria Virtual </a> 
+    //     Conoce la programación de charlas <a href="https://bit.ly/Charlassemanadeempleabilidad2021"> aquí </a>`,
+    //     limit: (content)=>{
+    //         return content.length>333? content.substring(0,333)+'...': content; 
+    //     },
+    //     filtroInst: ['PREGR', 'CPE'],
+    //     useCSV: false,
+    //     expand: true,
+    //     full: true,
+    // },
     // {
     //     imgPath: './assets/img/notice_4.png',
     //     title: 'INTENCIÓN DE MATRÍCULA 2021-2 📚',
