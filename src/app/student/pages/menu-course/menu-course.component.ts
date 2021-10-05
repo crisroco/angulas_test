@@ -35,8 +35,6 @@ export class MenuCourseComponent implements OnInit, OnDestroy {
   @Output() openZoomEmit = new EventEmitter();
 
   ngOnInit() {
-    console.log(this.course);
-    console.log(this.loadCourse);
     moment.locale('es');
     this.subscription.add(this.interval.subscribe(
       resp => {

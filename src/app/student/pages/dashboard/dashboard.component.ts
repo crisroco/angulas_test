@@ -138,7 +138,6 @@ export class DashboardComponent implements OnInit {
         this.session.setObject('student', this.student);
         let temp = this.session.getObject('AllInst').map(el => el.institucion);
         this.realNotices.map((el) => {
-          console.log(el.filtroInst.some(r => temp.indexOf(r) >= 0));
           if(el.useCSV){
             this.studentS.getListOfStudentsJson()
               .then((res) => {
@@ -163,6 +162,7 @@ export class DashboardComponent implements OnInit {
       });
     this.studentS.getdataStudent().subscribe(
       r => {
+        console.log(r);
         if(this.dataObsStudent.length==0){
           this.dataObsStudent = r;
           this.getAllClass(r);
@@ -234,9 +234,7 @@ export class DashboardComponent implements OnInit {
     });
     classes.then(() => {
       if(fakeArray.length == 0){
-          console.log(1);
-          // this.loadCourse = true;
-          this.course = [];
+        this.course = [];
       }
     });
   }
