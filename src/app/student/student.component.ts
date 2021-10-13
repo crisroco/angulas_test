@@ -1045,19 +1045,15 @@ export class StudentComponent implements OnInit {
 			.then(res => {
 				let { UCS_RES_EMAIL } = res;
 				data.result_email = UCS_RES_EMAIL.UCS_COM_EMAIL[0].Mensaje;
-
 				this.studentS.updPhoneData(data)
 					.then(res => {
 						let { UCS_RES_PHONE } = res;
 						data.result_phone = UCS_RES_PHONE.UCS_COM_PHONE[0].Mensaje;
-
 						this.studentS.savePersonalData(data)
 							.then(res => {
-
 								this.UpdateDataAlumnoModal.close();
 								this.FinalIntentionEnrollmentModal.open();
 							});
-
 					});
 
 			}).catch(error => {
