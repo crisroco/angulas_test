@@ -12,33 +12,33 @@ export const notice = [
         expand: true,
         full: true,
     },
-    {
-        imgPath: './assets/img/notice_7.jpg',
-        title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
-        new: false,
-        content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes en tu <b>"AULA VIRTUAL</b>"
-        completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2.`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['PSTGR'],
-        useCSV: false,
-        expand: false,
-        full: false,
-    },
-    {
-        imgPath: './assets/img/notice_8.jpg',
-        title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
-        new: false,
-        content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2 haciendo <a href="https://sedd.cientifica.edu.pe/login/ingresar"> CLICK AQUÍ </a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['PREGR', 'CPE'],
-        useCSV: false,
-        expand: false,
-        full: false,
-    },
+    // {
+    //     imgPath: './assets/img/notice_7.jpg',
+    //     title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
+    //     new: false,
+    //     content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes en tu <b>"AULA VIRTUAL</b>"
+    //     completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2.`,
+    //     limit: (content)=>{
+    //         return content.length>333? content.substring(0,333)+'...': content; 
+    //     },
+    //     filtroInst: ['PSTGR'],
+    //     useCSV: false,
+    //     expand: false,
+    //     full: false,
+    // },
+    // {
+    //     imgPath: './assets/img/notice_8.jpg',
+    //     title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
+    //     new: false,
+    //     content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes completando la Encuesta de Evaluación del Desempeño Docente en clase 2021-2 haciendo <a href="https://sedd.cientifica.edu.pe/login/ingresar"> CLICK AQUÍ </a>`,
+    //     limit: (content)=>{
+    //         return content.length>333? content.substring(0,333)+'...': content; 
+    //     },
+    //     filtroInst: ['PREGR', 'CPE'],
+    //     useCSV: false,
+    //     expand: false,
+    //     full: false,
+    // },
     // {
     //     imgPath: './assets/img/notice_6.jpg',
     //     title: 'Semana de Empleabilidad y Feria laboral virtual',
