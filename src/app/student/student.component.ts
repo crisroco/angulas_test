@@ -456,6 +456,12 @@ export class StudentComponent implements OnInit {
 			}
 		);
 
+		this.studentS.getUpdateModal().subscribe(
+			resp => {
+				this.UpdateDataAlumnoModal.open()
+			}
+		);
+
 		this.studentS.getShowdocLoad().subscribe(
 			resp => {
 				this.linkModal.open()
@@ -998,7 +1004,7 @@ export class StudentComponent implements OnInit {
 			// direccion: ['', Validators.required],
 			// referencia: ['', Validators.required],
 		});
-		// this.getPersonalDataValidate();
+		this.getPersonalDataValidate();
 	}
 
 	getPersonalDataValidate() {
@@ -1006,15 +1012,6 @@ export class StudentComponent implements OnInit {
 			.then(res => {
 				this.dataEstudiante = res.data;
 				this.setClient(res.data || {})
-
-				// this.studentS.getListOfStudentsUbigeoJson()
-				//      	.then((res2) => {
-				//        	if( res2.find(emp => emp == this.user.codigoAlumno && ( res.data == null || res.data.idDepa == null) )) {
-				// 			this.modalUpdateDataClosable = false
-				// 			this.UpdateDataAlumnoModal.open();
-				// 			this.getDepartamento();
-				//        	}
-				//      	});
 			});
 	}
 

@@ -63,6 +63,14 @@ export class MenuItemsComponent implements OnInit, OnChanges {
     this.studentS.setShowdocLoad(true);
   }
 
+  linkUpdateOpen(){
+    this.gtag.event('update_fields', { 
+      method: 'click',
+      event_category: 'modal'
+    });
+    this.studentS.setUpdateModal(true);
+  }
+
   matriculaExtracurricularModalOpen(){
     this.studentS.setShowMatricula(true);
   }
