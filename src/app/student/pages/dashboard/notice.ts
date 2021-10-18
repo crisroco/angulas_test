@@ -1,17 +1,17 @@
 export const notice = [
-    {
-        imgPath: './assets/img/notice_9.png',
-        title: '¡CUIDAMOS DE TI!',
-        new: true,
-        content: `¡Hola!, estamos tomando medidas para prevenir y controlar el COVID-19; que forman parte de la reanudación de componentes presenciales del servicio educativo superior universitario exigido por la SUNEDU, necesitamos que puedan completar en el <a href="https://bit.ly/3o1KtSX"> siguiente formulario </a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['ALL'],
-        useCSV: false,
-        expand: true,
-        full: true,
-    },
+    // {
+    //     imgPath: './assets/img/notice_9.png',
+    //     title: '¡CUIDAMOS DE TI!',
+    //     new: true,
+    //     content: `¡Hola!, estamos tomando medidas para prevenir y controlar el COVID-19; que forman parte de la reanudación de componentes presenciales del servicio educativo superior universitario exigido por la SUNEDU, necesitamos que puedan completar en el <a href="https://bit.ly/3o1KtSX"> siguiente formulario </a>`,
+    //     limit: (content)=>{
+    //         return content.length>333? content.substring(0,333)+'...': content; 
+    //     },
+    //     filtroInst: ['ALL'],
+    //     useCSV: false,
+    //     expand: true,
+    //     full: true,
+    // },
     // {
     //     imgPath: './assets/img/notice_7.jpg',
     //     title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2',
@@ -84,9 +84,22 @@ export const notice = [
     //     full: false,
     // },
     {
+        imgPath: './assets/img/notice_10.png',
+        title: 'Participa en el Impact Startup Competition',
+        new: true,
+        content: `El área de emprendimiento y el comité local están organizando el Impact Startup Competition Ucsur, programa para fomentar emprendimientos que apoyen a los objetivos de desarrollo sostenibles. Se darán horas extracurriculares. <a href="https://sites.google.com/view/iscucsur/inicio">Más info aquí.</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['PREGR', 'CPE'],
+        useCSV: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://us.123rf.com/450wm/antonioguillem/antonioguillem2004/antonioguillem200400060/144517200-close-up-of-woman-hand-filling-out-form-with-pen-on-a-desk.jpg?ver=6',
         title: 'Proyecto de investigación de UCSUR',
-        new: true,
+        new: false,
         content: '¡Hola! Estamos realizando un estudio sobre participación política, educación democrática y comunicación digital. ¡Ayúdanos a completar esta encuesta! 📚: <a href="https://forms.gle/tfycy7D8t98nAmzi7"> https://forms.gle/tfycy7D8t98nAmzi7 </a>',
         limit: (content)=>{
             return content.length>300? content.substring(0,300)+'...': content; 
