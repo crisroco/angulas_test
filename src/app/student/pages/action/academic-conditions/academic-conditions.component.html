@@ -120,15 +120,15 @@
 						<tbody>
 							<tr class="text-center text-s">
 								<td class="px-3 py-2 align-middle text-left">Practicas Pre-Profesionales</td>
-								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.PRAC_PRE_PROF?(requirements.PRAC_PRE_PROF[0]=='Y'?'Si':'No'):'---'}}</td>
-								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.PRAC_PRE_PROF?(requirements.PRAC_PRE_PROF[1]=='Y'?'Si':'No'):'---'}}</td>
-								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements && requirements.PRAC_PRE_PROF?(requirements.PRAC_PRE_PROF[0]=='Y'?(requirements.PRAC_PRE_PROF[1]=='Y'?'Cumplió':'No cumplió'):''):'---'}}</td>
+								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.HORAS_PRACTICAS_REQ!=0?requirements.HORAS_PRACTICAS_REQ:'0'}}Horas</td>
+								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.HORAS_PRACTICAS_REQ!=0?requirements.HORAS_PRACTICAS_ALUM:'0'}}Horas</td>
+								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements && requirements.HORAS_PRACTICAS_REQ!=0?requirements.preProgress:'---'}}</td>
 							</tr>
 							<tr class="text-center text-s">
 								<td class="px-3 py-2 align-middle text-left">Actividad Extracurricular</td>
-								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.HORAS_EXTRA_REQ?requirements.HORAS_EXTRA_REQ:0}}hr</td>
-								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.HORAS_EXTRA_ALUM?requirements.HORAS_EXTRA_ALUM:0}}hr</td>
-								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements?requirements.extraProgress:0}}%</td>
+								<td class="px-3 py-2 align-middle bg-purple-a3 text-white">{{requirements && requirements.HORAS_EXTRA_REQ?requirements.HORAS_EXTRA_REQ:0}}Horas</td>
+								<td class="px-3 py-2 align-middle bg-purple-a2 text-white">{{requirements && requirements.HORAS_EXTRA_ALUM?requirements.HORAS_EXTRA_ALUM:0}}Horas</td>
+								<td class="px-3 py-2 align-middle bg-purple-a text-white">{{requirements?requirements.extraProgress:'---'}}</td>
 							</tr>
 						</tbody>
 					</table>

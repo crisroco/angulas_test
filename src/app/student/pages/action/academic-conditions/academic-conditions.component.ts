@@ -181,9 +181,16 @@ export class AcademicConditionsComponent implements OnInit {
 				}
 				this.requirements.secondProgress = secReg && secReq?Math.round(secReg / secReq * 10000)/100:0;
 				if (this.requirements.HORAS_EXTRA_REQ == 0) {
-					this.requirements.extraProgress = 0;
+					this.requirements.extraProgress = '---';
 				} else {
 					this.requirements.extraProgress = this.requirements.HORAS_EXTRA_ALUM && this.requirements.HORAS_EXTRA_REQ?Math.round(this.requirements.HORAS_EXTRA_ALUM / this.requirements.HORAS_EXTRA_REQ * 10000)/100:0;
+					this.requirements.extraProgress = this.requirements.extraProgress + '%';
+				}
+				if(this.requirements.HORAS_PRACTICAS_REQ == 0){
+					this.requirements.preProgress = '---';
+				} else {
+					this.requirements.preProgress = this.requirements.HORAS_PRACTICAS_REQ && this.requirements.HORAS_PRACTICAS_REQ?Math.round(this.requirements.HORAS_PRACTICAS_ALUM / this.requirements.HORAS_PRACTICAS_REQ * 10000)/100:0;
+					this.requirements.preProgress = this.requirements.preProgress + '%';
 				}
 			}
 		}, error => { });
