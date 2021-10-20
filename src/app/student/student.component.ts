@@ -233,13 +233,23 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_ACA_PRE_2021.pdf',
-					description: 'CALENDARIO ACADÉMICO 2021-2'
+					url: 'assets/pdfjs/CALENDARIO_ACA_PRE_2022.pdf',
+					description: 'CALENDARIO ACADÉMICO PREGRADO VERANO 2022'
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_MATRICULA_2021_2.pdf',
-					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2021-2'
+					url: 'assets/pdfjs/INTENCION_MATRICULA_2022.pdf',
+					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA VERANO 2022'
+				},
+				{
+					img: '',
+					url: 'assets/pdfjs/CALENDARIO_ACA_PRE_2022_1.pdf',
+					description: 'CALENDARIO ACADÉMICO 2022-1'
+				},
+				{
+					img: '',
+					url: 'assets/pdfjs/INTENCION_MATRICULA_2022_1.pdf',
+					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2022-1'
 				}
 			],
 			isOpen: true,
@@ -249,18 +259,28 @@ export class StudentComponent implements OnInit {
 			links: [
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_ACA_CPE_VN_2021.pdf',
-					description: 'CALENDARIO ACADÉMICO VILLA-NORTE 2021-2'
+					url: 'assets/pdfjs/CALENDARIO_ACA_CPE_VERANO_2022.pdf',
+					description: 'CALENDARIO ACADÉMICO CPE VERANO 2022'
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_ACA_CPE_ATE_2021.pdf',
-					description: 'CALENDARIO ACADÉMICO ATE 2021-2'
+					url: 'assets/pdfjs/INTENCION_MATRICULA_VERANO_2022.pdf',
+					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA VERANO 2022'
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_MATRICULA_2021_2.pdf',
-					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2021-2'
+					url: 'assets/pdfjs/CALENDARIO_CPE_2022_1_VN.pdf',
+					description: 'CALENDARIO ACADÉMICO CPE V-N 2022-1'
+				},
+				{
+					img: '',
+					url: 'assets/pdfjs/CALENDARIO_CPE_2022_1_ATE.pdf',
+					description: 'CALENDARIO ACADÉMICO CPE ATE 2022-1'
+				},
+				{
+					img: '',
+					url: 'assets/pdfjs/CALENDARIO_INTENCION_MATRICULA_2022_1.pdf',
+					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2022-1'
 				}
 			],
 			isOpen: true,
