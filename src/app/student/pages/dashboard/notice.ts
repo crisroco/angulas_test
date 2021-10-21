@@ -93,6 +93,35 @@ export const notice = [
         },
         filtroInst: ['PREGR', 'CPE'],
         useCSV: false,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: './assets/img/notice_11_1.jpg',
+        title: 'Experiencia de Bienvenida a la Universidad',
+        new: true,
+        content: `¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia con la Universidad durante el inicio de tu vida universitaria. Tu aporte es muy importante para nosotros y así seguir mejorando juntos. Completa la encuesta <a target="_blank" href="https://cutt.ly/ZRbdtV2">AQUÍ</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: [],
+        useCSV: true,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: './assets/img/notice_11_2.jpg',
+        title: 'Experiencia de Bienvenida a la Universidad',
+        new: true,
+        content: `¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia con la Universidad durante el inicio de tu vida universitaria. Tu aporte es muy importante para nosotros y así seguir mejorando juntos. Completa la encuesta <a target="_blank" href="https://cutt.ly/3RbfmBQ">AQUÍ</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: [],
+        useCSV: false,
+        useCSV2: true,
         expand: true,
         full: true,
     }

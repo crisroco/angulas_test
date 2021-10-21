@@ -142,6 +142,15 @@ export class DashboardComponent implements OnInit {
             this.studentS.getListOfStudentsJson()
               .then((res) => {
                 if (res.find(emp => emp == this.user.codigoAlumno)) {
+                  console.log(el);
+                  el.filtroInst.push('ALL');
+                }
+              });
+          }
+          if(el.useCSV2){
+            this.studentS.medicineStudents()
+              .then((res) => {
+                if (res.find(emp => emp == this.user.codigoAlumno)) {
                   el.filtroInst.push('ALL');
                 }
               });
