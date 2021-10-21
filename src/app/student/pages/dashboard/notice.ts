@@ -124,7 +124,22 @@ export const notice = [
         useCSV2: true,
         expand: true,
         full: true,
+    },
+    {
+        imgPath: './assets/img/notice_12.jpg',
+        title: 'COMUNICADO CLASES PRESENCIALES 2022-1',
+        new: true,
+        content: `Invocamos a todos nuestros estudiantes a leer este importante comunicado de la Universidad. <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Comunicado%20CLASES%20PRESENCIALES%202022%20Vfinal.pdf">Ver comunicado</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        expand: true,
+        full: true,
     }
+    
     // {
     //     imgPath: 'https://us.123rf.com/450wm/antonioguillem/antonioguillem2004/antonioguillem200400060/144517200-close-up-of-woman-hand-filling-out-form-with-pen-on-a-desk.jpg?ver=6',
     //     title: 'Proyecto de investigación de UCSUR',
