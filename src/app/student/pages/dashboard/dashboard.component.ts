@@ -136,7 +136,8 @@ export class DashboardComponent implements OnInit {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
         this.session.setObject('student', this.student);
-        let temp = this.session.getObject('AllInst').map(el => el.institucion);
+        let temp = this.session.getObject('AllInst').map(el => { return el.institucion });
+        let temp2 = this.session.getObject('AllInst').map(el => { return el.codigoPrograma });
         this.realNotices.map((el) => {
           if(el.useCSV){
             this.studentS.getListOfStudentsJson()
@@ -144,6 +145,7 @@ export class DashboardComponent implements OnInit {
                 if (res.find(emp => emp == this.user.codigoAlumno)) {
                   console.log(el);
                   el.filtroInst.push('ALL');
+                  el.filtroCarr.push('ALL');
                 }
               });
           }
@@ -152,15 +154,16 @@ export class DashboardComponent implements OnInit {
               .then((res) => {
                 if (res.find(emp => emp == this.user.codigoAlumno)) {
                   el.filtroInst.push('ALL');
+                  el.filtroCarr.push('ALL');
                 }
               });
           }
-          if(el.filtroInst.some(r => temp.indexOf(r) >= 0)){
+          if((el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr[0] == 'ALL') || (el.filtroInst[0] == 'ALL' && el.filtroCarr.some(r => temp2.indexOf(r) >= 0)) || (el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr.some(r => temp2.indexOf(r) >= 0))) {
             el['finallShow'] = true;
           }
         });
         setTimeout(() => {
-          this.notice = this.realNotices.filter(el => el['finallShow'] || el.filtroInst[0] == 'ALL');
+          this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
           if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
             this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
           }

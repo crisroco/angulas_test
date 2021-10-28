@@ -92,6 +92,7 @@ export const notice = [
             return content.length>333? content.substring(0,333)+'...': content; 
         },
         filtroInst: ['PREGR', 'CPE'],
+        filtroCarr: ['ALL'],
         useCSV: false,
         useCSV2: false,
         expand: true,
@@ -106,6 +107,7 @@ export const notice = [
             return content.length>333? content.substring(0,333)+'...': content; 
         },
         filtroInst: [],
+        filtroCarr: [],
         useCSV: true,
         useCSV2: false,
         expand: true,
@@ -120,6 +122,7 @@ export const notice = [
             return content.length>333? content.substring(0,333)+'...': content; 
         },
         filtroInst: [],
+        filtroCarr: [],
         useCSV: false,
         useCSV2: true,
         expand: true,
@@ -134,6 +137,22 @@ export const notice = [
             return content.length>333? content.substring(0,333)+'...': content; 
         },
         filtroInst: ['ALL'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20Conversatorio%20Medicina%20VGU%2021%202.jpg',
+        title: 'Conversatorio: Historias de éxito, ¿por qué amo la Medicina Humana? ',
+        new: true,
+        content: `Participa y conoce la historia de Gabriela, una egresada de Medicina Humana en UCSUR, quien al igual que tú, empezó con la misma pasión y ahora construye un mundo mejor. ¡Te esperamos!. Inscríbete aquí: <a target="_blank" href="https://forms.gle/ihqWqn38PzA3YAoB9">https://forms.gle/ihqWqn38PzA3YAoB9</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['PREGR'],
+        filtroCarr: ['PFMEH'],
         useCSV: false,
         useCSV2: false,
         expand: true,

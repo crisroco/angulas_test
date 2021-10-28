@@ -250,6 +250,11 @@ export class StudentComponent implements OnInit {
 					img: '',
 					url: 'assets/pdfjs/INTENCION_MATRICULA_2022_1.pdf',
 					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2022-1'
+				},
+				{
+					img: '',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/2021-2/CALENDARIO_ACADE%CC%81MICO_PREGRADO_2021-2(v2).pdf',
+					description: 'CALENDARIO ACADÉMICO 2021-2'
 				}
 			],
 			isOpen: true,
@@ -281,6 +286,16 @@ export class StudentComponent implements OnInit {
 					img: '',
 					url: 'assets/pdfjs/CALENDARIO_INTENCION_MATRICULA_2022_1.pdf',
 					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2022-1'
+				},
+				{
+					img: '',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/cpe/2021-2/CALENDARIO%20ACADEMICO%20CPE%20V-N%202021-2.v2.pdf',
+					description: 'CALENDARIO ACADÉMICO CPE V-N 2021-2'
+				},
+				{
+					img: '',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/cpe/2021-2/CALENDARIO%20ACADEMICO%20CPE%20ATE%202021-2.v2.pdf',
+					description: 'CALENDARIO ACADÉMICO CPE ATE 2021-2'
 				}
 			],
 			isOpen: true,
