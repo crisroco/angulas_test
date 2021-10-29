@@ -84,60 +84,18 @@ export const notice = [
     //     full: false,
     // },
     {
-        imgPath: './assets/img/notice_10.png',
-        title: 'Participa en el Impact Startup Competition',
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/TalentShow.png',
+        title: 'Evento Semana de la medicina Científica',
         new: true,
-        content: `El área de emprendimiento y el comité local están organizando el Impact Startup Competition Ucsur, programa para fomentar emprendimientos que apoyen a los objetivos de desarrollo sostenibles. Se darán horas extracurriculares. <a href="https://sites.google.com/view/iscucsur/inicio">Más info aquí.</a>`,
+        content: `¡Hola, ven a celebrar la semana de la medicina con tus compañeros, con tus docentes y con nosotros!
+<p class="m-0">Muéstranos tu talento artístico en un TikTok en una noche de talentos moderna. Vamos a divertirnos jugando a ser médicos con los simuladores y pondremos a prueba nuestros conocimientos en una trivia académica. ¡Te esperamos!</p>
+<p class="m-0">Bases del concurso en el siguiente enlace: <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/medicina/evento-semana-medicina-bases.pf">Link de las bases</a></p>
+<p class="m-0">Inscribe a tu equipo en el siguiente enlace: <a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=EM3epWWRNkamTHlYAEIV-qsRmH0SHCNOl5DlSkBK9RNUNVZQUjRGRFlNNlpUTDc3VTJTRVZNWlhQUi4u&wdLOR=cDAC192C5-C5EB-4818-8EF8-65CDB0A5FCEC">Link de inscripción</a></p>`,
         limit: (content)=>{
             return content.length>333? content.substring(0,333)+'...': content; 
         },
-        filtroInst: ['PREGR', 'CPE'],
-        filtroCarr: ['ALL'],
-        useCSV: false,
-        useCSV2: false,
-        expand: true,
-        full: true,
-    },
-    {
-        imgPath: './assets/img/notice_11_1.jpg',
-        title: 'Experiencia de Bienvenida a la Universidad',
-        new: true,
-        content: `¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia con la Universidad durante el inicio de tu vida universitaria. Tu aporte es muy importante para nosotros y así seguir mejorando juntos. Completa la encuesta <a target="_blank" href="https://cutt.ly/ZRbdtV2">AQUÍ</a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: [],
-        filtroCarr: [],
-        useCSV: true,
-        useCSV2: false,
-        expand: true,
-        full: true,
-    },
-    {
-        imgPath: './assets/img/notice_11_2.jpg',
-        title: 'Experiencia de Bienvenida a la Universidad',
-        new: true,
-        content: `¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia con la Universidad durante el inicio de tu vida universitaria. Tu aporte es muy importante para nosotros y así seguir mejorando juntos. Completa la encuesta <a target="_blank" href="https://cutt.ly/3RbfmBQ">AQUÍ</a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: [],
-        filtroCarr: [],
-        useCSV: false,
-        useCSV2: true,
-        expand: true,
-        full: true,
-    },
-    {
-        imgPath: './assets/img/notice_12.jpg',
-        title: 'COMUNICADO CLASES PRESENCIALES 2022-1',
-        new: true,
-        content: `Invocamos a todos nuestros estudiantes a leer este importante comunicado de la Universidad. <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Comunicado%20CLASES%20PRESENCIALES%202022%20Vfinal.pdf">Ver comunicado</a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['ALL'],
-        filtroCarr: ['ALL'],
+        filtroInst: ['PREGR'],
+        filtroCarr: ['PFMEH'],
         useCSV: false,
         useCSV2: false,
         expand: true,
@@ -153,6 +111,66 @@ export const notice = [
         },
         filtroInst: ['PREGR'],
         filtroCarr: ['PFMEH'],
+        useCSV: false,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: './assets/img/notice_10.png',
+        title: 'Participa en el Impact Startup Competition',
+        new: false,
+        content: `El área de emprendimiento y el comité local están organizando el Impact Startup Competition Ucsur, programa para fomentar emprendimientos que apoyen a los objetivos de desarrollo sostenibles. Se darán horas extracurriculares. <a href="https://sites.google.com/view/iscucsur/inicio">Más info aquí.</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['PREGR', 'CPE'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: './assets/img/notice_11_1.jpg',
+        title: 'Experiencia de Bienvenida a la Universidad',
+        new: false,
+        content: `¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia con la Universidad durante el inicio de tu vida universitaria. Tu aporte es muy importante para nosotros y así seguir mejorando juntos. Completa la encuesta <a target="_blank" href="https://cutt.ly/ZRbdtV2">AQUÍ</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: [],
+        filtroCarr: [],
+        useCSV: true,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: './assets/img/notice_11_2.jpg',
+        title: 'Experiencia de Bienvenida a la Universidad',
+        new: false,
+        content: `¡Hola! Te invitamos a contestar esta breve encuesta que servirá para conocer tu experiencia con la Universidad durante el inicio de tu vida universitaria. Tu aporte es muy importante para nosotros y así seguir mejorando juntos. Completa la encuesta <a target="_blank" href="https://cutt.ly/3RbfmBQ">AQUÍ</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: [],
+        filtroCarr: [],
+        useCSV: false,
+        useCSV2: true,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: './assets/img/notice_12.jpg',
+        title: 'COMUNICADO CLASES PRESENCIALES 2022-1',
+        new: false,
+        content: `Invocamos a todos nuestros estudiantes a leer este importante comunicado de la Universidad. <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Comunicado%20CLASES%20PRESENCIALES%202022%20Vfinal.pdf">Ver comunicado</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['ALL'],
+        filtroCarr: ['ALL'],
         useCSV: false,
         useCSV2: false,
         expand: true,
