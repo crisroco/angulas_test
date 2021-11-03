@@ -84,6 +84,21 @@ export const notice = [
     //     full: false,
     // },
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/bbva-banner.jpg',
+        title: 'El BBVA se une a la familia científica como un nuevo medio de Pago',
+        new: true,
+        content: `Hola te invitamos a revisar esta importante información en el siguiente <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/comunicado-bbva.pdf">link</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['ALL'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/TalentShow.png',
         title: 'Evento Semana de la medicina Científica',
         new: true,
@@ -176,36 +191,4 @@ export const notice = [
         expand: true,
         full: true,
     }
-    
-    // {
-    //     imgPath: 'https://us.123rf.com/450wm/antonioguillem/antonioguillem2004/antonioguillem200400060/144517200-close-up-of-woman-hand-filling-out-form-with-pen-on-a-desk.jpg?ver=6',
-    //     title: 'Proyecto de investigación de UCSUR',
-    //     new: false,
-    //     content: '¡Hola! Estamos realizando un estudio sobre participación política, educación democrática y comunicación digital. ¡Ayúdanos a completar esta encuesta! 📚: <a href="https://forms.gle/tfycy7D8t98nAmzi7"> https://forms.gle/tfycy7D8t98nAmzi7 </a>',
-    //     limit: (content)=>{
-    //         return content.length>300? content.substring(0,300)+'...': content; 
-    //     },
-    //     filtroInst: ['PREGR'],
-    //     useCSV: false,
-    //     expand: false,
-    //     full: false,
-    // }
-    // {
-    //     imgPath: './assets/img/pre-matricula.svg',
-    //     title: 'Mira el Calendario de Pre-Matrícula',
-    //     content: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s. when an unknown printer took a galley of type and scrambled it.',
-    //     limit: (content):string=>{
-    //         return content.length>150? content.substring(0,150)+'...': content; 
-    //     },
-    //     expand: false
-    // },
-    // {
-    //     imgPath: './assets/img/pre-matricula.svg',
-    //     title: 'Unidad de Responsabilidad Social Universitaria',
-    //     content: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s. when an unknown printer took a galley of type and scrambled it to make a type specimen. Lorem Ipsum has been the industrys standard dummy text.',
-    //     limit: (content)=>{
-    //         return content.length>150? content.substring(0,150)+'...': content; 
-    //     },
-    //     expand: false
-    // }
 ];
