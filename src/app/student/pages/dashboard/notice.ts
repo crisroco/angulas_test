@@ -131,21 +131,21 @@ export const notice = [
         expand: true,
         full: true,
     },
-    {
-        imgPath: './assets/img/notice_10.png',
-        title: 'Participa en el Impact Startup Competition',
-        new: false,
-        content: `El área de emprendimiento y el comité local están organizando el Impact Startup Competition Ucsur, programa para fomentar emprendimientos que apoyen a los objetivos de desarrollo sostenibles. Se darán horas extracurriculares. <a href="https://sites.google.com/view/iscucsur/inicio">Más info aquí.</a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['PREGR', 'CPE'],
-        filtroCarr: ['ALL'],
-        useCSV: false,
-        useCSV2: false,
-        expand: true,
-        full: true,
-    },
+    // {
+    //     imgPath: './assets/img/notice_10.png',
+    //     title: 'Participa en el Impact Startup Competition',
+    //     new: false,
+    //     content: `El área de emprendimiento y el comité local están organizando el Impact Startup Competition Ucsur, programa para fomentar emprendimientos que apoyen a los objetivos de desarrollo sostenibles. Se darán horas extracurriculares. <a href="https://sites.google.com/view/iscucsur/inicio">Más info aquí.</a>`,
+    //     limit: (content)=>{
+    //         return content.length>333? content.substring(0,333)+'...': content; 
+    //     },
+    //     filtroInst: ['PREGR', 'CPE'],
+    //     filtroCarr: ['ALL'],
+    //     useCSV: false,
+    //     useCSV2: false,
+    //     expand: true,
+    //     full: true,
+    // },
     {
         imgPath: './assets/img/notice_11_1.jpg',
         title: 'Experiencia de Bienvenida a la Universidad',
