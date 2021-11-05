@@ -99,13 +99,10 @@ export const notice = [
         full: true,
     },
     {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/TalentShow.png',
-        title: 'Evento Semana de la medicina Científica',
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20charla%2008.11.JPG',
+        title: 'Charla: El arte de aceptarse',
         new: true,
-        content: `¡Hola, ven a celebrar la semana de la medicina con tus compañeros, con tus docentes y con nosotros!
-<p class="m-0">Muéstranos tu talento artístico en un TikTok en una noche de talentos moderna. Vamos a divertirnos jugando a ser médicos con los simuladores y pondremos a prueba nuestros conocimientos en una trivia académica. ¡Te esperamos!</p>
-<p class="m-0">Bases del concurso en el siguiente enlace: <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/medicina/evento-semana-medicina-bases.pf">Link de las bases</a></p>
-<p class="m-0">Inscribe a tu equipo en el siguiente enlace: <a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=EM3epWWRNkamTHlYAEIV-qsRmH0SHCNOl5DlSkBK9RNUNVZQUjRGRFlNNlpUTDc3VTJTRVZNWlhQUi4u&wdLOR=cDAC192C5-C5EB-4818-8EF8-65CDB0A5FCEC">Link de inscripción</a></p>`,
+        content: `Participa en un maravilloso encuentro contigo mismo y aprende con nosotros a identificar y potenciar tus características personales para vivir de una manera integrada y plena. ¡Te esperamos!. Inscríbete <a target="_blank" href="https://forms.gle/L8Sq9tHADHi4wSt49">aquí</a></p>`,
         limit: (content)=>{
             return content.length>333? content.substring(0,333)+'...': content; 
         },
@@ -116,21 +113,39 @@ export const notice = [
         expand: true,
         full: true,
     },
-    {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20Conversatorio%20Medicina%20VGU%2021%202.jpg',
-        title: 'Conversatorio: Historias de éxito, ¿por qué amo la Medicina Humana? ',
-        new: true,
-        content: `Participa y conoce la historia de Gabriela, una egresada de Medicina Humana en UCSUR, quien al igual que tú, empezó con la misma pasión y ahora construye un mundo mejor. ¡Te esperamos!. Inscríbete aquí: <a target="_blank" href="https://forms.gle/ihqWqn38PzA3YAoB9">https://forms.gle/ihqWqn38PzA3YAoB9</a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['PREGR'],
-        filtroCarr: ['PFMEH'],
-        useCSV: false,
-        useCSV2: false,
-        expand: true,
-        full: true,
-    },
+//     {
+//         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/TalentShow.png',
+//         title: 'Evento Semana de la medicina Científica',
+//         new: true,
+//         content: `¡Hola, ven a celebrar la semana de la medicina con tus compañeros, con tus docentes y con nosotros!
+// <p class="m-0">Muéstranos tu talento artístico en un TikTok en una noche de talentos moderna. Vamos a divertirnos jugando a ser médicos con los simuladores y pondremos a prueba nuestros conocimientos en una trivia académica. ¡Te esperamos!</p>
+// <p class="m-0">Bases del concurso en el siguiente enlace: <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/medicina/evento-semana-medicina-bases.pf">Link de las bases</a></p>
+// <p class="m-0">Inscribe a tu equipo en el siguiente enlace: <a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=EM3epWWRNkamTHlYAEIV-qsRmH0SHCNOl5DlSkBK9RNUNVZQUjRGRFlNNlpUTDc3VTJTRVZNWlhQUi4u&wdLOR=cDAC192C5-C5EB-4818-8EF8-65CDB0A5FCEC">Link de inscripción</a></p>`,
+//         limit: (content)=>{
+//             return content.length>333? content.substring(0,333)+'...': content; 
+//         },
+//         filtroInst: ['PREGR'],
+//         filtroCarr: ['PFMEH'],
+//         useCSV: false,
+//         useCSV2: false,
+//         expand: true,
+//         full: true,
+//     },
+//     {
+//         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20Conversatorio%20Medicina%20VGU%2021%202.jpg',
+//         title: 'Conversatorio: Historias de éxito, ¿por qué amo la Medicina Humana? ',
+//         new: true,
+//         content: `Participa y conoce la historia de Gabriela, una egresada de Medicina Humana en UCSUR, quien al igual que tú, empezó con la misma pasión y ahora construye un mundo mejor. ¡Te esperamos!. Inscríbete aquí: <a target="_blank" href="https://forms.gle/ihqWqn38PzA3YAoB9">https://forms.gle/ihqWqn38PzA3YAoB9</a>`,
+//         limit: (content)=>{
+//             return content.length>333? content.substring(0,333)+'...': content; 
+//         },
+//         filtroInst: ['PREGR'],
+//         filtroCarr: ['PFMEH'],
+//         useCSV: false,
+//         useCSV2: false,
+//         expand: true,
+//         full: true,
+//     },
     // {
     //     imgPath: './assets/img/notice_10.png',
     //     title: 'Participa en el Impact Startup Competition',
