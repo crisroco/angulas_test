@@ -1291,7 +1291,7 @@ export class StudentComponent implements OnInit {
 						this.studentS.getSTRM(this.enroll)
 							.then(res => {
 								this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM ? res.UCS_OBT_STRM_RES.STRM : this.enroll.STRM;
-								// this.broadcaster.sendMessage({ enroll: this.enroll });
+								this.broadcaster.sendMessage({ enroll: this.enroll });
 								this.session.setObject('dataEnrollment', this.enroll);
 								// this.studentS.getEnrollQueueNumber(this.enroll)
 								// 	.then(res => {

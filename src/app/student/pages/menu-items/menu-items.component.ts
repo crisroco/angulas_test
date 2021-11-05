@@ -5,6 +5,7 @@ import { SessionService } from '../../../services/session.service';
 import { Gtag } from 'angular-gtag';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Broadcaster } from '../../../services/broadcaster';
 
 @Component({
   selector: 'app-menu-items',
@@ -14,11 +15,14 @@ import { Router } from '@angular/router';
 export class MenuItemsComponent implements OnInit, OnChanges {
   @Input('widthMenu') widthMenu: number;
   queueEnroll: any;
+  crossdata:any;
+  showMatri:boolean = false;
   timeOut:boolean = false;
   constructor(
     private studentS: StudentService,
     public session: SessionService,
     private toastr: ToastrService,
+    private broadcaster: Broadcaster,
     private router: Router,
     public newEnrollmentS: NewEnrollmentService,
     private gtag: Gtag,
@@ -27,6 +31,11 @@ export class MenuItemsComponent implements OnInit, OnChanges {
     setTimeout(() => {
       this.widthMenuValid = this.widthMenu;
     }, 100);
+    this.crossdata = this.broadcaster.getMessage().subscribe(msg => {
+      if (msg && msg.enroll ) {
+				this.showMatri = true;
+			}
+    });
   }
 
   public showDoc = false;

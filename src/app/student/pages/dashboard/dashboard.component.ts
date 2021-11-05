@@ -594,18 +594,18 @@ export class DashboardComponent implements OnInit {
   //   }, 120000);
   // }
 
-  saveConditions(flag, modal) {
-    this.loading = true;
-    var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
-    tEnroll[flag] = 'Y';
-    tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
-    this.newEnrollmentS.saveConditions(tEnroll)
-      .then((res) => {
-        this.loading = false;
-        modal.close();
-        this.enroll_conditions = res.conditions;
-      });
-  }
+  // saveConditions(flag, modal) {
+  //   this.loading = true;
+  //   var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
+  //   tEnroll[flag] = 'Y';
+  //   tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
+  //   this.newEnrollmentS.saveConditions(tEnroll)
+  //     .then((res) => {
+  //       this.loading = false;
+  //       modal.close();
+  //       this.enroll_conditions = res.conditions;
+  //     });
+  // }
 
   // saveAcademicCondition(){
   //   var tEnroll = JSON.parse(JSON.stringify(this.enroll));

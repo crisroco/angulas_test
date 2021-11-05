@@ -255,6 +255,7 @@ export class EnrollmentComponent implements OnInit {
     let inverted:any = {};
     this.myVirtualClasses = [];
     this.classDay.forEach(classD => {
+      console.log(classD);
       classD['UCS_REST_MTG_DET_REQ'].forEach(clase => {
         for(var kDay in days){
           if(clase[kDay] == 'Y'){
@@ -305,7 +306,8 @@ export class EnrollmentComponent implements OnInit {
     });
     if (this.moreData) {
       this.moreData.forEach(classM => {
-        classM.UCS_REST_DET_MREU.forEach(classD => {
+        console.log(classM);
+        classM.UCS_REST_DET2MREU.forEach(classD => {
           for (var kDay in days) {
             if (kDay == classD.DIA.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
               if(BetweenDays(classD.FECHA_INICIAL, classD.FECHA_FINAL, days[kDay])){
