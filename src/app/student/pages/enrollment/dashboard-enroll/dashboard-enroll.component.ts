@@ -413,13 +413,13 @@ export class DashboardEnrollComponent implements OnInit {
             el.value = course.value;
           }
           if (el.value) {
-            if (this.checkCrosses(el)) {
-              course.value = false;
-              evt.target.checked = false;
-              el.value = false;
-              this.blockAssociated(el, this.scheduleAvailables, el.alertMessage);
-              return
-            }
+            // if (this.checkCrosses(el)) {
+            //   course.value = false;
+            //   evt.target.checked = false;
+            //   el.value = false;
+            //   this.blockAssociated(el, this.scheduleAvailables, el.alertMessage);
+            //   return
+            // }
           }
         } else {
           el.value = false;
