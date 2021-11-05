@@ -226,11 +226,6 @@ export class DashboardEnrollComponent implements OnInit {
     }
     courses_id.push(course.CRSE_ID2, course.CRSE_ID3,course.CRSE_ID4,course.CRSE_ID5,course.CRSE_ID6,course.CRSE_ID7, course.CRSE_ID8,course.CRSE_ID9,course.CRSE_ID10,course.CRSE_ID11,course.CRSE_ID12,course.CRSE_ID13,course.CRSE_ID14,course.CRSE_ID15,course.CRSE_ID16);
     let allCourses = courses_id.filter(el => el != '');
-    if (this.checkCreditsCap(course)) {
-      evt.target.checked = false;
-      course.value = false;
-      return
-    }
     this.loading = true;
     this.enrollmentS.getScheduleNew({
       CAMPUS: this.dataStudent.sede,
@@ -354,7 +349,7 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   checkCreditsCap(course){
-    if (this.myCredits + Number(course['UNITS_REPEAT_LIMIT']) > this.maxCredits) {
+    if (this.myCredits + Number(course['CREDITOS']) > this.maxCredits) {
       this.toastS.error('Estas superando los creditos maximos');
       return true
     } else {
@@ -368,6 +363,11 @@ export class DashboardEnrollComponent implements OnInit {
       course.value = false;
       this.toastS.error(course.alertMessage);
     } else {
+      if (this.checkCreditsCap(course)) {
+        evt.target.checked = false;
+        course.value = false;
+        return
+      }
       let numberOfPRA = this.countPRA(course);
       this.scheduleAvailables.forEach(el => {
         if (el.ASOCIACION_CLASE == course.ASOCIACION_CLASE) {
