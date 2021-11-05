@@ -413,13 +413,13 @@ export class DashboardEnrollComponent implements OnInit {
             el.value = course.value;
           }
           if (el.value) {
-            // if (this.checkCrosses(el)) {
-            //   course.value = false;
-            //   evt.target.checked = false;
-            //   el.value = false;
-            //   this.blockAssociated(el, this.scheduleAvailables, el.alertMessage);
-            //   return
-            // }
+            if (this.checkCrosses(el)) {
+              course.value = false;
+              evt.target.checked = false;
+              el.value = false;
+              this.blockAssociated(el, this.scheduleAvailables, el.alertMessage);
+              return
+            }
           }
         } else {
           el.value = false;
@@ -561,6 +561,14 @@ export class DashboardEnrollComponent implements OnInit {
       this.loading = false;
       this.toastS.warning('No seleccionaste los componentes necesarios: ' + this.selectedCourse['COMPONENTS']);
       return
+    }
+    if (result[0]['SSR_COMPONENT'] == 'TEO') {
+      let numberOfPRA = this.countPRABeforeSave(result[0]);
+      if (numberOfPRA > 1 && result.length == 1) {
+        this.loading = false;
+        this.toastS.warning('Tienes que seleccionar alguna practica');
+        return
+      }
     }
     this.enrollmentS.saveCourseClass({
       courses: result,
