@@ -307,7 +307,7 @@ export class EnrollmentComponent implements OnInit {
     if (this.moreData) {
       this.moreData.forEach(classM => {
         console.log(classM);
-        classM.UCS_REST_DET2MREU.forEach(classD => {
+        classM.UCS_REST_DET_MREU.forEach(classD => {
           for (var kDay in days) {
             if (kDay == classD.DIA.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
               if(BetweenDays(classD.FECHA_INICIAL, classD.FECHA_FINAL, days[kDay])){
