@@ -129,59 +129,6 @@ export class DashboardComponent implements OnInit {
   public dataObsStudent:any[] = [];
 
   ngOnInit() {
-    // this.showModals();
-    this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
-    this.studentS.getDataStudent({ email: this.user.email })
-      .then(res => {
-        this.student = res.UcsMetodoDatosPersRespuesta;
-        this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
-        this.session.setObject('student', this.student);
-        let temp = this.session.getObject('AllInst').map(el => { return el.institucion });
-        let temp2 = this.session.getObject('AllInst').map(el => { return el.codigoPrograma });
-        this.realNotices.map((el) => {
-          if(el.useCSV){
-            this.studentS.getListOfStudentsJson()
-              .then((res) => {
-                if (res.find(emp => emp == this.user.codigoAlumno)) {
-                  console.log(el);
-                  el.filtroInst.push('ALL');
-                  el.filtroCarr.push('ALL');
-                }
-              });
-          }
-          if(el.useCSV2){
-            this.studentS.medicineStudents()
-              .then((res) => {
-                if (res.find(emp => emp == this.user.codigoAlumno)) {
-                  el.filtroInst.push('ALL');
-                  el.filtroCarr.push('ALL');
-                }
-              });
-          }
-          if((el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr[0] == 'ALL') || (el.filtroInst[0] == 'ALL' && el.filtroCarr.some(r => temp2.indexOf(r) >= 0)) || (el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr.some(r => temp2.indexOf(r) >= 0))) {
-            el['finallShow'] = true;
-          }
-        });
-        setTimeout(() => {
-          this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
-          if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
-            this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
-          }
-        }, 1000);
-        this.getParameters();
-      }, error => {
-
-      });
-    this.studentS.getdataStudent().subscribe(
-      r => {
-        console.log(r);
-        if(this.dataObsStudent.length==0){
-          this.dataObsStudent = r;
-          this.getAllClass(r);
-        }
-      }
-    );
-
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       // if (message && message.enroll_conditions) {
       //   this.enroll_conditions = message.enroll_conditions;
@@ -195,13 +142,65 @@ export class DashboardComponent implements OnInit {
         this.enroll = message.enroll;
       }
 
-      // else if (message && message.code) {
-      //PORQUE NO TRAE DATA DE LOS DIFERENTES A POSGRADO????????????
+      else if (message && message.code) {
+      }
+      else if(message && message.Inst){
+        this.studentS.getDataStudent({ email: this.user.email })
+        .then(res => {
+          this.student = res.UcsMetodoDatosPersRespuesta;
+          this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
+          this.session.setObject('student', this.student);
+          let temp = this.session.getObject('AllInst').map(el => { return el.institucion });
+          let temp2 = this.session.getObject('AllInst').map(el => { return el.codigoPrograma });
+          this.realNotices.map((el) => {
+            if(el.useCSV){
+              this.studentS.getListOfStudentsJson()
+                .then((res) => {
+                  if (res.find(emp => emp == this.user.codigoAlumno)) {
+                    el.filtroInst.push('ALL');
+                    el.filtroCarr.push('ALL');
+                  }
+                });
+            }
+            if(el.useCSV2){
+              this.studentS.medicineStudents()
+                .then((res) => {
+                  if (res.find(emp => emp == this.user.codigoAlumno)) {
+                    el.filtroInst.push('ALL');
+                    el.filtroCarr.push('ALL');
+                  }
+                });
+            }
+            if((el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr[0] == 'ALL') || (el.filtroInst[0] == 'ALL' && el.filtroCarr.some(r => temp2.indexOf(r) >= 0)) || (el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr.some(r => temp2.indexOf(r) >= 0))) {
+              el['finallShow'] = true;
+            }
+          });
+          setTimeout(() => {
+            this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
+            if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
+              this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
+            }
+          }, 1000);
+        });
+      }
       // if (message.institution != 'PSTRG') {
 
       // }
       // }
     });
+    // this.showModals();
+    this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
+    this.getParameters();
+    this.studentS.getdataStudent().subscribe(
+      r => {
+        if(this.dataObsStudent.length==0){
+          this.dataObsStudent = r;
+          this.getAllClass(r);
+        }
+      }
+    );
+
+    
     // this.readConditions();
     var ese = new Array(4);
     //this.matriculaExtracurricularModal.open();
@@ -218,7 +217,7 @@ export class DashboardComponent implements OnInit {
     });
     let classes = new Promise<void>((resolve, reject) => {
       allInst.forEach((re, index) => {
-        this.studentS.getAllClasses({ code: this.student.codigoAlumno, institution: re, date: day })
+        this.studentS.getAllClasses({ code: this.user.codigoAlumno, institution: re, date: day })
           .then((res) => {
             this.loadCourse = true;
             if (res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR) {

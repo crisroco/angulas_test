@@ -463,7 +463,7 @@ export class StudentComponent implements OnInit {
 
 	public heightOtherMenu: number = 0;
 
-	ngOnInit() {
+	async ngOnInit() {
 
 		this.session.geterrorModal().subscribe(
 			r => {
@@ -532,7 +532,7 @@ export class StudentComponent implements OnInit {
 		// 	});
 
 		this.initUpdatePersonalData();
-		this.checkInList();
+		await this.checkInList();
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -1251,12 +1251,13 @@ export class StudentComponent implements OnInit {
 		this.broadcaster.sendMessage({ code: this.user.codigoAlumno, institution: inst.institucion, date: rDate });
 	}
 
-	checkInList() {
+	async checkInList() {
 		this.student = this.session.getObject('student');
 		this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
 			.then((res) => {
 				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 				this.session.setObject('AllInst', units);
+				this.broadcaster.sendMessage({Inst: units});
 				var one = units.filter(item => item.institucion == 'PREGR');//ECONT - PREGR
 				var inst = one.length ? one[0] : null;
 				if (inst) {
@@ -1287,7 +1288,7 @@ export class StudentComponent implements OnInit {
 						this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
 						this.enroll.STRM = this.enroll.cicloAdmision;// == '0904'?'0992':'2204';
 						this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-						this.enroll.EMPLID = this.student.codigoAlumno;
+						this.enroll.EMPLID = this.user.codigoAlumno;
 						this.studentS.getSTRM(this.enroll)
 							.then(res => {
 								this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM ? res.UCS_OBT_STRM_RES.STRM : this.enroll.STRM;

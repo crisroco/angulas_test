@@ -225,7 +225,8 @@ export class DashboardEnrollComponent implements OnInit {
       this.toastS.error('Advertencia, estas seleccionando una materia en curso','', {progressBar: true});
     }
     courses_id.push(course.CRSE_ID2, course.CRSE_ID3,course.CRSE_ID4,course.CRSE_ID5,course.CRSE_ID6,course.CRSE_ID7, course.CRSE_ID8,course.CRSE_ID9,course.CRSE_ID10,course.CRSE_ID11,course.CRSE_ID12,course.CRSE_ID13,course.CRSE_ID14,course.CRSE_ID15,course.CRSE_ID16);
-    let allCourses = courses_id.filter(el => el != '');
+    let allCourses = courses_id.filter(el => el != '' && el != null);
+    console.log(allCourses);
     this.loading = true;
     this.enrollmentS.getScheduleNew({
       CAMPUS: this.dataStudent.sede,

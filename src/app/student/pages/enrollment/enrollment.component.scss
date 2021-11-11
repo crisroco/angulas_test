@@ -5,6 +5,20 @@
 // *:not(i) {
 // 	font-family: "Gotham", Arial, sans-serif;
 // }
+.p-r {
+	position: relative;
+}
+.background-black {
+	background-color: black;
+	border-radius: 5px;
+	padding: 5px;
+	display: flex;
+	flex-direction: column;
+	color: #CCC;
+	position: absolute;
+	top: -25px;
+	left: 30px;
+}
 td.line {
 	display: flex;
 	align-items: center;
