@@ -84,9 +84,24 @@ export const notice = [
     //     full: false,
     // },
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20charla%20Resiliencia%2015.11.JPG',
+        title: 'Charla: ¿Cómo afrontar una pérdida?',
+        new: true,
+        content: `Participa y aprende con nosotros a identificar y desarrollar tus recursos personales para gestionar de manera efectiva situaciones de duelo. ¡Te esperamos! Inscríbete <a target="_blank" href="https://forms.gle/vkQPhtvmLG3npqqN6">aquí</a></p>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['PREGR'],
+        filtroCarr: ['PFMEH'],
+        useCSV: false,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/bbva-banner.jpg',
         title: 'El BBVA se une a la familia científica como un nuevo medio de Pago',
-        new: true,
+        new: false,
         content: `Hola te invitamos a revisar esta importante información en el siguiente <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/comunicado-bbva.pdf">link</a>`,
         limit: (content)=>{
             return content.length>333? content.substring(0,333)+'...': content; 
@@ -101,7 +116,7 @@ export const notice = [
     {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20charla%2008.11.JPG',
         title: 'Charla: El arte de aceptarse',
-        new: true,
+        new: false,
         content: `Participa en un maravilloso encuentro contigo mismo y aprende con nosotros a identificar y potenciar tus características personales para vivir de una manera integrada y plena. ¡Te esperamos!. Inscríbete <a target="_blank" href="https://forms.gle/L8Sq9tHADHi4wSt49">aquí</a></p>`,
         limit: (content)=>{
             return content.length>333? content.substring(0,333)+'...': content; 
