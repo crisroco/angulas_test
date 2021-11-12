@@ -32,7 +32,7 @@ export class EnrollmentComponent implements OnInit {
   schoolCycle: any = this.session.getObject('schoolCycle');
   user: any = this.session.getObject('user');
   student: any = this.session.getObject('student');
-  public motives:Array<any> = [{name: '1', descr: 'Ejemplo1'},{name: '2', descr: 'Ejemplo2'},{name: '3', descr: 'Ejemplo3'},{name: 'MOTIVO4', descr: 'Ejemplo4'}];
+  public motives:Array<any> = [{name: '1', descr: 'Motivo1'},{name: '2', descr: 'Motivo2'},{name: '3', descr: 'Motivo3'},{name: '4', descr: 'Motivo4'}];
   public hoursAditionalCourses:Array<any> = [
     {
       type: 'PREG',

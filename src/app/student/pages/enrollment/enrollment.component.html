@@ -6,7 +6,7 @@
 			</div>
 			<div class="buttons">
 				<button class="btn" [routerLink]="'/estudiante/matricula/disponibles'" routerLinkActive="active-link">1. Cursos Disponibles</button>
-				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Matriculados</button>
+				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Reservados</button>
 			</div>
 		</div>
 	</div>
@@ -88,7 +88,7 @@
 	<div class="mt-2 d-flex align-items-center justify-content-around">
 		<div class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
-			<p>Matriculado</p>
+			<p>Reservado</p>
 		</div>
 		<div *ngIf="moreData && moreData.length > 1" class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
@@ -149,7 +149,6 @@
 						<th class="py-2 text-left text-m">Hora Inicio</th>
 						<th class="py-2 text-left text-m">Hora Fin</th>
 						<th class="py-2 text-left text-m">Motivo</th>
-						<th class="py-2 text-left text-m">Motivo Descripción</th>
 				      	<!-- <th *ngIf="CPE" class="py-2 text-left text-m">Dia</th> -->
 			    	</tr>
 			  	</thead>
@@ -197,19 +196,19 @@
 						<td class="text-center">
 							<label>{{course.HORA_FIN}}</label>
 						</td>
-						<td class="text-left">
+						<td class="p-r text-left">
 							<select [disabled]="!course.extra" [(ngModel)]="course.MOTIVO" name="motive" id="" (change)="selectMotive(course)">
-								<option *ngFor="let mot of motives">{{mot.name}}</option>
+								<option *ngFor="let mot of motives" value="{{ mot.name }}">{{mot.descr}}</option>
 						  	</select>
-						</td>
-						<td class="p-r text-center">
-							<label>{{course.DESCR_MOTIVO}}</label>
 							<i *ngIf="!course.extra" (click)="showAditionals(course)" class="pointer fa fa-info-circle text-l ml-4" aria-hidden="true"></i>
 							<div *ngIf="course.showEquivalents" class="background-black">
 								<div *ngFor="let item of showEquivalents">{{item.descr}}</div>
 							</div>
 							<i *ngIf="!course.extra" (click)="deleteAditionalCourse(course)" class="pointer fa fa-trash text-red text-l ml-4" aria-hidden="true"></i>
 						</td>
+						<!-- <td class="p-r text-center">
+							<label>{{course.DESCR_MOTIVO}}</label>
+						</td> -->
 				    </tr>
 					<tr *ngIf="aditionalCourses.length == 0">
 						<td colspan="4">No existen cursos adicionales</td>
