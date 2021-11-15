@@ -59,21 +59,21 @@ export const notice = [
     //     expand: true,
     //     full: true,
     // },
-    {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20charla%2008.11.JPG',
-        title: 'Charla: El arte de aceptarse',
-        new: false,
-        content: `Participa en un maravilloso encuentro contigo mismo y aprende con nosotros a identificar y potenciar tus características personales para vivir de una manera integrada y plena. ¡Te esperamos!. Inscríbete <a target="_blank" href="https://forms.gle/L8Sq9tHADHi4wSt49">aquí</a></p>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['PREGR'],
-        filtroCarr: ['PFMEH'],
-        useCSV: false,
-        useCSV2: false,
-        expand: true,
-        full: true,
-    },
+    // {
+    //     imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20charla%2008.11.JPG',
+    //     title: 'Charla: El arte de aceptarse',
+    //     new: false,
+    //     content: `Participa en un maravilloso encuentro contigo mismo y aprende con nosotros a identificar y potenciar tus características personales para vivir de una manera integrada y plena. ¡Te esperamos!. Inscríbete <a target="_blank" href="https://forms.gle/L8Sq9tHADHi4wSt49">aquí</a></p>`,
+    //     limit: (content)=>{
+    //         return content.length>333? content.substring(0,333)+'...': content; 
+    //     },
+    //     filtroInst: ['PREGR'],
+    //     filtroCarr: ['PFMEH'],
+    //     useCSV: false,
+    //     useCSV2: false,
+    //     expand: true,
+    //     full: true,
+    // },
 //     {
 //         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/TalentShow.png',
 //         title: 'Evento Semana de la medicina Científica',

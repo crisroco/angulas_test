@@ -171,7 +171,6 @@ export class DashboardComponent implements OnInit {
                   }
                 });
             }
-            console.log(el);
             if((el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr[0] == 'ALL') || (el.filtroInst[0] == 'ALL' && el.filtroCarr.some(r => temp2.indexOf(r) >= 0)) || (el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr.some(r => temp2.indexOf(r) >= 0))) {
               el['finallShow'] = true;
             }
