@@ -175,18 +175,12 @@ export class DashboardComponent implements OnInit {
               el['finallShow'] = true;
             }
           });
+          // console.log(this.realNotices);
           setTimeout(() => {
             this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
-            if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
-              this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
-            }
           }, 1000);
         });
       }
-      // if (message.institution != 'PSTRG') {
-
-      // }
-      // }
     });
     // this.showModals();
     this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
