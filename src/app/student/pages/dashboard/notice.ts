@@ -7,7 +7,7 @@ export const notice = [
         limit: (content)=>{
             return content.length>500? content.substring(0,500)+'...': content; 
         },
-        filtroInst: ['ALL'],
+        filtroInst: ['CPE'],
         filtroCarr: ['ALL'],
         useCSV: false,
         useCSV2: false,
