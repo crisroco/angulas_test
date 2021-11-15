@@ -35,9 +35,11 @@ export class MenuItemsComponent implements OnInit, OnChanges {
     }, 100);
     this.crossdata = this.broadcaster.getMessage().subscribe(msg => {
       if (msg && msg.enroll ) {
-        console.log(msg);
 				this.showMatri = true;
 			}
+      else if(msg && msg.conditions){
+        this.loadConditions();
+      }
     });
   }
 
@@ -66,6 +68,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
       .then((res) => {
         this.enroll = true;
         this.enroll_conditions = res;
+        this.broadcaster.sendMessage({enroll_conditions: this.enroll_conditions})
       });
   }
 
@@ -95,6 +98,14 @@ export class MenuItemsComponent implements OnInit, OnChanges {
 
   matriculaExtracurricularModalOpen(){
     this.studentS.setShowMatricula(true);
+  }
+
+  openModal(type, ready){
+    if(type == 'A'){
+      this.studentS.setAcademicModal(ready);
+    } else {
+      this.studentS.setFinancialModal(ready);
+    }
   }
 
   goEnrollment(){

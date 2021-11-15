@@ -40,7 +40,7 @@
       Matricula'}}</p>
     <div class="row justify-content-center align-items-center mb-2 mt-4">
       <div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
-        (click)="AcademicConditionModal.open()">
+        (click)="openModal('A',enroll_conditions.FLAG_ACADEMICO)">
         <i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
         <div class="bg-black text-white p-2 text-s">
           <p class="m-0">Condiciones</p>
@@ -53,7 +53,7 @@
         </div>
       </div>
       <div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer"
-        (click)="FinancialConditionModal.open()">
+        (click)="openModal('F',enroll_conditions.FLAG_FINANCIERO)">
         <i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
         <div class="bg-black text-white p-2 text-s">
           <p class="m-0">Condiciones</p>

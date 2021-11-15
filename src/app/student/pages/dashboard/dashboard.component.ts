@@ -60,7 +60,10 @@ export class DashboardComponent implements OnInit {
   realDate: any = RealDateTz();
   noClosed: boolean;
   enroll: any;
-  enroll_conditions: any = '';
+  enroll_conditions: any = {
+    FLAG_ACADEMICO: '',
+    FLAG_FINANCIERO: ''
+  };
   queueEnroll: any;
   showwsp: boolean = false;
   fidelityLink: any = '';
@@ -130,9 +133,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
-      // if (message && message.enroll_conditions) {
-      //   this.enroll_conditions = message.enroll_conditions;
-      // }
+      if (message && message.enroll_conditions) {
+        this.enroll_conditions = message.enroll_conditions;
+      }
       if (message && message.queueEnroll) {
         // this.queueEnroll = message.queueEnroll;
         // this.setRealDateEnroll(this.queueEnroll);
@@ -199,6 +202,20 @@ export class DashboardComponent implements OnInit {
         }
       }
     );
+    this.studentS.getAcademicModal().subscribe(
+      r => {
+        console.log(r);
+        this.enroll_conditions.FLAG_ACADEMICO = r;
+        this.AcademicConditionModal.open();
+      }
+    );
+    this.studentS.getFinancialModal().subscribe(
+      r => {
+        console.log(r);
+        this.enroll_conditions.FLAG_FINANCIERO = r;
+        this.FinancialConditionModal.open();
+      }
+    )
 
     
     // this.readConditions();
@@ -593,18 +610,19 @@ export class DashboardComponent implements OnInit {
   //   }, 120000);
   // }
 
-  // saveConditions(flag, modal) {
-  //   this.loading = true;
-  //   var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
-  //   tEnroll[flag] = 'Y';
-  //   tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
-  //   this.newEnrollmentS.saveConditions(tEnroll)
-  //     .then((res) => {
-  //       this.loading = false;
-  //       modal.close();
-  //       this.enroll_conditions = res.conditions;
-  //     });
-  // }
+  saveConditions(flag, modal) {
+    this.loading = true;
+    var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
+    tEnroll[flag] = 'Y';
+    tEnroll['emplid'] = this.session.getObject('user')['codigoAlumno'];
+    tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
+    this.newEnrollmentS.saveConditions(tEnroll)
+      .then((res) => {
+        this.loading = false;
+        this.broadcaster.sendMessage({conditions: true})
+        modal.close();
+      });
+  }
 
   // saveAcademicCondition(){
   //   var tEnroll = JSON.parse(JSON.stringify(this.enroll));
