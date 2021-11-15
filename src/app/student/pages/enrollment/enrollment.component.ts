@@ -335,7 +335,6 @@ export class EnrollmentComponent implements OnInit {
                 var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
                 clase.date = rDay;
                 if(!objEvents[rDay + ' ' + clase.HORA_INICIO + ':00' + ' ' + classD.CRSE_ID]){
-                  console.log(clase);
                   dates = this.getDates(rDay, clase.HORA_INICIO + ':00', clase.HORA_FIN + ':00');
                   events.push({
                     start: dates.start,//new Date(rDay + ' ' + clase.MEETING_TIME_START),

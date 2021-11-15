@@ -15,6 +15,8 @@ import { Broadcaster } from '../../../services/broadcaster';
 export class MenuItemsComponent implements OnInit, OnChanges {
   @Input('widthMenu') widthMenu: number;
   queueEnroll: any;
+  enroll:any;
+  enroll_conditions: any = '';
   crossdata:any;
   showMatri:boolean = false;
   timeOut:boolean = false;
@@ -44,6 +46,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.loadEnroll();
+    this.loadConditions();
   }
 
 
@@ -51,11 +54,18 @@ export class MenuItemsComponent implements OnInit, OnChanges {
     this.studentS.getEnrollQueueNumber({EMPLID: this.session.getObject('user').codigoAlumno})
       .then((res) => {
         this.queueEnroll = res.UCS_GRUPO_MAT_RES;
-        console.log(this.queueEnroll);
         this.timeOut = this.queueEnroll.onTurn;
         if(!this.timeOut) {
           this.readTurn(this.timeOut);
         }
+      });
+  }
+  
+  loadConditions(){
+    this.newEnrollmentS.checkConditions(this.session.getObject('user').codigoAlumno)
+      .then((res) => {
+        this.enroll = true;
+        this.enroll_conditions = res;
       });
   }
 
