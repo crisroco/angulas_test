@@ -50,7 +50,9 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   loadEnroll(){
     this.studentS.getEnrollQueueNumber({EMPLID: this.session.getObject('user').codigoAlumno})
       .then((res) => {
-        this.timeOut = res.UCS_GRUPO_MAT_RES.onTurn;
+        this.queueEnroll = res.UCS_GRUPO_MAT_RES;
+        console.log(this.queueEnroll);
+        this.timeOut = this.queueEnroll.onTurn;
         if(!this.timeOut) {
           this.readTurn(this.timeOut);
         }
