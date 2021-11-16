@@ -14,21 +14,6 @@ export const notice = [
         expand: true,
         full: true,
     },
-    {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Imagen%20charla%20Resiliencia%2015.11.JPG',
-        title: 'Charla: ¿Cómo afrontar una pérdida?',
-        new: true,
-        content: `Participa y aprende con nosotros a identificar y desarrollar tus recursos personales para gestionar de manera efectiva situaciones de duelo. ¡Te esperamos! Inscríbete <a target="_blank" href="https://forms.gle/vkQPhtvmLG3npqqN6">aquí</a></p>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
-        filtroInst: ['PREGR'],
-        filtroCarr: ['PFMEH'],
-        useCSV: false,
-        useCSV2: false,
-        expand: true,
-        full: true,
-    },
     // {
     //     imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/bbva-banner.jpg',
     //     title: 'El BBVA se une a la familia científica como un nuevo medio de Pago',
