@@ -13,11 +13,13 @@
 	border-radius: 5px;
 	padding: 5px;
 	display: flex;
+	align-items: center;
 	flex-direction: column;
 	color: #CCC;
 	position: absolute;
-	top: -25px;
-	left: 30px;
+	top: -35px;
+	font-size: 11px;
+	left: -5px;
 }
 td.line {
 	display: flex;

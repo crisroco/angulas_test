@@ -195,12 +195,14 @@ export class EnrollmentComponent implements OnInit {
                 ex.extra = true;
                 ex.TURNO = '';
                 ex.DIA = 'LUN';
+                ex.COMPONENTS = res[i].COMPONENTS;
                 ex.UCS_TURNO_CRSE = this.CPE?'D':'';
                 ex.COMPONENTE = el;
                 ex.HORA = hour[index];
                 this.aditionalCourses.push(ex);
               })
             } else {
+              finded.COMPONENTS = res[i].COMPONENTS;
               this.aditionalCredits += Number(finded.CREDITOS);
             }
           }
@@ -233,7 +235,7 @@ export class EnrollmentComponent implements OnInit {
   deleteAditionalCourse(crs) {
     this.loading = true;
     let toDelete = [];
-    let single = this.aditionalCourses.find(el => el.CURSO_ID == crs.CRSE_ID);
+    let single = this.aditionalCourses.find(el => el.CRSE_ID == crs.CURSO_ID || el.CURSO_ID == crs.CURSO_ID);
     single['COMPONENTS'].split('|').forEach(el => {
       toDelete.push({CRSE_ID: crs.CURSO_ID, TURNO: '', ACCION: 'B', TURNO_SEMANA: crs.UCS_TURNO_CRSE, MOTIVO: crs.MOTIVO, HORA_INICIO: crs.HORA_INICIO,
       HORA_FIN: crs.HORA_INICIO, DIA: crs.DIA, MODULO: crs.MODULO, COMPONENTE: el})
@@ -260,6 +262,8 @@ export class EnrollmentComponent implements OnInit {
     this.loading = true;
     let aditional = [];
     let lastNbr;
+    let one = [];
+    let two = [];
     for (var i = 0; i < this.aditionalCourses.length; i++) {
       if (this.aditionalCourses[i].extra && this.aditionalCourses[i].value) {
         if(!this.aditionalCourses[i]['HORA_INICIO'] && !this.aditionalCourses[i]['MOTIVO']){
@@ -274,6 +278,27 @@ export class EnrollmentComponent implements OnInit {
             this.toastT.warning('Tienes que seleccionar todos los componentes de la clase ','',{progressBar: true});
             this.loading = false;
             return
+          }
+        }
+        one = aditional.filter((el) =>(el != this.aditionalCourses[i]) && (el['DIA'] == this.aditionalCourses[i]['DIA']));
+        for (let h = 0; h < one.length; h++) {
+          if(this.aditionalCourses[i]['DIA'] == one[h]['DIA']){
+            let cross = (one[h]['HORA_INICIO'] >= this.aditionalCourses[i]['HORA_INICIO'] && one[h]['HORA_INICIO'] < this.aditionalCourses[i]['HORA_FIN']) || (one[h]['HORA_FIN'] > this.aditionalCourses[i]['HORA_INICIO'] && one[h]['HORA_FIN'] <= this.aditionalCourses[i]['HORA_FIN']);
+            if(cross){
+              this.toastT.warning('Tienes un cruce con tu solicitud','',{progressBar: true})
+              this.loading = false;
+              return
+            }
+          }
+        }
+        two = this.aditionalCourses.filter((el) => el.CURSO_ID && !el.extra);
+        for (let j = 0; j < two.length; j++) {
+          if(this.aditionalCourses[i]['DIA'] == two[j]['DIA']){
+            if((two[j]['HORA_INICIO'] >= this.aditionalCourses[i]['HORA_INICIO'] && two[j]['HORA_INICIO'] < this.aditionalCourses[i]['HORA_FIN']) || (two[j]['HORA_FIN'] > this.aditionalCourses[i]['HORA_INICIO'] && two[j]['HORA_FIN'] <= this.aditionalCourses[i]['HORA_FIN'])){
+              this.toastT.warning('Tienes un cruce con tu solicitud','',{progressBar: true})
+              this.loading = false;
+              return
+            }
           }
         }
         aditional.push({
@@ -295,7 +320,6 @@ export class EnrollmentComponent implements OnInit {
       this.toastT.warning('Tienes que seleccionar al menos un curso','', {progressBar: true});
       return;
     }
-
     this.enrollmentS.saveAditionalCourses({
       EMPLID: this.user.codigoAlumno,
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
@@ -308,6 +332,10 @@ export class EnrollmentComponent implements OnInit {
       this.loading = false;
       this.aditionalModalData(false);
     });
+  }
+
+  checkCrossesAditional(arr){
+    
   }
 
   closeOpenMonthViewDay(){
@@ -476,6 +504,22 @@ export class EnrollmentComponent implements OnInit {
       setTimeout(() => {
         crs.showEquivalents = false;
       }, 4500);
+    });
+  }
+
+  sameWeekDay(crs){
+    this.aditionalCourses.forEach((el) => {
+      if(el.CRSE_ID == crs.CRSE_ID){
+        el.UCS_TURNO_CRSE = crs.UCS_TURNO_CRSE
+      }
+    });
+  }
+
+  sameModule(crs){
+    this.aditionalCourses.forEach((el) => {
+      if(el.CRSE_ID == crs.CRSE_ID){
+        el.MODULO = crs.MODULO
+      }
     });
   }
 

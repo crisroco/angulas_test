@@ -164,13 +164,13 @@
 				      	<td class="text-left">{{course.CREDITOS?course.CREDITOS:course.UNITS_REPEAT_LIMIT | number: '1.0-0'}}</td>
 				      	<td class="text-left">{{course.MATERIA?course.MATERIA:course.SUBJECT}}  {{course.NRO_CATALOGO?course.NRO_CATALOGO:course.CATALOG_NBR}}</td>
 				      	<td *ngIf="CPE" class="text-left">
-							<select [disabled]="!course.extra" [(ngModel)]="course.UCS_TURNO_CRSE" name="turn_week" id="">
+							<select [disabled]="!course.extra" [(ngModel)]="course.UCS_TURNO_CRSE" name="turn_week" id="" (change)="sameWeekDay(course)">
 								<option value="D">Día Semana</option>
 								<option value="F">Fin Semana</option>
 							</select>
 						</td>
 						<td *ngIf="CPE" class="text-left">
-							<select [disabled]="!course.extra" [(ngModel)]="course.MODULO" name="module" id="">
+							<select [disabled]="!course.extra" [(ngModel)]="course.MODULO" name="module" id="" (change)="sameModule(course)">
 								<option value="1">MODULO</option>
 								<option value="2">MODULO2</option>
 								<option value="3">MODULO3</option>
