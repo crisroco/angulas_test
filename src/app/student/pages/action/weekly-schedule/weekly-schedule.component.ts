@@ -44,7 +44,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		"TITPR": "https://aulavirtualcpe.cientifica.edu.pe/",
 		"ECONT": "https://aulavirtualcpe.cientifica.edu.pe/",
 		"PREUN": "https://aulavirtualcpe.cientifica.edu.pe/",
-		"NEWSTRM": "https://cientificavirtual.cientifica.edu.pe/"
+		"NEWSTRM": "https://cientificavirtual-bk.cientifica.edu.pe/"
 	}
 
 	events: CalendarEvent[] = [];
