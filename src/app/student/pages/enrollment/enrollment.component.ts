@@ -160,6 +160,7 @@ export class EnrollmentComponent implements OnInit {
   }
 
   aditionalModalData(openModal){
+    this.aditionalCredits = 0;
     this.CPE = this.session.getItem('CPE');
     this.loading = true;
     this.dataEnrollment = this.session.getObject('dataEnrollment');

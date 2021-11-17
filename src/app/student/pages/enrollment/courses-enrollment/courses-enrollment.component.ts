@@ -156,7 +156,7 @@ export class CoursesEnrollmentComponent implements OnInit {
       this.deleteConfirmationModal.close();
       this.session.destroy('notInAditional');
       this.loadInPS();
-      this.toastS.warning('Cursos Removidos');
+      this.toastS.warning('Cursos Removidos','',{progressBar: true});
     });
   }
 
