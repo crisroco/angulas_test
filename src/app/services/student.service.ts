@@ -15,6 +15,7 @@ export class StudentService {
     public showdocLoad = new Subject<boolean>();
     public setupdatemodal = new Subject<boolean>();
     public showMatricula = new Subject<boolean>();
+    public showScheduleLogin = new Subject<boolean>();
     public showAcademic = new Subject<boolean>();
     public showFinancial = new Subject<boolean>();
     public showMenu = new Subject<boolean>();
@@ -93,6 +94,14 @@ export class StudentService {
 
     public setShowMatricula(data: boolean) {
         this.showMatricula.next(data);
+    }
+
+    public setShowScheduleModal(data:boolean){
+        this.showScheduleLogin.next(data);
+    }
+
+    public getShowScheduleModal(){
+        return this.showScheduleLogin.asObservable();
     }
 
     public setAcademicModal(data: boolean) {

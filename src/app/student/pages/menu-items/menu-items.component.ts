@@ -100,6 +100,10 @@ export class MenuItemsComponent implements OnInit, OnChanges {
     this.studentS.setShowMatricula(true);
   }
 
+  showScheduleModal(){
+    this.studentS.setShowScheduleModal(true);
+  }
+
   openModal(type, ready){
     if(type == 'A'){
       this.studentS.setAcademicModal(ready);

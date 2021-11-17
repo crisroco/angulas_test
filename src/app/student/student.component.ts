@@ -515,6 +515,12 @@ export class StudentComponent implements OnInit {
 			}
 		);
 
+		this.studentS.getShowScheduleModal().subscribe(
+			resp => {
+				this.showEnrollmentSchedule();
+			}
+		);
+
 		if (!this.user) {
 			this.router.navigate(['/login']);
 		}
@@ -1202,7 +1208,7 @@ export class StudentComponent implements OnInit {
 							}
 						}
 						objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.push(item.CRSE_ID, item.CRSE_ID2, item.CRSE_ID3, item.CRSE_ID4, item.CRSE_ID5, item.CRSE_ID6);
-						objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id = objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.filter(el => el != '');
+						objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id = objCycles[item.UCS_CICLO].courses[item.DESCR].courses_id.filter(el => el != '' && el != null);
 					});
 					electiveData.forEach((it) => {
 						if (!objCycles['E']) {
@@ -1222,7 +1228,7 @@ export class StudentComponent implements OnInit {
 							}
 						}
 						objCycles['E'].courses[it.DESCR].courses_id.push(it.CRSE_ID, it.CRSE_ID2, it.CRSE_ID3, it.CRSE_ID4, it.CRSE_ID5, it.CRSE_ID6);
-						objCycles['E'].courses[it.DESCR].courses_id = objCycles['E'].courses[it.DESCR].courses_id.filter(el => el != '');
+						objCycles['E'].courses[it.DESCR].courses_id = objCycles['E'].courses[it.DESCR].courses_id.filter(el => el != '' && el != null);
 					});
 					this.enrollCycles = [];
 					for (var kcycle in objCycles) {
@@ -1342,8 +1348,6 @@ export class StudentComponent implements OnInit {
 						STRM: activeData.STRM
 					}).then((res) => {
 						schedules.push(...res);
-
-						// schedules.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
 						if (i == obj.courses_id.length - 1) {
 							obj.schedule = schedules;
 							obj.isOpen = !obj.isOpen;

@@ -64,7 +64,9 @@ export class DashboardComponent implements OnInit {
     FLAG_ACADEMICO: '',
     FLAG_FINANCIERO: ''
   };
-  queueEnroll: any;
+  queueEnroll: any = {
+    turnText: ''
+  };
   showwsp: boolean = false;
   fidelityLink: any = '';
   imagesAcadConditions = new Array(35);
@@ -204,21 +206,19 @@ export class DashboardComponent implements OnInit {
     );
     this.studentS.getAcademicModal().subscribe(
       r => {
-        console.log(r);
         this.enroll_conditions.FLAG_ACADEMICO = r;
         this.AcademicConditionModal.open();
       }
     );
     this.studentS.getFinancialModal().subscribe(
       r => {
-        console.log(r);
         this.enroll_conditions.FLAG_FINANCIERO = r;
         this.FinancialConditionModal.open();
       }
     )
 
-    
-    // this.readConditions();
+    this.setRealDateEnroll('');
+    this.readConditions();
     var ese = new Array(4);
     //this.matriculaExtracurricularModal.open();
   }
@@ -545,10 +545,8 @@ export class DashboardComponent implements OnInit {
   }
 
   readConditions() {
-
     this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
       .then((res) => {
-
         this.enroll = true;
         this.enroll_conditions = res;
       });
@@ -597,18 +595,18 @@ export class DashboardComponent implements OnInit {
       }, error => { });
   }
 
-  // setRealDateEnroll(turn) {
-  //   this.timeoutEnroll = !turn.onTurn;
-  //   setTimeout(() => {
-  //     if (this.timeoutEnroll) {
-  //       this.studentS.getEnrollQueueNumber({ EMPLID: this.user.codigoAlumno })
-  //         .then((res) => {
-  //           this.queueEnroll.onTurn = res.UCS_GRUPO_MAT_RES.onTurn;
-  //           this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
-  //         });
-  //     }
-  //   }, 120000);
-  // }
+  setRealDateEnroll(turn) {
+    this.timeoutEnroll = !turn.onTurn;
+    setTimeout(() => {
+      if (this.timeoutEnroll) {
+        this.studentS.getEnrollQueueNumber({ EMPLID: this.user.codigoAlumno })
+          .then((res) => {
+            this.queueEnroll.onTurn = res.UCS_GRUPO_MAT_RES.onTurn;
+            this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
+          });
+      }
+    }, 120000);
+  }
 
   saveConditions(flag, modal) {
     this.loading = true;
@@ -922,5 +920,13 @@ export class DashboardComponent implements OnInit {
           this.toastr.error('Hubo un error al actualizar');
         }
       })
+  }
+
+  openModal(type, ready){
+    if(type == 'A'){
+      this.studentS.setAcademicModal(ready);
+    } else {
+      this.studentS.setFinancialModal(ready);
+    }
   }
 }
