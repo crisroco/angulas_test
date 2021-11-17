@@ -1,8 +1,23 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/respuesta-ansiedad.jpg',
+        title: 'Charla: Tips de respuesta a la ansiedad y depresión',
+        new: true,
+        content: `Participa y potencia el aprendizaje de las herramientas para afrontar situaciones de angustia o crisis que podrían generarse a lo largo de la vida académica. ¡Te esperamos! Inscríbete <a target="_blank" href="https://forms.gle/fSzNEf7VngQKPqUt5 ">aquí</a>`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: ['PREGR'],
+        filtroCarr: ['PFMEH'],
+        useCSV: false,
+        useCSV2: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Arte%20Encuesta_CPE-M2_Modificado.jpg',
         title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2 – Módulo 2',
-        new: true,
+        new: false,
         content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes completando la <a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank">Encuesta de Evaluación del Desempeño Docente en clase 2021-2 del Módulo 2 </a>, mediante la cual recogeremos tus apreciaciones con respecto a la labor que realizan. Recuerda que esta encuesta es confidencial y anónima. Tu participación en este proceso es importante, por ello apelamos al compromiso con tu educación y te pedimos realizar esta evaluación con total honestidad y conciencia, pues los resultados nos permitirán asegurar la calidad de tus cursos y docentes. ¡Contamos contigo!`,
         limit: (content)=>{
             return content.length>500? content.substring(0,500)+'...': content; 
