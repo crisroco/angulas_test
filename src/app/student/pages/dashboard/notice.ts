@@ -20,14 +20,14 @@ export const notice = [
         new: false,
         content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes completando la <a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank">Encuesta de Evaluación del Desempeño Docente en clase 2021-2 del Módulo 2 </a>, mediante la cual recogeremos tus apreciaciones con respecto a la labor que realizan. Recuerda que esta encuesta es confidencial y anónima. Tu participación en este proceso es importante, por ello apelamos al compromiso con tu educación y te pedimos realizar esta evaluación con total honestidad y conciencia, pues los resultados nos permitirán asegurar la calidad de tus cursos y docentes. ¡Contamos contigo!`,
         limit: (content)=>{
-            return content.length>500? content.substring(0,500)+'...': content; 
+            return content.length>330? content.substring(0,330)+'...': content; 
         },
         filtroInst: ['ALL'],
         filtroCarr: ['ALL'],
         useCSV: true,
         useCSV2: false,
-        expand: true,
-        full: true,
+        expand: false,
+        full: false,
     },
     // {
     //     imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/bbva-banner.jpg',
