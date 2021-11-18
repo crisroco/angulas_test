@@ -179,13 +179,7 @@
 						</td>
 						<td class="text-left">
 				      		<select [disabled]="!course.extra" [(ngModel)]="course.DIA" name="day" id="">
-				      			<option value="LUN">LUNES</option>
-				      			<option value="MAR">MARTES</option>
-				      			<option value="MIE">MIERCOLES</option>
-								<option value="JUE">JUEVES</option>
-								<option value="VIE">VIERNES</option>
-								<option value="SAB">SABADO</option>
-								<option value="DOM">DOMINGO</option>
+								<option *ngFor="let day of course.DAYS" value="{{ day.val }}">{{day.name}}</option>
 							</select>
 				      	</td>
 						<td class="text-left">

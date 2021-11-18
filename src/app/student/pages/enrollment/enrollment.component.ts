@@ -33,6 +33,7 @@ export class EnrollmentComponent implements OnInit {
   user: any = this.session.getObject('user');
   student: any = this.session.getObject('student');
   public motives:Array<any> = [{name: '1', descr: 'Motivo1'},{name: '2', descr: 'Motivo2'},{name: '3', descr: 'Motivo3'},{name: '4', descr: 'Motivo4'}];
+  public days:Array<any> = [{val: 'LUN',name:'LUNES', type: 'D'},{val: 'MAR',name:'MARTES', type: 'D'},{val: 'MIE',name:'MIERCOLES', type: 'D'},{val: 'JUE',name:'JUEVES', type: 'D'},{val: 'VIE',name:'VIERNES', type: 'A'},{val: 'SAB',name:'SABADO', type: 'F'},{val: 'DOM',name:'DOMINGO', type: 'F'}];
   public hoursAditionalCourses:Array<any> = [
     {
       type: 'PREG',
@@ -200,6 +201,7 @@ export class EnrollmentComponent implements OnInit {
                 ex.UCS_TURNO_CRSE = this.CPE?'D':'';
                 ex.COMPONENTE = el;
                 ex.HORA = hour[index];
+                ex.DAYS = this.CPE?this.days.filter(el => el.type != 'F'):this.days;
                 this.aditionalCourses.push(ex);
               })
             } else {
@@ -511,6 +513,7 @@ export class EnrollmentComponent implements OnInit {
   sameWeekDay(crs){
     this.aditionalCourses.forEach((el) => {
       if(el.CRSE_ID == crs.CRSE_ID){
+        el.DAYS = this.days.filter(el => el.type == crs.UCS_TURNO_CRSE || el.type == 'A');
         el.UCS_TURNO_CRSE = crs.UCS_TURNO_CRSE
       }
     });
