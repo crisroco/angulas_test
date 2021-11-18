@@ -228,16 +228,16 @@ export class StudentService {
         return this.http.get("assets/students.json").toPromise();
     }
 
-    public getListOfInterStudentsJson(): Promise<any> {
-        return this.http.get("assets/inter_students.json").toPromise();
+    public async getListOfInterStudentsJson(): Promise<any> {
+        return await this.http.get("assets/inter_students.json").toPromise();
     }
 
-    public medicineStudents(): Promise<any> {
-        return this.http.get("assets/medicine_students.json").toPromise();
+    public async PREGRADOStudents(): Promise<any> {
+        return await this.http.get("assets/pregrado_students.json").toPromise();
     }
 
-    public CPEStudents(): Promise<any> {
-        return this.http.get("assets/cpe_students.json").toPromise();
+    public async CPEStudents(): Promise<any> {
+        return await this.http.get("assets/cpe_students.json").toPromise();
     }
 
     public PREStudents(): Promise<any> {

@@ -21,6 +21,7 @@ import { phrases } from './phrases';
 // import * as moment from 'moment';
 import * as moment from 'moment-timezone';
 import { Gtag } from 'angular-gtag';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-dashboard',
@@ -146,39 +147,43 @@ export class DashboardComponent implements OnInit {
       }
       else if(message && message.Inst){
         this.studentS.getDataStudent({ email: this.user.email })
-        .then(res => {
+        .then(async res => {
           this.student = res.UcsMetodoDatosPersRespuesta;
           this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
           this.session.setObject('student', this.student);
           let temp = this.session.getObject('AllInst').map(el => { return el.institucion });
           let temp2 = this.session.getObject('AllInst').map(el => { return el.codigoPrograma });
-          this.realNotices.map((el) => {
+          for (const el of this.realNotices) {
             if(el.useCSV){
-              this.studentS.getListOfStudentsJson()
-                .then((res) => {
-                  if (res.find(emp => emp == this.user.codigoAlumno)) {
-                    el.filtroInst.push('ALL');
-                    el.filtroCarr.push('ALL');
-                  }
-                });
+              let listStudents = await this.studentS.getListOfStudentsJson();
+              if (listStudents.find(emp => emp == this.user.codigoAlumno)) {
+                el.filtroInst.push('ALL');
+                el.filtroCarr.push('ALL');
+              }
             }
             if(el.useCSV2){
-              this.studentS.medicineStudents()
-                .then((res) => {
-                  if (res.find(emp => emp == this.user.codigoAlumno)) {
-                    el.filtroInst.push('ALL');
-                    el.filtroCarr.push('ALL');
-                  }
-                });
+              let cpeStudents = await this.studentS.CPEStudents();
+              if (cpeStudents.find(emp => emp == this.user.codigoAlumno)) {
+                console.log('A')
+                el.filtroInst.push('ALL');
+                el.filtroCarr.push('ALL');
+              }
+            }
+            if(el.useCSV3){
+              let pregradoStudent = await this.studentS.PREGRADOStudents();
+              if (pregradoStudent.find(emp => emp == this.user.codigoAlumno)) {
+                console.log('B')
+                el.filtroInst.push('ALL');
+                el.filtroCarr.push('ALL');
+              }
             }
             if((el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr[0] == 'ALL') || (el.filtroInst[0] == 'ALL' && el.filtroCarr.some(r => temp2.indexOf(r) >= 0)) || (el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr.some(r => temp2.indexOf(r) >= 0))) {
               el['finallShow'] = true;
             }
-          });
+          }
           // console.log(this.realNotices);
-          setTimeout(() => {
-            this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
-          }, 1000);
+          this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
+          // console.log(this.notice)
         });
       }
     });

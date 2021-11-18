@@ -1,5 +1,37 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/intencion-matricula.jpg',
+        title: 'INTENCIÓN DE MATRÍCULA VERANO 2022',
+        new: true,
+        content: `¡Hola! Pronto iniciará la Intención de Matrícula-Verano 2022. Te invitamos a revisar el siguiente <a target="_blank" href="https://bit.ly/30HTxTH">link</a> con toda la información necesaria.`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: [],
+        filtroCarr: [],
+        useCSV: false,
+        useCSV2: true,
+        useCSV3: false,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/intencion-matricula.jpg',
+        title: 'INTENCIÓN DE MATRÍCULA VERANO 2022',
+        new: true,
+        content: `¡Hola! Pronto iniciará la Intención de Matrícula-Verano 2022. Te invitamos a revisar el siguiente <a target="_blank" href="https://bit.ly/3qOOFH8">link</a> con toda la información necesaria.`,
+        limit: (content)=>{
+            return content.length>333? content.substring(0,333)+'...': content; 
+        },
+        filtroInst: [],
+        filtroCarr: [],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: true,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/respuesta-ansiedad.jpg',
         title: 'Charla: Tips de respuesta a la ansiedad y depresión',
         new: true,
@@ -11,6 +43,7 @@ export const notice = [
         filtroCarr: ['PFMEH'],
         useCSV: false,
         useCSV2: false,
+        useCSV3: false,
         expand: true,
         full: true,
     },
@@ -22,10 +55,11 @@ export const notice = [
         limit: (content)=>{
             return content.length>330? content.substring(0,330)+'...': content; 
         },
-        filtroInst: ['ALL'],
-        filtroCarr: ['ALL'],
+        filtroInst: [],
+        filtroCarr: [],
         useCSV: true,
         useCSV2: false,
+        useCSV3: false,
         expand: false,
         full: false,
     },
@@ -119,6 +153,7 @@ export const notice = [
         filtroCarr: ['ALL'],
         useCSV: false,
         useCSV2: false,
+        useCSV3: false,
         expand: true,
         full: true,
     }
