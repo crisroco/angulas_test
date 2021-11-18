@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SessionService } from '../services/session.service';
@@ -54,7 +54,7 @@ import { HttpConfigInterceptor } from '../services/httpconfig.interceptor';
 	]
 })
 
-export class StudentComponent implements OnInit {
+export class StudentComponent implements OnInit, OnDestroy {
 	showCartilla = false;
 	showDeclaracion = false;
 	showExoneracion = false;
@@ -1930,5 +1930,7 @@ export class StudentComponent implements OnInit {
 				}
 			}, error => { });
 	}
-
+	ngOnDestroy() {
+		this.crossdata.unsubscribe();
+	}
 }

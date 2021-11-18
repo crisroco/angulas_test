@@ -13,7 +13,7 @@
         <strong class="text-dark">{{data.title}} <span *ngIf="data.new" class="new_notice">NUEVO</span></strong>
         <div *ngIf="!data.expand" class="content-event text-justify mb-0 mt-1">
           <!-- {{data.limit(data.content)}} -->
-          <div [innerHTML]="data.limit(data.content)"></div>
+          <div [innerHTML]="data.limit"></div>
           <label (click)="showMore(i)" *ngIf="data.content?.length>300 && !data.full" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver más

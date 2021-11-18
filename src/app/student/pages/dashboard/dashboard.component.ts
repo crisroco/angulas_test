@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -29,7 +29,7 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./dashboard.component.scss']
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('SurveyModal') SurveyModal: any;
   @ViewChild('SurveyModal2') SurveyModal2: any;
   @ViewChild('AcademicConditionModal') AcademicConditionModal: any;
@@ -124,12 +124,17 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   public notice:any[] = [];
-  public realNotices = notice;
+  public realNotices = [];
   public course: any[] = [];
   public loadCourse: boolean = false;
   public dataObsStudent:any[] = [];
 
   ngOnInit() {
+    this.realNotices = JSON.parse(JSON.stringify(notice));
+    for (const note of this.realNotices) {
+      console.log(note)
+      note.limit =  note.content.length>330 ? note.content.substring(0,330) + '...' : note.content;
+    }
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       // if (message && message.enroll_conditions) {
       //   this.enroll_conditions = message.enroll_conditions;
@@ -164,7 +169,7 @@ export class DashboardComponent implements OnInit {
             if(el.useCSV2){
               let cpeStudents = await this.studentS.CPEStudents();
               if (cpeStudents.find(emp => emp == this.user.codigoAlumno)) {
-                console.log('A')
+                console.log('A');
                 el.filtroInst.push('ALL');
                 el.filtroCarr.push('ALL');
               }
@@ -172,7 +177,7 @@ export class DashboardComponent implements OnInit {
             if(el.useCSV3){
               let pregradoStudent = await this.studentS.PREGRADOStudents();
               if (pregradoStudent.find(emp => emp == this.user.codigoAlumno)) {
-                console.log('B')
+                console.log('B');
                 el.filtroInst.push('ALL');
                 el.filtroCarr.push('ALL');
               }

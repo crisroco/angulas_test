@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Broadcaster } from '../../../services/broadcaster';
 import { Router } from '@angular/router';
 import { NewEnrollmentService } from '../../../services/newenrollment.service';
@@ -15,7 +15,7 @@ import * as moment from 'moment-timezone';
   templateUrl: './enrollment.component.html',
   styleUrls: ['./enrollment.component.scss']
 })
-export class EnrollmentComponent implements OnInit {
+export class EnrollmentComponent implements OnInit, OnDestroy {
 	crossdata: any;
   @ViewChild('schedulePreview') schedulePreview: any;
   @ViewChild('aditionalCoursesModal') aditionalCoursesModal: any;
@@ -396,5 +396,8 @@ export class EnrollmentComponent implements OnInit {
 		end = DateFixedSO(rDay, MEETING_TIME_END);
 		return { start, end };
 	}
-
+  
+  ngOnDestroy() {
+    this.crossdata.unsubscribe();
+  }
 }

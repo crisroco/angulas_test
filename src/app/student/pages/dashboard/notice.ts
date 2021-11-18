@@ -4,9 +4,6 @@ export const notice = [
         title: 'INTENCIÓN DE MATRÍCULA VERANO 2022',
         new: true,
         content: `¡Hola! Pronto iniciará la Intención de Matrícula-Verano 2022. Te invitamos a revisar el siguiente <a target="_blank" href="https://bit.ly/30HTxTH">link</a> con toda la información necesaria.`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
         filtroInst: [],
         filtroCarr: [],
         useCSV: false,
@@ -20,9 +17,6 @@ export const notice = [
         title: 'INTENCIÓN DE MATRÍCULA VERANO 2022',
         new: true,
         content: `¡Hola! Pronto iniciará la Intención de Matrícula-Verano 2022. Te invitamos a revisar el siguiente <a target="_blank" href="https://bit.ly/3qOOFH8">link</a> con toda la información necesaria.`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
         filtroInst: [],
         filtroCarr: [],
         useCSV: false,
@@ -36,9 +30,6 @@ export const notice = [
         title: 'Charla: Tips de respuesta a la ansiedad y depresión',
         new: true,
         content: `Participa y potencia el aprendizaje de las herramientas para afrontar situaciones de angustia o crisis que podrían generarse a lo largo de la vida académica. ¡Te esperamos! Inscríbete <a target="_blank" href="https://forms.gle/fSzNEf7VngQKPqUt5 ">aquí</a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
         filtroInst: ['PREGR'],
         filtroCarr: ['PFMEH'],
         useCSV: false,
@@ -52,9 +43,6 @@ export const notice = [
         title: 'Encuesta de Evaluación del Desempeño docente en Clase 2021-2 – Módulo 2',
         new: false,
         content: `Estimado estudiante, te invitamos a ser parte de la evaluación de tus docentes completando la <a href="https://sedd.cientifica.edu.pe/login/ingresar" target="_blank">Encuesta de Evaluación del Desempeño Docente en clase 2021-2 del Módulo 2 </a>, mediante la cual recogeremos tus apreciaciones con respecto a la labor que realizan. Recuerda que esta encuesta es confidencial y anónima. Tu participación en este proceso es importante, por ello apelamos al compromiso con tu educación y te pedimos realizar esta evaluación con total honestidad y conciencia, pues los resultados nos permitirán asegurar la calidad de tus cursos y docentes. ¡Contamos contigo!`,
-        limit: (content)=>{
-            return content.length>330? content.substring(0,330)+'...': content; 
-        },
         filtroInst: [],
         filtroCarr: [],
         useCSV: true,
@@ -68,9 +56,6 @@ export const notice = [
     //     title: 'El BBVA se une a la familia científica como un nuevo medio de Pago',
     //     new: false,
     //     content: `Hola te invitamos a revisar esta importante información en el siguiente <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/comunicado-bbva.pdf">link</a>`,
-    //     limit: (content)=>{
-    //         return content.length>333? content.substring(0,333)+'...': content; 
-    //     },
     //     filtroInst: ['ALL'],
     //     filtroCarr: ['ALL'],
     //     useCSV: false,
@@ -83,9 +68,6 @@ export const notice = [
     //     title: 'Charla: El arte de aceptarse',
     //     new: false,
     //     content: `Participa en un maravilloso encuentro contigo mismo y aprende con nosotros a identificar y potenciar tus características personales para vivir de una manera integrada y plena. ¡Te esperamos!. Inscríbete <a target="_blank" href="https://forms.gle/L8Sq9tHADHi4wSt49">aquí</a></p>`,
-    //     limit: (content)=>{
-    //         return content.length>333? content.substring(0,333)+'...': content; 
-    //     },
     //     filtroInst: ['PREGR'],
     //     filtroCarr: ['PFMEH'],
     //     useCSV: false,
@@ -101,9 +83,6 @@ export const notice = [
 // <p class="m-0">Muéstranos tu talento artístico en un TikTok en una noche de talentos moderna. Vamos a divertirnos jugando a ser médicos con los simuladores y pondremos a prueba nuestros conocimientos en una trivia académica. ¡Te esperamos!</p>
 // <p class="m-0">Bases del concurso en el siguiente enlace: <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/medicina/evento-semana-medicina-bases.pf">Link de las bases</a></p>
 // <p class="m-0">Inscribe a tu equipo en el siguiente enlace: <a target="_blank" href="https://forms.office.com/Pages/ResponsePage.aspx?id=EM3epWWRNkamTHlYAEIV-qsRmH0SHCNOl5DlSkBK9RNUNVZQUjRGRFlNNlpUTDc3VTJTRVZNWlhQUi4u&wdLOR=cDAC192C5-C5EB-4818-8EF8-65CDB0A5FCEC">Link de inscripción</a></p>`,
-//         limit: (content)=>{
-//             return content.length>333? content.substring(0,333)+'...': content; 
-//         },
 //         filtroInst: ['PREGR'],
 //         filtroCarr: ['PFMEH'],
 //         useCSV: false,
@@ -116,9 +95,6 @@ export const notice = [
 //         title: 'Conversatorio: Historias de éxito, ¿por qué amo la Medicina Humana? ',
 //         new: true,
 //         content: `Participa y conoce la historia de Gabriela, una egresada de Medicina Humana en UCSUR, quien al igual que tú, empezó con la misma pasión y ahora construye un mundo mejor. ¡Te esperamos!. Inscríbete aquí: <a target="_blank" href="https://forms.gle/ihqWqn38PzA3YAoB9">https://forms.gle/ihqWqn38PzA3YAoB9</a>`,
-//         limit: (content)=>{
-//             return content.length>333? content.substring(0,333)+'...': content; 
-//         },
 //         filtroInst: ['PREGR'],
 //         filtroCarr: ['PFMEH'],
 //         useCSV: false,
@@ -131,9 +107,6 @@ export const notice = [
     //     title: 'Participa en el Impact Startup Competition',
     //     new: false,
     //     content: `El área de emprendimiento y el comité local están organizando el Impact Startup Competition Ucsur, programa para fomentar emprendimientos que apoyen a los objetivos de desarrollo sostenibles. Se darán horas extracurriculares. <a href="https://sites.google.com/view/iscucsur/inicio">Más info aquí.</a>`,
-    //     limit: (content)=>{
-    //         return content.length>333? content.substring(0,333)+'...': content; 
-    //     },
     //     filtroInst: ['PREGR', 'CPE'],
     //     filtroCarr: ['ALL'],
     //     useCSV: false,
@@ -146,9 +119,6 @@ export const notice = [
         title: 'COMUNICADO CLASES PRESENCIALES 2022-1',
         new: false,
         content: `Invocamos a todos nuestros estudiantes a leer este importante comunicado de la Universidad. <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/Comunicado%20CLASES%20PRESENCIALES%202022%20Vfinal.pdf">Ver comunicado</a>`,
-        limit: (content)=>{
-            return content.length>333? content.substring(0,333)+'...': content; 
-        },
         filtroInst: ['ALL'],
         filtroCarr: ['ALL'],
         useCSV: false,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Broadcaster } from '../../../services/broadcaster';
 import { SessionService } from '../../../services/session.service';
 import { NewEnrollmentService } from '../../../services/newenrollment.service';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './action.component.html',
   styleUrls: ['./action.component.scss']
 })
-export class ActionComponent implements OnInit {
+export class ActionComponent implements OnInit, OnDestroy {
 	crossdata: any;
 	enrollTab: any;
 	user:any;
@@ -44,4 +44,7 @@ export class ActionComponent implements OnInit {
 			});
 	}
 
+	ngOnDestroy() {
+		this.crossdata.unsubscribe();
+	}
 }

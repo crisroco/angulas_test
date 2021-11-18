@@ -10,7 +10,7 @@
       <div class="ml-lg-3">
         <strong class="text-dark">{{data.title}}</strong>
         <p *ngIf="!data.expand" class="content-event text-justify mb-0">
-          {{data.limit(data.content)}}
+          {{data.limit}}
           <label (click)="showMore(i)" *ngIf="data.content?.length>150 && !data.expand" style="cursor: pointer;"
             class="text-ucs text-underline mb-0">
             ver más
