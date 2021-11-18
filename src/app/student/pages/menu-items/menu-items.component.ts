@@ -48,7 +48,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.loadEnroll();
-    this.loadConditions();
+    // this.loadConditions();
   }
 
 

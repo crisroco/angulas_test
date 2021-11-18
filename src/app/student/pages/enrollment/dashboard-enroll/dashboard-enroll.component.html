@@ -15,11 +15,11 @@
 				  	</thead>
 				  	<tbody>
 						<ng-container *ngFor="let course of availableCourses; let i = 'index'">
-							<!-- <tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[0].FLAG == 'A' && i == 0">
+							<tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[0].FLAG == 'A' && i == 0">
 								<td colspan="5">
 									Materias en Curso
 								</td>
-							</tr> -->
+							</tr>
 							<tr class="text-s">
 								<ng-container>
 									<td class="text-left">
@@ -34,11 +34,11 @@
 									  <td>{{course.UCS_CICLO}}</td>
 								</ng-container>
 							</tr>
-							<!-- <tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[i].FLAG == 'N' && availableCourses[i+1].FLAG == 'A'">
+							<tr class="spacer" *ngIf="(numberofExtra > 0) && availableCourses[i].FLAG == 'N' && availableCourses[i+1].FLAG == 'A'">
 								<td colspan="5">
 									Materias en Curso
 								</td>
-							</tr> -->
+							</tr>
 						</ng-container>
 				  	</tbody>
 				</table>

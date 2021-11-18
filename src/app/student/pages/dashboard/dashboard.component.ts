@@ -139,9 +139,9 @@ export class DashboardComponent implements OnInit {
         this.enroll_conditions = message.enroll_conditions;
       }
       if (message && message.queueEnroll) {
-        // this.queueEnroll = message.queueEnroll;
-        // this.setRealDateEnroll(this.queueEnroll);
-        // this.readConditions();
+        this.queueEnroll = message.queueEnroll;
+        this.setRealDateEnroll(this.queueEnroll);
+        this.readConditions();
       }
       else if (message && message.enroll) {
         this.enroll = message.enroll;
@@ -217,8 +217,8 @@ export class DashboardComponent implements OnInit {
       }
     )
 
-    this.setRealDateEnroll('');
-    this.readConditions();
+    // this.setRealDateEnroll(false);
+    // this.readConditions();
     var ese = new Array(4);
     //this.matriculaExtracurricularModal.open();
   }
@@ -601,7 +601,8 @@ export class DashboardComponent implements OnInit {
       if (this.timeoutEnroll) {
         this.studentS.getEnrollQueueNumber({ EMPLID: this.user.codigoAlumno })
           .then((res) => {
-            this.queueEnroll.onTurn = res.UCS_GRUPO_MAT_RES.onTurn;
+            console.log(res);
+            this.queueEnroll = res.UCS_GRUPO_MAT_RES;
             this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
           });
       }
