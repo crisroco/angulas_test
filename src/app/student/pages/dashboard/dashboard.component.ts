@@ -132,7 +132,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.realNotices = JSON.parse(JSON.stringify(notice));
     for (const note of this.realNotices) {
-      console.log(note)
       note.limit =  note.content.length>330 ? note.content.substring(0,330) + '...' : note.content;
     }
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
@@ -169,7 +168,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             if(el.useCSV2){
               let cpeStudents = await this.studentS.CPEStudents();
               if (cpeStudents.find(emp => emp == this.user.codigoAlumno)) {
-                console.log('A');
+                // console.log('A');
                 el.filtroInst.push('ALL');
                 el.filtroCarr.push('ALL');
               }
@@ -177,7 +176,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             if(el.useCSV3){
               let pregradoStudent = await this.studentS.PREGRADOStudents();
               if (pregradoStudent.find(emp => emp == this.user.codigoAlumno)) {
-                console.log('B');
+                // console.log('B');
                 el.filtroInst.push('ALL');
                 el.filtroCarr.push('ALL');
               }

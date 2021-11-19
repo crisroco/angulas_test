@@ -248,7 +248,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/INTENCION_MATRICULA_2022_1.pdf',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/CALENDARIO%20INTENCI%C3%93N%20DE%20MATR%C3%8DCULA%202022-1.pdf',
 					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2022-1'
 				},
 				{
@@ -284,7 +284,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_INTENCION_MATRICULA_2022_1.pdf',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/CALENDARIO%20INTENCI%C3%93N%20DE%20MATR%C3%8DCULA%202022-1.pdf',
 					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2022-1'
 				},
 				{
