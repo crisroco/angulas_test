@@ -181,6 +181,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 el.filtroCarr.push('ALL');
               }
             }
+            if(el.useCSV4){
+              let student = await this.studentS.BBDDCesPre();
+              if (student.find(emp => emp == this.user.codigoAlumno)) {
+                // console.log('B');
+                el.filtroInst.push('ALL');
+                el.filtroCarr.push('ALL');
+              }
+            }
+            if(el.useCSV5){
+              let student = await this.studentS.BBDDBibliotecaPre();
+              if (student.find(emp => emp == this.user.codigoAlumno)) {
+                // console.log('B');
+                el.filtroInst.push('ALL');
+                el.filtroCarr.push('ALL');
+              }
+            }
+            if(el.useCSV6){
+              let student = await this.studentS.BBDDMatriculaPre();
+              if (student.find(emp => emp == this.user.codigoAlumno)) {
+                // console.log('B');
+                el.filtroInst.push('ALL');
+                el.filtroCarr.push('ALL');
+              }
+            }
+            if(el.useCSV7){
+              let student = await this.studentS.BBDDPosCes();
+              if (student.find(emp => emp == this.user.codigoAlumno)) {
+                // console.log('B');
+                el.filtroInst.push('ALL');
+                el.filtroCarr.push('ALL');
+              }
+            }
+            if(el.useCSV8){
+              let student = await this.studentS.BBDDPosMatricula();
+              if (student.find(emp => emp == this.user.codigoAlumno)) {
+                // console.log('B');
+                el.filtroInst.push('ALL');
+                el.filtroCarr.push('ALL');
+              }
+            }
             if((el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr[0] == 'ALL') || (el.filtroInst[0] == 'ALL' && el.filtroCarr.some(r => temp2.indexOf(r) >= 0)) || (el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr.some(r => temp2.indexOf(r) >= 0))) {
               el['finallShow'] = true;
             }

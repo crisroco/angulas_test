@@ -240,6 +240,26 @@ export class StudentService {
         return await this.http.get("assets/cpe_students.json").toPromise();
     }
 
+    public async BBDDBibliotecaPre(): Promise<any> {
+        return await this.http.get("assets/bbdd-biblioteca-pre.json").toPromise();
+    }
+
+    public async BBDDCesPre(): Promise<any> {
+        return await this.http.get("assets/bbdd-ces-pre.json").toPromise();
+    }
+
+    public async BBDDMatriculaPre(): Promise<any> {
+        return await this.http.get("assets/bbdd-matricula-pre.json").toPromise();
+    }
+
+    public async BBDDPosCes(): Promise<any> {
+        return await this.http.get("assets/bbdd-pos-ces.json").toPromise();
+    }
+
+    public async BBDDPosMatricula(): Promise<any> {
+        return await this.http.get("assets/bbdd-pos-matricula.json").toPromise();
+    }
+
     public PREStudents(): Promise<any> {
         return this.http.get("assets/pre_students.json").toPromise();
     }
