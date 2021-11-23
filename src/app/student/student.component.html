@@ -397,7 +397,8 @@
                 <div [@openClose]="cycles.isOpen ? 'open' : 'closed'" class="pd-3">
                     <div class="rounded-s bd-1 mb-3 overflow-hidden bd-gray" *ngFor="let course of cycles.courses">
                         <div (click)="toggle(course)" class="bg-gray p-2 pointer">
-                            <strong> Curso: {{course.name}} - {{course.type}} </strong>
+                            <strong> Curso: {{course.name}}</strong>
+                            <!-- <strong> Curso: {{course.name}} - {{course.type}} </strong> -->
                         </div>
                         <div [@openClose]="course.isOpen ? 'open' : 'closed'" class="pd-2">
                             <div class="scroll h-auto">
