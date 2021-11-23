@@ -31,12 +31,12 @@
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula Extracurricular</span>
   </a>
-  <div class="menu">
+  <div *ngIf="widthMenu!=72" class="menu">
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Reserva Matrícula</span>
     <i class="arrow fa fa-chevron-down" aria-hidden="true"></i>
   </div>
-  <div class="item-sub">
+  <div *ngIf="widthMenu!=72" class="item-sub">
     <ul>
       <li (click)="showScheduleModal()">
         Consultar Horarios
@@ -46,4 +46,38 @@
       </li> -->
     </ul>
   </div>
-</div>
+  <a class="menu" *ngIf="(timeOut && showMatri) && widthMenu==72" (click)="goEnrollment()">
+    <img src="./assets/img/matricula.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Reserva Matrícula</span>
+  </a>
+  <!-- <a *ngIf="timeOut && showMatri" class="menu" (click)="goEnrollment()">
+    <img src="./assets/img/matricula.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Reserva Matrícula</span>
+  </a> -->
+
+<!-- <div *ngIf="queueEnroll" class="data-enroll text-{{!queueEnroll.turnText?'red':(queueEnroll.onTurn?'green':'red')}}">
+  <p class="m-0">{{queueEnroll.turnText?queueEnroll.turnText:'Aún no tienes Turno de Matricula'}}</p>
+  <div class="row justify-content-center align-items-center mb-2 mt-4">
+    <div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="openModal('A',enroll_conditions.FLAG_ACADEMICO)">
+      <i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
+      <div class="bg-black text-white p-2 text-s">
+        <p class="m-0">Condiciones</p>
+        <p class="m-0">Académicas</p>
+      </div>
+      <div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO" class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
+        <p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}
+        </p>
+      </div>
+    </div>
+    <div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="openModal('F',enroll_conditions.FLAG_FINANCIERO)">
+      <i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
+      <div class="bg-black text-white p-2 text-s">
+        <p class="m-0">Condiciones</p>
+        <p class="m-0">Financieras</p>
+      </div>
+      <div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO" class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
+        <p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+      </div>
+    </div>
+  </div>
+</div> -->
