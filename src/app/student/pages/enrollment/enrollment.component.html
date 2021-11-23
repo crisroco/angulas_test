@@ -6,7 +6,7 @@
 			</div>
 			<div class="buttons">
 				<button class="btn" [routerLink]="'/estudiante/matricula/disponibles'" routerLinkActive="active-link">1. Cursos Disponibles</button>
-				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Matriculados</button>
+				<button class="btn" [routerLink]="'/estudiante/matricula/cursos-elegidos'" routerLinkActive="active-link">2. Cursos Reservados</button>
 			</div>
 		</div>
 	</div>
@@ -29,7 +29,7 @@
 		</div>
 		<div class="row">
 			<div class="mb-6 col-md-12 py-2 text-center">
-				<!-- <button (click)="openAditionalCoursesModal()" class="btn btn-schedule m-2">Solicitud Cursos Adicionales</button> -->
+				<button (click)="openAditionalCoursesModal()" class="btn btn-schedule m-2">Solicitud Cursos Adicionales</button>
 				<button (click)="openEquivalentModal()" class="btn btn-schedule m-2">Cursos Equivalentes</button>
 			</div>
 		</div>
@@ -88,7 +88,7 @@
 	<div class="mt-2 d-flex align-items-center justify-content-around">
 		<div class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
-			<p>Matriculado</p>
+			<p>Reservado</p>
 		</div>
 		<div *ngIf="moreData && moreData.length > 1" class="legend d-flex flex-column align-items-center">
 			<div class="dot"></div>
@@ -126,10 +126,10 @@
     </div>
 </ngx-smart-modal>
 
-<ngx-smart-modal #aditionalCoursesModal identifier="aditionalCoursesModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'largeModal fullModal p-post-header'">
+<ngx-smart-modal #aditionalCoursesModal identifier="aditionalCoursesModal" [closable]="false" [escapable]="false" [dismissable]="false" [customClass]="'largeModal2 fullModal p-post-header'">
 	<div class="p-2 header-modal">
 		<div class="title">
-			<p>CURSOS ADICIONALES</p>
+			<p>CURSOS ADICIONALES {{aditionalCredits + '/' + maxCredits}}</p>
 		</div>
 		<div class="btn-close">
 			<a (click)="aditionalCoursesModal.close()" class="pointer"><i class="fa fa-times text-white text-l"></i></a>
@@ -143,8 +143,13 @@
 				      	<th class="py-2 text-left text-m">Cursos</th>
 				      	<th class="py-2 text-left text-m">Créditos</th>
 				      	<th class="py-2 text-left text-m">Codigo</th>
-				      	<th *ngIf="CPE" class="py-2 text-left text-m">Dia</th>
-						<th class="py-2 text-left text-m">Turno</th>
+						<th *ngIf="CPE" class="py-2 text-left text-m">Dia de semana</th>
+						<th *ngIf="CPE" class="py-2 text-left text-m">Modulo</th>
+						<th class="py-2 text-left text-m">Dia</th>
+						<th class="py-2 text-left text-m">Hora Inicio</th>
+						<th class="py-2 text-left text-m">Hora Fin</th>
+						<th class="py-2 text-left text-m">Motivo</th>
+				      	<!-- <th *ngIf="CPE" class="py-2 text-left text-m">Dia</th> -->
 			    	</tr>
 			  	</thead>
 			  	<tbody>
@@ -152,26 +157,52 @@
 				      	<td class="text-left">
 			      			<div [ngClass]="{'form-check': course.extra}">
 			      				<i *ngIf="!course.extra" class="fa fa-check-circle-o text-green text-l mr-2" aria-hidden="true"></i>
-								<input *ngIf="course.extra" class="form-check-input" type="checkbox" id="{{course.DESCR}}" [(ngModel)]="course.value" value="{{course.DESCR}}">
-								<label class="form-check-label docente" for="{{course.DESCR}}">{{course.NOMBRE_CURSO?course.NOMBRE_CURSO:course.DESCR}}</label>
+								<input *ngIf="course.extra" class="form-check-input" type="checkbox" id="{{course.DESCR + course.COMPONENTE}}" [(ngModel)]="course.value" value="{{course.DESCR + course.COMPONENTE}}">
+								<label class="form-check-label docente" for="{{course.DESCR + course.COMPONENTE}}">{{course.NOMBRE_CURSO?course.NOMBRE_CURSO:course.DESCR}} ({{course.COMPONENTE}})</label>
 						    </div>
 				      	</td>
 				      	<td class="text-left">{{course.CREDITOS?course.CREDITOS:course.UNITS_REPEAT_LIMIT | number: '1.0-0'}}</td>
 				      	<td class="text-left">{{course.MATERIA?course.MATERIA:course.SUBJECT}}  {{course.NRO_CATALOGO?course.NRO_CATALOGO:course.CATALOG_NBR}}</td>
 				      	<td *ngIf="CPE" class="text-left">
-							<select [disabled]="!course.extra" [(ngModel)]="course.UCS_TURNO_CRSE" name="turn_week" id="">
+							<select [disabled]="!course.extra" [(ngModel)]="course.UCS_TURNO_CRSE" name="turn_week" id="" (change)="sameWeekDay(course)">
 								<option value="D">Día Semana</option>
 								<option value="F">Fin Semana</option>
 							</select>
 						</td>
+						<td *ngIf="CPE" class="text-left">
+							<select [disabled]="!course.extra" [(ngModel)]="course.MODULO" name="module" id="" (change)="sameModule(course)">
+								<option value="1">MODULO</option>
+								<option value="2">MODULO2</option>
+								<option value="3">MODULO3</option>
+								<option value="4">BIMODULAR</option>
+							</select>
+						</td>
 						<td class="text-left">
-				      		<select [disabled]="!course.extra" [(ngModel)]="course.TURNO" name="turn" id="">
-				      			<option value="M">Mañana</option>
-				      			<option value="T">Tarde</option>
-				      			<option value="N">Noche</option>
-				      		</select>
-				      		<i *ngIf="!course.extra" (click)="deleteAditionalCourse(course)" class="pointer fa fa-trash text-red text-l ml-4" aria-hidden="true"></i>
+				      		<select [disabled]="!course.extra" [(ngModel)]="course.DIA" name="day" id="">
+								<option *ngFor="let day of course.DAYS" value="{{ day.val }}">{{day.name}}</option>
+							</select>
 				      	</td>
+						<td class="text-left">
+							<select [disabled]="!course.extra" [(ngModel)]="course.HORA_INICIO" name="timeStart" id="" (change)="selectEnd(course)">
+								<option *ngFor="let time of aditionalHoursRange">{{time}}</option>
+						  	</select>
+						</td>
+						<td class="text-center">
+							<label>{{course.HORA_FIN}}</label>
+						</td>
+						<td class="p-r text-left">
+							<select [disabled]="!course.extra" [(ngModel)]="course.MOTIVO" name="motive" id="" (change)="selectMotive(course)">
+								<option *ngFor="let mot of motives" value="{{ mot.name }}">{{mot.descr}}</option>
+						  	</select>
+							<i *ngIf="!course.extra" (click)="showAditionals(course)" class="pointer fa fa-info-circle text-l ml-4" aria-hidden="true"></i>
+							<div *ngIf="course.showEquivalents" class="background-black">
+								<div *ngFor="let item of showEquivalents">{{item.descr}}</div>
+							</div>
+							<i *ngIf="!course.extra" (click)="deleteAditionalCourse(course)" class="pointer fa fa-trash text-red text-l ml-4" aria-hidden="true"></i>
+						</td>
+						<!-- <td class="p-r text-center">
+							<label>{{course.DESCR_MOTIVO}}</label>
+						</td> -->
 				    </tr>
 					<tr *ngIf="aditionalCourses.length == 0">
 						<td colspan="4">No existen cursos adicionales</td>

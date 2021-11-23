@@ -57,22 +57,22 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   getCourses(){
-    this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
-      .then((res)=> {
-        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
-        if (!notdeuda) {
-          this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-          setTimeout(() => {
-            this.router.navigate(['/estudiante']);
-            return
-          }, 1500)
-        }
-      });
+    // this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+    //   .then((res)=> {
+    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+    //     if (!notdeuda) {
+    //       this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.','', {progressBar: true});
+    //       setTimeout(() => {
+    //         this.router.navigate(['/estudiante']);
+    //         return
+    //       }, 1500)
+    //     }
+    //   });
     let myConditions = this.session.getObject('conditionsToEnrollment');
     if (myConditions) {
       if (!myConditions.turn) {
         // this.toastS.error('Aún no tienes turno de matricula, o no aceptaste las condiciones');
-        this.toastS.error('Aún no tienes turno de matricula');
+        this.toastS.error('Aún no tienes turno de matricula','', {progressBar: true});
         setTimeout(() => {
           this.router.navigate(['/estudiante']);
           return
@@ -80,7 +80,7 @@ export class DashboardEnrollComponent implements OnInit {
       }
     }
     if (!myConditions) {
-      this.toastS.error('Aún no tienes turno de matricula');
+      this.toastS.error('Aún no tienes turno de matricula','', {progressBar: true});
       // this.toastS.error('Aún no tienes turno de matricula, o no aceptaste las condiciones');
       setTimeout(() => {
         this.router.navigate(['/estudiante']);
@@ -94,7 +94,7 @@ export class DashboardEnrollComponent implements OnInit {
         this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
         if (!this.numberOfCicles) {
           this.loading = false;
-          this.toastS.error('Tu matricula no esta habilitada, comunicate con planificación');
+          this.toastS.error('Tu matricula no esta habilitada, comunicate con planificación','', {progressBar: true});
           setTimeout(() => {
             this.router.navigate(['/estudiante']);
           }, 4000)
@@ -167,15 +167,15 @@ export class DashboardEnrollComponent implements OnInit {
       this.myCredits = creditos;
       this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.sede})
         .then((res) => {
-          // this.allCoursesId = res.filter(el => el.FLAG == 'A');
-          // this.session.setObject('MaterialInCourse', this.allCoursesId);
+          this.allCoursesId = res.filter(el => el.FLAG == 'A');
+          this.session.setObject('MaterialInCourse', this.allCoursesId);
           this.availableCourses = res.sort(this.dynamicSortMultiple(["-FLAG","UCS_CICLO"]));
           if (coursesInEnrollment) {
             for (let i = 0; i < coursesInEnrollment.length; i++) {
               this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID2 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID3 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID4 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID5 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID6 != coursesInEnrollment[i].CRSE_ID);
             }
           }
-          // this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
+          this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
           this.maxCredits = res[0]?Math.round(res[0]['FT_MAX_TOTAL_UNIT']):0;
           this.session.setItem('MaxCreditsEnrollment', this.maxCredits);
           this.loading = false;
@@ -222,15 +222,11 @@ export class DashboardEnrollComponent implements OnInit {
   onChangeAvailable(course, evt){
     let courses_id = [];
     if(course.FLAG == 'A'){
-      this.toastS.error('Advertencia, estas seleccionando una materia en curso');
+      this.toastS.error('Advertencia, estas seleccionando una materia en curso','', {progressBar: true});
     }
-    courses_id.push(course.CRSE_ID2, course.CRSE_ID3,course.CRSE_ID4,course.CRSE_ID5,course.CRSE_ID6);
-    let allCourses = courses_id.filter(el => el != '');
-    if (this.checkCreditsCap(course)) {
-      evt.target.checked = false;
-      course.value = false;
-      return
-    }
+    courses_id.push(course.CRSE_ID2, course.CRSE_ID3,course.CRSE_ID4,course.CRSE_ID5,course.CRSE_ID6,course.CRSE_ID7, course.CRSE_ID8,course.CRSE_ID9,course.CRSE_ID10,course.CRSE_ID11,course.CRSE_ID12,course.CRSE_ID13,course.CRSE_ID14,course.CRSE_ID15,course.CRSE_ID16);
+    let allCourses = courses_id.filter(el => el != '' && el != null);
+    console.log(allCourses);
     this.loading = true;
     this.enrollmentS.getScheduleNew({
       CAMPUS: this.dataStudent.sede,
@@ -258,7 +254,7 @@ export class DashboardEnrollComponent implements OnInit {
                   this.scheduleAvailables = this.checkDuplicates(data);
                   this.loading = false;
                   this.scheduleSelection.open();
-                }, 1000)
+                }, 1500)
               }
             });
           }
@@ -283,7 +279,7 @@ export class DashboardEnrollComponent implements OnInit {
                   this.scheduleAvailables = this.checkDuplicates(data);
                   this.loading = false;
                   this.scheduleSelection.open();
-                }, 1000)
+                }, 1500)
               }
             });
           }
@@ -309,7 +305,6 @@ export class DashboardEnrollComponent implements OnInit {
   callModal(selected?){
     let data = [];
     if (selected) {
-      this.selectedCourse['schedules'] = [];
       for (var i = 0; i < this.scheduleAvailables.length; i++) {
         if (this.scheduleAvailables[i].value) {
           data.push(this.scheduleAvailables[i]);
@@ -347,7 +342,7 @@ export class DashboardEnrollComponent implements OnInit {
       }
     });
     if (!this.cycleSTRMSelected) {
-      this.toastS.error('Tienes que elegir un ciclo lectivo');
+      this.toastS.error('Tienes que elegir un ciclo lectivo','', {progressBar: true});
     } else {
       this.selectCycleModal.close();
       this.selectedCycle(this.cycleSTRMSelected);
@@ -355,8 +350,8 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   checkCreditsCap(course){
-    if (this.myCredits + Number(course['UNITS_REPEAT_LIMIT']) > this.maxCredits) {
-      this.toastS.error('Estas superando los creditos maximos');
+    if (this.myCredits + Number(course['CREDITOS']) > this.maxCredits) {
+      this.toastS.error('Estas superando los creditos maximos','', {progressBar: true});
       return true
     } else {
       return false
@@ -367,8 +362,13 @@ export class DashboardEnrollComponent implements OnInit {
     if(course.notAvailable){
       evt.target.checked = false;
       course.value = false;
-      this.toastS.error(course.alertMessage);
+      this.toastS.error(course.alertMessage,'', {progressBar: true});
     } else {
+      if (this.checkCreditsCap(course)) {
+        evt.target.checked = false;
+        course.value = false;
+        return
+      }
       let numberOfPRA = this.countPRA(course);
       this.scheduleAvailables.forEach(el => {
         if (el.ASOCIACION_CLASE == course.ASOCIACION_CLASE) {
@@ -457,7 +457,7 @@ export class DashboardEnrollComponent implements OnInit {
                     if ((this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) >= this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) && this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) < this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']))) {
                       // if (this.timeToSeconds(pickedCourse['MEETING_TIME_END']) <= this.timeToSeconds(this.myCoursesinEnrollment[i]['MEETING_TIME_START'])) {
                         // console.log(this.myCoursesinEnrollment);
-                        this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO']);
+                        this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO'],'', {progressBar: true});
                         pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO'];
                         return true
                       // }
@@ -525,7 +525,6 @@ export class DashboardEnrollComponent implements OnInit {
   confirmEnroll(){
     this.loading = true;
     let data = [];
-    this.selectedCourse['schedules'] = [];
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
       if (this.scheduleAvailables[i].value) {
         for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
@@ -538,6 +537,7 @@ export class DashboardEnrollComponent implements OnInit {
             SESSION_CODE: this.scheduleAvailables[i]['CODIGO_SESION'],
             ASSOCIATED_CLASS: this.scheduleAvailables[i]['ASOCIACION_CLASE'],
             CLASS_NBR: this.scheduleAvailables[i]['NRO_CLASE'],
+            CANT_COMPONENTES: this.selectedCourse['CANT_COMP'],
             OFFER_NBR: this.scheduleAvailables[i]['OFERTA_CURSO'],
             SSR_COMPONENT: this.scheduleAvailables[i]['CODIGO_COMPONENTE'],
             equivalent: '-'
@@ -555,15 +555,19 @@ export class DashboardEnrollComponent implements OnInit {
     },[]);
     if (data.length == 0) {
       this.loading = false;
-      this.toastS.warning('No seleccionaste ninguna sección');
+      this.toastS.warning('No seleccionaste ninguna sección','', {progressBar: true});
       return
     }
-    let teo = result[0];
-    if (teo['SSR_COMPONENT'] == 'TEO') {
-      let numberOfPRA = this.countPRABeforeSave(teo);
+    if (result.length != Number(this.selectedCourse['CANT_COMP'])) {
+      this.loading = false;
+      this.toastS.warning('No seleccionaste los componentes necesarios: ' + this.selectedCourse['COMPONENTS'],'', {progressBar: true});
+      return
+    }
+    if (result[0]['SSR_COMPONENT'] == 'TEO') {
+      let numberOfPRA = this.countPRABeforeSave(result[0]);
       if (numberOfPRA > 1 && result.length == 1) {
         this.loading = false;
-        this.toastS.warning('Tienes que seleccionar alguna practica');
+        this.toastS.warning('Tienes que seleccionar alguna practica','', {progressBar: true});
         return
       }
     }
@@ -571,18 +575,21 @@ export class DashboardEnrollComponent implements OnInit {
       courses: result,
       emplid_admin: this.user.email
     }).then((res) => {
-      if (res['UCS_REST_INSCR_RES'] && res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] != 'No hay vacantes') {
+      if (res['UCS_REST_INSCR_RES'] && res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] == 'Correcto') {
         let index = this.availableCourses.findIndex(val => val['own_enrollment_skillful_load_id'] == this.selectedCourse['own_enrollment_skillful_load_id']);
         this.availableCourses.splice(index, 1);
-        this.toastS.success('Curso reservado');
+        this.toastS.success('Curso reservado','', {progressBar: true});
         this.session.destroy('mySchedule');
         this.loadCoursesAlready();
         this.scheduleSelection.close();
       } else if(res.status == 'fail'){
-        this.toastS.error(res.message);
+        this.toastS.error(res.message,'', {progressBar: true});
+        this.loading = false;
+      } else if(res['UCS_REST_INSCR_RES'] && res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] == 'Error cruce de horarios'){
+        this.toastS.error(res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'],'', {progressBar: true});
         this.loading = false;
       } else {
-        this.toastS.warning('No hay vacantes para este curso');
+        this.toastS.warning('No hay vacantes para este curso','', {progressBar: true});
         this.loading = false;
       }
     });

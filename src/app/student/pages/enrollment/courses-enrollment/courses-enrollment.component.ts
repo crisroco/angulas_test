@@ -27,7 +27,7 @@ export class CoursesEnrollmentComponent implements OnInit {
   public myCredits = 0;
   public maxCreditsEnrollment = this.session.getItem('MaxCreditsEnrollment');
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
-  public listOfLockCourses = ['001070','001071','001072','001073','001074','001070','001071','001072','001073', '667233', '666911'];
+  public listOfLockCourses = ['001070','001071','001072','001073','001074','001071','001072','001073', '667233', '666911'];
 
   constructor(public broadcaster: Broadcaster,
     public newEnrollmentS: NewEnrollmentService,
@@ -36,17 +36,17 @@ export class CoursesEnrollmentComponent implements OnInit {
     public session: SessionService) { }
 
   ngOnInit() {
-    this.newEnrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
-      .then((res)=> {
-        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
-        if (!notdeuda) {
-          this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-          setTimeout(() => {
-            this.router.navigate(['/estudiante']);
-            return
-          }, 1500)
-        }
-      });
+    // this.newEnrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+    //   .then((res)=> {
+    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+    //     if (!notdeuda) {
+    //       this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+    //       setTimeout(() => {
+    //         this.router.navigate(['/estudiante']);
+    //         return
+    //       }, 1500)
+    //     }
+    //   });
     let myConditions = this.session.getObject('conditionsToEnrollment');
     if (myConditions) {
       if (!myConditions.turn || !myConditions.conditions) {
@@ -86,14 +86,14 @@ export class CoursesEnrollmentComponent implements OnInit {
         for (let i = 0; i < coursesInEnrollment.length; i++) {
           credits += Number(coursesInEnrollment[i].CREDITOS);
           coursesInEnrollment[i]['flag'] = false;
-          // for(let o = 0; o < materialCourses.length; o++){
-          //   if(coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID2 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID3 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID4 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID5 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID6){
-          //     coursesInEnrollment[i]['flag'] = true;
-          //   }
-          // }
+          for(let o = 0; o < materialCourses.length; o++){
+            if(coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID2 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID3 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID4 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID5 || coursesInEnrollment[i].CRSE_ID == materialCourses[o].CRSE_ID6){
+              coursesInEnrollment[i]['flag'] = true;
+            }
+          }
         }
         this.availableCourses = coursesInEnrollment.sort(this.dynamicSortMultiple(["flag"]));
-        // this.numberofExtra = this.availableCourses.filter(el => el.flag).length;
+        this.numberofExtra = this.availableCourses.filter(el => el.flag).length;
         this.allToEmail = this.availableCourses.filter(el => el.PERMITIR_BAJA == 'Y');
       }
       this.myCredits = credits;
@@ -154,8 +154,9 @@ export class CoursesEnrollmentComponent implements OnInit {
     .then((res) => {
       this.loading = false;
       this.deleteConfirmationModal.close();
+      this.session.destroy('notInAditional');
       this.loadInPS();
-      this.toastS.warning('Cursos Removidos');
+      this.toastS.warning('Cursos Removidos','',{progressBar: true});
     });
   }
 

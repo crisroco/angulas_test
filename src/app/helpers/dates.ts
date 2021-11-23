@@ -182,7 +182,7 @@ export function SubstractDay(d, numDay){
 }
 
 export function BetweenDays(first, last, day){
-	if (first == last) {
+	if ((first == last) && first == day.year + '-' +day.month + '-' + day.day) {
 		return true;
 	}
 	var sDay = day.year + '-' + day.month + '-' + day.day + ' ' + day.hour + ':' + day.minute + ':' + day.second;

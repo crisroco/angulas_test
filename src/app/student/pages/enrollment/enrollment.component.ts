@@ -27,10 +27,26 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
   aditionalCourses:Array<any> = [];
   equivalentCourses:Array<any> = [];
   skillFull;
+  public showEquivalents:Array<any> = [];
   allData;
   schoolCycle: any = this.session.getObject('schoolCycle');
   user: any = this.session.getObject('user');
   student: any = this.session.getObject('student');
+  public motives:Array<any> = [{name: '1', descr: 'Motivo1'},{name: '2', descr: 'Motivo2'},{name: '3', descr: 'Motivo3'},{name: '4', descr: 'Motivo4'}];
+  public days:Array<any> = [{val: 'LUN',name:'LUNES', type: 'D'},{val: 'MAR',name:'MARTES', type: 'D'},{val: 'MIE',name:'MIERCOLES', type: 'D'},{val: 'JUE',name:'JUEVES', type: 'D'},{val: 'VIE',name:'VIERNES', type: 'A'},{val: 'SAB',name:'SABADO', type: 'F'},{val: 'DOM',name:'DOMINGO', type: 'F'}];
+  public hoursAditionalCourses:Array<any> = [
+    {
+      type: 'PREG',
+      timebetween: 50,
+      hoursStart: ['07:10','08:10','09:10','10:10','11:10','12:10','13:10','14:10','15:10','16:10','17:10','18:10','19:00','19:45','20:30','21:15','22:00','22:45']
+    },
+    {
+      type: 'CPE',
+      timebetween: 45,
+      hoursStart: ['07:30','08:15','09:00','09:45','10:30','11:15','12:00','12:45','13:30','14:15','15:00','15:45','16:30','17:15','18:00','19:00','19:45','20:30','21:15','22:00','22:45']
+    }
+  ];
+  public aditionalHoursRange:any;
   dataEnrollment: any;
   myVirtualClasses:Array<any> = [];
   tzDate = RealDateTz();
@@ -42,6 +58,8 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
   moreData: Array<any> = [];
   public emailToSend = '';
   public myCredits = 0;
+  public aditionalCredits = 0;
+  public maxCredits = 0;
 
   constructor(private broadcaster: Broadcaster,private deviceS: DeviceDetectorService, public enrollmentS: NewEnrollmentService, public session: SessionService, private router: Router, public toastT: ToastrService) { }
 
@@ -143,6 +161,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
   }
 
   aditionalModalData(openModal){
+    this.aditionalCredits = 0;
     this.CPE = this.session.getItem('CPE');
     this.loading = true;
     this.dataEnrollment = this.session.getObject('dataEnrollment');
@@ -154,6 +173,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
       ACAD_PLAN: this.allData['codigoPlan'],
       STRM: this.schoolCycle.CICLO_LECTIVO
     }
+    this.aditionalHoursRange = this.CPE?this.hoursAditionalCourses[1]['hoursStart']:this.hoursAditionalCourses[0]['hoursStart'];
     this.enrollmentS.getAditionalCourses(aditional)
       .then((res) => {
         this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES?res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES:[];
@@ -167,12 +187,26 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
           res.sort((a,b) => {
             return a.UCS_CICLO - b.UCS_CICLO
           });
-          for (var i = 0; i < res.length; i++) {
-            if (!this.aditionalCourses.find(el => el.CURSO_ID == res[i].CRSE_ID)) {
-              res[i].extra = true;
-              res[i].TURNO = 'M';
-              res[i].UCS_TURNO_CRSE = this.CPE?'D':'';
-              this.aditionalCourses.push(res[i]);
+          for (let i = 0; i < res.length; i++) {
+            let finded = this.aditionalCourses.find(el => el.CURSO_ID == res[i].CRSE_ID);
+            if (!finded) {
+              let comps = res[i].COMPONENTS.split('|');
+              let hour = res[i].HOUR_COMP.split('|');
+              comps.forEach((el, index) => {
+                let ex = JSON.parse(JSON.stringify(res[i]));
+                ex.extra = true;
+                ex.TURNO = '';
+                ex.DIA = 'LUN';
+                ex.COMPONENTS = res[i].COMPONENTS;
+                ex.UCS_TURNO_CRSE = this.CPE?'D':'';
+                ex.COMPONENTE = el;
+                ex.HORA = hour[index];
+                ex.DAYS = this.CPE?this.days.filter(el => el.type != 'F'):this.days;
+                this.aditionalCourses.push(ex);
+              })
+            } else {
+              finded.COMPONENTS = res[i].COMPONENTS;
+              this.aditionalCredits += Number(finded.CREDITOS);
             }
           }
           openModal?this.aditionalCoursesModal.open():null;
@@ -181,13 +215,34 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
       })
   }
 
+  selectEnd(crs){
+    let s = this.aditionalHoursRange.findIndex(el => el == crs.HORA_INICIO);
+    let h = Number(crs.HORA.split('|')[0]);
+    crs.HORA_FIN = this.aditionalHoursRange[s + h];
+    if(!crs.HORA_FIN){
+      this.toastT.warning('No completas las horas necesarias para este Componente','',{progressBar: true});
+      crs.HORA_INICIO = '';
+    }
+  }
+
+  selectMotive(crs){
+    crs.DESCR_MOTIVO = this.motives.find(el => el.name == crs.MOTIVO)['descr'];
+  }
+
 
   openAditionalCoursesModal(){
+    this.maxCredits = this.session.getObject('MaxCreditsEnrollment');
     this.aditionalModalData(true);
   }
 
   deleteAditionalCourse(crs) {
     this.loading = true;
+    let toDelete = [];
+    let single = this.aditionalCourses.find(el => el.CRSE_ID == crs.CURSO_ID || el.CURSO_ID == crs.CURSO_ID);
+    single['COMPONENTS'].split('|').forEach(el => {
+      toDelete.push({CRSE_ID: crs.CURSO_ID, TURNO: '', ACCION: 'B', TURNO_SEMANA: crs.UCS_TURNO_CRSE, MOTIVO: crs.MOTIVO, HORA_INICIO: crs.HORA_INICIO,
+      HORA_FIN: crs.HORA_INICIO, DIA: crs.DIA, MODULO: crs.MODULO, COMPONENTE: el})
+    });
     this.enrollmentS.saveAditionalCourses({
       EMPLID: this.user.codigoAlumno,
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
@@ -195,7 +250,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
       ACAD_PLAN: this.dataEnrollment['codigoPlan'],
       STRM: this.schoolCycle.CICLO_LECTIVO,
-      UCS_REST_CUR_ADIC_DT: [{CRSE_ID: crs.CURSO_ID, TURNO: crs.TURNO, ACCION: 'B', TURNO_SEMANA: crs.UCS_TURNO_CRSE}]
+      UCS_REST_CUR_ADIC_DT: toDelete
     }).then((res) => {
       this.loading = false;
       this.aditionalModalData(false);
@@ -209,19 +264,63 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
   confirmAditional(){
     this.loading = true;
     let aditional = [];
+    let lastNbr;
+    let one = [];
+    let two = [];
     for (var i = 0; i < this.aditionalCourses.length; i++) {
       if (this.aditionalCourses[i].extra && this.aditionalCourses[i].value) {
+        if(!this.aditionalCourses[i]['HORA_INICIO'] && !this.aditionalCourses[i]['MOTIVO']){
+          this.toastT.error('Falta seleccionar una hora inicio y motivo','', {progressBar: true});
+          this.loading = false;
+          return
+        }
+        if(!lastNbr || (lastNbr != this.aditionalCourses[i + 1]['CRSE_ID'])){
+          let quantity = this.aditionalCourses.filter(el =>el.value && el['CRSE_ID'] == this.aditionalCourses[i]['CRSE_ID']).length;
+          if(Number(this.aditionalCourses[i]['CANT_COMP']) != quantity){
+            lastNbr = this.aditionalCourses[i]['CRSE_ID'];
+            this.toastT.warning('Tienes que seleccionar todos los componentes de la clase ','',{progressBar: true});
+            this.loading = false;
+            return
+          }
+        }
+        one = aditional.filter((el) =>(el != this.aditionalCourses[i]) && (el['DIA'] == this.aditionalCourses[i]['DIA']));
+        for (let h = 0; h < one.length; h++) {
+          if(this.aditionalCourses[i]['DIA'] == one[h]['DIA']){
+            let cross = (one[h]['HORA_INICIO'] >= this.aditionalCourses[i]['HORA_INICIO'] && one[h]['HORA_INICIO'] < this.aditionalCourses[i]['HORA_FIN']) || (one[h]['HORA_FIN'] > this.aditionalCourses[i]['HORA_INICIO'] && one[h]['HORA_FIN'] <= this.aditionalCourses[i]['HORA_FIN']);
+            if(cross){
+              this.toastT.warning('Tienes un cruce con tu solicitud','',{progressBar: true})
+              this.loading = false;
+              return
+            }
+          }
+        }
+        two = this.aditionalCourses.filter((el) => el.CURSO_ID && !el.extra);
+        for (let j = 0; j < two.length; j++) {
+          if(this.aditionalCourses[i]['DIA'] == two[j]['DIA']){
+            if((two[j]['HORA_INICIO'] >= this.aditionalCourses[i]['HORA_INICIO'] && two[j]['HORA_INICIO'] < this.aditionalCourses[i]['HORA_FIN']) || (two[j]['HORA_FIN'] > this.aditionalCourses[i]['HORA_INICIO'] && two[j]['HORA_FIN'] <= this.aditionalCourses[i]['HORA_FIN'])){
+              this.toastT.warning('Tienes un cruce con tu solicitud','',{progressBar: true})
+              this.loading = false;
+              return
+            }
+          }
+        }
         aditional.push({
           CRSE_ID: this.aditionalCourses[i]['CRSE_ID'],
           TURNO: this.aditionalCourses[i]['TURNO']?this.aditionalCourses[i]['TURNO']:'M',
           TURNO_SEMANA: this.aditionalCourses[i]['UCS_TURNO_CRSE']?this.aditionalCourses[i]['UCS_TURNO_CRSE']:'',
+          MOTIVO: this.aditionalCourses[i]['MOTIVO'],
+          HORA_INICIO: this.aditionalCourses[i]['HORA_INICIO'],
+          HORA_FIN: this.aditionalCourses[i]['HORA_FIN'],
+          DIA: this.aditionalCourses[i]['DIA'],
+          MODULO: this.aditionalCourses[i]['MODULO'],
+          COMPONENTE: this.aditionalCourses[i]['COMPONENTE'],
           ACCION: "I"
         });
       }
     }
     if (aditional.length == 0) {
       this.loading = false;
-      this.toastT.warning('Tienes que seleccionar al menos un curso');
+      this.toastT.warning('Tienes que seleccionar al menos un curso','', {progressBar: true});
       return;
     }
     this.enrollmentS.saveAditionalCourses({
@@ -236,6 +335,10 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
       this.loading = false;
       this.aditionalModalData(false);
     });
+  }
+
+  checkCrossesAditional(arr){
+    
   }
 
   closeOpenMonthViewDay(){
@@ -263,7 +366,6 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
                 var rDay = days[kDay].year + '-' + days[kDay].month + '-' + days[kDay].day;
                 clase.date = rDay;
                 if(!objEvents[rDay + ' ' + clase.HORA_INICIO + ':00' + ' ' + classD.CRSE_ID]){
-                  console.log(clase);
                   dates = this.getDates(rDay, clase.HORA_INICIO + ':00', clase.HORA_FIN + ':00');
                   events.push({
                     start: dates.start,//new Date(rDay + ' ' + clase.MEETING_TIME_START),
@@ -396,8 +498,37 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
 		end = DateFixedSO(rDay, MEETING_TIME_END);
 		return { start, end };
 	}
-  
+
   ngOnDestroy() {
     this.crossdata.unsubscribe();
   }
+
+  showAditionals(crs){
+    this.showEquivalents = [];
+    this.enrollmentS.getEquivalentsAditionals().subscribe((res) => {
+      this.showEquivalents = res.filter(el => el.crse_id == crs.CURSO_ID);
+      crs.showEquivalents = true;
+      setTimeout(() => {
+        crs.showEquivalents = false;
+      }, 4500);
+    });
+  }
+
+  sameWeekDay(crs){
+    this.aditionalCourses.forEach((el) => {
+      if(el.CRSE_ID == crs.CRSE_ID){
+        el.DAYS = this.days.filter(el => el.type == crs.UCS_TURNO_CRSE || el.type == 'A');
+        el.UCS_TURNO_CRSE = crs.UCS_TURNO_CRSE
+      }
+    });
+  }
+
+  sameModule(crs){
+    this.aditionalCourses.forEach((el) => {
+      if(el.CRSE_ID == crs.CRSE_ID){
+        el.MODULO = crs.MODULO
+      }
+    });
+  }
+
 }

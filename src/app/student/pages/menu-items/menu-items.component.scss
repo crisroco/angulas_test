@@ -1,3 +1,58 @@
 .font-wight-bold{
     font-weight: 600;
 }
+
+.arrow {
+    position: absolute;
+    right: 20px;
+}
+
+.item-sub {
+    ul {
+        list-style-position: inside;
+        background-color: white !important;
+        list-style-type: disc;
+        margin: 0
+    }
+    li {
+        margin-left: 50px;
+        background-color: white !important;
+        color: #22468F;
+        cursor: pointer;
+        &:hover {
+            color: #52A9C7;
+        }
+        &:not(:first-child){
+            margin-top: 15px;
+        }
+    }
+}
+
+.data-enroll {
+    padding: 20px;
+    background-color: #ECF1FF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p {
+        font-weight: bold;
+    }
+    div.bg-black {
+        p {
+            background-color: black !important;
+        }
+        background-color: black !important;
+    }
+    div.bg-red {
+        p {
+            background-color: red !important;
+        }
+        background-color: red !important;
+    }
+    div.bg-green {
+        p {
+            background-color: green !important;
+        }
+        background-color: green !important;
+    }
+}

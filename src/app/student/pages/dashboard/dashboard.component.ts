@@ -61,8 +61,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   realDate: any = RealDateTz();
   noClosed: boolean;
   enroll: any;
-  enroll_conditions: any = '';
-  queueEnroll: any;
+  enroll_conditions: any = {
+    FLAG_ACADEMICO: '',
+    FLAG_FINANCIERO: ''
+  };
+  queueEnroll: any = {
+    turnText: ''
+  };
   showwsp: boolean = false;
   fidelityLink: any = '';
   imagesAcadConditions = new Array(35);
@@ -135,13 +140,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       note.limit =  note.content.length>330 ? note.content.substring(0,330) + '...' : note.content;
     }
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
-      // if (message && message.enroll_conditions) {
-      //   this.enroll_conditions = message.enroll_conditions;
-      // }
+      if (message && message.enroll_conditions) {
+        this.enroll_conditions = message.enroll_conditions;
+      }
       if (message && message.queueEnroll) {
-        // this.queueEnroll = message.queueEnroll;
-        // this.setRealDateEnroll(this.queueEnroll);
-        // this.readConditions();
+        this.queueEnroll = message.queueEnroll;
+        this.setRealDateEnroll(this.queueEnroll);
+        this.readConditions();
       }
       else if (message && message.enroll) {
         this.enroll = message.enroll;
@@ -225,11 +230,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
               el['finallShow'] = true;
             }
           }
-          // console.log(this.realNotices);
           this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
-          // console.log(this.notice)
+          // setTimeout(() => {
+          //   this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
+          //   if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
+          //     this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
+          //   }
+          // }, 1000);
         });
       }
+      // if (message.institution != 'PSTRG') {
+
+      // }
+      // }
     });
     // this.showModals();
     this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
@@ -242,8 +255,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       }
     );
+    this.studentS.getAcademicModal().subscribe(
+      r => {
+        this.enroll_conditions.FLAG_ACADEMICO = r;
+        this.AcademicConditionModal.open();
+      }
+    );
+    this.studentS.getFinancialModal().subscribe(
+      r => {
+        this.enroll_conditions.FLAG_FINANCIERO = r;
+        this.FinancialConditionModal.open();
+      }
+    )
 
-    
+    // this.setRealDateEnroll(false);
     // this.readConditions();
     var ese = new Array(4);
     //this.matriculaExtracurricularModal.open();
@@ -571,10 +596,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   readConditions() {
-
     this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
       .then((res) => {
-
         this.enroll = true;
         this.enroll_conditions = res;
       });
@@ -623,29 +646,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }, error => { });
   }
 
-  // setRealDateEnroll(turn) {
-  //   this.timeoutEnroll = !turn.onTurn;
-  //   setTimeout(() => {
-  //     if (this.timeoutEnroll) {
-  //       this.studentS.getEnrollQueueNumber({ EMPLID: this.user.codigoAlumno })
-  //         .then((res) => {
-  //           this.queueEnroll.onTurn = res.UCS_GRUPO_MAT_RES.onTurn;
-  //           this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
-  //         });
-  //     }
-  //   }, 120000);
-  // }
+  setRealDateEnroll(turn) {
+    this.timeoutEnroll = !turn.onTurn;
+    setTimeout(() => {
+      if (this.timeoutEnroll) {
+        this.studentS.getEnrollQueueNumber({ EMPLID: this.user.codigoAlumno })
+          .then((res) => {
+            console.log(res);
+            this.queueEnroll = res.UCS_GRUPO_MAT_RES;
+            this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
+          });
+      }
+    }, 120000);
+  }
 
   saveConditions(flag, modal) {
     this.loading = true;
     var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
     tEnroll[flag] = 'Y';
+    tEnroll['emplid'] = this.session.getObject('user')['codigoAlumno'];
     tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
     this.newEnrollmentS.saveConditions(tEnroll)
       .then((res) => {
         this.loading = false;
+        this.broadcaster.sendMessage({conditions: true})
         modal.close();
-        this.enroll_conditions = res.conditions;
       });
   }
 
@@ -947,5 +972,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.toastr.error('Hubo un error al actualizar');
         }
       })
+  }
+
+  openModal(type, ready){
+    if(type == 'A'){
+      this.studentS.setAcademicModal(ready);
+    } else {
+      this.studentS.setFinancialModal(ready);
+    }
   }
 }

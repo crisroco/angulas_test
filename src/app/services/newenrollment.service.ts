@@ -139,8 +139,16 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleNew', data).toPromise();
     }
 
+    public getScheduleNewBO(data): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getScheduleNewBO', data).toPromise();
+    }
+
     public validateCurrent(emplid): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/validateCurrent/' + emplid).toPromise();
+    }
+
+    public getEquivalentsAditionals(): Observable<any> {
+        return this.http.get("assets/equivalents.json");
     }
 
 }
