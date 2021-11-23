@@ -64,9 +64,9 @@ export class EnrollmentComponent implements OnInit {
   constructor(private broadcaster: Broadcaster,private deviceS: DeviceDetectorService, public enrollmentS: NewEnrollmentService, public session: SessionService, private router: Router, public toastT: ToastrService) { }
 
   ngOnInit() {
-    if(((this.deviceS.isMobile() || this.deviceS.isTablet()) && this.deviceS.getDeviceInfo().browser != 'Chrome' && this.deviceS.getDeviceInfo().os == 'Android') || (this.deviceS.getDeviceInfo().browser == 'Chrome' && this.deviceS.getDeviceInfo().os == 'Windows' && Number(this.deviceS.getDeviceInfo().browser_version.split('.')[0]) < 90)){
-      this.changeToChromeModal.open();
-    }
+    // if(((this.deviceS.isMobile() || this.deviceS.isTablet()) && this.deviceS.getDeviceInfo().browser != 'Chrome' && this.deviceS.getDeviceInfo().os == 'Android') || (this.deviceS.getDeviceInfo().browser == 'Chrome' && this.deviceS.getDeviceInfo().os == 'Windows' && Number(this.deviceS.getDeviceInfo().browser_version.split('.')[0]) < 90)){
+    //   this.changeToChromeModal.open();
+    // }
     moment.locale('es');
     this.session.destroy('mySchedule');
     this.student = this.session.getObject('student');

@@ -56,3 +56,9 @@
         background-color: green !important;
     }
 }
+
+@media (max-width: 480px) {
+    .item-sub {
+        display: none;
+    }
+}

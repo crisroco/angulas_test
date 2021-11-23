@@ -31,12 +31,12 @@
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula Extracurricular</span>
   </a>
-  <div class="menu">
+  <div *ngIf="widthMenu!=72" class="menu">
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Reserva Matrícula</span>
     <i class="arrow fa fa-chevron-down" aria-hidden="true"></i>
   </div>
-  <div class="item-sub">
+  <div *ngIf="widthMenu!=72" class="item-sub">
     <ul>
       <li (click)="showScheduleModal()">
         Consultar Horarios
@@ -46,6 +46,10 @@
       </li>
     </ul>
   </div>
+  <a class="menu" *ngIf="(timeOut && showMatri) && widthMenu==72" (click)="goEnrollment()">
+    <img src="./assets/img/matricula.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Reserva Matrícula</span>
+  </a>
   <!-- <a *ngIf="timeOut && showMatri" class="menu" (click)="goEnrollment()">
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Reserva Matrícula</span>
