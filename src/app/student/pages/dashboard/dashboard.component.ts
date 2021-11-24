@@ -139,6 +139,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     for (const note of this.realNotices) {
       note.limit =  note.content.length>330 ? note.content.substring(0,330) + '...' : note.content;
     }
+    if(this.session.getObject('AllInst')){
+      this.checkNotices();
+    }
     this.crossdata = this.broadcaster.getMessage().subscribe(message => {
       if (message && message.enroll_conditions) {
         this.enroll_conditions = message.enroll_conditions;
@@ -155,96 +158,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       else if (message && message.code) {
       }
       else if(message && message.Inst){
-        this.studentS.getDataStudent({ email: this.user.email })
-        .then(async res => {
-          this.student = res.UcsMetodoDatosPersRespuesta;
-          this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
-          this.session.setObject('student', this.student);
-          let temp = this.session.getObject('AllInst').map(el => { return el.institucion });
-          let temp2 = this.session.getObject('AllInst').map(el => { return el.codigoPrograma });
-          for (const el of this.realNotices) {
-            if(el.useCSV){
-              let listStudents = await this.studentS.getListOfStudentsJson();
-              if (listStudents.find(emp => emp == this.user.codigoAlumno)) {
-                el.filtroInst.push('ALL');
-                el.filtroCarr.push('ALL');
-              }
-            }
-            if(el.useCSV2){
-              let cpeStudents = await this.studentS.CPEStudents();
-              if (cpeStudents.find(emp => emp == this.user.codigoAlumno)) {
-                // console.log('A');
-                el.filtroInst.push('ALL');
-                el.filtroCarr.push('ALL');
-              }
-            }
-            if(el.useCSV3){
-              let pregradoStudent = await this.studentS.PREGRADOStudents();
-              if (pregradoStudent.find(emp => emp == this.user.codigoAlumno)) {
-                // console.log('B');
-                el.filtroInst.push('ALL');
-                el.filtroCarr.push('ALL');
-              }
-            }
-            if(el.useCSV4){
-              let student = await this.studentS.BBDDCesPre();
-              if (student.find(emp => emp == this.user.codigoAlumno)) {
-                // console.log('B');
-                el.filtroInst.push('ALL');
-                el.filtroCarr.push('ALL');
-              }
-            }
-            if(el.useCSV5){
-              let student = await this.studentS.BBDDBibliotecaPre();
-              if (student.find(emp => emp == this.user.codigoAlumno)) {
-                // console.log('B');
-                el.filtroInst.push('ALL');
-                el.filtroCarr.push('ALL');
-              }
-            }
-            if(el.useCSV6){
-              let student = await this.studentS.BBDDMatriculaPre();
-              if (student.find(emp => emp == this.user.codigoAlumno)) {
-                // console.log('B');
-                el.filtroInst.push('ALL');
-                el.filtroCarr.push('ALL');
-              }
-            }
-            if(el.useCSV7){
-              let student = await this.studentS.BBDDPosCes();
-              if (student.find(emp => emp == this.user.codigoAlumno)) {
-                // console.log('B');
-                el.filtroInst.push('ALL');
-                el.filtroCarr.push('ALL');
-              }
-            }
-            if(el.useCSV8){
-              let student = await this.studentS.BBDDPosMatricula();
-              if (student.find(emp => emp == this.user.codigoAlumno)) {
-                // console.log('B');
-                el.filtroInst.push('ALL');
-                el.filtroCarr.push('ALL');
-              }
-            }
-            if((el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr[0] == 'ALL') || (el.filtroInst[0] == 'ALL' && el.filtroCarr.some(r => temp2.indexOf(r) >= 0)) || (el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr.some(r => temp2.indexOf(r) >= 0))) {
-              el['finallShow'] = true;
-            }
-          }
-          this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
-          // setTimeout(() => {
-          //   this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
-          //   if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
-          //     this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
-          //   }
-          // }, 1000);
-        });
+        this.checkNotices();
       }
       // if (message.institution != 'PSTRG') {
 
       // }
       // }
     });
-    // this.showModals();
     this.realDate = RealDate(DateFixedSO(this.realDate.sDate, this.realDate.sTime));
     this.getParameters();
     this.studentS.getdataStudent().subscribe(
@@ -271,7 +191,92 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // this.setRealDateEnroll(false);
     // this.readConditions();
     var ese = new Array(4);
-    //this.matriculaExtracurricularModal.open();
+  }
+
+  async checkNotices() {
+    this.studentS.getDataStudent({ email: this.user.email })
+      .then(async res => {
+        this.student = res.UcsMetodoDatosPersRespuesta;
+        this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
+        this.session.setObject('student', this.student);
+        let temp = this.session.getObject('AllInst').map(el => { return el.institucion });
+        let temp2 = this.session.getObject('AllInst').map(el => { return el.codigoPrograma });
+        for (const el of this.realNotices) {
+          if(el.useCSV){
+            let listStudents = await this.studentS.getListOfStudentsJson();
+            if (listStudents.find(emp => emp == this.user.codigoAlumno)) {
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if(el.useCSV2){
+            let cpeStudents = await this.studentS.CPEStudents();
+            if (cpeStudents.find(emp => emp == this.user.codigoAlumno)) {
+              // console.log('A');
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if(el.useCSV3){
+            let pregradoStudent = await this.studentS.PREGRADOStudents();
+            if (pregradoStudent.find(emp => emp == this.user.codigoAlumno)) {
+              // console.log('B');
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if(el.useCSV4){
+            let student = await this.studentS.BBDDCesPre();
+            if (student.find(emp => emp == this.user.codigoAlumno)) {
+              // console.log('B');
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if(el.useCSV5){
+            let student = await this.studentS.BBDDBibliotecaPre();
+            if (student.find(emp => emp == this.user.codigoAlumno)) {
+              // console.log('B');
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if(el.useCSV6){
+            let student = await this.studentS.BBDDMatriculaPre();
+            if (student.find(emp => emp == this.user.codigoAlumno)) {
+              // console.log('B');
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if(el.useCSV7){
+            let student = await this.studentS.BBDDPosCes();
+            if (student.find(emp => emp == this.user.codigoAlumno)) {
+              // console.log('B');
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if(el.useCSV8){
+            let student = await this.studentS.BBDDPosMatricula();
+            if (student.find(emp => emp == this.user.codigoAlumno)) {
+              // console.log('B');
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if((el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr[0] == 'ALL') || (el.filtroInst[0] == 'ALL' && el.filtroCarr.some(r => temp2.indexOf(r) >= 0)) || (el.filtroInst.some(r => temp.indexOf(r) >= 0) && el.filtroCarr.some(r => temp2.indexOf(r) >= 0))) {
+            el['finallShow'] = true;
+          }
+        }
+        this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
+        // setTimeout(() => {
+        //   this.notice = this.realNotices.filter(el => el['finallShow'] || (el.filtroInst[0] == 'ALL' && el.filtroCarr[0] == 'ALL'));
+        //   if(this.notSTRM.includes(this.session.getObject('student').ciclo_lectivo)){
+        //     this.notice = this.realNotices.filter(el => el.title != 'CONOCE EL NUEVO ACCESO AL AULA VIRTUAL')
+        //   }
+        // }, 1000);
+      });
   }
 
   async getAllClass(r) {
@@ -652,12 +657,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (this.timeoutEnroll) {
         this.studentS.getEnrollQueueNumber({ EMPLID: this.user.codigoAlumno })
           .then((res) => {
-            console.log(res);
             this.queueEnroll = res.UCS_GRUPO_MAT_RES;
             this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
           });
       }
-    }, 120000);
+    }, 150000);
   }
 
   saveConditions(flag, modal) {
@@ -747,17 +751,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   preGoMoodle(data) {
-
     let realClass = data;
-    
     realClass.CLASS_ATTEND_DT = realClass.FECH_INI;
     let dates = this.getDates(realClass.FECH_INI, realClass.MEETING_TIME_START, realClass.MEETING_TIME_END);
     this.realHourStart = RealDate(dates.start);
+    let stud = this.session.getObject('student');
     this.realHourEnd = RealDate(dates.end);
     let tclassNbr = 0;
     this.assistanceS.getAllClassNbrByCourse({
       STRM: realClass.STRM,
-      EMPLID: this.student.codigoAlumno,
+      EMPLID: stud.codigoAlumno,
       CLASS_ATTEND_DT: realClass.CLASS_ATTEND_DT,
       CLASS_NBR: realClass.CLASS_NBR
     }).then((res) => {
