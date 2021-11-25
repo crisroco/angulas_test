@@ -41,9 +41,9 @@
       <li (click)="showScheduleModal()">
         Consultar Horarios
       </li>
-      <!-- <li *ngIf="timeOut && showMatri" (click)="goEnrollment()">
+      <li *ngIf="timeOut && showMatri" (click)="goEnrollment()">
         Iniciar Reserva
-      </li> -->
+      </li>
     </ul>
   </div>
   <a class="menu" *ngIf="(timeOut && showMatri) && widthMenu==72" (click)="goEnrollment()">
