@@ -189,7 +189,7 @@ export class DisponiblesComponent implements OnInit {
                   this.scheduleAvailables = this.checkDuplicates(data);
                   this.loading = false;
                   this.scheduleSelection.open();
-                }, 1000)
+                }, 1500)
               }
             });
           }

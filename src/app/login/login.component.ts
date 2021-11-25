@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
 	studentCode;
 	allData: any;
 	arrego: [];
+	failedCount:any = 0;
 	dataStudent:any;
 	remotex: any;
 	digital1: any;
@@ -48,13 +49,13 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
 		// this.piezaModal.open();
-		if(this.session.getItem('showModal')){
-			this.ErrCurrentStudentModal.open();
-			setTimeout(() => {
-				this.session.destroy('showModal');
-				this.ErrCurrentStudentModal.close();
-			}, 5000);
-		}
+		// if(this.session.getItem('showModal')){
+		// 	this.ErrCurrentStudentModal.open();
+		// 	setTimeout(() => {
+		// 		this.session.destroy('showModal');
+		// 		this.ErrCurrentStudentModal.close();
+		// 	}, 5000);
+		// }
 		this.loginForm = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],
@@ -63,6 +64,7 @@ export class LoginComponent implements OnInit {
 
 	login() {
 		if (this.loginForm.invalid) { this.toastr.error('Complete todos los campos.'); return; }
+		if (this.failedCount >= 5  && this.validateTime()) { this.toastr.error('Usaste la cantidad maxima de intentos, prueba nuevamente en 15 minutos'); return; }
 		let data = this.loginForm.value;
 		let deviceinfo = this.deviceS.getDeviceInfo();
 		data.origen = deviceinfo.device == 'Unknown' ? 'W' : 'M';
@@ -71,6 +73,7 @@ export class LoginComponent implements OnInit {
 			this.student = res.UcsMetodoLoginRespuesta;
 			if (!this.student || this.student['valor'] != 'Y') {
 				this.toastr.error(this.student && this.student.descripcion ? this.student.descripcion : 'No pudo loguearse, vuelva a intentarlo en unos minutos.');
+				this.addFail();
 				this.loading = false;
 				return;
 			}
@@ -79,7 +82,6 @@ export class LoginComponent implements OnInit {
 				this.loading = false;
 				return;
 			}
-			//SET OBJECT dataStudent
 			this.studentS.getDataStudent({ email: data.email }).then(res => {
 				this.remotex = res.UcsMetodoDatosPersRespuesta;
 				this.session.setObject('remotex', this.remotex);
@@ -108,7 +110,6 @@ export class LoginComponent implements OnInit {
 					this.session.setObject('dataStudent', this.dataStudent);
 					this.student.email = data.email;
 					this.session.setObject('user', this.student);
-					// this.router.navigate(['estudiante']);
 					this.loginS.oauthToken({
 						username: data.email,
 						password: data.password,
@@ -128,5 +129,20 @@ export class LoginComponent implements OnInit {
 			this.toastr.error('Hubo un error al momento de ingresar, Por favor intentalo más tarde.');
 			this.loading = false;
 		});
+	}
+
+	addFail(){
+		this.failedCount++;
+		this.session.setObject('failedCount', {lastTime: new Date().getTime(), count: this.failedCount});
+	}
+
+	validateTime(){
+		let failed = this.session.getObject('failedCount');
+		if(new Date().getTime() - 900000 >= failed.lastTime) {
+			this.failedCount = 0;
+			return false
+		} else {
+			return true
+		}
 	}
 }
