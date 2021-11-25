@@ -120,16 +120,16 @@ export class StudentService {
         return this.showFinancial.asObservable();
     }
 
-    public getDataStudent(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getDataStudent', data).toPromise();
+    public getDataStudent(): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getDataStudent', {}).toPromise();
     }
 
     public getPhoneStudent(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getPhoneStudent', data).toPromise();
     }
 
-    public getAcademicDataStudent(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAcademicDataStudent', data).toPromise();
+    public getAcademicDataStudent(): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAcademicDataStudent', {}).toPromise();
     }
 
     public getScheduleStudent(data): Promise<any> {
@@ -212,16 +212,16 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/saveFinancialCondition', data).toPromise();
     }
 
-    public getEnrollQueueNumber(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getEnrollQueueNumber', data).toPromise();
+    public getEnrollQueueNumber(): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getEnrollQueueNumber', {}).toPromise();
     }
 
     public getSTRM(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getSTRM', data).toPromise();
     }
 
-    public getPersonalData(code): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.PERSONAL_DATA + '/getPersonalData/' + code, {}).toPromise();
+    public getPersonalData(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.PERSONAL_DATA + '/getPersonalData').toPromise();
     }
 
     public savePersonalData(data): Promise<any> {
@@ -299,8 +299,8 @@ export class StudentService {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getDeuda/' + code).toPromise();
     }
 
-    public getFileUpload(code): Promise<any> {
-        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getUploadbyEmplid/' + code).toPromise();
+    public getFileUpload(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getUploadbyEmplid').toPromise();
     }
 
     public getAllFilesV(): Promise<any> {

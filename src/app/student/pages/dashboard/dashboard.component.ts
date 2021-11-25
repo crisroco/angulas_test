@@ -655,7 +655,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.timeoutEnroll = !turn.onTurn;
     setTimeout(() => {
       if (this.timeoutEnroll) {
-        this.studentS.getEnrollQueueNumber({ EMPLID: this.user.codigoAlumno })
+        this.studentS.getEnrollQueueNumber()
           .then((res) => {
             this.queueEnroll = res.UCS_GRUPO_MAT_RES;
             this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);

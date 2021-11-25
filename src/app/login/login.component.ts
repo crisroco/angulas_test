@@ -82,49 +82,44 @@ export class LoginComponent implements OnInit {
 				this.loading = false;
 				return;
 			}
-			this.studentS.getDataStudent({ email: data.email }).then(res => {
-				this.remotex = res.UcsMetodoDatosPersRespuesta;
-				this.session.setObject('remotex', this.remotex);
-				const SECRETKEY = "K4GxggYzW6vl0TwxJrBL8RJaZR2eVg60";
-				const DIGITAL_LIBRARY_URL = "https://bennett.remotexs.in/alumni/login";
-				const DIGITAL_LIBRARY_URL2 = "https://cientifica.remotexs.co/alumni/login";
-
-				this.digital1 = "Alumni";
-				this.digital2 = this.remotex.codigoAlumno;
-				this.digital3 = this.remotex.correo;
-				if (CryptoJS) {
-					var hash = CryptoJS.HmacSHA256(DIGITAL_LIBRARY_URL2 + this.digital1 + this.digital2 + this.digital3, SECRETKEY);
-					this.digital4 = CryptoJS.enc.Base64.stringify(hash);
-				} else {
-					alert("Error: CryptoJS is undefined");
-				}
-				this.session.setObject('hash', this.digital4);
-				this.studentS.getAcademicDataStudent({ code: this.student.codigoAlumno }).then((res) => {
-					var instis = res['UcsMetodoDatosAcadRespuesta']['UcsMetodoDatosAcadRespuesta'];
-					instis.forEach(i => {
-					});
-					var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
-					var one = units.filter(item => item.institucion == 'ECONT');//ECONT - PREGR
-					var inst = one.length ? one[0] : null;
-					this.dataStudent = inst;
-					this.session.setObject('dataStudent', this.dataStudent);
-					this.student.email = data.email;
-					this.session.setObject('user', this.student);
-					this.loginS.oauthToken({
-						username: data.email,
-						password: data.password,
-						// client_id: 16, //tst
-						// client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
-						client_id: 2,
-						client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
-						grant_type: "password"
-					}).then((res) => {
-						this.loading = false;
-						this.session.setObject('oauth', res);
+			// this.studentS.getAcademicDataStudent({ code: this.student.codigoAlumno }).then((res) => {
+				// var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
+				// var one = units.filter(item => item.institucion == 'ECONT');//ECONT - PREGR
+				// var inst = one.length ? one[0] : null;
+				// this.dataStudent = inst;
+				this.session.setObject('dataStudent', this.dataStudent);
+				this.student.email = data.email;
+				this.session.setObject('user', this.student);
+				this.loginS.oauthToken({
+					username: data.email,
+					password: data.password,
+					// client_id: 16, //tst
+					// client_secret: "wxcQmnx9NvaTIELf0rL3vP5kF1MJ97EUhdGadRLv",
+					client_id: 2,
+					client_secret: "UuSTMkuy1arAjaIA4yY5l5xXRm6NonaKZoBk2V1a",
+					grant_type: "password"
+				}).then((res) => {
+					this.loading = false;
+					this.session.setObject('oauth', res);
+					this.studentS.getDataStudent().then((res) => {
+						this.remotex = res.UcsMetodoDatosPersRespuesta;
+						this.session.setObject('remotex', this.remotex);
+						const SECRETKEY = "K4GxggYzW6vl0TwxJrBL8RJaZR2eVg60";
+						const DIGITAL_LIBRARY_URL2 = "https://cientifica.remotexs.co/alumni/login";
+						this.digital1 = "Alumni";
+						this.digital2 = this.remotex.codigoAlumno;
+						this.digital3 = this.remotex.correo;
+						if (CryptoJS) {
+							var hash = CryptoJS.HmacSHA256(DIGITAL_LIBRARY_URL2 + this.digital1 + this.digital2 + this.digital3, SECRETKEY);
+							this.digital4 = CryptoJS.enc.Base64.stringify(hash);
+						} else {
+							alert("Error: CryptoJS is undefined");
+						}
+						this.session.setObject('hash', this.digital4);
 						this.router.navigate(['estudiante']);
-					}, error => { this.loading = false; });
-				});
-			}, error => { this.loading = false;});
+					});
+				}, error => { this.loading = false; });
+			// }, error => { this.loading = false;});
 		}, error => {
 			this.toastr.error('Hubo un error al momento de ingresar, Por favor intentalo más tarde.');
 			this.loading = false;

@@ -67,7 +67,8 @@ export class StudentComponent implements OnInit, OnDestroy {
 	user: any = {
 		codigoAlumno: ''
 	};
-	dataStudent: any = this.session.getObject('dataStudent');
+	// dataStudent: any = this.session.getObject('dataStudent');
+	dataStudent:any;
 	retomex: any = {
 		correo: '',
 		nombreAlumno: '',
@@ -1049,7 +1050,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	getPersonalDataValidate() {
-		this.studentS.getPersonalData(this.user.codigoAlumno)
+		this.studentS.getPersonalData()
 			.then(res => {
 				this.dataEstudiante = res.data;
 				this.setClient(res.data || {})
@@ -1057,7 +1058,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	getPersonalData() {
-		this.studentS.getPersonalData(this.user.codigoAlumno)
+		this.studentS.getPersonalData()
 			.then(res => {
 				this.dataEstudiante = res.data;
 				this.setClient(res.data || {})
@@ -1162,7 +1163,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 	getParameters(open: boolean = true) {
 		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
-		this.intentionS.getParameters(this.user.codigoAlumno)
+		this.intentionS.getParameters()
 			.then(res => {
 				this.enrollmentStatus = res.data && res.data ? res.data : [];
 				this.enrollmentStatus.forEach((item) => {
@@ -1259,7 +1260,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 	async checkInList() {
 		this.student = this.session.getObject('student');
-		this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
+		this.studentS.getAcademicDataStudent()
 			.then((res) => {
 				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 				this.session.setObject('AllInst', units);
@@ -1280,7 +1281,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 		else {
 			this.student = this.session.getObject('student');
 			this.user = this.session.getObject('user');
-			this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
+			this.studentS.getAcademicDataStudent()
 				.then(res => {
 					let units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 					this.studentS.setdataStudent(units);
@@ -1301,7 +1302,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 								this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM ? res.UCS_OBT_STRM_RES.STRM : this.enroll.STRM;
 								this.broadcaster.sendMessage({ enroll: this.enroll });
 								this.session.setObject('dataEnrollment', this.enroll);
-								this.studentS.getEnrollQueueNumber(this.enroll)
+								this.studentS.getEnrollQueueNumber()
 									.then(res => {
 										this.queueEnroll = res.UCS_GRUPO_MAT_RES;
 										// if (this.queueEnroll.exactDate) {
@@ -1779,7 +1780,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	getFileUpload() {
-		this.studentS.getFileUpload(this.user.codigoAlumno)
+		this.studentS.getFileUpload()
 			.then((res) => {
 				this.botonesvacuna = true;
 				this.datafile = res.data;
