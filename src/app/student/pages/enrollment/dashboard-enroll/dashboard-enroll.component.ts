@@ -559,11 +559,11 @@ export class DashboardEnrollComponent implements OnInit {
       this.toastS.warning('No seleccionaste ninguna sección','', {progressBar: true});
       return
     }
-    if (result.length != Number(this.selectedCourse['CANT_COMP'])) {
-      this.loading = false;
-      this.toastS.warning('No seleccionaste los componentes necesarios: ' + this.selectedCourse['COMPONENTS'],'', {progressBar: true});
-      return
-    }
+    // if (result.length != Number(this.selectedCourse['CANT_COMP'])) {
+    //   this.loading = false;
+    //   this.toastS.warning('No seleccionaste los componentes necesarios: ' + this.selectedCourse['COMPONENTS'],'', {progressBar: true});
+    //   return
+    // }
     if (result[0]['SSR_COMPONENT'] == 'TEO') {
       let numberOfPRA = this.countPRABeforeSave(result[0]);
       if (numberOfPRA > 1 && result.length == 1) {
