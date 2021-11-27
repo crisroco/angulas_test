@@ -414,9 +414,11 @@ export class DisponiblesComponent implements OnInit {
   countPRABeforeSave(associated_class){
     let total = 0;
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
-      for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET2MREU'].length; o++) {
-        if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASSOCIATED_CLASS) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET2MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.CRSE_ID) {
-          total++;
+      if(this.scheduleAvailables[i]['UCS_REST_DET2MREU']){
+        for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET2MREU'].length; o++) {
+          if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASSOCIATED_CLASS) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET2MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.CRSE_ID) {
+            total++;
+          }
         }
       }
     }
