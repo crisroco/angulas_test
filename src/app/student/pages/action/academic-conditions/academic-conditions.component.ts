@@ -29,7 +29,7 @@ export class AcademicConditionsComponent implements OnInit {
 		private studentS: StudentService) { }
 
 	ngOnInit() {
-		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
+		this.studentS.getAcademicDataStudent()
 		.then(res => {
 			this.programs = res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta?res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 			if(this.programs.length){
@@ -40,7 +40,7 @@ export class AcademicConditionsComponent implements OnInit {
 	}
 
 	getAcademicConditions(){
-		this.studentS.getAcademicConditions({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		this.studentS.getAcademicConditions({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
 			this.cycles = [];
 			var objCycles = {
@@ -197,7 +197,7 @@ export class AcademicConditionsComponent implements OnInit {
 	}
 
 	getWeightedAverage(){
-		this.studentS.getWeightedAverage(this.user.codigoAlumno, this.realProgram.codigoGrado, this.realProgram.codigoPrograma)
+		this.studentS.getWeightedAverage(this.realProgram.codigoGrado, this.realProgram.codigoPrograma)
 		.then(res => {
 			this.weightedAverage = res.UCS_REST_PROMEDIO_RSP && res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM && res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM[0]?res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM[0]:0;
 		}, error => { });

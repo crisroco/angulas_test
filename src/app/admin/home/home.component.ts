@@ -83,7 +83,8 @@ export class HomeComponent implements OnInit {
 
   select() {
     this.loading = true;
-    this.studentS.getAcademicDataStudent({ code: this.studentCode }).then((res) => {
+    //{ code: this.studentCode }
+    this.studentS.getAcademicDataStudent().then((res) => {
       this.allData = res[0];
       this.session.setObject('acadmicData', this.allData);
       this.session.setObject('mySelectedStudent', this.isthisStudent);
@@ -114,7 +115,8 @@ export class HomeComponent implements OnInit {
 
   select2() {
     this.loading = true;
-    this.studentS.getAcademicDataStudent({ code: this.studentCode }).then((res) => {
+    //{ code: this.studentCode }
+    this.studentS.getAcademicDataStudent().then((res) => {
       var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
       this.allData = units.filter(item => item.institucion == 'PREGR')[0];
       if (this.allData === undefined){this.toastr.error('El alumno no existe en la BD.'); this.loading = false; return;}      

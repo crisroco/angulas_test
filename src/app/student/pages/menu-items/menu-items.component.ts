@@ -64,7 +64,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   }
   
   loadConditions(){
-    this.newEnrollmentS.checkConditions(this.session.getObject('user').codigoAlumno)
+    this.newEnrollmentS.checkConditions()
       .then((res) => {
         this.enroll = true;
         this.enroll_conditions = res;

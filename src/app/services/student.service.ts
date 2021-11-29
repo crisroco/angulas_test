@@ -140,8 +140,8 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAdStudent/' + code, {}).toPromise();
     }
 
-    public getAccountStatus(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAccountStatus', data).toPromise();
+    public getAccountStatus(): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAccountStatus', {}).toPromise();
     }
 
     public getCourseHistory(data): Promise<any> {
@@ -160,8 +160,8 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getRequirements', data).toPromise();
     }
 
-    public getWeightedAverage(code, career, program): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getWeightedAverage/' + code + '/' + career + '/' + program, {}).toPromise();
+    public getWeightedAverage(career, program): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getWeightedAverage/' + career + '/' + program, {}).toPromise();
     }
 
     public getFormuleCourse(class_nbr, strm): Promise<any> {

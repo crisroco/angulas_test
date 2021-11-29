@@ -79,7 +79,7 @@ export class WeeklyScheduleComponent implements OnInit {
 		private studentS: StudentService) { }
 
 	ngOnInit() {
-		this.studentS.getAcademicDataStudent({ code: this.user.codigoAlumno })
+		this.studentS.getAcademicDataStudent()
 			.then(res => {
 				this.programs = res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 				if (this.programs.length) {
@@ -143,7 +143,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	getSchedule() {
-		this.studentS.getSchedule({ code: this.user.codigoAlumno, institution: this.realProgram.institucion, strm: this.realProgram.cicloAdmision })
+		this.studentS.getSchedule({ institution: this.realProgram.institucion, strm: this.realProgram.cicloAdmision })
 			.then(res => {
 				this.classDay = res.RES_HR_CLS && res.RES_HR_CLS.RES_HR_CLS_DET ? res.RES_HR_CLS.RES_HR_CLS_DET : [];
 				this.closeOpenMonthViewDay();
@@ -151,7 +151,7 @@ export class WeeklyScheduleComponent implements OnInit {
 	}
 
 	getVirtualClass() {
-		this.studentS.getVirtualClass({ code: this.user.codigoAlumno, institution: this.realProgram.institucion, strm: this.realProgram.cicloAdmision })
+		this.studentS.getVirtualClass({ institution: this.realProgram.institucion, strm: this.realProgram.cicloAdmision })
 			.then(res => {
 				this.virtualClass = res.RES_HRS_VIR_CLS && res.RES_HRS_VIR_CLS.COM_HRS_VIR_CLS ? res.RES_HRS_VIR_CLS.COM_HRS_VIR_CLS : [];
 			}, error => { })

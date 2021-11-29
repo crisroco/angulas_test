@@ -21,7 +21,7 @@ export class CourseHistoryComponent implements OnInit {
 		private studentS: StudentService) { }
 
 	ngOnInit() {
-		this.studentS.getAcademicDataStudent({code: this.user.codigoAlumno})
+		this.studentS.getAcademicDataStudent()
 		.then(res => {
 			this.programs = res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta?res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 			if(this.programs.length){
@@ -32,7 +32,7 @@ export class CourseHistoryComponent implements OnInit {
 	}
 
 	getCourses(){
-		this.studentS.getCourseHistory({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado})
+		this.studentS.getCourseHistory({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado})
 		.then( res => {
 			this.cycles = [];
 			var objCycles = {};

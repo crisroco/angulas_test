@@ -118,8 +118,8 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/massiveUpload', data).toPromise();
     }
 
-    public checkConditions(id): Promise<any> {
-        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/checkConditions/' + id).toPromise();
+    public checkConditions(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/checkConditions').toPromise();
     }
 
     public saveConditions(data): Promise<any> {

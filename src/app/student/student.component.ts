@@ -585,7 +585,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 		// })
 
 		this.btnMatricula = true;
-		this.newEnrollmentS.getCoursesExtraInEnrollment({ EMPLID: this.user.codigoAlumno, INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC" })
+		this.newEnrollmentS.getCoursesExtraInEnrollment({ INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC" })
 			.then((res) => {
 				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
 				if (this.coursesPeople) {
