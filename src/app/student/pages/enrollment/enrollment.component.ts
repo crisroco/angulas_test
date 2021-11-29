@@ -32,7 +32,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
   schoolCycle: any = this.session.getObject('schoolCycle');
   user: any = this.session.getObject('user');
   student: any = this.session.getObject('student');
-  public motives:Array<any> = [{name: '1', descr: 'Motivo1'},{name: '2', descr: 'Motivo2'},{name: '3', descr: 'Motivo3'},{name: '4', descr: 'Motivo4'}];
+  public motives:Array<any> = [{name: '1', descr: 'Falta de cupo'},{name: '2', descr: 'Cruce de horario'},{name: '3', descr: 'Sin programación'},{name: '4', descr: 'Nuevo horario'}];
   public days:Array<any> = [{val: 'LUN',name:'LUNES', type: 'D'},{val: 'MAR',name:'MARTES', type: 'D'},{val: 'MIE',name:'MIERCOLES', type: 'D'},{val: 'JUE',name:'JUEVES', type: 'D'},{val: 'VIE',name:'VIERNES', type: 'A'},{val: 'SAB',name:'SABADO', type: 'F'},{val: 'DOM',name:'DOMINGO', type: 'F'}];
   public hoursAditionalCourses:Array<any> = [
     {
@@ -269,8 +269,8 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
     let two = [];
     for (var i = 0; i < this.aditionalCourses.length; i++) {
       if (this.aditionalCourses[i].extra && this.aditionalCourses[i].value) {
-        if(!this.aditionalCourses[i]['HORA_INICIO'] && !this.aditionalCourses[i]['MOTIVO']){
-          this.toastT.error('Falta seleccionar una hora inicio y motivo','', {progressBar: true});
+        if(!this.aditionalCourses[i]['HORA_INICIO'] || !this.aditionalCourses[i]['MOTIVO']){
+          this.toastT.error('Falta seleccionar una hora inicio o motivo','', {progressBar: true});
           this.loading = false;
           return
         }
