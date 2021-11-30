@@ -176,7 +176,8 @@ export class DashboardEnrollComponent implements OnInit {
             }
           }
           this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
-          this.maxCredits = res[0]?Math.round(res[0]['FT_MAX_TOTAL_UNIT']):0;
+          let max = res.find(el => el.FLAG == 'N');
+          this.maxCredits = max?Math.round(max['FT_MAX_TOTAL_UNIT']):0;
           this.session.setItem('MaxCreditsEnrollment', this.maxCredits);
           this.loading = false;
         });
