@@ -312,7 +312,8 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
           HORA_INICIO: this.aditionalCourses[i]['HORA_INICIO'],
           HORA_FIN: this.aditionalCourses[i]['HORA_FIN'],
           DIA: this.aditionalCourses[i]['DIA'],
-          MODULO: this.aditionalCourses[i]['MODULO'],
+          MODULO: '1',
+          // this.aditionalCourses[i]['MODULO']
           COMPONENTE: this.aditionalCourses[i]['COMPONENTE'],
           ACCION: "I"
         });

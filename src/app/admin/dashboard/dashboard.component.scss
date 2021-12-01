@@ -1,6 +1,19 @@
-// *:not(i) {
-// 	font-family: "Gotham", Arial, sans-serif;
-// }
+.p-r {
+	position: relative;
+}
+.background-black {
+	background-color: black;
+	border-radius: 5px;
+	padding: 5px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	color: #CCC;
+	position: absolute;
+	top: -35px;
+	font-size: 11px;
+	left: -5px;
+}
 td.line {
 	display: flex;
 	align-items: center;
@@ -163,5 +176,11 @@ div.enrollment-menu .btn {
 	.theader {
 		color: #204491;
 		background: rgba(111, 197, 232, 0.5);
+	}
+}
+
+@media (max-width: 480px) {
+	div.footer {
+		display: none;
 	}
 }

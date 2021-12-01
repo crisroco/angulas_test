@@ -32,6 +32,22 @@ export class DashboardComponent implements OnInit {
   viewDate: Date = new Date(2021, 7, 23);
   events: CalendarEvent[] = [];
   CalendarView = CalendarView;
+  public showEquivalents:Array<any> = [];
+  public motives:Array<any> = [{name: '1', descr: 'Falta de cupo'},{name: '2', descr: 'Cruce de horario'},{name: '3', descr: 'Sin programación'},{name: '4', descr: 'Nuevo horario'}];
+  public days:Array<any> = [{val: 'LUN',name:'LUNES', type: 'D'},{val: 'MAR',name:'MARTES', type: 'D'},{val: 'MIE',name:'MIERCOLES', type: 'D'},{val: 'JUE',name:'JUEVES', type: 'D'},{val: 'VIE',name:'VIERNES', type: 'A'},{val: 'SAB',name:'SABADO', type: 'F'},{val: 'DOM',name:'DOMINGO', type: 'F'}];
+  public aditionalHoursRange:any;
+  public hoursAditionalCourses:Array<any> = [
+    {
+      type: 'PREG',
+      timebetween: 50,
+      hoursStart: ['07:10','08:10','09:10','10:10','11:10','12:10','13:10','14:10','15:10','16:10','17:10','18:10','19:00','19:45','20:30','21:15','22:00','22:45']
+    },
+    {
+      type: 'CPE',
+      timebetween: 45,
+      hoursStart: ['07:30','08:15','09:00','09:45','10:30','11:15','12:00','12:45','13:30','14:15','15:00','15:45','16:30','17:15','18:00','19:00','19:45','20:30','21:15','22:00','22:45']
+    }
+  ];
   view: CalendarView = CalendarView.Week;
   classDay: Array<any> = [];
   moreData: Array<any> = [];
@@ -42,6 +58,9 @@ export class DashboardComponent implements OnInit {
   enroll: any = null;
   enrollCycles: Array<any>;
   enroll_conditions: any = null;
+  public aditionalCredits = 0;
+  public maxCredits = 0;
+
   constructor(
     public newEnrollmentS: NewEnrollmentService,
     public toastr: ToastrService,
@@ -83,10 +102,16 @@ export class DashboardComponent implements OnInit {
   }
 
   openAditionalCoursesModal(){
+    this.maxCredits = this.session.getObject('MaxCreditsEnrollment');
     this.aditionalModalData(true);
   }
 
+  selectMotive(crs){
+    crs.DESCR_MOTIVO = this.motives.find(el => el.name == crs.MOTIVO)['descr'];
+  }
+
   aditionalModalData(openModal) {
+    this.aditionalCredits = 0;
     this.CPE = this.session.getItem('CPE');
     this.loading = true;
     this.allData = this.session.getObject('acadmicData');
@@ -98,6 +123,7 @@ export class DashboardComponent implements OnInit {
       ACAD_PLAN: this.allData['codigoPlan'],
       STRM: this.allData.cicloAdmision
     }
+    this.aditionalHoursRange = this.CPE?this.hoursAditionalCourses[1]['hoursStart']:this.hoursAditionalCourses[0]['hoursStart'];
     this.newEnrollmentS.getAditionalCourses(aditional)
       .then((res) => {
         this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES?res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES:[];
@@ -112,11 +138,25 @@ export class DashboardComponent implements OnInit {
             return a.UCS_CICLO - b.UCS_CICLO
           });
           for (var i = 0; i < res.length; i++) {
-            if (!this.aditionalCourses.find(el => el.CURSO_ID == res[i].CRSE_ID)) {
-              res[i].extra = true;
-              res[i].TURNO = 'M';
-              res[i].UCS_TURNO_CRSE = this.CPE?'D':'';
-              this.aditionalCourses.push(res[i]);
+            let finded = this.aditionalCourses.find(el => el.CURSO_ID == res[i].CRSE_ID);
+            if (!finded) {
+              let comps = res[i].COMPONENTS.split('|');
+              let hour = res[i].HOUR_COMP.split('|');
+              comps.forEach((el, index) => {
+                let ex = JSON.parse(JSON.stringify(res[i]));
+                ex.extra = true;
+                ex.TURNO = '';
+                ex.DIA = 'LUN';
+                ex.COMPONENTS = res[i].COMPONENTS;
+                ex.UCS_TURNO_CRSE = this.CPE?'D':'';
+                ex.COMPONENTE = el;
+                ex.HORA = hour[index];
+                ex.DAYS = this.CPE?this.days.filter(el => el.type != 'F'):this.days;
+                this.aditionalCourses.push(ex);
+              })
+            } else {
+              finded.COMPONENTS = res[i].COMPONENTS;
+              this.aditionalCredits += Number(finded.CREDITOS);
             }
           }
           openModal?this.aditionalCoursesModal.open():null;
@@ -127,6 +167,12 @@ export class DashboardComponent implements OnInit {
 
   deleteAditionalCourse(crs){
     this.loading = true;
+    let toDelete = [];
+    let single = this.aditionalCourses.find(el => el.CRSE_ID == crs.CURSO_ID || el.CURSO_ID == crs.CURSO_ID);
+    single['COMPONENTS'].split('|').forEach(el => {
+      toDelete.push({CRSE_ID: crs.CURSO_ID, TURNO: '', ACCION: 'B', TURNO_SEMANA: crs.UCS_TURNO_CRSE, MOTIVO: crs.MOTIVO, HORA_INICIO: crs.HORA_INICIO,
+      HORA_FIN: crs.HORA_INICIO, DIA: crs.DIA, MODULO: crs.MODULO, COMPONENTE: el})
+    });
     this.newEnrollmentS.saveAditionalCourses({
       EMPLID: this.session.getItem('emplidSelected'),
       INSTITUTION: this.allData['institucion'],
@@ -134,7 +180,7 @@ export class DashboardComponent implements OnInit {
       ACAD_PROG: this.allData['codigoPrograma'],
       ACAD_PLAN: this.allData['codigoPlan'],
       STRM: this.allData.cicloAdmision,
-      UCS_REST_CUR_ADIC_DT: [{CRSE_ID: crs.CURSO_ID, TURNO: crs.TURNO, ACCION: 'B', TURNO_SEMANA: crs.UCS_TURNO_CRSE}]
+      UCS_REST_CUR_ADIC_DT: toDelete
     }).then((res) => {
       this.loading = false;
       this.aditionalModalData(false);
@@ -144,19 +190,63 @@ export class DashboardComponent implements OnInit {
   confirmAditional(){
     this.loading = true;
     let aditional = [];
+    let lastNbr;
+    let one = [];
+    let two = [];
     for (var i = 0; i < this.aditionalCourses.length; i++) {
       if (this.aditionalCourses[i].extra && this.aditionalCourses[i].value) {
+        if(!this.aditionalCourses[i]['HORA_INICIO'] || !this.aditionalCourses[i]['MOTIVO']){
+          this.toastr.error('Falta seleccionar una hora inicio o motivo','', {progressBar: true});
+          this.loading = false;
+          return
+        }
+        if(!lastNbr || (lastNbr != this.aditionalCourses[i + 1]['CRSE_ID'])){
+          let quantity = this.aditionalCourses.filter(el =>el.value && el['CRSE_ID'] == this.aditionalCourses[i]['CRSE_ID']).length;
+          if(Number(this.aditionalCourses[i]['CANT_COMP']) != quantity){
+            lastNbr = this.aditionalCourses[i]['CRSE_ID'];
+            this.toastr.warning('Tienes que seleccionar todos los componentes de la clase ','',{progressBar: true});
+            this.loading = false;
+            return
+          }
+        }
+        one = aditional.filter((el) =>(el != this.aditionalCourses[i]) && (el['DIA'] == this.aditionalCourses[i]['DIA']));
+        for (let h = 0; h < one.length; h++) {
+          if(this.aditionalCourses[i]['DIA'] == one[h]['DIA']){
+            let cross = (one[h]['HORA_INICIO'] >= this.aditionalCourses[i]['HORA_INICIO'] && one[h]['HORA_INICIO'] < this.aditionalCourses[i]['HORA_FIN']) || (one[h]['HORA_FIN'] > this.aditionalCourses[i]['HORA_INICIO'] && one[h]['HORA_FIN'] <= this.aditionalCourses[i]['HORA_FIN']);
+            if(cross){
+              this.toastr.warning('Tienes un cruce con tu solicitud','',{progressBar: true})
+              this.loading = false;
+              return
+            }
+          }
+        }
+        two = this.aditionalCourses.filter((el) => el.CURSO_ID && !el.extra);
+        for (let j = 0; j < two.length; j++) {
+          if(this.aditionalCourses[i]['DIA'] == two[j]['DIA']){
+            if((two[j]['HORA_INICIO'] >= this.aditionalCourses[i]['HORA_INICIO'] && two[j]['HORA_INICIO'] < this.aditionalCourses[i]['HORA_FIN']) || (two[j]['HORA_FIN'] > this.aditionalCourses[i]['HORA_INICIO'] && two[j]['HORA_FIN'] <= this.aditionalCourses[i]['HORA_FIN'])){
+              this.toastr.warning('Tienes un cruce con tu solicitud','',{progressBar: true})
+              this.loading = false;
+              return
+            }
+          }
+        }
         aditional.push({
           CRSE_ID: this.aditionalCourses[i]['CRSE_ID'],
           TURNO: this.aditionalCourses[i]['TURNO']?this.aditionalCourses[i]['TURNO']:'M',
           TURNO_SEMANA: this.aditionalCourses[i]['UCS_TURNO_CRSE']?this.aditionalCourses[i]['UCS_TURNO_CRSE']:'',
+          MOTIVO: this.aditionalCourses[i]['MOTIVO'],
+          HORA_INICIO: this.aditionalCourses[i]['HORA_INICIO'],
+          HORA_FIN: this.aditionalCourses[i]['HORA_FIN'],
+          DIA: this.aditionalCourses[i]['DIA'],
+          MODULO: '1',
+          COMPONENTE: this.aditionalCourses[i]['COMPONENTE'],
           ACCION: "I"
         });
       }
     }
     if (aditional.length == 0) {
       this.loading = false;
-      this.toastr.warning('Tienes que seleccionar al menos un curso');
+      this.toastr.warning('Tienes que seleccionar al menos un curso','', {progressBar: true});
       return;
     }
     this.newEnrollmentS.saveAditionalCourses({
@@ -414,5 +504,43 @@ export class DashboardComponent implements OnInit {
     let s = num + '';
     while (s.length < size) { s = '0' + s; }
     return s;
+  }
+
+  selectEnd(crs){
+    let s = this.aditionalHoursRange.findIndex(el => el == crs.HORA_INICIO);
+    let h = Number(crs.HORA.split('|')[0]);
+    crs.HORA_FIN = this.aditionalHoursRange[s + h];
+    if(!crs.HORA_FIN){
+      this.toastr.warning('No completas las horas necesarias para este Componente','',{progressBar: true});
+      crs.HORA_INICIO = '';
+    }
+  }
+
+  showAditionals(crs){
+    this.showEquivalents = [];
+    this.newEnrollmentS.getEquivalentsAditionals().subscribe((res) => {
+      this.showEquivalents = res.filter(el => el.crse_id == crs.CURSO_ID);
+      crs.showEquivalents = true;
+      setTimeout(() => {
+        crs.showEquivalents = false;
+      }, 4500);
+    });
+  }
+
+  sameWeekDay(crs){
+    this.aditionalCourses.forEach((el) => {
+      if(el.CRSE_ID == crs.CRSE_ID){
+        el.DAYS = this.days.filter(el => el.type == crs.UCS_TURNO_CRSE || el.type == 'A');
+        el.UCS_TURNO_CRSE = crs.UCS_TURNO_CRSE
+      }
+    });
+  }
+
+  sameModule(crs){
+    this.aditionalCourses.forEach((el) => {
+      if(el.CRSE_ID == crs.CRSE_ID){
+        el.MODULO = crs.MODULO
+      }
+    });
   }
 }
