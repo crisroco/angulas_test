@@ -37,26 +37,6 @@ export const notice = [
         expand: true,
         full: true,
     },
-    {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/noticia-241121.jpg',
-        title: 'Charla: Pautas para el éxito académico. ',
-        new: true,
-        content: `Reconoce estrategias para construir hábitos de estudio y una adecuada gestión del tiempo en la vida académica y personal que permitan lograr el éxito académico. ¡Te esperamos!
-        <br>
-        <a target="_blank" href="https://forms.gle/HdyMK1jwFTArLex99">Inscríbete aquí</a>`,
-        filtroInst: ['PREGR'],
-        filtroCarr: ['PFMEH'],
-        useCSV: false,
-        useCSV2: false,
-        useCSV3: false,
-        useCSV4: false,
-        useCSV5: false,
-        useCSV6: false,
-        useCSV7: false,
-        useCSV8: false,
-        expand: true,
-        full: true,
-    },
     { // Pregrado - CES
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/encuesta-221121.jpg',
         title: '¡SOMOS TODO OÍDOS!',

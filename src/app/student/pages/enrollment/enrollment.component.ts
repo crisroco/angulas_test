@@ -222,6 +222,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
     if(!crs.HORA_FIN){
       this.toastT.warning('No completas las horas necesarias para este Componente','',{progressBar: true});
       crs.HORA_INICIO = '';
+      crs.HORA_FIN = '';
     }
   }
 
