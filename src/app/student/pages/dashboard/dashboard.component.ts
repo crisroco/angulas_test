@@ -203,7 +203,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         let temp2 = this.session.getObject('AllInst').map(el => { return el.codigoPrograma });
         for (const el of this.realNotices) {
           if(el.useCSV){
-            let listStudents = await this.studentS.getListOfStudentsJson();
+            let listStudents = await this.studentS.getListOfStudentsUbigeoJson();
             if (listStudents.find(emp => emp == this.user.codigoAlumno)) {
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
@@ -253,13 +253,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
           if(el.useCSV8){
             let student = await this.studentS.BBDDPosMatricula();
-            if (student.find(emp => emp == this.user.codigoAlumno)) {
-              el.filtroInst.push('ALL');
-              el.filtroCarr.push('ALL');
-            }
-          }
-          if(el.useCSV9){
-            let student = await this.studentS.getListOfStudentsUbigeoJson();
             if (student.find(emp => emp == this.user.codigoAlumno)) {
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
