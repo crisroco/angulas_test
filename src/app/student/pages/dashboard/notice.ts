@@ -1,8 +1,27 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/calendar-031221.jpg',
+        title: 'CALENDARIO DE MATRÍCULA POSGRADO DICIEMBRE 2021',
+        new: true,
+        content: `Para conocer el calendario de matrícula y nuevos inicios, revisa el siguiente <a target="_blank" href="https://www.cientifica.edu.pe/sites/default/files/2021-12/Calendario%20Posgrado_Dic%202021_0.pdf">link</a>.`,
+        filtroInst: [],
+        filtroCarr: [],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        useCSV9: true,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/intencion-matricula.jpg',
         title: 'INTENCIÓN DE MATRÍCULA VERANO 2022',
-        new: true,
+        new: false,
         content: `¡Ya inició la Intención de Matrícula Verano 2022!
         Acepta las condiciones académicas y financieras e inicia con el proceso.`,
         filtroInst: [],
@@ -21,7 +40,7 @@ export const notice = [
     {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/intencion-matricula.jpg',
         title: 'INTENCIÓN DE MATRÍCULA VERANO 2022',
-        new: true,
+        new: false,
         content: `¡Ya inició la Intención de Matrícula Verano 2022!
         Acepta las condiciones académicas y financieras e inicia con el proceso.`,
         filtroInst: [],
@@ -40,7 +59,7 @@ export const notice = [
     { // Pregrado - CES
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/encuesta-221121.jpg',
         title: '¡SOMOS TODO OÍDOS!',
-        new: true,
+        new: false,
         content: `Por favor haz click en el siguiente <a target="_blank" href="https://forms.gle/ji1iNS9DV6Fgptn8A">link</a>.`,
         filtroInst: [],
         filtroCarr: [],
@@ -58,7 +77,7 @@ export const notice = [
     { // Pregrado - BIBLIOTECA
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/encuesta-221121.jpg',
         title: '¡SOMOS TODO OÍDOS!',
-        new: true,
+        new: false,
         content: `Por favor haz click en el siguiente <a target="_blank" href="https://forms.gle/6zahSStnEtwij9zAA">link</a>.`,
         filtroInst: [],
         filtroCarr: [],
@@ -76,7 +95,7 @@ export const notice = [
     { // Pregrado - MATRICULA
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/encuesta-221121.jpg',
         title: '¡SOMOS TODO OÍDOS!',
-        new: true,
+        new: false,
         content: `Por favor haz click en el siguiente <a target="_blank" href="https://forms.gle/FuiiN2DLHnYHBPnH8">link</a>.`,
         filtroInst: [],
         filtroCarr: [],
@@ -94,7 +113,7 @@ export const notice = [
     { // Posgrado - CES
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/encuesta-221121.jpg',
         title: '¡SOMOS TODO OÍDOS!',
-        new: true,
+        new: false,
         content: `Por favor haz click en el siguiente <a target="_blank" href="https://forms.gle/StqUZ9AUbi5Qwj4i8">link</a>.`,
         filtroInst: [],
         filtroCarr: [],
@@ -112,7 +131,7 @@ export const notice = [
     { // Posgrado - Matricula
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/encuesta-221121.jpg',
         title: '¡SOMOS TODO OÍDOS!',
-        new: true,
+        new: false,
         content: `Por favor haz click en el siguiente <a target="_blank" href="https://forms.gle/X8sZJbYh6pfsiUNXA">link</a>.`,
         filtroInst: [],
         filtroCarr: [],

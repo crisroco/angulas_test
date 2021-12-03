@@ -212,7 +212,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if(el.useCSV2){
             let cpeStudents = await this.studentS.CPEStudents();
             if (cpeStudents.find(emp => emp == this.user.codigoAlumno)) {
-              // console.log('A');
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
             }
@@ -220,7 +219,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if(el.useCSV3){
             let pregradoStudent = await this.studentS.PREGRADOStudents();
             if (pregradoStudent.find(emp => emp == this.user.codigoAlumno)) {
-              // console.log('B');
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
             }
@@ -228,7 +226,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if(el.useCSV4){
             let student = await this.studentS.BBDDCesPre();
             if (student.find(emp => emp == this.user.codigoAlumno)) {
-              // console.log('B');
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
             }
@@ -236,7 +233,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if(el.useCSV5){
             let student = await this.studentS.BBDDBibliotecaPre();
             if (student.find(emp => emp == this.user.codigoAlumno)) {
-              // console.log('B');
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
             }
@@ -244,7 +240,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if(el.useCSV6){
             let student = await this.studentS.BBDDMatriculaPre();
             if (student.find(emp => emp == this.user.codigoAlumno)) {
-              // console.log('B');
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
             }
@@ -252,7 +247,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if(el.useCSV7){
             let student = await this.studentS.BBDDPosCes();
             if (student.find(emp => emp == this.user.codigoAlumno)) {
-              // console.log('B');
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
             }
@@ -260,7 +254,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if(el.useCSV8){
             let student = await this.studentS.BBDDPosMatricula();
             if (student.find(emp => emp == this.user.codigoAlumno)) {
-              // console.log('B');
+              el.filtroInst.push('ALL');
+              el.filtroCarr.push('ALL');
+            }
+          }
+          if(el.useCSV9){
+            let student = await this.studentS.getListOfStudentsUbigeoJson();
+            if (student.find(emp => emp == this.user.codigoAlumno)) {
               el.filtroInst.push('ALL');
               el.filtroCarr.push('ALL');
             }

@@ -115,25 +115,21 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   goEnrollment(){
     this.newEnrollmentS.checkConditions(this.session.getObject('user').codigoAlumno)
       .then((res) => {
-        console.log(res);
         if(res.FLAG_FINANCIERO == 'Y' && res.FLAG_ACADEMICO == 'Y'){
           this.session.setObject('conditionsToEnrollment', { turn: this.timeOut, conditions: true });
-          this.router.navigate(['/estudiante/matricula/disponibles']);
+          this.newEnrollmentS.getDebt({ EMPLID: this.session.getObject('user').codigoAlumno })
+          .then((res) => {
+            let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
+            if (!notdeuda) {
+              this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
+            } else {
+              this.router.navigate(['/estudiante/matricula/disponibles']);
+            }
+          });
         } else {
           this.toastr.warning('Todavia no aceptas las condiciones academicas','',{progressBar:true});
         }
       });
-    
-
-    // this.newEnrollmentS.getDebt({ EMPLID: this.session.getObject('user').codigoAlumno })
-    //   .then((res) => {
-    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
-    //     if (!notdeuda) {
-    //       this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
-    //     } else {
-    //       this.router.navigate(['/estudiante/matricula/disponibles']);
-    //     }
-    //   });
   }
 
 }
