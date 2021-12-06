@@ -315,8 +315,8 @@ export class StudentService {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/deleteUpload/' + code).toPromise();
     }
 
-    public sendUploadPS(data: any): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/sendUploadPS', data).toPromise();
+    public sendUploadPS(): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/sendUploadPS', {}).toPromise();
     }
 
     public existEthnicity(data: any): Promise<any> {

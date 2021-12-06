@@ -194,7 +194,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async checkNotices() {
-    this.studentS.getDataStudent({ email: this.user.email })
+    this.studentS.getDataStudent()
       .then(async res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
@@ -601,7 +601,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   readConditions() {
-    this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
+    this.newEnrollmentS.checkConditions()
       .then((res) => {
         this.enroll = true;
         this.enroll_conditions = res;
@@ -614,7 +614,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getParameters(open: boolean = true) {
     var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
-    this.intentionS.getParameters(this.user.codigoAlumno)
+    this.intentionS.getParameters()
       .then(res => {
         // this.enrollmentStatus = res.data && res.data ? res.data : [];
         // this.enrollmentStatus.forEach((item) => {

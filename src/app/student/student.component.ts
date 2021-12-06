@@ -602,7 +602,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 									CRSE_ID: this.coursesPeople[i]['CRSE_ID'],
 									DESCR: this.coursesPeople[i]['NOMBRE_CURSO'],
 									DIA: this.diaPeople(this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]),
-									EMPLID: this.user.codigoAlumno,
 									END_DT: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['FIN_FECHA'],
 									HORA_FIN: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_FIN'],
 									HORA_INICIO: this.coursesPeople[i]['UCS_REST_MTG_DET_REQ'][o]['HORA_INICIO'],
@@ -644,7 +643,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	checkCycleElective() {
-		this.newEnrollmentS.getSchoolCycle({ EMPLID: this.user.codigoAlumno, INSTITUTION: this.dataStudent.institucion, ACAD_CAREER: this.dataStudent.codigoGrado })
+		this.newEnrollmentS.getSchoolCycle({INSTITUTION: this.dataStudent.institucion, ACAD_CAREER: this.dataStudent.codigoGrado })
 			.then((res) => {
 				this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
 				this.numberOfCicles.forEach(ci => {
@@ -802,18 +801,15 @@ export class StudentComponent implements OnInit, OnDestroy {
 		let inSeconds = time.split(':');
 		return inSeconds[0] * 60 * 60 + inSeconds[1] * 60
 	}
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////MATRICULA
 	matricula() {
 		let data = [];
 		for (var i = 0; i < this.schedulesOfCourse.length; i++) {
-			//if (this.schedulesOfCourse[i]['value']) { //push solo 1 horario
 			if (this.schedulesOfCourse[i]['select']) {
 				data.push({
 					ACAD_CAREER: this.schedulesOfCourse[i]['ACAD_CAREER'],
 					ASSOCIATED_CLASS: this.schedulesOfCourse[i]['ASSOCIATED_CLASS'],
 					CLASS_NBR: this.schedulesOfCourse[i]['CLASS_NBR'],
 					CRSE_ID: this.schedulesOfCourse[i]['CRSE_ID'],
-					EMPLID: this.user.codigoAlumno,
 					INSTITUTION: this.schedulesOfCourse[i]['INSTITUTION'],
 					OFFER_NBR: '1',
 					SESSION_CODE: this.schedulesOfCourse[i]['SESSION_CODE'],
@@ -839,7 +835,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 			return acc;
 		}, []);
 		if (data.length == 0 || data == undefined) {
-
 			this.toastr.warning('No seleccionaste ninguna sección');
 			return
 		}
@@ -941,8 +936,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	enviar_formulario() {//
-		console.log(1);
+	enviar_formulario() {
 		var formularioRemoteX = document.forms['formulario1'];
 		/* var elemento1 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute1")).value;
 		var elemento2 = (<HTMLInputElement>document.getElementById("DigitalLibraryAttribute2")).value;
@@ -1079,7 +1073,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 			return;
 		}
 		let data = this.personalUpdateForm.value;
-		data.emplid = this.user.codigoAlumno;
 		this.studentS.updEmailData(data)
 			.then(res => {
 				let { UCS_RES_EMAIL } = res;
@@ -1186,7 +1179,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 		this.EnrollScheduleModal.open();
 		if (!this.enrollCycles) {
 			let activeData = this.session.getObject('dataEnrollment');
-			this.newEnrollmentS.getSkillfullLoad({ EMPLID: activeData.EMPLID, CAMPUS: activeData.sede })
+			this.newEnrollmentS.getSkillfullLoad({ CAMPUS: activeData.sede })
 				.then(res => {
 					let allData: Array<any> = res ? res.filter(el => el.LVF_CARACTER != 'E') : [];
 					let electiveData: Array<any> = res ? res.filter(el => el.LVF_CARACTER == 'E') : [];
@@ -1296,7 +1289,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 						this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
 						this.enroll.STRM = this.enroll.cicloAdmision;// == '0904'?'0992':'2204';
 						this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
-						this.enroll.EMPLID = this.user.codigoAlumno;
 						this.studentS.getSTRM(this.enroll)
 							.then(res => {
 								this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM ? res.UCS_OBT_STRM_RES.STRM : this.enroll.STRM;
@@ -1493,7 +1485,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	saveYesIntention() {
 		var courses = this.courses.filter(item => item.value);
 		if (courses.length) {
-			this.intentionS.saveYesIntention({ emplid: this.user.codigoAlumno, courses: this.courses, comment: this.comment })
+			this.intentionS.saveYesIntention({ courses: this.courses, comment: this.comment })
 				.then(res => {
 					if (res && res.status) {
 						this.toastr.success('Se grabó exitosamente.');
@@ -1514,7 +1506,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	saveNotIntention() {
 		var motives = this.motives.filter(item => item.value);
 		if (motives.length) {
-			this.intentionS.saveNotIntention({ emplid: this.user.codigoAlumno, motives: motives })
+			this.intentionS.saveNotIntention({ motives: motives })
 				.then(res => {
 					if (res && res.status) {
 						this.toastr.success('Se grabó exitosamente.');
@@ -1821,7 +1813,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	sendUploadPS() {
-		this.studentS.sendUploadPS({ emplid: this.user.codigoAlumno })
+		this.studentS.sendUploadPS()
 			.then((res) => {
 				if (res.UCS_REG_VAC_DET_RES.Estado == 'Y') {
 					this.ConfirmSendUploadModal.close();

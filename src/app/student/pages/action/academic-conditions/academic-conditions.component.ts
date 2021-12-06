@@ -134,7 +134,7 @@ export class AcademicConditionsComponent implements OnInit {
 
 	getGlobalStatistics(){
 		this.loading = true;
-		this.studentS.getGlobalStatistics({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		this.studentS.getGlobalStatistics({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
 			this.globalStatistics = res.UCS_REST_VAL_UNID_EGRE_RES && res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM && res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM[0]?res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM[0]:null;
 			if(this.globalStatistics){
@@ -150,7 +150,7 @@ export class AcademicConditionsComponent implements OnInit {
 	}
 
 	getRequirements(){
-		this.studentS.getRequirements({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		this.studentS.getRequirements({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
 			this.requirements = res.UCS_REST_VAL_REQ_EGRE_RES && res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM && res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM[0]?res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM[0]:null;
 			if(this.requirements){
@@ -232,7 +232,7 @@ export class AcademicConditionsComponent implements OnInit {
 
 	preparatePDF(){
 		this.loading = true;
-		this.studentS.getAcademicStatus({code: this.user.codigoAlumno, institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		this.studentS.getAcademicStatus({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
 		.then(res => {
 			if (res.UCS_REST_RECORD_ACAD_RES && !res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM) {
 				this.toastS.error('Hubo un error al generar el PDF');

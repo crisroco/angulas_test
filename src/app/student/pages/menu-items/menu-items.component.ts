@@ -113,7 +113,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   }
 
   goEnrollment(){
-    this.newEnrollmentS.checkConditions(this.session.getObject('user').codigoAlumno)
+    this.newEnrollmentS.checkConditions()
       .then((res) => {
         console.log(res);
         if(res.FLAG_FINANCIERO == 'Y' && res.FLAG_ACADEMICO == 'Y'){
