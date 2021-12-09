@@ -95,7 +95,7 @@
 		</div>
 		<div class="col-md-6 col-lg-4 pl-md-0 d-none d-md-block">
 			<app-menu-course (openZoomEmit)="preGoMoodle($event)" [student]="student" [course]="course" [loadCourse]="loadCourse"></app-menu-course>
-			<div class="col-lg-12 px-0 mb-4">
+			<!-- <div class="col-lg-12 px-0 mb-4">
 				<a href="https://vimeo.com/543771141/6b0074e2d5" target="_blank" gtagEvent trackOn="click" action="vimeo_tutorial_av_home" category="video">
 					<div class="card-custom hover-links h-100 py-3 px-4 d-flex justify-content-center align-items-center">
 						<img class="pl-md-1 pr-md-3 pr-2" src="./assets/img/video.svg">
@@ -105,8 +105,8 @@
 						</div>
 					</div>
 				</a>
-			</div>
-			<!-- <div class="col-lg-12 px-0 mb-4">
+			</div> -->
+			<div class="col-lg-12 px-0 mb-4">
 				<div class="card-custom h-100 py-3 px-4 d-flex justify-content-center align-items-center d-flex flex-column">
 					<div class="data-enroll text-{{!queueEnroll.turnText?'red':(queueEnroll.onTurn?'turn':'red')}}">
 						<p class="myTurn m-0">{{queueEnroll.turnText?queueEnroll.turnText:'Aún no tienes Turno de Matricula'}}</p>
@@ -135,10 +135,10 @@
 						</div>
 					</div>
 				</div>
-			</div> -->
+			</div>
 		</div>
 		<div class="col-lg-12 mb-2 d-block d-md-none">
-			<a href="https://vimeo.com/543771141/6b0074e2d5" target="_blank" gtagEvent trackOn="click" action="vimeo_tutorial_av_home" category="video">
+			<!-- <a href="https://vimeo.com/543771141/6b0074e2d5" target="_blank" gtagEvent trackOn="click" action="vimeo_tutorial_av_home" category="video">
 				<div class="card-custom hover-links h-100 py-3 px-4 d-flex justify-content-center align-items-center">
 					<img class="pl-md-1 pr-md-3 pr-2" src="./assets/img/video.svg">
 					<div>
@@ -146,7 +146,37 @@
 						<p class="m-0 text-secondary small-11">Guía sobre Aula virtual</p>
 					</div>
 				</div>
-			</a>
+			</a> -->
+			<div class="col-lg-12 px-0 mb-4">
+				<div class="card-custom h-100 py-3 px-4 d-flex justify-content-center align-items-center d-flex flex-column">
+					<div class="data-enroll text-{{!queueEnroll.turnText?'red':(queueEnroll.onTurn?'turn':'red')}}">
+						<p class="myTurn m-0">{{queueEnroll.turnText?queueEnroll.turnText:'Aún no tienes Turno de Matricula'}}</p>
+					</div>
+					<div class="row justify-content-center align-items-center mb-2 mt-4">
+						<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="openModal('A',enroll_conditions.FLAG_ACADEMICO)">
+						  <i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
+						  <div class="bg-black text-white p-2 text-s">
+							<p class="m-0">Condiciones</p>
+							<p class="m-0">Académicas</p>
+						  </div>
+						  <div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_ACADEMICO" class="bg-{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'green':'red'}} text-white p-2 text-s">
+							<p class="m-0">{{enroll_conditions.FLAG_ACADEMICO == 'Y'?'Aceptado':'No Aceptado'}}
+							</p>
+						  </div>
+						</div>
+						<div *ngIf="enroll && enroll_conditions" class="text-center mx-1 pointer" (click)="openModal('F',enroll_conditions.FLAG_FINANCIERO)">
+						  <i class="fa fa-file-pdf-o text-sd text-red mb-2"></i>
+						  <div class="bg-black text-white p-2 text-s">
+							<p class="m-0">Condiciones</p>
+							<p class="m-0">Financieras</p>
+						  </div>
+						  <div *ngIf="enroll && enroll_conditions && enroll_conditions.FLAG_FINANCIERO" class="bg-{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'green':'red'}} text-white p-2 text-s">
+							<p class="m-0">{{enroll_conditions.FLAG_FINANCIERO == 'Y'?'Aceptado':'No Aceptado'}}</p>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </app-sidebar>

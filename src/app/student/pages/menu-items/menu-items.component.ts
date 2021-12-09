@@ -32,6 +32,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     setTimeout(() => {
       this.widthMenuValid = this.widthMenu;
+      this.showMatri = true;
     }, 100);
     this.crossdata = this.broadcaster.getMessage().subscribe(msg => {
       if (msg && msg.enroll ) {

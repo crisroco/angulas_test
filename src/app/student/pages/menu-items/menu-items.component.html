@@ -23,15 +23,15 @@
     <img src="./assets/img/document.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Documentos Académicos</span>
   </a>
-  <!-- <a class="menu" (click)="linkUpdateOpen()">
+  <a class="menu" (click)="linkUpdateOpen()">
     <img src="./assets/img/change-data.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Actualizar datos</span>
-  </a> -->
+  </a>
   <!-- <a class="menu" (click)="matriculaExtracurricularModalOpen()">
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula Extracurricular</span>
   </a> -->
-  <!-- <div *ngIf="widthMenu!=72" class="menu">
+  <div *ngIf="widthMenu!=72" class="menu">
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula</span>
     <i class="arrow fa fa-chevron-down" aria-hidden="true"></i>
@@ -45,7 +45,7 @@
         Iniciar Matrícula
       </li>
     </ul>
-  </div> -->
+  </div>
   <a class="menu" *ngIf="(timeOut && showMatri) && widthMenu==72" (click)="goEnrollment()">
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula</span>

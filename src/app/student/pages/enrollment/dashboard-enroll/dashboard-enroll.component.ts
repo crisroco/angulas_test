@@ -36,9 +36,11 @@ export class DashboardEnrollComponent implements OnInit {
   @ViewChild('scheduleSelection') scheduleSelection: any;
   @ViewChild('IntentionEnrollmentBack') IntentionEnrollmentBack: any;
   @ViewChild('selectCycleModal') selectCycleModal:any;
+  @ViewChild('confirmPresent') confirmPresent: any;
   dataCicle:any;
   dataStudent:any;
   crossdata: any;
+  savedSchedule:any;
   cycleSTRMSelected: any;
   maxCredits = 0;
   myCredits = 0;
@@ -57,17 +59,17 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   getCourses(){
-    // this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
-    //   .then((res)=> {
-    //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
-    //     if (!notdeuda) {
-    //       this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.','', {progressBar: true});
-    //       setTimeout(() => {
-    //         this.router.navigate(['/estudiante']);
-    //         return
-    //       }, 1500)
-    //     }
-    //   });
+    this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+      .then((res)=> {
+        let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
+        if (!notdeuda) {
+          this.toastS.error('Tiene una deuda pendiente, por favor regularizar el pago.','', {progressBar: true});
+          setTimeout(() => {
+            this.router.navigate(['/estudiante']);
+            return
+          }, 1500)
+        }
+      });
     let myConditions = this.session.getObject('conditionsToEnrollment');
     if (myConditions) {
       if (!myConditions.turn) {
@@ -167,15 +169,15 @@ export class DashboardEnrollComponent implements OnInit {
       this.myCredits = creditos;
       this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.sede})
         .then((res) => {
-          this.allCoursesId = res.filter(el => el.FLAG == 'A');
-          this.session.setObject('MaterialInCourse', this.allCoursesId);
+          // this.allCoursesId = res.filter(el => el.FLAG == 'A');
+          // this.session.setObject('MaterialInCourse', this.allCoursesId);
           this.availableCourses = res.sort(this.dynamicSortMultiple(["-FLAG","UCS_CICLO"]));
           if (coursesInEnrollment) {
             for (let i = 0; i < coursesInEnrollment.length; i++) {
               this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID2 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID3 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID4 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID5 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID6 != coursesInEnrollment[i].CRSE_ID);
             }
           }
-          this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
+          // this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
           let max = res.find(el => el.FLAG == 'N');
           this.maxCredits = max?Math.round(max['FT_MAX_TOTAL_UNIT']):0;
           this.session.setItem('MaxCreditsEnrollment', this.maxCredits);
@@ -358,12 +360,13 @@ export class DashboardEnrollComponent implements OnInit {
     }
   }
 
-  changeSchedule(course, evt){
+  changeSchedule(course, evt, alreadyIn = false){
     if(course.notAvailable){
       evt.target.checked = false;
       course.value = false;
       this.toastS.error(course.alertMessage,'', {progressBar: true});
     } else {
+      console.log(course,evt);
       if (this.checkCreditsCap(course)) {
         evt.target.checked = false;
         course.value = false;
@@ -420,12 +423,62 @@ export class DashboardEnrollComponent implements OnInit {
               el.value = false;
               this.blockAssociated(el, this.scheduleAvailables, el.alertMessage);
               return
+            } else {
+              if(this.checkInPerson(course, alreadyIn)){
+                this.savedSchedule = {course: course, evt: evt};
+                this.confirmPresent.open();
+              }
             }
           }
         } else {
           el.value = false;
         }
       });
+    }
+  }
+
+  openModal(evt, crs){
+    this.confirmPresent.open();
+  }
+
+  checkInPerson(crs, on?){
+    if (this.myCoursesinEnrollment && !on) {
+      for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
+        if (this.myCoursesinEnrollment[i].CICLO_LECTIVO == crs.CICLO_LECTIVO) {
+          if(crs.UCS_REST_DET_MREU){
+            for (var o = 0; o < crs.UCS_REST_DET_MREU.length; o++) {
+              for (var u = 0; u < this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ.length; u++) {
+                if (!this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['DESCR_INSTALACION'].includes('VIRT') && crs.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {
+                  if (BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['INICIO_FECHA'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FIN_FECHA'] + ' 00:00:00', RealDate(new Date(crs.UCS_REST_DET_MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:00'))) || BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['INICIO_FECHA'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FIN_FECHA'] + ' 00:00:00', RealDate(new Date(crs.UCS_REST_DET_MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:00')))) {
+                    if (this.getDayY(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]) == crs.UCS_REST_DET_MREU[o]['DIA'].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
+                      if(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u].MODALIDAD != crs.UCS_REST_DET_MREU[o]['MODALIDAD']){
+                        return true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    // console.log(crs);
+    return false
+  }
+
+  continue(con){
+    if(con){
+      this.confirmPresent.close();
+    } else {
+      this.savedSchedule.course.value = false;
+      this.savedSchedule.evt.target.checked = false;
+      for (let j = 0; j < this.scheduleAvailables.length; j++) {
+        if (this.scheduleAvailables[j].ASOCIACION_CLASE == this.savedSchedule.course.ASOCIACION_CLASE) {
+          this.scheduleAvailables[j].value = false;
+        }
+      }
+      this.confirmPresent.close();
     }
   }
 
@@ -580,7 +633,7 @@ export class DashboardEnrollComponent implements OnInit {
       if (res['UCS_REST_INSCR_RES'] && res['UCS_REST_INSCR_RES']['UCS_DET_CLA_RES'][0]['RESULTADO'] == 'Correcto') {
         let index = this.availableCourses.findIndex(val => val['own_enrollment_skillful_load_id'] == this.selectedCourse['own_enrollment_skillful_load_id']);
         this.availableCourses.splice(index, 1);
-        this.toastS.success('Curso reservado','', {progressBar: true});
+        this.toastS.success('Curso Matriculado','', {progressBar: true});
         this.session.destroy('mySchedule');
         this.loadCoursesAlready();
         this.scheduleSelection.close();

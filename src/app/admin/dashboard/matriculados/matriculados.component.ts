@@ -61,7 +61,7 @@ export class MatriculadosComponent implements OnInit {
           }
         }
         this.availableCourses = coursesInEnrollment.sort(this.dynamicSortMultiple(["flag"]));
-        this.numberofExtra = this.availableCourses.filter(el => el.flag).length;
+        // this.numberofExtra = this.availableCourses.filter(el => el.flag).length;
       }
       this.myCredits = credits;
       this.loading = false;
