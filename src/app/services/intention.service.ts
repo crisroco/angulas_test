@@ -12,8 +12,8 @@ export class IntentionService {
 	constructor(private http: HttpClient, 
 		private generalS: GeneralService) { }
 
-    public getParameters(code): Promise<any> {
-        return this.http.get(AppSettings.BASE + AppSettings.INTENTION + '/getParameters/' + code, { headers: this.generalS.makeHeaderNormal()}).toPromise();
+    public getParameters(emplid = '1'): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.INTENTION + '/getParameters/' + emplid, { headers: this.generalS.makeHeaderNormal()}).toPromise();
     }
 
     public getCourses(code): Promise<any> {

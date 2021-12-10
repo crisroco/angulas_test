@@ -54,7 +54,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
 
 
   loadEnroll(){
-    this.studentS.getEnrollQueueNumber({EMPLID: this.session.getObject('user').codigoAlumno})
+    this.studentS.getEnrollQueueNumber(this.session.getItem('emplidSelected'))
       .then((res) => {
         this.queueEnroll = res.UCS_GRUPO_MAT_RES;
         this.timeOut = this.queueEnroll.onTurn;
@@ -65,7 +65,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   }
   
   loadConditions(){
-    this.newEnrollmentS.checkConditions(this.session.getObject('user').codigoAlumno)
+    this.newEnrollmentS.checkConditions(this.session.getItem('emplidSelected'))
       .then((res) => {
         this.enroll = true;
         this.enroll_conditions = res;
@@ -114,11 +114,11 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   }
 
   goEnrollment(){
-    this.newEnrollmentS.checkConditions(this.session.getObject('user').codigoAlumno)
+    this.newEnrollmentS.checkConditions(this.session.getItem('emplidSelected'))
       .then((res) => {
         if(res.FLAG_FINANCIERO == 'Y' && res.FLAG_ACADEMICO == 'Y'){
           this.session.setObject('conditionsToEnrollment', { turn: this.timeOut, conditions: true });
-          this.newEnrollmentS.getDebt({ EMPLID: this.session.getObject('user').codigoAlumno })
+          this.newEnrollmentS.getDebt(this.session.getItem('emplidSelected'))
           .then((res) => {
             let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
             if (!notdeuda) {

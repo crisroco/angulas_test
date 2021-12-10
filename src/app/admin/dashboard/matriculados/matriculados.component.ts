@@ -160,7 +160,7 @@ export class MatriculadosComponent implements OnInit {
   delete(){
     this.loading = true;
     this.session.destroy('mySchedule');
-    this.newEnrollmentS.deleteCourseClass(this.user.codigoAlumno, this.session.getItem('adminOprid'), {courses: this.goingToDelete})
+    this.newEnrollmentS.deleteCourseClass({courses: this.goingToDelete}, this.user.codigoAlumno)
     .then((res) => {
       this.loading = false;
       this.deleteConfirmationModal.close();

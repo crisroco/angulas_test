@@ -39,7 +39,7 @@ export class MenuOtherComponent implements OnInit {
       .then((res) => {
         if(res.FLAG_FINANCIERO == 'Y' && res.FLAG_ACADEMICO == 'Y'){
           this.session.setObject('conditionsToEnrollment', { turn: true, conditions: true });
-          this.newEnrollmentS.getDebt({ EMPLID: this.session.getObject('user').codigoAlumno })
+          this.newEnrollmentS.getDebt(this.session.getItem('emplidSelected'))
           .then((res) => {
             let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
             if (!notdeuda) {

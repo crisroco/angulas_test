@@ -36,7 +36,7 @@ export class CoursesEnrollmentComponent implements OnInit {
     public session: SessionService) { }
 
   ngOnInit() {
-    this.newEnrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+    this.newEnrollmentS.getDebt(this.session.getItem('emplidSelected'))
       .then((res)=> {
         let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
         if (!notdeuda) {
@@ -73,7 +73,7 @@ export class CoursesEnrollmentComponent implements OnInit {
     let credits = 0;
     let student = this.session.getObject('dataEnrollment')
     this.newEnrollmentS.getScheduleStudent({
-      EMPLID: this.user.codigoAlumno,
+      EMPLID: this.session.getItem('emplidSelected'),
       INSTITUTION: student['INSTITUTION'],
       ACAD_CAREER: student['ACAD_CAREER'],
       STRM1: this.schoolCycle['CICLO_LECTIVO'],
@@ -150,7 +150,7 @@ export class CoursesEnrollmentComponent implements OnInit {
   delete(){
     this.loading = true;
     this.session.destroy('mySchedule');
-    this.newEnrollmentS.deleteCourseClass(this.user.codigoAlumno, this.user.codigoAlumno, {courses: this.goingToDelete})
+    this.newEnrollmentS.deleteCourseClass({courses: this.goingToDelete}, this.session.getItem('emplidSelected'))
     .then((res) => {
       this.loading = false;
       this.deleteConfirmationModal.close();

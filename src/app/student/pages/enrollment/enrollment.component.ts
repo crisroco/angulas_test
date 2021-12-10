@@ -96,7 +96,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
     } else {
       this.dataEnrollment = this.session.getObject('dataEnrollment');
       this.enrollmentS.getScheduleStudent({
-        EMPLID: this.user.codigoAlumno,
+        EMPLID: this.session.getItem('emplidSelected'),
         INSTITUTION: this.dataEnrollment['INSTITUTION'],
         ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
         STRM1: this.schoolCycle.CICLO_LECTIVO,
@@ -115,7 +115,6 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.dataEnrollment = this.session.getObject('dataEnrollment');
       this.enrollmentS.sendEmailSchedule({
-        EMPLID: this.user.codigoAlumno,
         EMAIL: this.emailToSend,
         NAME: this.student.nombreAlumno + ' ' + this.student.apellidoAlumno,
         INSTITUTION: this.dataEnrollment['INSTITUTION'],
@@ -138,7 +137,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
   openEquivalentModal(){
     this.dataEnrollment = this.session.getObject('dataEnrollment');
     this.enrollmentS.getEquivalentsCourses({
-      EMPLID: this.user.codigoAlumno,
+      EMPLID: this.session.getItem('emplidSelected'),
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
@@ -166,7 +165,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.dataEnrollment = this.session.getObject('dataEnrollment');
     let aditional = {
-      EMPLID: this.user.codigoAlumno,
+      EMPLID: this.session.getItem('emplidSelected'),
       INSTITUTION: this.allData['INSTITUTION'],
       ACAD_CAREER: this.allData['ACAD_CAREER'],
       ACAD_PROG: this.allData['ACAD_PROG'],
@@ -178,7 +177,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
       .then((res) => {
         this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES?res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES:[];
         this.loading = false;
-        this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataEnrollment.sede})
+        this.enrollmentS.getSkillfullLoad({CAMPUS: this.dataEnrollment.sede, EMPLID: this.session.getItem('emplidSelected')})
         .then((res) => {
           let alreadyIn = this.session.getObject('notInAditional')?this.session.getObject('notInAditional'):[];
           for (let e = 0; e < alreadyIn.length; e++) {
@@ -245,7 +244,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
       HORA_FIN: crs.HORA_INICIO, DIA: crs.DIA, MODULO: crs.MODULO, COMPONENTE: el})
     });
     this.enrollmentS.saveAditionalCourses({
-      EMPLID: this.user.codigoAlumno,
+      EMPLID: this.session.getItem('emplidSelected'),
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],
@@ -326,7 +325,7 @@ export class EnrollmentComponent implements OnInit, OnDestroy {
       return;
     }
     this.enrollmentS.saveAditionalCourses({
-      EMPLID: this.user.codigoAlumno,
+      EMPLID: this.session.getItem('emplidSelected'),
       INSTITUTION: this.dataEnrollment['INSTITUTION'],
       ACAD_CAREER: this.dataEnrollment['ACAD_CAREER'],
       ACAD_PROG: this.dataEnrollment['ACAD_PROG'],

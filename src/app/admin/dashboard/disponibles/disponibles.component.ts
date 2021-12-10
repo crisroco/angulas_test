@@ -308,15 +308,19 @@ export class DisponiblesComponent implements OnInit {
 
   checkInscription(cicles){
     let toSelectCycle = [];
-    for (let i = 0; i < cicles.length; i++) {
-      if (cicles[i].FLAG_INSCRIPCION == 'Y') {
-        toSelectCycle.push(cicles[i]);
-      } else {
-        if (cicles[i].CICLO_LECTIVO != "0169") {
-          this.otherCicle = cicles[i];
-          this.session.setObject('otherCicle', this.otherCicle);
+    if(cicles){
+      for (let i = 0; i < cicles.length; i++) {
+        if (cicles[i].FLAG_INSCRIPCION == 'Y') {
+          toSelectCycle.push(cicles[i]);
+        } else {
+          if (cicles[i].CICLO_LECTIVO != "0169") {
+            this.otherCicle = cicles[i];
+            this.session.setObject('otherCicle', this.otherCicle);
+          }
         }
       }
+    } else {
+      this.toastS.error('Error con los ciclos');
     }
     return toSelectCycle
   }

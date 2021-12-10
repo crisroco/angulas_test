@@ -194,7 +194,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async checkNotices() {
-    this.studentS.getDataStudent({ email: this.user.email })
+    this.studentS.getDataStudent(this.session.getItem('emplidSelected'))
       .then(async res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
@@ -283,7 +283,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     let classes = new Promise<void>((resolve, reject) => {
       allInst.forEach((re, index) => {
-        this.studentS.getAllClasses({ code: this.user.codigoAlumno, institution: re, date: day })
+        this.studentS.getAllClasses({ institution: re, date: day, emplid: this.session.getItem('emplidSelected') })
           .then((res) => {
             this.loadCourse = true;
             if (res.RES_HR_CLS_ALU_VIR.DES_HR_CLS_ALU_VIR) {
@@ -333,7 +333,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   saveAnswer(answer) {
-    this.studentS.saveAnswer({ emplid: this.user.codigoAlumno, answer: answer })
+    this.studentS.saveAnswer({ answer: answer })
       .then((res) => {
         this.toastr.success('Gracias!');
         this.answerStudentModal.close();
@@ -480,12 +480,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ASSOCIATED_CLASS: this.schedulesOfCourse[i]['ASSOCIATED_CLASS'],
           CLASS_NBR: this.schedulesOfCourse[i]['CLASS_NBR'],
           CRSE_ID: this.schedulesOfCourse[i]['CRSE_ID'],
-          EMPLID: this.user.codigoAlumno,
           INSTITUTION: this.schedulesOfCourse[i]['INSTITUTION'],
           OFFER_NBR: this.schedulesOfCourse[i]['CLASS_NBR'],
           SESSION_CODE: this.schedulesOfCourse[i]['SESSION_CODE'],
           SSR_COMPONENT: this.schedulesOfCourse[i]['SSR_COMPONENT'],
           STRM: this.schedulesOfCourse[i]['STRM'],
+          EMPLID: this.session.getItem('emplidSelected'),
           equivalent: "-",
           CLASS_SECTION: this.schedulesOfCourse[i]['CLASS_SECTION'],
           DIA: this.schedulesOfCourse[i]['DIA'],
@@ -594,7 +594,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   readConditions() {
-    this.newEnrollmentS.checkConditions(this.user.codigoAlumno)
+    this.newEnrollmentS.checkConditions(this.session.getItem('emplidSelected'))
       .then((res) => {
         this.enroll = true;
         this.enroll_conditions = res;
@@ -607,7 +607,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getParameters(open: boolean = true) {
     var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
-    this.intentionS.getParameters(this.user.codigoAlumno)
+    this.intentionS.getParameters(this.session.getItem('emplidSelected'))
       .then(res => {
         // this.enrollmentStatus = res.data && res.data ? res.data : [];
         // this.enrollmentStatus.forEach((item) => {
@@ -648,7 +648,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.timeoutEnroll = !turn.onTurn;
     setTimeout(() => {
       if (this.timeoutEnroll) {
-        this.studentS.getEnrollQueueNumber({ EMPLID: this.user.codigoAlumno })
+        this.studentS.getEnrollQueueNumber(this.session.getItem('emplidSelected'))
           .then((res) => {
             this.queueEnroll = res.UCS_GRUPO_MAT_RES;
             this.setRealDateEnroll(res.UCS_GRUPO_MAT_RES);
@@ -661,8 +661,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loading = true;
     var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
     tEnroll[flag] = 'Y';
-    tEnroll['emplid'] = this.session.getObject('user')['codigoAlumno'];
     tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
+    tEnroll['EMPLID'] = this.session.getItem('emplidSelected');
     this.newEnrollmentS.saveConditions(tEnroll)
       .then((res) => {
         this.loading = false;
@@ -753,7 +753,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let tclassNbr = 0;
     this.assistanceS.getAllClassNbrByCourse({
       STRM: realClass.STRM,
-      EMPLID: stud.codigoAlumno,
       CLASS_ATTEND_DT: realClass.CLASS_ATTEND_DT,
       CLASS_NBR: realClass.CLASS_NBR
     }).then((res) => {
@@ -769,7 +768,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
             CRSE_ID: clases[i]['CRSE_ID'],
             CLASS_NBR: clases[i]['CLASS_NBR'],
             CLASS_MTG_NBR: clases[i]['CLASS_MTG_NBR'],
-            EMPLID: this.student.codigoAlumno,
             ATTEND_TMPLT_NBR: '0',
             ATTEND_PRESENT: 'Y',
             ATTEND_LEFT_EARLY: 'N',
@@ -913,7 +911,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   goEnrollment() {
     let myFlags = this.enroll_conditions.FLAG_ACADEMICO == 'Y' && this.enroll_conditions.FLAG_FINANCIERO == 'Y';
     this.session.setObject('conditionsToEnrollment', { turn: this.queueEnroll.onTurn, conditions: myFlags });
-    this.newEnrollmentS.getDebt({ EMPLID: this.user.codigoAlumno })
+    this.newEnrollmentS.getDebt(this.session.getItem('emplidSelected'))
       .then((res) => {
         let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
         if (!notdeuda) {
@@ -925,14 +923,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getEthnicity() {
-    this.studentS.existEthnicity({
-      "EMPLID": this.user.codigoAlumno
-    })
+    this.studentS.existEthnicity()
       .then(res => {
         if (res.UCS_CON_ETNICO_RES && res.UCS_CON_ETNICO_RES.RESULTADO == 'Y') { }
         else { this.ethnicityModal.open(); }
       })
-
   }
 
   saveEthnicity() {
@@ -946,7 +941,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     var nEthnicity = this.ethnicities.find(item => item.value == this.realEthnicity);
     this.studentS.saveEthnicity({
-      "EMPLID": this.user.codigoAlumno,
       "UCS_ID_ETNICO": this.realEthnicity,
       "DESCR100": this.realEthnicity == '08' ? this.realOther.toUpperCase() : nEthnicity.name
     })

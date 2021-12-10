@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
       this.toastr.error("Ingresa un codigo de alumno");
       return
     }
-    this.newEnrollmentS.getDebt({EMPLID: this.studentCode})
+    this.newEnrollmentS.getDebt(this.studentCode)
       .then((res) => {
         if(res.UCS_WS_DEU_RSP.UCS_WS_DEU_COM[0]['DEUDA'] == 'N'){
           this.newEnrollmentS.getDataStudentEnrollment({ EMPLID: this.studentCode })
@@ -99,7 +99,8 @@ export class HomeComponent implements OnInit {
 
   select() {
     this.loading = true;
-    this.studentS.getAcademicDataStudent({ code: this.studentCode }).then((res) => {
+    //{ code: this.studentCode }
+    this.studentS.getAcademicDataStudent(this.studentCode).then((res) => {
       this.allData = res[0];
       this.session.setObject('acadmicData', this.allData);
       this.session.setObject('mySelectedStudent', this.isthisStudent);
@@ -130,7 +131,8 @@ export class HomeComponent implements OnInit {
 
   select2() {
     this.loading = true;
-    this.studentS.getAcademicDataStudent({ code: this.studentCode }).then((res) => {
+    //{ code: this.studentCode }
+    this.studentS.getAcademicDataStudent(this.studentCode).then((res) => {
       var units:Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
       this.allData = units.filter(item => item.institucion == 'PREGR')[0];
       if (this.allData === undefined){this.toastr.error('El alumno no existe en la BD.'); this.loading = false; return;}      
