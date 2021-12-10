@@ -120,16 +120,20 @@ export class StudentService {
         return this.showFinancial.asObservable();
     }
 
-    public getDataStudent(): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getDataStudent', {}).toPromise();
+    public triesLogin(): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/triesLogin').toPromise();
+    }
+
+    public getDataStudent(oprid = '1'): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getDataStudent/' + oprid).toPromise();
     }
 
     public getPhoneStudent(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getPhoneStudent', data).toPromise();
     }
 
-    public getAcademicDataStudent(): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAcademicDataStudent', {}).toPromise();
+    public getAcademicDataStudent(code = '1'): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAcademicDataStudent/' + code, {}).toPromise();
     }
 
     public getScheduleStudent(data): Promise<any> {
@@ -140,8 +144,8 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAdStudent/' + code, {}).toPromise();
     }
 
-    public getAccountStatus(): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getAccountStatus', {}).toPromise();
+    public getAccountStatus(emplid = '1'): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getAccountStatus/' + emplid).toPromise();
     }
 
     public getCourseHistory(data): Promise<any> {
@@ -160,8 +164,8 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getRequirements', data).toPromise();
     }
 
-    public getWeightedAverage(career, program): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getWeightedAverage/' + career + '/' + program, {}).toPromise();
+    public getWeightedAverage(career, program, emplid = '1'): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getWeightedAverage/' + career + '/' + program + '/' + emplid, {}).toPromise();
     }
 
     public getFormuleCourse(class_nbr, strm): Promise<any> {
@@ -212,16 +216,16 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/saveFinancialCondition', data).toPromise();
     }
 
-    public getEnrollQueueNumber(): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getEnrollQueueNumber', {}).toPromise();
+    public getEnrollQueueNumber(emplid = '1'): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getEnrollQueueNumber/' + emplid).toPromise();
     }
 
     public getSTRM(data): Promise<any> {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/getSTRM', data).toPromise();
     }
 
-    public getPersonalData(): Promise<any> {
-        return this.http.get(AppSettings.BASE + AppSettings.PERSONAL_DATA + '/getPersonalData').toPromise();
+    public getPersonalData(emplid = '1'): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.PERSONAL_DATA + '/getPersonalData/' + emplid).toPromise();
     }
 
     public savePersonalData(data): Promise<any> {
@@ -299,8 +303,8 @@ export class StudentService {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getDeuda/' + code).toPromise();
     }
 
-    public getFileUpload(): Promise<any> {
-        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getUploadbyEmplid').toPromise();
+    public getFileUpload(emplid = '1'): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getUploadbyEmplid/' + emplid).toPromise();
     }
 
     public getAllFilesV(): Promise<any> {
@@ -319,8 +323,8 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/sendUploadPS', {}).toPromise();
     }
 
-    public existEthnicity(data: any): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/existe_etnia', data).toPromise();
+    public existEthnicity(): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/existe_etnia', {}).toPromise();
     }
 
     public saveEthnicity(data: any): Promise<any> {

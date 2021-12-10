@@ -42,8 +42,8 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getSkillfulLoadBoffice', data).toPromise();
     }
 
-    public getDebt(data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDebt', data).toPromise();
+    public getDebt(): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getDebt', {}).toPromise();
     }
 
     public getSchoolCycle(data): Promise<any> {
@@ -74,8 +74,8 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/getEquivalentsCourses', data).toPromise();
     }
 
-    public deleteCourseClass(emplid, oprid ,data): Promise<any> {
-        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClass/' + emplid + '/' + oprid, data).toPromise();
+    public deleteCourseClass(data, emplid = '1'): Promise<any> {
+        return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/deleteCourseClass/' + emplid , data).toPromise();
     }
 //este
     public deleteCourseClassByCrseId(emplid, crs_id, data): Promise<any> {
@@ -118,8 +118,8 @@ export class NewEnrollmentService {
         return this.http.post(AppSettings.BASE + AppSettings.CLIENT + '/massiveUpload', data).toPromise();
     }
 
-    public checkConditions(): Promise<any> {
-        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/checkConditions').toPromise();
+    public checkConditions(emplid = '1'): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.CLIENT + '/checkConditions/' + emplid).toPromise();
     }
 
     public saveConditions(data): Promise<any> {

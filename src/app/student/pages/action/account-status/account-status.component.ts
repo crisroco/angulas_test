@@ -24,7 +24,7 @@ export class AccountStatusComponent implements OnInit {
 		private studentS: StudentService) { }
 
 	ngOnInit() {
-		this.studentS.getAccountStatus()
+		this.studentS.getAccountStatus(this.session.getItem('emplidSelected'))
 		.then(res => { 
 			this.accounts = res.UcsMetodoEstadoCuentaRespuesta && res.UcsMetodoEstadoCuentaRespuesta.UcsMetodoEstadoCuentaDetalle?res.UcsMetodoEstadoCuentaRespuesta.UcsMetodoEstadoCuentaDetalle:[];
 			// console.log(this.accounts);

@@ -29,7 +29,7 @@ export class AcademicConditionsComponent implements OnInit {
 		private studentS: StudentService) { }
 
 	ngOnInit() {
-		this.studentS.getAcademicDataStudent()
+		this.studentS.getAcademicDataStudent(this.session.getItem('emplidSelected'))
 		.then(res => {
 			this.programs = res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta?res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta:[];
 			if(this.programs.length){
@@ -40,7 +40,7 @@ export class AcademicConditionsComponent implements OnInit {
 	}
 
 	getAcademicConditions(){
-		this.studentS.getAcademicConditions({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		this.studentS.getAcademicConditions({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma, emplid: this.session.getItem('emplidSelected') })
 		.then(res => {
 			this.cycles = [];
 			var objCycles = {
@@ -134,7 +134,7 @@ export class AcademicConditionsComponent implements OnInit {
 
 	getGlobalStatistics(){
 		this.loading = true;
-		this.studentS.getGlobalStatistics({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		this.studentS.getGlobalStatistics({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma, emplid: this.session.getItem('emplidSelected') })
 		.then(res => {
 			this.globalStatistics = res.UCS_REST_VAL_UNID_EGRE_RES && res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM && res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM[0]?res.UCS_REST_VAL_UNID_EGRE_RES.UCS_REST_VAL_UNID_EGRE_COM[0]:null;
 			if(this.globalStatistics){
@@ -150,7 +150,7 @@ export class AcademicConditionsComponent implements OnInit {
 	}
 
 	getRequirements(){
-		this.studentS.getRequirements({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		this.studentS.getRequirements({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma, emplid: this.session.getItem('emplidSelected') })
 		.then(res => {
 			this.requirements = res.UCS_REST_VAL_REQ_EGRE_RES && res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM && res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM[0]?res.UCS_REST_VAL_REQ_EGRE_RES.UCS_REST_VAL_REQ_EGRE_COM[0]:null;
 			if(this.requirements){
@@ -197,7 +197,7 @@ export class AcademicConditionsComponent implements OnInit {
 	}
 
 	getWeightedAverage(){
-		this.studentS.getWeightedAverage(this.realProgram.codigoGrado, this.realProgram.codigoPrograma)
+		this.studentS.getWeightedAverage(this.realProgram.codigoGrado, this.realProgram.codigoPrograma, this.session.getItem('emplidSelected'))
 		.then(res => {
 			this.weightedAverage = res.UCS_REST_PROMEDIO_RSP && res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM && res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM[0]?res.UCS_REST_PROMEDIO_RSP.UCS_REST_PROMEDIO_COM[0]:0;
 		}, error => { });
@@ -232,7 +232,7 @@ export class AcademicConditionsComponent implements OnInit {
 
 	preparatePDF(){
 		this.loading = true;
-		this.studentS.getAcademicStatus({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma })
+		this.studentS.getAcademicStatus({institution: this.realProgram.institucion, career: this.realProgram.codigoGrado, plain: this.realProgram.codigoPlan, program: this.realProgram.codigoPrograma, emplid: this.session.getItem('emplidSelected') })
 		.then(res => {
 			if (res.UCS_REST_RECORD_ACAD_RES && !res.UCS_REST_RECORD_ACAD_RES.UCS_REST_RECORD_ACAD_COM) {
 				this.toastS.error('Hubo un error al generar el PDF');

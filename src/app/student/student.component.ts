@@ -585,7 +585,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 		// })
 
 		this.btnMatricula = true;
-		this.newEnrollmentS.getCoursesExtraInEnrollment({ INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC" })
+		this.newEnrollmentS.getCoursesExtraInEnrollment({ INSTITUTION: "ECONT", STRM1: "1116", ACAD_CAREER: "EDUC", EMPLID: this.session.getItem('emplidSelected') })
 			.then((res) => {
 				this.coursesPeople = res['UCS_REST_CONS_HORA_MATR_RES']['UCS_REST_DET_HORARIO_RES'];
 				if (this.coursesPeople) {
@@ -643,7 +643,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	checkCycleElective() {
-		this.newEnrollmentS.getSchoolCycle({INSTITUTION: this.dataStudent.institucion, ACAD_CAREER: this.dataStudent.codigoGrado })
+		this.newEnrollmentS.getSchoolCycle({INSTITUTION: this.dataStudent.institucion, ACAD_CAREER: this.dataStudent.codigoGrado, EMPLID: this.session.getItem('emplidSelected') })
 			.then((res) => {
 				this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
 				this.numberOfCicles.forEach(ci => {
@@ -812,6 +812,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 					CRSE_ID: this.schedulesOfCourse[i]['CRSE_ID'],
 					INSTITUTION: this.schedulesOfCourse[i]['INSTITUTION'],
 					OFFER_NBR: '1',
+					EMPLID: this.session.getItem('emplidSelected'),
 					SESSION_CODE: this.schedulesOfCourse[i]['SESSION_CODE'],
 					SSR_COMPONENT: this.schedulesOfCourse[i]['SSR_COMPONENT'],
 					STRM: this.schedulesOfCourse[i]['STRM'],
@@ -1014,7 +1015,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 	initUpdatePersonalData() {
 		this.personalDataForm = this.formBuilder.group({
-			emplid: [this.user.codigoAlumno, Validators.required],
+			emplid: [this.session.getItem('emplidSelected')],
 			email: ['', ValidationService.emailValidator],
 			phone: ['', [Validators.required, Validators.pattern("(9)[0-9]{8}")]],
 			birth_date: ['', Validators.required],
@@ -1026,7 +1027,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 			privacy_policy: ['', ValidationService.booleanValidator],
 		});
 		this.workinglDataForm = this.formBuilder.group({
-			emplid: [this.user.codigoAlumno, Validators.required],
+			emplid: [this.session.getItem('emplidSelected')],
 			company_email: ['', ValidationService.emailValidator],
 			company_name: ['', Validators.required],
 			company_position: ['', Validators.required],
@@ -1044,7 +1045,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	getPersonalDataValidate() {
-		this.studentS.getPersonalData()
+		this.studentS.getPersonalData(this.session.getItem('emplidSelected'))
 			.then(res => {
 				this.dataEstudiante = res.data;
 				this.setClient(res.data || {})
@@ -1073,6 +1074,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 			return;
 		}
 		let data = this.personalUpdateForm.value;
+		data.emplid = this.session.getItem('emplidSelected');
 		this.studentS.updEmailData(data)
 			.then(res => {
 				let { UCS_RES_EMAIL } = res;
@@ -1105,7 +1107,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 		this.workinglDataForm.controls['company_email'].setValue(data.company_email ? data.company_email : '');
 		this.workinglDataForm.controls['company_name'].setValue(data.company_name ? data.company_name : '');
 		this.workinglDataForm.controls['company_position'].setValue(data.company_position ? data.company_position : '');
-
 		this.personalUpdateForm.controls['email'].setValue(data.email ? data.email : '');
 		this.personalUpdateForm.controls['phone'].setValue(data.phone ? data.phone : '');
 		// this.personalUpdateForm.controls['idDepa'].setValue(data.idDepa?data.idDepa:'');
@@ -1156,7 +1157,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 	getParameters(open: boolean = true) {
 		var rDate = this.realDate.year + '-' + this.realDate.month + '-' + this.realDate.day;
-		this.intentionS.getParameters()
+		this.intentionS.getParameters(this.session.getItem('emplidSelected'))
 			.then(res => {
 				this.enrollmentStatus = res.data && res.data ? res.data : [];
 				this.enrollmentStatus.forEach((item) => {
@@ -1179,7 +1180,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 		this.EnrollScheduleModal.open();
 		if (!this.enrollCycles) {
 			let activeData = this.session.getObject('dataEnrollment');
-			this.newEnrollmentS.getSkillfullLoad({ CAMPUS: activeData.sede })
+			this.newEnrollmentS.getSkillfullLoad({ CAMPUS: activeData.sede, EMPLID: this.session.getItem('emplidSelected') })
 				.then(res => {
 					let allData: Array<any> = res ? res.filter(el => el.LVF_CARACTER != 'E') : [];
 					let electiveData: Array<any> = res ? res.filter(el => el.LVF_CARACTER == 'E') : [];
@@ -1253,7 +1254,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 	async checkInList() {
 		this.student = this.session.getObject('student');
-		this.studentS.getAcademicDataStudent()
+		this.studentS.getAcademicDataStudent(this.session.getItem('emplidSelected'))
 			.then((res) => {
 				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 				this.session.setObject('AllInst', units);
@@ -1274,7 +1275,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 		else {
 			this.student = this.session.getObject('student');
 			this.user = this.session.getObject('user');
-			this.studentS.getAcademicDataStudent()
+			this.studentS.getAcademicDataStudent(this.session.getItem('emplidSelected'))
 				.then(res => {
 					let units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 					this.studentS.setdataStudent(units);
@@ -1289,12 +1290,13 @@ export class StudentComponent implements OnInit, OnDestroy {
 						this.enroll.ACAD_CAREER = this.enroll.codigoGrado;
 						this.enroll.STRM = this.enroll.cicloAdmision;// == '0904'?'0992':'2204';
 						this.enroll.ACAD_PROG = this.enroll.codigoPrograma;
+						this.enroll.EMPLID = this.session.getItem('emplidSelected');
 						this.studentS.getSTRM(this.enroll)
 							.then(res => {
 								this.enroll.STRM = res.UCS_OBT_STRM_RES && res.UCS_OBT_STRM_RES.STRM ? res.UCS_OBT_STRM_RES.STRM : this.enroll.STRM;
 								this.broadcaster.sendMessage({ enroll: this.enroll });
 								this.session.setObject('dataEnrollment', this.enroll);
-								this.studentS.getEnrollQueueNumber()
+								this.studentS.getEnrollQueueNumber(this.session.getItem('emplidSelected'))
 									.then(res => {
 										this.queueEnroll = res.UCS_GRUPO_MAT_RES;
 										// if (this.queueEnroll.exactDate) {
@@ -1772,7 +1774,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	getFileUpload() {
-		this.studentS.getFileUpload()
+		this.studentS.getFileUpload(this.session.getItem('emplidSelected'))
 			.then((res) => {
 				this.botonesvacuna = true;
 				this.datafile = res.data;

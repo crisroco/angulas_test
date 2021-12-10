@@ -44,14 +44,14 @@ export class FinalGradesComponent implements OnInit {
 	}
 
 	getGradesCourses(){
-		this.studentS.getGradesCourses({code: this.user.codigoAlumno, career: this.ACAD_CAREER, strm: this.STRM, course: this.CRSE_ID})
+		this.studentS.getGradesCourses({career: this.ACAD_CAREER, strm: this.STRM, course: this.CRSE_ID, emplid: this.session.getItem('emplidSelected')})
 		.then(res => {
 			this.grades = res.UcsMetodoDatosNotaRespuesta && res.UcsMetodoDatosNotaRespuesta.UcsMetodoDatosNotaDetalle? res.UcsMetodoDatosNotaRespuesta.UcsMetodoDatosNotaDetalle:[];
 		}, error => { });
 	}
 
 	getFinalGrades(){
-		this.studentS.getFinalGrades({code: this.user.codigoAlumno, career: this.ACAD_CAREER, cycle: this.STRM})
+		this.studentS.getFinalGrades({career: this.ACAD_CAREER, cycle: this.STRM, code: this.session.getItem('emplidSelected')})
 		.then(res => {
 			this.courses = res.UcsMetodoDatosHoraRespuesta_V2 && res.UcsMetodoDatosHoraRespuesta_V2.UcsMetodoDatosHoraDetalle_V2?res.UcsMetodoDatosHoraRespuesta_V2.UcsMetodoDatosHoraDetalle_V2:[];
 			var rCourse = this.courses.filter(item => item.codigoCurso == this.CRSE_ID);

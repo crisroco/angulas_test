@@ -137,7 +137,7 @@ export class DisponiblesComponent implements OnInit {
   onChangeAvailable(course, evt){
     let courses_id = [];
     courses_id.push(course.CRSE_ID2, course.CRSE_ID3,course.CRSE_ID4,course.CRSE_ID5,course.CRSE_ID6,course.CRSE_ID7, course.CRSE_ID8,course.CRSE_ID9,course.CRSE_ID10,course.CRSE_ID11,course.CRSE_ID12,course.CRSE_ID13,course.CRSE_ID14,course.CRSE_ID15,course.CRSE_ID16);
-    let allCourses = courses_id.filter(el => el != '');
+    let allCourses = courses_id.filter(el => el != '' && el != null);
     this.loading = true;
     this.newEnrollmentS.getScheduleNewBO({
       CAMPUS: '',
@@ -306,15 +306,19 @@ export class DisponiblesComponent implements OnInit {
 
   checkInscription(cicles){
     let toSelectCycle = [];
-    for (let i = 0; i < cicles.length; i++) {
-      if (cicles[i].FLAG_INSCRIPCION == 'Y') {
-        toSelectCycle.push(cicles[i]);
-      } else {
-        if (cicles[i].CICLO_LECTIVO != "0169") {
-          this.otherCicle = cicles[i];
-          this.session.setObject('otherCicle', this.otherCicle);
+    if(cicles){
+      for (let i = 0; i < cicles.length; i++) {
+        if (cicles[i].FLAG_INSCRIPCION == 'Y') {
+          toSelectCycle.push(cicles[i]);
+        } else {
+          if (cicles[i].CICLO_LECTIVO != "0169") {
+            this.otherCicle = cicles[i];
+            this.session.setObject('otherCicle', this.otherCicle);
+          }
         }
       }
+    } else {
+      this.toastS.error('Error con los ciclos');
     }
     return toSelectCycle
   }

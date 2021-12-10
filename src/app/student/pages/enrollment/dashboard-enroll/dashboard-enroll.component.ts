@@ -57,7 +57,7 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   getCourses(){
-    // this.enrollmentS.getDebt({EMPLID: this.user.codigoAlumno})
+    // this.enrollmentS.getDebt()
     //   .then((res)=> {
     //     let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA']=='N'?true:false;
     //     if (!notdeuda) {
@@ -88,7 +88,7 @@ export class DashboardEnrollComponent implements OnInit {
       }, 1500)
     }
     this.dataStudent = this.session.getObject('dataEnrollment');
-    this.enrollmentS.getSchoolCycle({EMPLID: this.user.codigoAlumno, INSTITUTION: this.dataStudent['INSTITUTION'], ACAD_CAREER: this.dataStudent['ACAD_CAREER']})
+    this.enrollmentS.getSchoolCycle({INSTITUTION: this.dataStudent['INSTITUTION'], ACAD_CAREER: this.dataStudent['ACAD_CAREER'],EMPLID: this.session.getItem('emplidSelected')})
       .then((res) => {
         this.dataCicle = res;
         this.numberOfCicles = res['UCS_REST_CON_CIC_RES']['UCS_REST_CON_CIC_DET'];
@@ -147,7 +147,7 @@ export class DashboardEnrollComponent implements OnInit {
 
   loadCoursesAlready(){
     this.enrollmentS.getScheduleStudent({
-      EMPLID: this.user.codigoAlumno,
+      EMPLID: this.session.getItem('emplidSelected'),
       INSTITUTION: this.dataStudent['INSTITUTION'],
       ACAD_CAREER: this.dataStudent['ACAD_CAREER'],
       STRM1: this.cicleSelected['CICLO_LECTIVO'],
@@ -165,7 +165,7 @@ export class DashboardEnrollComponent implements OnInit {
       }
       this.myCoursesinEnrollment = coursesInEnrollment;
       this.myCredits = creditos;
-      this.enrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.dataStudent.sede})
+      this.enrollmentS.getSkillfullLoad({CAMPUS: this.dataStudent.sede, EMPLID: this.session.getItem('emplidSelected')})
         .then((res) => {
           this.allCoursesId = res.filter(el => el.FLAG == 'A');
           this.session.setObject('MaterialInCourse', this.allCoursesId);
@@ -186,7 +186,6 @@ export class DashboardEnrollComponent implements OnInit {
   // loadDataStudentCourses(){
   //   this.loading = true;
   //   this.enrollmentS.getCourseClass({
-  //     EMPLID: this.user.codigoAlumno,
   //     STRM: this.cicleSelected['CICLO_LECTIVO']
   //   }).then((res) => {
   //     if (res.length > 0) {
@@ -529,11 +528,11 @@ export class DashboardEnrollComponent implements OnInit {
       if (this.scheduleAvailables[i].value) {
         for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
           data.push({
-            EMPLID: this.user.codigoAlumno,
             INSTITUTION: this.dataStudent['INSTITUTION'],
             ACAD_CAREER: this.dataStudent['ACAD_CAREER'],
             STRM: this.cicleSelected['CICLO_LECTIVO'],
             CRSE_ID: this.scheduleAvailables[i]['ID_CURSO'],
+            EMPLID: this.session.getItem('emplidSelected'),
             SESSION_CODE: this.scheduleAvailables[i]['CODIGO_SESION'],
             ASSOCIATED_CLASS: this.scheduleAvailables[i]['ASOCIACION_CLASE'],
             CLASS_NBR: this.scheduleAvailables[i]['NRO_CLASE'],

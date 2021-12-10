@@ -42,7 +42,7 @@ export class CourseAssistanceComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.studentS.getAssistanceHistory(this.INSTITUTION + "," + this.STRM  + "," + this.CLASS_NBR  + "," + this.user.codigoAlumno)
+		this.studentS.getAssistanceHistory(this.INSTITUTION + "," + this.STRM  + "," + this.CLASS_NBR  + "," + (this.session.getItem('emplidSelected')?this.session.getItem('emplidSelected'):''))
 		.then(res => {
 			var timeNowSeconds = (Number(this.realDate.hour)*60*60) + (Number(this.realDate.minute)*60);
 			this.assistances = res.UCS_REST_LSTALU_ASIS_RES && res.UCS_REST_LSTALU_ASIS_RES.UCS_REST_LSTALU_ASIS_COM?res.UCS_REST_LSTALU_ASIS_RES.UCS_REST_LSTALU_ASIS_COM: [];

@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('schedulePreview') schedulePreview: any;
   @ViewChild('confirmationUploadModal') confirmationUploadModal: any;
   myVirtualClasses: Array<any> = [];
-  viewDate: Date = new Date(2021, 7, 23);
+  viewDate: Date = new Date(2021, 12, 1);
   events: CalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Week;
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit {
       .then((res) => {
         this.aditionalCourses = res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES?res.UCS_CON_SOL_CUR_ADIC_RES.UCS_DETCUS_RES:[];
         this.loading = false;
-        this.newEnrollmentS.getSkillfullLoad({EMPLID: this.user.codigoAlumno, CAMPUS: this.allData.sede})
+        this.newEnrollmentS.getSkillfulLoadBoffice({EMPLID: this.user.codigoAlumno})
         .then((res) => {
           let alreadyIn = this.session.getObject('notInAditional')?this.session.getObject('notInAditional'):[];
           for (let e = 0; e < alreadyIn.length; e++) {
@@ -274,7 +274,7 @@ export class DashboardComponent implements OnInit {
     });
     if (this.moreData) {
       this.moreData.forEach(classM => {
-        classM.UCS_REST_DET_MREU.forEach(classD => {
+        classM.UCS_REST_DET2MREU.forEach(classD => {
           for (var kDay in days) {
             if (kDay == classD.DIA.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
               if(BetweenDays(classD.FECHA_INICIAL, classD.FECHA_FINAL, days[kDay])){
