@@ -662,7 +662,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     var tEnroll = JSON.parse(JSON.stringify(this.enroll_conditions));
     tEnroll[flag] = 'Y';
     tEnroll['STRM'] = this.session.getObject('dataEnrollment')['cicloAdmision'];
-    tEnroll['EMPLID'] = this.session.getItem('emplidSelected');
+    tEnroll['emplid'] = this.session.getItem('emplidSelected');
     this.newEnrollmentS.saveConditions(tEnroll)
       .then((res) => {
         this.loading = false;

@@ -175,9 +175,14 @@ export class HomeComponent implements OnInit {
     this.newEnrollmentS.getSkillFullLoadAutoServicePre({EMPLID: this.studentCode})
     // this.newEnrollmentS.getSkillFullLoadAutoService({EMPLID: this.studentCode})
       .then((res) => {
-        this.toastr.success('Carga completa del alumno');
-        this.confirmationUploadModal.close();
-        this.loading = false;
+        if(res.Data){
+          this.toastr.success('Carga completa del alumno');
+          this.confirmationUploadModal.close();
+          this.loading = false;
+        } else {
+          this.toastr.error('Se produjo un error, Intentalo nuevamente');
+          this.loading = false;
+        }
       })
   }
 

@@ -160,7 +160,6 @@ export class DisponiblesComponent implements OnInit {
               SESSION_CODE: '',
               STRM: this.cicleSelected['CICLO_LECTIVO']
             }).then((res) => {
-              console.log(res);
               data.push(...res.UCS_REST_COHOR2RESP.UCS_REST_CON_HOR2RES);
               if (o == allCourses.length-1) {
                 setTimeout(() => {
@@ -171,10 +170,11 @@ export class DisponiblesComponent implements OnInit {
               }
             });
           }
+        } else {
+          this.scheduleAvailables = this.checkDuplicates(data);
+          this.loading = false;
+          this.scheduleSelection.open();
         }
-        this.scheduleAvailables = this.checkDuplicates(data);
-        this.loading = false;
-        this.scheduleSelection.open();
       }else {
         if (allCourses.length > 0) {
           for (let o = 0; o < allCourses.length; o++) {

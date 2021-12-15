@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
 							}).then((res) => {
 								this.loading = false;
 								this.session.setObject('oauth', res);
-								this.studentS.getDataStudent(this.session.getItem('emplidSelected')).then((res) => {
+								this.studentS.getDataStudent(this.session.getItem('emplidSelected')?this.session.getItem('emplidSelected'):'1').then((res) => {
 									this.remotex = res.UcsMetodoDatosPersRespuesta;
 									this.session.setObject('remotex', this.remotex);
 									const SECRETKEY = "K4GxggYzW6vl0TwxJrBL8RJaZR2eVg60";
