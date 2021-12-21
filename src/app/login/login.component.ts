@@ -121,4 +121,8 @@ export class LoginComponent implements OnInit {
 				}
 			});
 	}
+
+	goTo(href){
+		window.open(href,'_blank');
+	}
 }

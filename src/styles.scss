@@ -121,7 +121,7 @@ li a:not([href]):hover,
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-
+	margin-bottom: 18rem;
 	.box {
 		width: 125px;
 		position: relative;
@@ -131,7 +131,7 @@ li a:not([href]):hover,
 		color: #FFFFFF;
 		font-weight: bold;
 		padding: 20px;
-		margin: 25px 0;
+		margin: 10px 0;
 		.new_icon {
 			margin-bottom: 10px;
 		}
@@ -198,7 +198,7 @@ li a:not([href]):hover,
 			font-weight: bold;
 			line-height: 20px;
 			border-radius: 24px;
-			padding: 10px 0;
+			padding: 12px 0;
 			&:hover {
 				background-color: #FF9942;
 				box-shadow: 0px 8px 16px rgba(254,137,38,0.3);
@@ -225,9 +225,15 @@ li a:not([href]):hover,
 		.new_input {
 			width: 100%;
 			border:none;
+			font-family     : "OpenSans";
 			background-color: transparent;
 			outline: none;
+			height: 25px;
+			font-size: 16px;
 			border-bottom: 1px solid #C9CED2;
+			&:active,&:focus {
+				border-bottom: 2px solid #3F51B5;
+			}
 			&::-webkit-input-placeholder {
 				color: #637381;
 				font-size: 16px;
@@ -1143,6 +1149,11 @@ mwl-calendar-event-title span {
 	right : 20px;
 }
 
+.float-wsp-mobile {
+	bottom: 200px;
+	right : 20px;
+}
+
 .float-triangle-br {
 	bottom: -8px;
 	right : 26px;
@@ -1232,6 +1243,12 @@ div.extra div.cal-event {
 }
 
 @media (max-width: 600px) {
+	div.last {
+		padding: 10px 25px;
+		span {
+			font-size: 11px;
+		}
+	}
 	.desktop_version {
 		display: none;
 	}
@@ -1246,13 +1263,26 @@ div.extra div.cal-event {
 			padding: 0;
 		}
 	}
+	.new_form {
+		margin-bottom: 1rem;
+	}
+	.wsp_button {
+		position: relative;
+		width: 100%;
+		height: 40px;
+		a {
+			position: absolute;
+			right: 10px;
+			bottom: 0;
+		}
+	}
 	.new_boxes2 {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		.box {
 			width: 100%;
-			padding: 10px 0;
+			padding: 15px 10px;
 			color: #FFFFFF;
 			font-weight: bold;
 			display: flex;

@@ -1,30 +1,30 @@
 <div class="desktop_version row full-content-h position-relative min-content-normal align-items-center justify-content-center">
-	<div class="row col-md-6 full-content-h-2 justify-content-center bg-imagebg">
+	<div class="row col-md-6 full-content-h-2 p-5 bg-imagebg">
 		<div class="col-md-7 col-sm-10 col-11 pt-5">
 			<img src="./assets/img/new_logo.png">
         </div>
 		<div class="col-md-7 col-sm-10 col-11 mb-6">
 			<div class="new_boxes">
-				<div class="box orange">
+				<div (click)="goTo('http://aulavirtualcpe.cientifica.edu.pe')" class="box orange">
 					<img class="new_icon" src="./assets/img/icon/new_icon_1.png">
 					<p class="text">Aula Virtual Científica Pre/CPE</p>
 					<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
 				</div>
-				<div class="box purple">
+				<div (click)="goTo('https://aulavirtualposgrado.cientifica.edu.pe')" class="box purple">
 					<img class="new_icon" src="./assets/img/icon/new_icon_2.png">
 					<p class="text">Aula Virtual Científica Posgrado</p>
 					<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
 				</div>
-				<div class="box blue">
+				<!-- <div class="box blue">
 					<img class="new_icon" src="./assets/img/icon/new_icon_3.png">
 					<p class="text">Tutorial Aula Virtual Pre/CPE</p>
 					<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
 	<div class="row col-md-6 align-items-center justify-content-center new_right_side">
-		<div class="col-md-5 col-sm-10 col-11 mb-5 new_form justify-content-center">
+		<div class="col-md-6 col-sm-10 col-11 mb-5 new_form justify-content-center">
 			<h5>¡Bienvenidos al Intranet!</h5>
 			<p class="mb-5">Para iniciar sesión, por favor ingresa tu usuario y contraseña</p>
 			<form class="form" [formGroup]="loginForm" (ngSubmit)="login()">				
@@ -34,8 +34,8 @@
 				</div>
 				<div class="input-group mt-3 eyes_field">
 					<p [ngClass]="{'notHidden': loginForm.controls.password.value}" class="m-0 hidden_text">Contraseña</p>
-					<img *ngIf="!showPass" (click)="showPass = true" class="eye" src="./assets/img/icon/new_eye_closed.png">
-					<img *ngIf="showPass" (click)="showPass = false" class="eye" src="./assets/img/icon/new_eye.png">
+					<img *ngIf="!showPass" (click)="showPass = true" class="eye pointer" src="./assets/img/icon/new_eye_closed.png">
+					<img *ngIf="showPass" (click)="showPass = false" class="eye pointer" src="./assets/img/icon/new_eye.png">
 					<input class="new_input" [type]="showPass?'text':'password'" formControlName="password"  placeholder="Contraseña">
 				</div>
 				<div class="mt-5 row justify-content-start">
@@ -43,7 +43,7 @@
 				</div>
 			</form>
 			<div class="forgot mt-3">
-				<p class="text-center">¿Olvidaste tu contraseña?</p>
+				<p (click)="goTo('https://recuperacontrasena.cientifica.edu.pe')" class="pointer text-center">¿Olvidaste tu contraseña?</p>
 			</div>
 			<div class="no_access mt-5">
 				<p class="text-center">¿Ayuda con tus accesos? <span>soluciones@cientifica.edu.pe</span></p>
@@ -67,7 +67,7 @@
 	<div class="header_mobile">
 		<img src="./assets/img/new_logo_mobile.png" alt="">
 	</div>
-	<div class="content new_form px-6">
+	<div class="content new_form px-5 mt-5">
 		<h5>¡Bienvenidos al Intranet!</h5>
 		<p class="mt-2">Para iniciar sesión, por favor ingresa tu usuario y contraseña</p>
 		<form class="mt-5 form" [formGroup]="loginForm" (ngSubmit)="login()">				
@@ -86,30 +86,36 @@
 			</div>
 		</form>
 		<div class="forgot mt-3">
-			<p class="text-center">¿Olvidaste tu contraseña?</p>
+			<p (click)="goTo('https://recuperacontrasena.cientifica.edu.pe')" class="text-center">¿Olvidaste tu contraseña?</p>
 		</div>
 		<div class="no_access mt-5">
 			<p class="m-0 text-center">¿Ayuda con tus accesos?</p>
 			<p class="m-0 text-center"><span>soluciones@cientifica.edu.pe</span></p>
 		</div>
 	</div>
-	<div class="col-md-6 footer text-center">
+
+	<div class="wsp_button">
+		<a href="https://api.whatsapp.com/send?phone=+51988576507" target="_blank" gtagEvent trackOn="click" action="wsp_matricula" class="pointer">
+			<img style="width: 73px" src="./assets/img/whatsapp.svg">
+		</a>
+	</div>
+	<div class="mt-2 m-0 p-0 col-md-6 text-center">
 		<div class="new_boxes2">
-			<div class="box orange">
+			<div (click)="goTo('http://aulavirtualcpe.cientifica.edu.pe')" class="box orange">
 				<img class="new_icon" src="./assets/img/icon/new_icon_1.png">
 				<p class="m-0 text">Aula Virtual Científica Pre/CPE</p>
 				<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
 			</div>
-			<div class="box purple">
+			<div (click)="goTo('https://aulavirtualposgrado.cientifica.edu.pe')" class="box purple">
 				<img class="new_icon" src="./assets/img/icon/new_icon_2.png">
 				<p class="m-0 text">Aula Virtual Científica Posgrado</p>
 				<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
 			</div>
-			<div class="box blue">
+			<!-- <div class="box blue">
 				<img class="new_icon" src="./assets/img/icon/new_icon_3.png">
 				<p class="m-0 text">Tutorial Aula Virtual Pre/CPE</p>
 				<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
-			</div>
+			</div> -->
 		</div>
 		<div class="text-center last">
 			<span>© 2021 Universidad Científica del Sur -  Todos los derechos reservados </span>
