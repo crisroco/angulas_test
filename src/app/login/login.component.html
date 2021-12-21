@@ -34,8 +34,8 @@
 				</div>
 				<div class="input-group mt-3 eyes_field">
 					<p [ngClass]="{'notHidden': loginForm.controls.password.value}" class="m-0 hidden_text">Contraseña</p>
-					<img *ngIf="!showPass" (click)="showPass = true" class="eye pointer" src="./assets/img/icon/new_eye_closed.png">
-					<img *ngIf="showPass" (click)="showPass = false" class="eye pointer" src="./assets/img/icon/new_eye.png">
+					<img *ngIf="!showPass" (click)="showPass = true" class="eye pointer" src="./assets/img/icon/new_eye_closed.svg">
+					<img *ngIf="showPass" (click)="showPass = false" class="eye pointer" src="./assets/img/icon/new_eye.svg">
 					<input class="new_input" [type]="showPass?'text':'password'" formControlName="password"  placeholder="Contraseña">
 				</div>
 				<div class="mt-5 row justify-content-start">
@@ -65,7 +65,7 @@
 
 <div class="mobile_version row full-content-h position-relative min-content-normal align-items-center justify-content-center new_right_side">
 	<div class="header_mobile">
-		<img src="./assets/img/new_logo_mobile.png" alt="">
+		<img src="./assets/img/new_logo_mobile.svg" alt="">
 	</div>
 	<div class="content new_form px-5 mt-5">
 		<h5>¡Bienvenidos al Intranet!</h5>
@@ -77,8 +77,8 @@
 			</div>
 			<div class="input-group mt- eyes_field">
 				<p [ngClass]="{'notHidden': loginForm.controls.password.value}" class="m-0 hidden_text">Contraseña</p>
-				<img *ngIf="!showPass" (click)="showPass = true" class="eye" src="./assets/img/icon/new_eye_closed.png">
-				<img *ngIf="showPass" (click)="showPass = false" class="eye" src="./assets/img/icon/new_eye.png">
+				<img *ngIf="!showPass" (click)="showPass = true" class="eye" src="./assets/img/icon/new_eye_closed.svg">
+				<img *ngIf="showPass" (click)="showPass = false" class="eye" src="./assets/img/icon/new_eye.svg">
 				<input class="new_input" [type]="showPass?'text':'password'" formControlName="password"  placeholder="Contraseña">
 			</div>
 			<div class="mt-5 row justify-content-start">
