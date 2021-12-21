@@ -149,18 +149,21 @@ li a:not([href]):hover,
 		&.orange {
 			background-color: #F28B2D;
 			&:hover {
+				background-color: #FF9942;
 				box-shadow: 0px 8px 16px rgba(242, 139, 45, 0.3);
 			}
 		}
 		&.purple {
 			background-color: #1A213D;
 			&:hover {
+				background-color: #28366C;
 				box-shadow: 0px 8px 16px rgba(26, 33, 61, 0.3);
 			}
 		}
 		&.blue {
 			background-color: #2C9FD7;
 			&:hover {
+				background-color: #51AEDB;
 				box-shadow: 0px 8px 16px rgba(44, 159, 215, 0.3);
 			}
 		}
