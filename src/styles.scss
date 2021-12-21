@@ -10,15 +10,17 @@
 // }
 
 @font-face {
-	font-family: 'OpenSans';
+	font-family: 'PublicSans';
 	font-weight: bold;
 	font-style: normal;
 	src: url("./assets/fonts/PublicSans_Bold.ttf") format('truetype');
 }
 
 @font-face {
-	font-family: "OpenSans";
-	src: url("https://fonts.googleapis.com/css?family=Public Sans");
+	font-family: 'PublicSans';
+	font-weight: normal;
+	font-style: normal;
+	src: url("./assets/fonts/PublicSans_Regular.ttf") format('truetype');
 }
 
 *,
@@ -36,7 +38,7 @@ html,body {
 	font-size       : 14px;
 	color           : #5f5f5f;
 	height          : 100% !important;
-	background-color: #F7F9FF !important;
+	background-color: #FFFFFF !important;
 	// line-height   : normal !important;
 }
 
@@ -141,24 +143,33 @@ li a:not([href]):hover,
 			right: 10px;
 		}
 		p {
-			font-family     : "OpenSans";
+			font-family     : "PublicSans";
 		}
 
 		&.orange {
 			background-color: #F28B2D;
+			&:hover {
+				box-shadow: 0px 8px 16px rgba(242, 139, 45, 0.3);
+			}
 		}
 		&.purple {
 			background-color: #1A213D;
+			&:hover {
+				box-shadow: 0px 8px 16px rgba(26, 33, 61, 0.3);
+			}
 		}
 		&.blue {
 			background-color: #2C9FD7;
+			&:hover {
+				box-shadow: 0px 8px 16px rgba(44, 159, 215, 0.3);
+			}
 		}
 	}
 }
 
 .new_right_side {
 	.new_form {
-		font-family     : "OpenSans";
+		font-family     : "PublicSans";
 		.hidden_text {
 			color: #3F51B5;
 			visibility: hidden;
@@ -195,7 +206,7 @@ li a:not([href]):hover,
 			width: 100%;
 			color: #FFFFFF;
 			font-size: 16px;
-			font-weight: bold;
+			font-weight: 500;
 			line-height: 20px;
 			border-radius: 24px;
 			padding: 12px 0;
@@ -225,7 +236,7 @@ li a:not([href]):hover,
 		.new_input {
 			width: 100%;
 			border:none;
-			font-family     : "OpenSans";
+			font-family     : "PublicSans";
 			background-color: transparent;
 			outline: none;
 			height: 25px;
@@ -246,7 +257,7 @@ li a:not([href]):hover,
 		padding: 20px;
 		width: 100%;
 		span {
-			font-family     : "OpenSans";
+			font-family     : "PublicSans";
 			font-size: 11px;
 			line-height: 16px;
 			color: #637381;
@@ -1242,7 +1253,7 @@ div.extra div.cal-event {
 	padding: 15px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
 	div.last {
 		padding: 10px 25px;
 		span {
@@ -1289,7 +1300,7 @@ div.extra div.cal-event {
 			align-items: center;
 			justify-content: space-around;
 			p {
-				font-family     : "OpenSans";
+				font-family     : "PublicSans";
 			}
 	
 			&.orange {

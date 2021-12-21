@@ -5,7 +5,7 @@
         </div>
 		<div class="col-md-7 col-sm-10 col-11 mb-6">
 			<div class="new_boxes">
-				<div (click)="goTo('http://aulavirtualcpe.cientifica.edu.pe')" class="box orange">
+				<div (click)="goTo('https://cientificamoodle.cientifica.edu.pe/login/index.php')" class="box orange">
 					<img class="new_icon" src="./assets/img/icon/new_icon_1.png">
 					<p class="text">Aula Virtual Científica Pre/CPE</p>
 					<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
@@ -24,13 +24,13 @@
 		</div>
 	</div>
 	<div class="row col-md-6 align-items-center justify-content-center new_right_side">
-		<div class="col-md-6 col-sm-10 col-11 mb-5 new_form justify-content-center">
+		<div class="col-md-7 col-sm-10 col-11 mb-5 new_form justify-content-center">
 			<h5>¡Bienvenidos al Intranet!</h5>
 			<p class="mb-5">Para iniciar sesión, por favor ingresa tu usuario y contraseña</p>
 			<form class="form" [formGroup]="loginForm" (ngSubmit)="login()">				
 				<div class="input-group mb-5">
 					<p [ngClass]="{'notHidden': loginForm.controls.email.value}" class="m-0 hidden_text">Usuario</p>
-					<input class="new_input" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="email"  placeholder="Usuario">
+					<input autofocus class="new_input" type="text" oninput="this.value = this.value.toUpperCase()" formControlName="email"  placeholder="Usuario">
 				</div>
 				<div class="input-group mt-3 eyes_field">
 					<p [ngClass]="{'notHidden': loginForm.controls.password.value}" class="m-0 hidden_text">Contraseña</p>
@@ -101,7 +101,7 @@
 	</div>
 	<div class="mt-2 m-0 p-0 col-md-6 text-center">
 		<div class="new_boxes2">
-			<div (click)="goTo('http://aulavirtualcpe.cientifica.edu.pe')" class="box orange">
+			<div (click)="goTo('https://cientificamoodle.cientifica.edu.pe/login/index.php')" class="box orange">
 				<img class="new_icon" src="./assets/img/icon/new_icon_1.png">
 				<p class="m-0 text">Aula Virtual Científica Pre/CPE</p>
 				<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
