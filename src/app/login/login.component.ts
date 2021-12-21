@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
 	student: any;
 	code_company = AppSettings.COMPANY;
 	studentCode;
+	showPass:boolean = false;
 	allData: any;
 	arrego: [];
 	dataStudent:any;
@@ -33,8 +34,6 @@ export class LoginComponent implements OnInit {
 	digital3: any;
 	digital4: any;
 
-	@ViewChild('piezaModal') piezaModal: any;
-	@ViewChild('ErrCurrentStudentModal') ErrCurrentStudentModal: any;
 	constructor(private formBuilder: FormBuilder,
     	private toastr: ToastrService,
     	private gtag: Gtag,
@@ -47,14 +46,6 @@ export class LoginComponent implements OnInit {
     	private deviceS: DeviceDetectorService) { }
 
 	ngOnInit() {
-		// this.piezaModal.open();
-		// if(this.session.getItem('showModal')){
-		// 	this.ErrCurrentStudentModal.open();
-		// 	setTimeout(() => {
-		// 		this.session.destroy('showModal');
-		// 		this.ErrCurrentStudentModal.close();
-		// 	}, 5000);
-		// }
 		this.loginForm = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],

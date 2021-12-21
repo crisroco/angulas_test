@@ -9,6 +9,18 @@
 // 	url("./assets/fonts/OpenSans.svg#svgOpenSans") format('svg');
 // }
 
+@font-face {
+	font-family: 'OpenSans';
+	font-weight: bold;
+	font-style: normal;
+	src: url("./assets/fonts/PublicSans_Bold.ttf") format('truetype');
+}
+
+@font-face {
+	font-family: "OpenSans";
+	src: url("https://fonts.googleapis.com/css?family=Public Sans");
+}
+
 *,
 .row {
 	margin : 0;
@@ -99,10 +111,141 @@ li a:not([href]):hover,
 }
 
 .bg-imagebg {
-	background-image   : url("./assets/img/background.jpg");
+	background-image   : url("./assets/img/new_bck.png");
 	background-position: center;
 	background-repeat  : no-repeat;
 	background-size    : cover;
+}
+
+.new_boxes {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+
+	.box {
+		width: 125px;
+		position: relative;
+		cursor: pointer;
+		height: 134px;
+		border-radius: 20px;
+		color: #FFFFFF;
+		font-weight: bold;
+		padding: 20px;
+		margin: 25px 0;
+		.new_icon {
+			margin-bottom: 10px;
+		}
+		.chevron {
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
+		}
+		p {
+			font-family     : "OpenSans";
+		}
+
+		&.orange {
+			background-color: #F28B2D;
+		}
+		&.purple {
+			background-color: #1A213D;
+		}
+		&.blue {
+			background-color: #2C9FD7;
+		}
+	}
+}
+
+.new_right_side {
+	.new_form {
+		font-family     : "OpenSans";
+		.hidden_text {
+			color: #3F51B5;
+			visibility: hidden;
+			font-size: 12px;
+			line-height: 12px;
+			letter-spacing: 0.15px;
+		}
+		.notHidden {
+			visibility: inherit;
+		}
+		h5 {
+			color: #22468F;
+			font-size: 24px;
+			font-weight: bold;
+			line-height: 36px;
+			text-align: left;
+		}
+		p {
+			color: #637381;
+			font-size: 16px;
+			line-height: 24px;
+			text-align: left;
+		}
+		.eyes_field {
+			position: relative;
+			.eye {
+				position: absolute;
+				bottom: 2px;
+				right: 2px;
+			}
+		}
+		.new_button {
+			background-color: #FE8926;
+			width: 100%;
+			color: #FFFFFF;
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 20px;
+			border-radius: 24px;
+			padding: 10px 0;
+			&:hover {
+				background-color: #FF9942;
+				box-shadow: 0px 8px 16px rgba(254,137,38,0.3);
+			}
+		}
+		.forgot {
+			p {
+				color: #212B36;
+				font-size: 14px;
+				line-height: 16px;
+				font-weight: bold;
+			}
+		}
+		.no_access {
+			p {
+				color: #212B36;
+				font-size: 14px;
+				line-height: 22px;
+				span {
+					font-weight: bold;
+				}
+			}
+		}
+		.new_input {
+			width: 100%;
+			border:none;
+			background-color: transparent;
+			outline: none;
+			border-bottom: 1px solid #C9CED2;
+			&::-webkit-input-placeholder {
+				color: #637381;
+				font-size: 16px;
+				line-height: 24px;
+			}
+		}
+	}
+	.footer {
+		background-color: #F4F6F8;
+		padding: 20px;
+		width: 100%;
+		span {
+			font-family     : "OpenSans";
+			font-size: 11px;
+			line-height: 16px;
+			color: #637381;
+		}
+	}
 }
 
 .modalT p {
@@ -995,6 +1138,11 @@ mwl-calendar-event-title span {
 	right : 20px;
 }
 
+.float-wsp-2 {
+	bottom: 90px;
+	right : 20px;
+}
+
 .float-triangle-br {
 	bottom: -8px;
 	right : 26px;
@@ -1071,6 +1219,68 @@ div.extra div.cal-event {
 
 .icon_container {
 	position: relative;
+}
+
+.mobile_version {
+	display: none;
+}
+
+.header_mobile {
+	text-align: center;
+	background-color: #22468F;
+	padding: 15px;
+}
+
+@media (max-width: 600px) {
+	.desktop_version {
+		display: none;
+	}
+	.mobile_version {
+		display: inherit;
+	}
+	.new_right_side {
+		.last {
+			padding: 15px;
+		}
+		.footer {
+			padding: 0;
+		}
+	}
+	.new_boxes2 {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		.box {
+			width: 100%;
+			padding: 10px 0;
+			color: #FFFFFF;
+			font-weight: bold;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			p {
+				font-family     : "OpenSans";
+			}
+	
+			&.orange {
+				background-color: #F28B2D;
+			}
+			&.purple {
+				background-color: #1A213D;
+			}
+			&.blue {
+				background-color: #2C9FD7;
+			}
+		}
+	}
+}
+
+@media (max-width: 750px) {
+	.new_form {
+		h5 {
+			margin-top: 20px;
+		}
+	}
 }
 
 @media (max-width: 480px) {
