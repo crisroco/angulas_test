@@ -3,7 +3,7 @@
 		<div class="col-md-6 col-lg-4 pl-md-0 d-block d-md-none mb-1">
 			<h2 class="py-2 text-inital">
 				<span class="text-ucs">¡Hola {{student?.firstNombreAlumno | uppercase }}!</span>
-				¡Felices fiestas🎄!
+				¡Felices fiestas<span style="font-weight:normal">🎄</span>!
 				<!--Bienvenid{{student?.sexo=='F'?'a':'o'}}.-->
 			</h2>
 			<app-menu-course (openZoomEmit)="preGoMoodle($event)" [student]="student" [course]="course" [loadCourse]="loadCourse"></app-menu-course>
