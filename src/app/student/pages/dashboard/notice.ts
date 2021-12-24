@@ -1,5 +1,24 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/portada_video.png',
+        title: '¡Felices fiestas!',
+        new: true,
+        content: `Siempre estas fechas son motivos de reflexión y unión familiar. <a target="_blank" href="https://www.youtube.com/watch?v=GAyCVU8NV3g">Haz clic aquí </a> para ver el mensaje que José Dextre, Presidente del Grupo Educa_D tiene para ti.`,
+        filtroInst: ['ALL'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        expand: true,
+        full: true,
+
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/calendar-031221.jpg',
         title: 'CALENDARIO DE MATRÍCULA POSGRADO DICIEMBRE 2021',
         new: false,

@@ -46,8 +46,13 @@
   <div (click)="showImage.close();imgFile = null" class="times-close">
       <img src="assets/img/times-modal.svg" alt="">
   </div>
-  <img *ngIf="imgFile" [class.d-none]="!loadImg" [src]="imgFile" width="100%" (load)="imgload()" alt="">
-  <div class="text-center py-5" *ngIf="!loadImg">
-    Cargando...
-  </div>
+  <ng-container *ngIf="imgFile == 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/portada_video.png'">
+    <iframe width="100%" height="500" src="https://www.youtube.com/embed/GAyCVU8NV3g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </ng-container>
+  <ng-container *ngIf="imgFile != 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/portada_video.png'">
+    <img *ngIf="imgFile" [class.d-none]="!loadImg" [src]="imgFile" width="100%" (load)="imgload()" alt="">
+    <div class="text-center py-5" *ngIf="!loadImg">
+      Cargando...
+    </div>
+  </ng-container>
 </ngx-smart-modal>
