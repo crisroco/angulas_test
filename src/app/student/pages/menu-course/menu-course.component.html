@@ -1,7 +1,8 @@
 <div class="card-custom py-2 mb-4 d-flex flex-column">
     <h6 class="px-4 ml-1 my-4" style="font-weight: 500">{{getDateMoment()}}</h6>
     <ng-container *ngFor="let data of courseSplit()">
-        <div *ngIf="!this.validateAfter(data.MEETING_TIME_END)" (click)="openLinkZoom(data)" class="course-item px-4 py-2"
+        <!-- (click)="openLinkZoom(data)" -->
+        <div *ngIf="!this.validateAfter(data.MEETING_TIME_END)" class="course-item px-4 py-2"
         [class.active-course]="validateRangeWithAfterMinutes(data.MEETING_TIME_START, data.MEETING_TIME_END) && validateClick(data)">
         <div class="d-flex flex-column" style="height: 100px;">
             <div>
