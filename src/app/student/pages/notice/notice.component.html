@@ -4,7 +4,7 @@
     <div class="d-lg-flex py-3 border-bottom" *ngFor="let data of notice; let i = index">
       <div (click)="showImageHandler(data)" class="pointer notice_box" style="position: relative">
         <div style="position: relative;">
-          <img [src]="data.imgPath" class="d-none d-lg-block" width="200px" height="130px" alt="">
+          <img [src]="data.imgPath" class="d-none d-lg-block" width="250px" height="160px" alt="">
           <img [src]="data.imgPath" class="d-block d-lg-none mb-3" width="100%" alt="">
           <img src="assets/img/zoom-img.svg" alt="" class="zoom" style="cursor: pointer; position: absolute; right: 10px; bottom: 12px;">
         </div>
