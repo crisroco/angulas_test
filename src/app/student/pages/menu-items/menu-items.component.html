@@ -3,6 +3,10 @@
     <img src="./assets/img/homeicon.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Inicio</span>
   </a>
+  <a class="menu" (click)="openVirtualRoom()">
+    <img src="./assets/img/icon/virtual_room.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Aula Virtual</span>
+  </a>
   <a class="menu" routerLink="/estudiante/accion/horario" routerLinkActive="active">
     <img src="./assets/img/horario.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Horario</span>

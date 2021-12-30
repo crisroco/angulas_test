@@ -1274,7 +1274,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 	getQueueEnroll() {
 		if (this.enroll && this.enroll_conditions && this.queueEnroll) {
-			console.log(1);
 			this.sendEnroll();
 		}
 		else {
@@ -1284,7 +1283,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 				.then(res => {
 					let units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];
 					this.studentS.setdataStudent(units);
-
 					this.enroll = units.filter(item => item.institucion == 'PREGR');
 					this.enroll = this.enroll.length ? this.enroll[0] : null;
 					
