@@ -1,5 +1,49 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/noticia-311221-posgrado.png',
+        title: '💻 ACTUALIZACIÓN DEL INGRESO AL AULA VIRTUAL',
+        new: true,
+        content: `Desde el 27/12/21, podrás ingresar a tus cursos del Aula Virtual de un modo más sencillo. Sigue los siguientes pasos.<br>
+                1. Dale clic a <a href="https://aulavirtualposgrado.cientifica.edu.pe/login/index.php" target="_blank" >aulavirtualposgrado.cientifica.edu.pe</a> <br>
+                2. Ingresa los datos de tu correo Científica (correo y contraseña) y listo. <br>
+                
+                Ten en cuenta:  El icono de acceso desde el “Horario” será desactivado. Si olvidaste tus datos del correo Científica, puedes escribir al WhatsApp +51988 576 507`,
+        filtroInst: ['PSTGR', 'ESPEC'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        expand: true,
+        full: true,
+    },
+    {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/noticia-311221-pre.png',
+        title: '¡RENOVAMOS NUESTRA AULA VIRTUAL 💻!',
+        new: true,
+        content: `Ahora podrás ingresar a la nueva Aula Virtual con la tecnología de Canvas. Solo sigue los siguientes pasos.<br>
+                1. Dale clic a <a href="https://cientificavirtual.cientifica.edu.pe/login/canvas" target="_blank" >cientificavirtual.cientifica.edu.pe</a> <br>
+                2. Ingresa los datos de tu correo Científica (correo y contraseña) y listo. <br>
+                
+                Ten en cuenta:  El icono de acceso desde el “Horario” será desactivado. Si olvidaste tus datos del correo Científica, puedes escribir al WhatsApp +51988 576 507`,
+        filtroInst: ['PREGR', 'CPE'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        expand: true,
+        full: true,
+    },
+    {
         // 24/01/22
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/calendario-matricula-pstg2022.jpg',
         title: 'CALENDARIO DE MATRÍCULA POSGRADO ENERO 2022',
