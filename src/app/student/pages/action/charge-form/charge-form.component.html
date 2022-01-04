@@ -3,14 +3,35 @@
 	<div class="row align-items-center">
 		<div class="col-2">
             <h5>Grado</h5>
+			<select [(ngModel)]="charge.grade" class="mt-2 form-control" name="grade" id="" (change)="loadTypes(charge.grade)">
+				<option value="">Seleccione . . . </option>
+				<option value="PREGRADO">PREGR</option>
+				<option value="POSGRADO">POSGR</option>
+			</select>
 		</div>
-
-		<div class="col-2">
+		<div class="col-3">
             <h5>Tipo</h5>
+			<select [(ngModel)]="charge.type" class="mt-2 form-control" name="grade" id="">
+				<option value="">Seleccione Grado . . . </option>
+				<option *ngFor="let type of allTypes" [ngValue]="type.category">{{type.category}}</option>
+			</select>
 		</div>
 
         <div class="col-2">
             <h5>Trámite/Costo</h5>
+			<select [disabled]="true" [(ngModel)]="charge.payment" class="mt-2 form-control" name="grade" id="">
+				<option value="COSTO">CON COSTO</option>
+			</select>
+		</div>
+		<div class="col-5">
+			<div>
+				<h4>SOLICITUD:</h4>
+				<p>Para generar tu solciitud o si tienes alguna duda escríbenos al <span>+51 988 576 507</span>
+				(ver horario de atención) o al correo: <a href="">soluciones@cientifica.edu.pe</a></p>
+			</div>
+			<div>
+				<button (click)="createCharge()" class="btn btn-primary">Generar Cargo</button>
+			</div>
 		</div>
 	</div>
 </div>
