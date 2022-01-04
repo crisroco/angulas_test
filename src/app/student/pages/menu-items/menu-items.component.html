@@ -35,6 +35,10 @@
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula Extracurricular</span>
   </a> -->
+  <a class="menu" routerLink="/estudiante/accion/cargo" routerLinkActive="active">
+    <img src="./assets/img/document.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Cargos de Trámites</span>
+  </a>
   <div *ngIf="widthMenu!=72" class="menu">
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula</span>

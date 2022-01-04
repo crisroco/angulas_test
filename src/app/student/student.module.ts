@@ -39,6 +39,7 @@ import { MenuOtherComponent } from './pages/menu-other/menu-other.component';
 import { NoticeComponent } from './pages/notice/notice.component';
 import { HttpConfigInterceptor } from '../services/httpconfig.interceptor';
 import { InterceptorService } from './services/interceptor.service';
+import { ChargeFormComponent } from './pages/action/charge-form/charge-form.component';
 
 const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
 
@@ -63,7 +64,7 @@ const config: SocketIoConfig = { url: AppSettings.WSURL, options: {} };
     MenuCourseComponent, 
     MenuItemsComponent, 
     MenuOtherComponent, 
-    NoticeComponent
+    NoticeComponent, ChargeFormComponent
   ],
   imports: [
     FormsModule,

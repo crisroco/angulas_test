@@ -10,6 +10,7 @@ import { AcademicConditionsComponent } from './pages/action/academic-conditions/
 import { CourseHistoryComponent } from './pages/action/course-history/course-history.component';
 import { FinalGradesComponent } from './pages/action/final-grades/final-grades.component';
 import { CourseAssistanceComponent } from './pages/action/course-assistance/course-assistance.component';
+import { ChargeFormComponent } from './pages/action/charge-form/charge-form.component';
 import { EnrollComponent } from './pages/action/enroll/enroll.component';
 import { StudentComponent } from './student.component';
 
@@ -66,6 +67,10 @@ const routes: Routes = [
 					{
 						path: 'matricula',
 						component: EnrollComponent
+					},
+					{
+						path: 'cargo',
+						component: ChargeFormComponent
 					}
 				]
 			},
