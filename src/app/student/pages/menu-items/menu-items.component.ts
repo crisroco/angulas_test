@@ -55,8 +55,16 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   openVirtualRoom(){
     let inst = this.session.getObject('AllInst')[0].institucion;
     if(inst == 'PSTGR' || inst == 'ESPEC'){
+      this.gtag.event('POS_HOME', { 
+        method: 'click',
+        event_category: 'link'
+      });
       window.open('https://aulavirtualposgrado.cientifica.edu.pe', '_blank')
     } else {
+      this.gtag.event('CPE_HOME', { 
+        method: 'click',
+        event_category: 'link'
+      });
       window.open('https://cientificavirtual.cientifica.edu.pe', '_blank');
     }
   }

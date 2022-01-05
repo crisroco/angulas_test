@@ -123,6 +123,15 @@ export class LoginComponent implements OnInit {
 	}
 
 	goTo(href){
-		window.open(href,'_blank');
+		if(href == 'https://recuperacontrasena.cientifica.edu.pe'){
+			window.open(href,'_blank');
+		} else {
+			let evt = href=='https://cientificavirtual.cientifica.edu.pe'?'CPE_LOGIN':'POS_LOGIN';
+			this.gtag.event(evt, { 
+				method: 'click',
+				event_category: 'link'
+			});
+			window.open(href,'_blank');
+		}
 	}
 }
