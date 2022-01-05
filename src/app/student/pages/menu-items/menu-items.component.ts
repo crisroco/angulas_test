@@ -55,13 +55,13 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   openVirtualRoom(){
     let inst = this.session.getObject('AllInst')[0].institucion;
     if(inst == 'PSTGR' || inst == 'ESPEC'){
-      this.gtag.event('POS_HOME', { 
+      this.gtag.event('aulavirtial_pos_home', { 
         method: 'click',
         event_category: 'link'
       });
       window.open('https://aulavirtualposgrado.cientifica.edu.pe', '_blank')
     } else {
-      this.gtag.event('CPE_HOME', { 
+      this.gtag.event('aulavirtial_cpe_home', { 
         method: 'click',
         event_category: 'link'
       });
