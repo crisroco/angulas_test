@@ -371,6 +371,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	dataEstudiante: any;
 	departamentos: Array<any>;
 	provincias: Array<any>;
+	public initials = '';
 	distritos: Array<any>;
 	modalUpdateDataClosable = true
 
@@ -1259,6 +1260,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 	async checkInList() {
 		this.student = this.session.getObject('student');
+		this.initials = this.student.nombreAlumno.split(' ')[0].charAt(0) + this.student.nombreAlumno.split(' ')[1].charAt(0);
 		this.studentS.getAcademicDataStudent(this.session.getItem('emplidSelected'))
 			.then((res) => {
 				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];

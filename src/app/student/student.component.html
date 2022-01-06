@@ -11,8 +11,15 @@
         </div>
         <img src="./assets/img/new-logo.svg" [class.ml-2]="heightOtherMenu==100" class="ml-sm-4 ml-xl-2" width="170px">
     </div>
-    <div class="ml-auto menu-dropdow mr-3 d-none d-sm-block"  (click)="menus = !menus">
-        <img src="./assets/img/user-menu.svg" alt="">
+    <div class="ml-auto menu-dropdow mr-3 d-none d-flex"  (click)="menus = !menus">
+        <div class="d-flex flex-column mr-5 dataName">
+            <p class="m-0">{{student.nombreAlumno}}</p>
+            <span>{{student.codigoAlumno}}</span>
+        </div>
+        <div class="circle_initials">
+            {{initials}}
+        </div>
+        <!-- <img src="./assets/img/user-menu.svg" alt=""> -->
         <img src="./assets/img/angle-down.svg" style="transition: all 0.5s; -webkit-transition: all 0.25s;" [class.up-move]="menus" alt="">
         <div class="bg-white drop drop-custom py-3" [class.d-none]="!menus">
             <i class="fa fa-caret-up text-white"

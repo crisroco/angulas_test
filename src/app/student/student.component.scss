@@ -9,6 +9,26 @@ span.description {
 	-webkit-transform : rotate(-180deg);
 	transform         : rotate(-180deg);
 }
+.circle_initials {
+	width: 44px;
+	height: 44px;
+	border: 1px solid #FFFFFF;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.dataName {
+	p {
+		font-size: 14px;
+		font-weight: bold;
+		line-height: 20px;
+	}
+	span {
+		font-size: 14px;
+		line-height: 20px;
+	}
+}
 .times-close{
 	background: #202A48;
     width: 23px;
