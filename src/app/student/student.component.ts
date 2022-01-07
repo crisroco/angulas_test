@@ -436,6 +436,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 	DigitalLibraryAttribute9: FormControl;
 	DigitalLibraryAttribute10: FormControl;
 	formulario1: FormControl;
+	public dataRemotex;
 
 	constructor(
 		// private wsService: WebsocketService,
@@ -546,6 +547,8 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 		this.initUpdatePersonalData();
 		await this.checkInList();
+		this.dataRemotex = this.session.getObject('remotex');
+		this.initials = this.dataRemotex.nombreAlumno.charAt(0) + this.dataRemotex.apellidoAlumno.charAt(0);
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
 				this.IntentionEnrollmentModal.open();
@@ -1259,8 +1262,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 	}
 
 	async checkInList() {
-		this.student = this.session.getObject('student');
-		this.initials = this.student.nombreAlumno.split(' ')[0].charAt(0) + this.student.nombreAlumno.split(' ')[1].charAt(0);
 		this.studentS.getAcademicDataStudent(this.session.getItem('emplidSelected'))
 			.then((res) => {
 				var units: Array<any> = res && res.UcsMetodoDatosAcadRespuesta && res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta ? res.UcsMetodoDatosAcadRespuesta.UcsMetodoDatosAcadRespuesta : [];

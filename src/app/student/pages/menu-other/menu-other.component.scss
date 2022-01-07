@@ -9,6 +9,29 @@
     -webkit-transition: all 0.25s;
     height: 0;
 
+    .header_info {
+        color: #FFFFFF;
+        margin: 10px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 0 24px;
+        height: 88px;
+        background-color: #1B3872;
+
+        p {
+            font-size: 14px;
+            line-height: 16px;
+            font-weight: bold;
+        }
+        span {
+            margin-top: 3px;
+            font-size: 14px;
+            line-height: 16px;
+        }
+    }
+
     .sidebar-menu {
         overflow-y        : auto;
         overflow-x        : hidden;

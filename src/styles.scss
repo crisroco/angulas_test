@@ -1273,7 +1273,7 @@ div.extra div.cal-event {
 		}
 	}
 	.desktop_version {
-		display: none;
+		display: none !important;
 	}
 	.mobile_version {
 		display: inherit;

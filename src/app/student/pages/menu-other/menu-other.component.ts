@@ -14,7 +14,7 @@ export class MenuOtherComponent implements OnInit {
 
   @Input('heightOther') heightOther: number;
   @Output('heightOtherEmit') heightOtherEmit = new EventEmitter();
-
+  public dataRemotex = '';
   constructor(
     private studentService:StudentService,
     public session: SessionService,
@@ -24,6 +24,7 @@ export class MenuOtherComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.dataRemotex = this.session.getObject('remotex');
   }
 
   linkModalOpen(){
