@@ -14,7 +14,11 @@ export class MenuOtherComponent implements OnInit {
 
   @Input('heightOther') heightOther: number;
   @Output('heightOtherEmit') heightOtherEmit = new EventEmitter();
-  public dataRemotex = '';
+  public dataRemotex = {
+    nombreAlumno: '',
+    codigoAlumno: '',
+    apellidoAlumno: ''
+  };
   constructor(
     private studentService:StudentService,
     public session: SessionService,
