@@ -3,6 +3,7 @@ import { StudentService } from 'src/app/services/student.service';
 import { NewEnrollmentService } from 'src/app/services/newenrollment.service';
 import { SessionService } from '../../../services/session.service';
 import { ToastrService } from 'ngx-toastr';
+import { Gtag } from 'angular-gtag';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,6 +24,7 @@ export class MenuOtherComponent implements OnInit {
     private studentService:StudentService,
     public session: SessionService,
     private toastr: ToastrService,
+    private gtag: Gtag,
     private router: Router,
     public newEnrollmentS: NewEnrollmentService,
   ) { }
@@ -57,5 +59,22 @@ export class MenuOtherComponent implements OnInit {
           this.toastr.warning('Todavia no aceptas las condiciones academicas','',{progressBar:true});
         }
       });
+  }
+
+  openVirtualRoom(){
+    let inst = this.session.getObject('AllInst')[0].institucion;
+    if(inst == 'PSTGR' || inst == 'ESPEC'){
+      this.gtag.event('aulavirtial_pos_home', { 
+        method: 'click',
+        event_category: 'link'
+      });
+      window.open('https://aulavirtualposgrado.cientifica.edu.pe', '_blank')
+    } else {
+      this.gtag.event('aulavirtial_cpe_home', { 
+        method: 'click',
+        event_category: 'link'
+      });
+      window.open('https://cientificavirtual.cientifica.edu.pe', '_blank');
+    }
   }
 }
