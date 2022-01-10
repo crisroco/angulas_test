@@ -1,8 +1,27 @@
 export const notice = [
     {
+        // 24/01/22
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/actividades-extracurriculares-2022-0.jpg',
+        title: 'Actividades extracurriculares VGU 2022 0',
+        new: true,
+        content: `¡Ven y participa con nosotros en las Actividades extracurriculares que tenemos para ti este verano!. Fortalece, desarrolla y aprende herramientas que serán un complemento perfecto para tu perfil profesional. Inscríbete vía Portal de estudiante desde el 13 al 16 de enero 2022, ¡te esperamos!. Más info aquí: <a target="_blank" href="https://bit.ly/3q6Eopa">https://bit.ly/3q6Eopa</a>`,
+        filtroInst: ['PREGR', 'CPE'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/noticia-311221-posgrado.png',
         title: '💻 ACTUALIZACIÓN DEL INGRESO AL AULA VIRTUAL',
-        new: true,
+        new: false,
         content: `Desde el 27/12/21, podrás ingresar a tus cursos del Aula Virtual de un modo más sencillo. Sigue los siguientes pasos.<br>
                 1. Dale clic a <a href="https://aulavirtualposgrado.cientifica.edu.pe/login/index.php" target="_blank" >aulavirtualposgrado.cientifica.edu.pe</a> <br>
                 2. Ingresa los datos de tu correo Científica (correo y contraseña) y listo. <br>
@@ -24,7 +43,7 @@ export const notice = [
     {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/noticia-311221-pre.png',
         title: '¡RENOVAMOS NUESTRA AULA VIRTUAL 💻!',
-        new: true,
+        new: false,
         content: `Ahora podrás ingresar a la nueva Aula Virtual con la tecnología de Canvas. Solo sigue los siguientes pasos.<br>
                 1. Dale clic a <a href="https://cientificavirtual.cientifica.edu.pe/login/canvas" target="_blank" >cientificavirtual.cientifica.edu.pe</a> <br>
                 2. Ingresa los datos de tu correo Científica (correo y contraseña) y listo. <br>
@@ -47,7 +66,7 @@ export const notice = [
         // 24/01/22
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/calendario-matricula-pstg2022.jpg',
         title: 'CALENDARIO DE MATRÍCULA POSGRADO ENERO 2022',
-        new: true,
+        new: false,
         content: `Para conocer el calendario de matrícula y nuevos inicios, revisa el siguiente <a target="_blank" href="https://www.cientifica.edu.pe/sites/default/files/2021-12/Calendario%20Posgrado_Enero%202022.pdf">Link</a>`,
         filtroInst: [],
         filtroCarr: [],
@@ -61,7 +80,7 @@ export const notice = [
         useCSV8: false,
         expand: true,
         full: true,
-    }
+    },
     // {
     //     imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/bbva-banner.jpg',
     //     title: 'El BBVA se une a la familia científica como un nuevo medio de Pago',
