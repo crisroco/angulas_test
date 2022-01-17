@@ -43,7 +43,7 @@
 				</div>
 			</form>
 			<div class="forgot mt-3">
-				<p (click)="goTo('https://recuperacontrasena.cientifica.edu.pe')" class="pointer text-center">¿Olvidaste tu contraseña?</p>
+				<p (click)="goTo('https://recuperacontrasena.cientifica.edu.pe', 'recover_password')" class="pointer text-center">¿Olvidaste tu contraseña?</p>
 			</div>
 			<div class="no_access mt-5">
 				<p class="text-center">¿Ayuda con tus accesos? <span><a href="mailto:soluciones@cientifica.edu.pe">soluciones@cientifica.edu.pe</a></span></p>
@@ -86,7 +86,7 @@
 			</div>
 		</form>
 		<div class="forgot mt-3">
-			<p (click)="goTo('https://recuperacontrasena.cientifica.edu.pe')" class="text-center">¿Olvidaste tu contraseña?</p>
+			<p (click)="goTo('https://recuperacontrasena.cientifica.edu.pe', 'recover_password')" class="text-center">¿Olvidaste tu contraseña?</p>
 		</div>
 		<div class="no_access mt-5">
 			<p class="m-0 text-center">¿Ayuda con tus accesos?</p>
@@ -101,21 +101,21 @@
 	</div>
 	<div class="mt-2 m-0 p-0 col-md-6 text-center">
 		<div class="new_boxes2">
-			<div (click)="goTo('https://cientificavirtual.cientifica.edu.pe')" class="box orange">
+			<div (click)="goTo('https://cientificavirtual.cientifica.edu.pe', 'aulavirtial_cpe_login')" class="box orange">
 				<img class="new_icon" src="./assets/img/icon/new_icon_1.png">
 				<p class="m-0 text">Aula Virtual Científica Pre/CPE</p>
 				<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
 			</div>
-			<div (click)="goTo('https://aulavirtualposgrado.cientifica.edu.pe')" class="box purple">
+			<div (click)="goTo('https://aulavirtualposgrado.cientifica.edu.pe', 'aulavirtial_pos_login')" class="box purple">
 				<img class="new_icon" src="./assets/img/icon/new_icon_2.png">
 				<p class="m-0 text">Aula Virtual Científica Posgrado</p>
 				<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
 			</div>
-			<!-- <div class="box blue">
+			<div (click)="goTo('https://docs.cientifica.edu.pe/miportal_sise/general/Manual%20Canvas-%20Estudiantes.pdf','tutorial_aula_virtual')" class="box blue">
 				<img class="new_icon" src="./assets/img/icon/new_icon_3.png">
 				<p class="m-0 text">Tutorial Aula Virtual Pre/CPE</p>
 				<img class="chevron" src="./assets/img/icon/new_chevron.png" alt="">
-			</div> -->
+			</div>
 		</div>
 		<div class="text-center last">
 			<span>© 2021 Universidad Científica del Sur -  Todos los derechos reservados </span>
