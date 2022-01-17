@@ -353,6 +353,10 @@ export class StudentService {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getChargeTypes/' + type).toPromise();
     }
 
+    public generateChargeXML(code): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/generateChargeXML/' + code).toPromise();
+    }
+
     public getListOfStudentsUbigeoJson(): Promise<any> {
         return this.http.get("assets/ubigeo.json").toPromise();
     }

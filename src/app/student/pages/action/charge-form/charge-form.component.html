@@ -14,7 +14,7 @@
 				<h5>Tipo</h5>
 				<select [(ngModel)]="charge.type" class="mt-2 form-control" name="grade" id="">
 					<option value="">Seleccione Grado . . . </option>
-					<option *ngFor="let type of allTypes" [ngValue]="type.category">{{type.category}}</option>
+					<option *ngFor="let type of allTypes" [ngValue]="type.code">{{type.category}}</option>
 				</select>
 			</div>
 	
