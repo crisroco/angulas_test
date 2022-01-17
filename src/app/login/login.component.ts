@@ -123,14 +123,10 @@ export class LoginComponent implements OnInit {
 	}
 
 	goTo(href, evt){
-		if(href == 'https://recuperacontrasena.cientifica.edu.pe'){
-			window.open(href,'_blank');
-		} else {
-			this.gtag.event(evt, { 
-				method: 'click',
-				event_category: 'link'
-			});
-			window.open(href,'_blank');
-		}
+		this.gtag.event(evt, { 
+			method: 'click',
+			event_category: 'link'
+		});
+		window.open(href,'_blank');
 	}
 }
