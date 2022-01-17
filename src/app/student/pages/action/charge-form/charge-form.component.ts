@@ -27,11 +27,9 @@ export class ChargeFormComponent implements OnInit {
 
   loadTypes(type){
     if(type != ''){
-      this.loading = true;
       this.studentS.getChargeTypes(type)
       .then((res) => {
         this.allTypes = res;
-        this.loading = false;
       });
     } else {
       this.toastS.error('Debes seleccionar un Grado');
@@ -45,7 +43,7 @@ export class ChargeFormComponent implements OnInit {
       let dataCharge = (this.charge.grade=='PREGRADO'?'PREGR':'PSTGR') + this.charge.type + this.student.ciclo_lectivo + this.student.codigoAlumno;
       this.studentS.generateChargeXML(dataCharge)
         .then((res) => {
-          this.toastS.success('Cargo Generado', '', {progressBar: true});
+          this.toastS.success('Éxito! Se generó su cargo correctamente.', '', {progressBar: true});
           this.charge.grade = '';
           this.charge.type = '';
           console.log(res);
