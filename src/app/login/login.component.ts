@@ -122,11 +122,10 @@ export class LoginComponent implements OnInit {
 			});
 	}
 
-	goTo(href){
+	goTo(href, evt){
 		if(href == 'https://recuperacontrasena.cientifica.edu.pe'){
 			window.open(href,'_blank');
 		} else {
-			let evt = href=='https://cientificavirtual.cientifica.edu.pe'?'aulavirtial_cpe_login':'aulavirtial_pos_login';
 			this.gtag.event(evt, { 
 				method: 'click',
 				event_category: 'link'
