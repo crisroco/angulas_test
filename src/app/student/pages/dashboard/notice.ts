@@ -1,9 +1,27 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/sede-ucsur.jpg',
+        title: 'COMUNICADO RETORNO SEGURO A CLASES 2022-1',
+        new: true,
+        content: `Invocamos a todos nuestros estudiantes a leer este importante comunicado de la Universidad. <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/comunicado-regreso-seguro-clases.pdf">Ver comunicado</a>`,
+        filtroInst: ['ALL'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        expand: true,
+        full: true,
+    },
+    {
         // 24/01/22
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/actividades-extracurriculares-2022-0.jpg',
         title: 'Actividades extracurriculares VGU 2022 0',
-        new: true,
+        new: false,
         content: `¡Ven y participa con nosotros en las Actividades extracurriculares que tenemos para ti este verano!. Fortalece, desarrolla y aprende herramientas que serán un complemento perfecto para tu perfil profesional. Inscríbete vía Portal de estudiante desde el 13 al 16 de enero 2022, ¡te esperamos!. Más info aquí: <a target="_blank" href="https://bit.ly/3q6Eopa">https://bit.ly/3q6Eopa</a>`,
         filtroInst: ['PREGR', 'CPE'],
         filtroCarr: ['ALL'],
