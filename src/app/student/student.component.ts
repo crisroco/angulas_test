@@ -244,7 +244,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_ACA_PRE_2022_1.pdf',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/calendario-pregrado-2022-1.pdf',
 					description: 'CALENDARIO ACADÉMICO 2022-1'
 				},
 				{
@@ -275,12 +275,12 @@ export class StudentComponent implements OnInit, OnDestroy {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_CPE_2022_1_VN.pdf',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/calendario-cpe-2022-1V-N.pdf',
 					description: 'CALENDARIO ACADÉMICO CPE V-N 2022-1'
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/CALENDARIO_CPE_2022_1_ATE.pdf',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/calendario-cpe-2022-1ATE.pdf',
 					description: 'CALENDARIO ACADÉMICO CPE ATE 2022-1'
 				},
 				{
