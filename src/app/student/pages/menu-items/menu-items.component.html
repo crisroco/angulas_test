@@ -41,7 +41,7 @@
   </a>
   <div *ngIf="widthMenu!=72" class="menu">
     <img src="./assets/img/matricula.svg">
-    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Intención</span>
     <i class="arrow fa fa-chevron-down" aria-hidden="true"></i>
   </div>
   <div *ngIf="widthMenu!=72" class="item-sub">
@@ -50,7 +50,7 @@
         Consultar Horarios
       </li>
       <li *ngIf="timeOut && showMatri" (click)="goEnrollment()">
-        Iniciar Matrícula
+        Iniciar Intención de Matrícula
       </li>
     </ul>
   </div>
