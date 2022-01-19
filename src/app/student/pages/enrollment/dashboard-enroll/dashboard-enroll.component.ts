@@ -169,15 +169,15 @@ export class DashboardEnrollComponent implements OnInit {
       this.myCredits = creditos;
       this.enrollmentS.getSkillfullLoad({CAMPUS: this.dataStudent.sede, EMPLID: this.session.getItem('emplidSelected')})
         .then((res) => {
-          // this.allCoursesId = res.filter(el => el.FLAG == 'A');
-          // this.session.setObject('MaterialInCourse', this.allCoursesId);
+          this.allCoursesId = res.filter(el => el.FLAG == 'A');
+          this.session.setObject('MaterialInCourse', this.allCoursesId);
           this.availableCourses = res.sort(this.dynamicSortMultiple(["-FLAG","UCS_CICLO"]));
           if (coursesInEnrollment) {
             for (let i = 0; i < coursesInEnrollment.length; i++) {
               this.availableCourses = this.availableCourses.filter(el => el.CRSE_ID != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID2 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID3 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID4 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID5 != coursesInEnrollment[i].CRSE_ID && el.CRSE_ID6 != coursesInEnrollment[i].CRSE_ID);
             }
           }
-          // this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
+          this.numberofExtra = this.availableCourses.filter(el => el.FLAG == 'A').length;
           let max = res.find(el => el.FLAG == 'N');
           this.maxCredits = max?Math.round(max['FT_MAX_TOTAL_UNIT']):0;
           this.session.setItem('MaxCreditsEnrollment', this.maxCredits);
@@ -360,16 +360,19 @@ export class DashboardEnrollComponent implements OnInit {
   }
 
   changeSchedule(course, evt, alreadyIn = false){
+    console.log(course);
     if(course.notAvailable){
       evt.target.checked = false;
       course.value = false;
       this.toastS.error(course.alertMessage,'', {progressBar: true});
     } else {
-      console.log(course,evt);
       if (this.checkCreditsCap(course)) {
         evt.target.checked = false;
         course.value = false;
         return
+      }
+      if(course.UCS_REST_DET_MREU[0]['MODALIDAD'] != 'Virtual'){
+        this.toastS.warning('Estas seleccionando una clase Presencial','',{closeButton: true,tapToDismiss: true})
       }
       let numberOfPRA = this.countPRA(course);
       this.scheduleAvailables.forEach(el => {

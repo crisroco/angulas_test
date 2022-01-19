@@ -35,9 +35,13 @@
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula Extracurricular</span>
   </a> -->
-  <!-- <div *ngIf="widthMenu!=72" class="menu">
+  <!-- <a class="menu" routerLink="/estudiante/accion/cargo" routerLinkActive="active">
+    <img src="./assets/img/document.svg">
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Cargos de Trámites</span>
+  </a> -->
+  <div *ngIf="widthMenu!=72" class="menu">
     <img src="./assets/img/matricula.svg">
-    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula</span>
+    <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Intención</span>
     <i class="arrow fa fa-chevron-down" aria-hidden="true"></i>
   </div>
   <div *ngIf="widthMenu!=72" class="item-sub">
@@ -46,12 +50,12 @@
         Consultar Horarios
       </li>
       <li *ngIf="timeOut && showMatri" (click)="goEnrollment()">
-        Iniciar Matrícula
+        Iniciar Intención de Matrícula
       </li>
     </ul>
   </div>
   <a class="menu" *ngIf="(timeOut && showMatri) && widthMenu==72" (click)="goEnrollment()">
     <img src="./assets/img/matricula.svg">
     <span class="font-wight-bold" [class.d-none]="widthMenu==72" [class.d-xl-block]="widthMenu==72">Matrícula</span>
-  </a> -->
+  </a>
 </div>

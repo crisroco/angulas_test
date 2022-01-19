@@ -349,6 +349,14 @@ export class StudentService {
         return this.http.post(AppSettings.BASE + AppSettings.STUDENT + '/saveAnswer', data).toPromise();
     }
 
+    public getChargeTypes(type): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getChargeTypes/' + type).toPromise();
+    }
+
+    public generateChargeXML(code): Promise<any> {
+        return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/generateChargeXML/' + code).toPromise();
+    }
+
     public getListOfStudentsUbigeoJson(): Promise<any> {
         return this.http.get("assets/ubigeo.json").toPromise();
     }
