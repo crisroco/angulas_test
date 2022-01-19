@@ -136,7 +136,11 @@ export class MenuItemsComponent implements OnInit, OnChanges {
             }
           });
         } else {
-          this.toastr.warning('Todavia no aceptas las condiciones academicas','',{progressBar:true});
+          if(res.FLAG_FINANCIERO == 'N'){
+            this.toastr.warning('Todavia no aceptas las condiciones financieras','',{progressBar:true});
+          } else {
+            this.toastr.warning('Todavia no aceptas las condiciones academicas','',{progressBar:true});
+          }
         }
       });
   }
