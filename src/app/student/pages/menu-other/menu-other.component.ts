@@ -30,7 +30,7 @@ export class MenuOtherComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dataRemotex = this.session.getObject('remotex');
+    this.dataRemotex = this.session.getObject('remotex')?this.session.getObject('remotex'):this.session.getObject('user');
   }
 
   linkModalOpen(){

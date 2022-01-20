@@ -547,7 +547,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 
 		this.initUpdatePersonalData();
 		await this.checkInList();
-		this.dataRemotex = this.session.getObject('remotex');
+		this.dataRemotex = this.session.getObject('remotex')?this.session.getObject('remotex'):this.session.getObject('user');
 		this.initials = this.dataRemotex.nombreAlumno.charAt(0) + this.dataRemotex.apellidoAlumno.charAt(0);
 		this.crossdata = this.broadcaster.getMessage().subscribe(message => {
 			if (message && message.intentionModal && message.intentionModal == '2') {
