@@ -77,4 +77,8 @@ export class MenuOtherComponent implements OnInit {
       window.open('https://cientificavirtual.cientifica.edu.pe', '_blank');
     }
   }
+
+  showSchedule(){
+    this.studentService.setShowScheduleModal(true);
+  }
 }
