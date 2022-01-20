@@ -61,9 +61,10 @@ export class HomeComponent implements OnInit {
       this.toastr.error("Ingresa un codigo de alumno");
       return
     }
-    this.newEnrollmentS.getDebt(this.studentCode)
-      .then((res) => {
-        if(res.UCS_WS_DEU_RSP.UCS_WS_DEU_COM[0]['DEUDA'] == 'N'){
+    // this.newEnrollmentS.getDebt(this.studentCode)
+    //   .then((res) => {
+      // if(res.UCS_WS_DEU_RSP.UCS_WS_DEU_COM[0]['DEUDA'] == 'N'){
+        if(true){
           this.newEnrollmentS.getDataStudentEnrollment({ EMPLID: this.studentCode })
           .then((res) => {
             this.isthisStudent = res['UCS_DATPERS_RSP']['UCS_DATPERS_COM'][0];
@@ -77,7 +78,7 @@ export class HomeComponent implements OnInit {
         } else {
           this.toastr.warning('El alumno tiene deuda');
         }
-      });
+      // });
   }
 
   searchPortal() {
