@@ -13,7 +13,7 @@
     </div>
     <div class="ml-auto menu-dropdow mr-3 d-none d-flex desktop_version"  (click)="menus = !menus">
         <div class="d-flex flex-column mr-5 dataName">
-            <p *ngIf="dataRemotex" class="m-0">{{dataRemotex.nombreAlumno + ' ' + dataRemotex.apellidoAlumno}}</p>
+            <p *ngIf="dataRemotex" class="m-0">{{showFirst(dataRemotex.nombreAlumno) + ' ' + showFirst(dataRemotex.apellidoAlumno)}}</p>
             <span *ngIf="dataRemotex">{{dataRemotex.codigoAlumno}}</span>
         </div>
         <div class="circle_initials">

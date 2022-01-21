@@ -1,7 +1,7 @@
 <div class="menu-other" [style.height.%]="heightOther" [style.padding-top.px]="heightOther==0?0:60">
   <div class="sidebar-menu" [class.d-none]="heightOther==0" (click)="heightOtherEmit.emit(0)">
     <div [class.d-none]="heightOther==0" class="header_info mt-4">
-      <p class="m-0">{{dataRemotex.nombreAlumno + ' ' + dataRemotex.apellidoAlumno}}</p>
+      <p class="m-0">{{ showFirst(dataRemotex.nombreAlumno) + ' ' + showFirst(dataRemotex.apellidoAlumno)}}</p>
       <span>{{dataRemotex.codigoAlumno}}</span>
     </div>
     <a class="menu" routerLink="/estudiante/inicio" routerLinkActive="active">

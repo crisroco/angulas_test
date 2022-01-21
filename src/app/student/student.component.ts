@@ -1939,4 +1939,8 @@ export class StudentComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.crossdata.unsubscribe();
 	}
+
+	showFirst(name){
+		return name.split(' ')[0]
+	}
 }

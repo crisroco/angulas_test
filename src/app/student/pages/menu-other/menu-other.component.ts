@@ -81,4 +81,8 @@ export class MenuOtherComponent implements OnInit {
   showSchedule(){
     this.studentService.setShowScheduleModal(true);
   }
+
+  showFirst(name){
+		return name.split(' ')[0]
+	}
 }
