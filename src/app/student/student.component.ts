@@ -321,7 +321,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 				},
 				{
 					img: '',
-					url:'https://vimeo.com/651288758',
+					url:'https://vimeo.com/668660443',
 					description: 'VIDEO INSTRUCTIVO INTENCIÓN DE MATRÍCULA.'
 				}
 			],
