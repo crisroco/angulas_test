@@ -1,9 +1,28 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/taller-empleabilidad-enero-2022.png',
+        title: 'Webinars de Empleabilidad - Enero',
+        new: true,
+        content: `Te invitamos a participar de los webinars de Empleabilidad del mes de <a target="_blank" href="https://bit.ly/webinarseneroempleabilidad">enero</a><br>
+        Conoce la programación de webinars <a target="_blank" href="https://drive.google.com/file/d/1geXEdyNGJZQmAe6a0qSjYfm3lzkpGbMI/view?usp=sharing">aquí</a>`,
+        filtroInst: ['PREGR', 'CPE', 'PSTGR'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: true,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/intencion-matricula-2022-1.jpg',
         title: 'INTENCIÓN DE MATRÍCULA 2022-1',
         new: true,
-        content: `¡Hola! Muy pronto iniciará la Intención de Matrícula 2022-1. Te invitamos a revisar el siguiente <a target="_blank" href="https://www.cientifica.edu.pe/sites/default/files/2022-01/Comunicado_IM%20CPE_2022-1%20vCX_0.pdf">link</a> con toda la información necesaria.`,
+        content: `¡Hola! Muy pronto iniciará la Intención de Matrícula 2022-1. Te invitamos a revisar el siguiente  con toda la información necesaria.`,
         filtroInst: [],
         filtroCarr: [],
         useCSV: false,
@@ -59,50 +78,6 @@ export const notice = [
         title: 'Actividades extracurriculares VGU 2022 0',
         new: false,
         content: `¡Ven y participa con nosotros en las Actividades extracurriculares que tenemos para ti este verano!. Fortalece, desarrolla y aprende herramientas que serán un complemento perfecto para tu perfil profesional. Inscríbete vía Portal de estudiante desde el 13 al 16 de enero 2022, ¡te esperamos!. Más info aquí: <a target="_blank" href="https://bit.ly/3q6Eopa">https://bit.ly/3q6Eopa</a>`,
-        filtroInst: ['PREGR', 'CPE'],
-        filtroCarr: ['ALL'],
-        useCSV: false,
-        useCSV2: false,
-        useCSV3: false,
-        useCSV4: false,
-        useCSV5: false,
-        useCSV6: false,
-        useCSV7: false,
-        useCSV8: false,
-        expand: true,
-        full: true,
-    },
-    {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/noticia-311221-posgrado.png',
-        title: '💻 ACTUALIZACIÓN DEL INGRESO AL AULA VIRTUAL',
-        new: false,
-        content: `Desde el 27/12/21, podrás ingresar a tus cursos del Aula Virtual de un modo más sencillo. Sigue los siguientes pasos.<br>
-                1. Dale clic a <a href="https://aulavirtualposgrado.cientifica.edu.pe/login/index.php" target="_blank" >aulavirtualposgrado.cientifica.edu.pe</a> <br>
-                2. Ingresa los datos de tu correo Científica (correo y contraseña) y listo. <br>
-                
-                Ten en cuenta:  El icono de acceso desde el “Horario” será desactivado. Si olvidaste tus datos del correo Científica, puedes escribir al WhatsApp +51988 576 507`,
-        filtroInst: ['PSTGR', 'ESPEC'],
-        filtroCarr: ['ALL'],
-        useCSV: false,
-        useCSV2: false,
-        useCSV3: false,
-        useCSV4: false,
-        useCSV5: false,
-        useCSV6: false,
-        useCSV7: false,
-        useCSV8: false,
-        expand: true,
-        full: true,
-    },
-    {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/noticia-311221-pre.png',
-        title: '¡RENOVAMOS NUESTRA AULA VIRTUAL 💻!',
-        new: false,
-        content: `Ahora podrás ingresar a la nueva Aula Virtual con la tecnología de Canvas. Solo sigue los siguientes pasos.<br>
-                1. Dale clic a <a href="https://cientificavirtual.cientifica.edu.pe/login/canvas" target="_blank" >cientificavirtual.cientifica.edu.pe</a> <br>
-                2. Ingresa los datos de tu correo Científica (correo y contraseña) y listo. <br>
-                
-                Ten en cuenta:  El icono de acceso desde el “Horario” será desactivado. Si olvidaste tus datos del correo Científica, puedes escribir al WhatsApp +51988 576 507`,
         filtroInst: ['PREGR', 'CPE'],
         filtroCarr: ['ALL'],
         useCSV: false,
