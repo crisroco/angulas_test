@@ -73,22 +73,22 @@ const routes: Routes = [
 						component: ChargeFormComponent
 					}
 				]
+			},
+			{
+				path: 'matricula',
+				component: EnrollmentComponent,
+				children: [
+					{ path: '', redirectTo: '/disponibles', pathMatch: 'full' },
+					{
+						path: 'disponibles',
+						component: DashboardEnrollComponent
+					},
+					{
+						path: 'cursos-elegidos',
+						component: CoursesEnrollmentComponent
+					}
+				]
 			}
-			// {
-			// 	path: 'matricula',
-			// 	component: EnrollmentComponent,
-			// 	children: [
-			// 		{ path: '', redirectTo: '/disponibles', pathMatch: 'full' },
-			// 		{
-			// 			path: 'disponibles',
-			// 			component: DashboardEnrollComponent
-			// 		},
-			// 		{
-			// 			path: 'cursos-elegidos',
-			// 			component: CoursesEnrollmentComponent
-			// 		}
-			// 	]
-			// }
 		]
 	}
 ];
