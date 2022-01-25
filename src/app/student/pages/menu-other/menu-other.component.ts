@@ -5,6 +5,7 @@ import { SessionService } from '../../../services/session.service';
 import { ToastrService } from 'ngx-toastr';
 import { Gtag } from 'angular-gtag';
 import { Router } from '@angular/router';
+import { Broadcaster } from '../../../services/broadcaster';
 
 @Component({
   selector: 'app-menu-other',
@@ -20,9 +21,13 @@ export class MenuOtherComponent implements OnInit {
     codigoAlumno: '',
     apellidoAlumno: ''
   };
+  crossdata:any;
+  timeOut:boolean = false;
+  queueEnroll: any;
   constructor(
     private studentService:StudentService,
     public session: SessionService,
+    private broadcaster: Broadcaster,
     private toastr: ToastrService,
     private gtag: Gtag,
     private router: Router,
@@ -31,6 +36,27 @@ export class MenuOtherComponent implements OnInit {
 
   ngOnInit() {
     this.dataRemotex = this.session.getObject('remotex')?this.session.getObject('remotex'):this.session.getObject('user');
+    this.loadEnroll();
+  }
+
+  loadEnroll(){
+    this.studentService.getEnrollQueueNumber(this.session.getItem('emplidSelected'))
+      .then((res) => {
+        this.queueEnroll = res.UCS_GRUPO_MAT_RES;
+        this.timeOut = this.queueEnroll.onTurn;
+        console.log(this.timeOut)
+        if(!this.timeOut) {
+          this.readTurn(this.timeOut);
+        }
+      });
+  }
+
+  readTurn(showBtn){
+    if(!showBtn){
+      setTimeout(() => {
+        this.loadEnroll();
+      }, 60000)
+    };
   }
 
   linkModalOpen(){

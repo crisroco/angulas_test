@@ -40,7 +40,7 @@
       <img class="img-other" src="./assets/img/change-data.svg">
       <span>Actualizar datos</span>
     </a> -->
-    <a class="menu" href="javascript:void(0)" (click)="enrollmentOpen()">
+    <a *ngIf="timeOut" class="menu" href="javascript:void(0)" (click)="enrollmentOpen()">
       <img class="img-other" src="./assets/img/matricula.svg">
       <span>Intención de Matrícula </span>
     </a> 
