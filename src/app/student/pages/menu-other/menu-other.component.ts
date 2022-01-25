@@ -48,8 +48,9 @@ export class MenuOtherComponent implements OnInit {
           this.session.setObject('conditionsToEnrollment', { turn: true, conditions: true });
           this.newEnrollmentS.getDebt(this.session.getItem('emplidSelected'))
           .then((res) => {
-            let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
-            if (!notdeuda) {
+            // let notdeuda = res['UCS_WS_DEU_RSP']['UCS_WS_DEU_COM'][0]['DEUDA'] == 'N' ? true : false;
+            // !notdeuda
+            if (false) {
               this.toastr.error('Tiene una deuda pendiente, por favor regularizar el pago.');
             } else {
               this.router.navigate(['/estudiante/matricula/disponibles']);
