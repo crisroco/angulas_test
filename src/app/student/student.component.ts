@@ -239,11 +239,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 				},
 				{
 					img: '',
-					url: 'assets/pdfjs/INTENCION_MATRICULA_2022.pdf',
-					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA VERANO 2022'
-				},
-				{
-					img: '',
 					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/calendario-pregrado-2022-1.pdf',
 					description: 'CALENDARIO ACADÉMICO 2022-1'
 				},
@@ -267,11 +262,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 					img: '',
 					url: 'assets/pdfjs/CALENDARIO_ACA_CPE_VERANO_2022.pdf',
 					description: 'CALENDARIO ACADÉMICO CPE VERANO 2022'
-				},
-				{
-					img: '',
-					url: 'assets/pdfjs/INTENCION_MATRICULA_VERANO_2022.pdf',
-					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA VERANO 2022'
 				},
 				{
 					img: '',

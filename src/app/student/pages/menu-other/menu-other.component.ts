@@ -44,7 +44,6 @@ export class MenuOtherComponent implements OnInit {
       .then((res) => {
         this.queueEnroll = res.UCS_GRUPO_MAT_RES;
         this.timeOut = this.queueEnroll.onTurn;
-        console.log(this.timeOut)
         if(!this.timeOut) {
           this.readTurn(this.timeOut);
         }
