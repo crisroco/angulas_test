@@ -1,12 +1,12 @@
 export const notice = [
     {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/taller-empleabilidad-enero-2022.png',
-        title: 'Webinars de Empleabilidad - Enero',
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/intencion-matricula-2022-1.jpg',
+        title: 'INTENCIÓN DE MATRÍCULA 2022-1',
         new: true,
-        content: `Te invitamos a participar de los webinars de Empleabilidad del mes de <a target="_blank" href="https://bit.ly/webinarseneroempleabilidad">enero</a><br>
-        Conoce la programación de webinars <a target="_blank" href="https://drive.google.com/file/d/1geXEdyNGJZQmAe6a0qSjYfm3lzkpGbMI/view?usp=sharing">aquí</a>`,
-        filtroInst: ['PREGR', 'CPE', 'PSTGR'],
-        filtroCarr: ['ALL'],
+        content: `¡Ya inició la Intención de Matrícula 2022-1!
+        Acepta las condiciones académicas y financieras e inicia con el proceso. Te invitamos a revisar el siguiente <a target="_blank" href="https://www.cientifica.edu.pe/sites/default/files/2022-01/Comunicado_IM%20CPE_2022-1%20vCX_0.pdf">link</a> con toda la información necesaria.`,
+        filtroInst: [],
+        filtroCarr: [],
         useCSV: false,
         useCSV2: true,
         useCSV3: false,
@@ -19,12 +19,13 @@ export const notice = [
         full: true,
     },
     {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/intencion-matricula-2022-1.jpg',
-        title: 'INTENCIÓN DE MATRÍCULA 2022-1',
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/taller-empleabilidad-enero-2022.png',
+        title: 'Webinars de Empleabilidad - Enero',
         new: true,
-        content: `¡Hola! Muy pronto iniciará la Intención de Matrícula 2022-1. Te invitamos a revisar el siguiente  con toda la información necesaria.`,
-        filtroInst: [],
-        filtroCarr: [],
+        content: `Te invitamos a participar de los webinars de Empleabilidad del mes de <a target="_blank" href="https://bit.ly/webinarseneroempleabilidad">enero</a><br>
+        Conoce la programación de webinars <a target="_blank" href="https://drive.google.com/file/d/1geXEdyNGJZQmAe6a0qSjYfm3lzkpGbMI/view?usp=sharing">aquí</a>`,
+        filtroInst: ['PREGR', 'CPE', 'PSTGR'],
+        filtroCarr: ['ALL'],
         useCSV: false,
         useCSV2: true,
         useCSV3: false,
