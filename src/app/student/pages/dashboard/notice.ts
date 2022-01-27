@@ -19,7 +19,7 @@ export const notice = [
         expand: true,
         full: true,
     },
-    {
+    /*{
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/270122-admision.jpg',
         title: 'REGULARIZA TUS DOCUMENTOS DE ADMISIÓN',
         new: true,
@@ -38,7 +38,7 @@ export const notice = [
         useCSV8: false,
         expand: true,
         full: true,
-    },
+    },*/
     {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/intencion-matricula-2022-1.jpg',
         title: 'INTENCIÓN DE MATRÍCULA 2022-1',
