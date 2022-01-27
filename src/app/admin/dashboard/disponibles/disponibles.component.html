@@ -78,7 +78,7 @@
 				</thead>
 				<tbody>
 					<ng-container *ngFor="let crse of scheduleAvailables">
-						<tr class="text-center text-s" *ngFor="let section of crse.UCS_REST_DET2MREU" [ngClass]="{'selectedRow': crse.value, 'in': selectedCourse.CAMPUS != crse.CAMPUS}">
+						<tr class="text-center text-s" *ngFor="let section of crse.UCS_REST_DET_MREU" [ngClass]="{'selectedRow': crse.value, 'in': selectedCourse.CAMPUS != crse.CAMPUS}">
 							<ng-container *ngIf="section.show || section.more">
 								<td class="p-1 text-left">
 									<div class="form-check">
@@ -87,7 +87,7 @@
 										<span *ngIf="crse.ID_CURSO != selectedCourse.CRSE_ID">- {{crse.ID_CURSO}} {{crse.DESCR_CURSO}}*</span>
 								    </div>
 								</td>
-								<td class="p-1 text-left docente">{{section.UCS_REST_DET2DOC?section.UCS_REST_DET2DOC[0].NOMBRE_DOCENTE:'-'}}</td>
+								<td class="p-1 text-left docente">{{section.UCS_REST_DET_DOC?section.UCS_REST_DET_DOC[0].NOMBRE_DOCENTE:'-'}}</td>
 								<td class="p-1 text-center">{{section.FECHA_INICIAL | date:'dd/MM' }} - {{section.FECHA_FINAL | date:'dd/MM'}}</td>
 								<td class="p-1 text-center" *ngIf="section.TIPO!='VIRT'">{{section.DIA}}: {{section.HORA_INICIO}} - {{section.HORA_FIN}}</td>
 								<td class="p-1 text-center" *ngIf="section.TIPO=='VIRT'">Virtual</td>

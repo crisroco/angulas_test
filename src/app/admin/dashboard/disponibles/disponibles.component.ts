@@ -148,7 +148,7 @@ export class DisponiblesComponent implements OnInit {
       STRM: this.cicleSelected['CICLO_LECTIVO']
     }).then((res) => {
       this.selectedCourse = course;
-      let data = res.UCS_REST_COHOR2RESP.UCS_REST_CON_HOR2RES;
+      let data = res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES;
       if (!data) {
         data = [];
         if (allCourses.length > 0) {
@@ -160,7 +160,7 @@ export class DisponiblesComponent implements OnInit {
               SESSION_CODE: '',
               STRM: this.cicleSelected['CICLO_LECTIVO']
             }).then((res) => {
-              data.push(...res.UCS_REST_COHOR2RESP.UCS_REST_CON_HOR2RES);
+              data.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
               if (o == allCourses.length-1) {
                 setTimeout(() => {
                   this.scheduleAvailables = this.checkDuplicates(data);
@@ -185,7 +185,7 @@ export class DisponiblesComponent implements OnInit {
               SESSION_CODE: '',
               STRM: this.cicleSelected['CICLO_LECTIVO']
             }).then((res) => {
-              data.push(...res.UCS_REST_COHOR2RESP.UCS_REST_CON_HOR2RES);
+              data.push(...res.UCS_REST_COHOR_RESP.UCS_REST_CON_HOR_RES);
               if (o == allCourses.length-1) {
                 setTimeout(() => {
                   this.scheduleAvailables = this.checkDuplicates(data);
@@ -206,9 +206,9 @@ export class DisponiblesComponent implements OnInit {
 
   showMore(section){
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
-      for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET2MREU'].length; o++) {
-        if ((this.scheduleAvailables[i].ASOCIACION_CLASE == section.ASOCIACION_CLASE) && !this.scheduleAvailables[i]['UCS_REST_DET2MREU'][o].show && this.scheduleAvailables[i].NRO_CLASE == section.NRO_CLASE) {
-          this.scheduleAvailables[i]['UCS_REST_DET2MREU'][o].more = !section.up;
+      for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+        if ((this.scheduleAvailables[i].ASOCIACION_CLASE == section.ASOCIACION_CLASE) && !this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].NRO_CLASE == section.NRO_CLASE) {
+          this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].more = !section.up;
         }
       }
     }
@@ -338,12 +338,12 @@ export class DisponiblesComponent implements OnInit {
     if (this.myCoursesinEnrollment) {
       for (let i = 0; i < this.myCoursesinEnrollment.length; i++) {
         if (this.myCoursesinEnrollment[i].CICLO_LECTIVO == pickedCourse.CICLO_LECTIVO) {
-          if(pickedCourse.UCS_REST_DET2MREU){
-            for (var o = 0; o < pickedCourse.UCS_REST_DET2MREU.length; o++) {
+          if(pickedCourse.UCS_REST_DET_MREU){
+            for (var o = 0; o < pickedCourse.UCS_REST_DET_MREU.length; o++) {
               for (var u = 0; u < this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ.length; u++) {
-                if (!this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['DESCR_INSTALACION'].includes('VIRT') && pickedCourse.UCS_REST_DET2MREU[o]['TIPO'] != 'VIRT') {if (BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['INICIO_FECHA'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FIN_FECHA'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET2MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:01'))) || BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['INICIO_FECHA'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FIN_FECHA'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET2MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:01')))) {
-                  if (this.getDayY(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]) == pickedCourse.UCS_REST_DET2MREU[o]['DIA'].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
-                    if ((this.timeToSeconds(pickedCourse.UCS_REST_DET2MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET2MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET2MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET2MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) >= this.timeToSeconds(pickedCourse.UCS_REST_DET2MREU[o]['HORA_INICIO']) && this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) < this.timeToSeconds(pickedCourse.UCS_REST_DET2MREU[o]['HORA_FIN']))) {
+                if (!this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['DESCR_INSTALACION'].includes('VIRT') && pickedCourse.UCS_REST_DET_MREU[o]['TIPO'] != 'VIRT') {if (BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['INICIO_FECHA'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FIN_FECHA'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_INICIAL'].replaceAll('-', '/') + ' 00:00:01'))) || BetweenDays(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['INICIO_FECHA'] + ' 00:00:00',this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['FIN_FECHA'] + ' 00:00:00', RealDate(new Date(pickedCourse.UCS_REST_DET_MREU[o]['FECHA_FINAL'].replaceAll('-', '/') + ' 00:00:01')))) {
+                  if (this.getDayY(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]) == pickedCourse.UCS_REST_DET_MREU[o]['DIA'].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()) {
+                    if ((this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) >= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) < this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) > this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) && this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']) <= this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_FIN'])) || (this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) >= this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_INICIO']) && this.timeToSeconds(this.myCoursesinEnrollment[i].UCS_REST_MTG_DET_REQ[u]['HORA_INICIO']) < this.timeToSeconds(pickedCourse.UCS_REST_DET_MREU[o]['HORA_FIN']))) {
                         this.toastS.error('Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO'],'', {progressBar: true});
                         pickedCourse.alertMessage = 'Tienes un cruce con otra clase: ' + this.myCoursesinEnrollment[i]['CRSE_ID'] + '-' + this.myCoursesinEnrollment[i]['NOMBRE_CURSO'];
                         return true
@@ -405,9 +405,9 @@ export class DisponiblesComponent implements OnInit {
   countPRA(associated_class){
     let total = 0;
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
-      if(this.scheduleAvailables[i]['UCS_REST_DET2MREU']){
-        for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET2MREU'].length; o++) {
-          if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASOCIACION_CLASE) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET2MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.ID_CURSO) {
+      if(this.scheduleAvailables[i]['UCS_REST_DET_MREU']){
+        for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+          if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASOCIACION_CLASE) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.ID_CURSO) {
             total++;
           }
         }
@@ -419,9 +419,9 @@ export class DisponiblesComponent implements OnInit {
   countPRABeforeSave(associated_class){
     let total = 0;
     for (var i = 0; i < this.scheduleAvailables.length; i++) {
-      if(this.scheduleAvailables[i]['UCS_REST_DET2MREU']){
-        for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET2MREU'].length; o++) {
-          if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASSOCIATED_CLASS) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET2MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.CRSE_ID) {
+      if(this.scheduleAvailables[i]['UCS_REST_DET_MREU']){
+        for (var o = 0; o < this.scheduleAvailables[i]['UCS_REST_DET_MREU'].length; o++) {
+          if ((this.scheduleAvailables[i].ASOCIACION_CLASE == associated_class.ASSOCIATED_CLASS) && this.scheduleAvailables[i].CODIGO_COMPONENTE == 'PRA' && this.scheduleAvailables[i]['UCS_REST_DET_MREU'][o].show && this.scheduleAvailables[i].ID_CURSO == associated_class.CRSE_ID) {
             total++;
           }
         }
@@ -481,7 +481,7 @@ export class DisponiblesComponent implements OnInit {
   }
 
   countASS(associated_class){
-    let total = associated_class.UCS_REST_DET2MREU.length;
+    let total = associated_class.UCS_REST_DET_MREU.length;
     if (total > 1) {
       return true
     }
@@ -490,12 +490,12 @@ export class DisponiblesComponent implements OnInit {
   checkDuplicates(array){
     array.sort(this.dynamicSortMultiple(["ASOCIACION_CLASE","ID_CURSO","-CODIGO_COMPONENTE","NRO_CLASE"]));
     for (var i = 0; i < array.length; i++) {
-      if(array[i]['UCS_REST_DET2MREU']){
-        for (var o = 0; o < array[i]['UCS_REST_DET2MREU'].length; o++) {
+      if(array[i]['UCS_REST_DET_MREU']){
+        for (var o = 0; o < array[i]['UCS_REST_DET_MREU'].length; o++) {
           if (o == 0) {
-            array[i]['UCS_REST_DET2MREU'][o].show = true;
+            array[i]['UCS_REST_DET_MREU'][o].show = true;
           } else {
-            array[i]['UCS_REST_DET2MREU'][o].show = false;
+            array[i]['UCS_REST_DET_MREU'][o].show = false;
           }
         }
       }
