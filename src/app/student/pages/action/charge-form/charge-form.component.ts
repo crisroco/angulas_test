@@ -43,7 +43,7 @@ export class ChargeFormComponent implements OnInit {
       let dataCharge = (this.charge.grade=='PREGRADO'?'PREGR':'PSTGR') + this.charge.type + this.student.ciclo_lectivo + this.student.codigoAlumno;
       this.studentS.generateChargeXML(dataCharge)
         .then((res) => {
-          this.toastS.success('Éxito! Se generó su cargo correctamente.', '', {progressBar: true});
+          this.toastS.success('Éxito! Se generó su cargo correctamente.', '', {closeButton: true, disableTimeOut: true, positionClass: 'toast-center-center'});
           this.charge.grade = '';
           this.charge.type = '';
           console.log(res);
