@@ -12,7 +12,7 @@
 			</div>
 			<div class="col-3">
 				<h5>Tipo</h5>
-				<select [(ngModel)]="charge.type" class="mt-2 form-control" name="grade" id="">
+				<select (change)="selectedGrade()" [(ngModel)]="charge.type" class="mt-2 form-control" name="grade" id="">
 					<option value="">Seleccione Grado . . . </option>
 					<option *ngFor="let type of allTypes" [ngValue]="type.code">{{type.category}}</option>
 				</select>
@@ -27,8 +27,16 @@
 			<div class="col-5">
 				<div>
 					<h4>SOLICITUD:</h4>
-					<p>Para generar tu solciitud o si tienes alguna duda escríbenos al <span>+51 988 576 507</span>
+					<p *ngIf="!showMessageBenefit">Para generar tu solicitud o si tienes alguna duda escríbenos al <span>+51 988 576 507</span>
 					(ver horario de atención) o al correo: <a href="">soluciones@cientifica.edu.pe</a></p>
+					<div *ngIf="showMessageBenefit">
+						<p>Fecha de convocatoria: del 01 al 28 de febrero 2022</p>
+						<p>Una vez realizado el pago, las credenciales llegarán a tu correo institucional en un plazo de 3 días hábiles.</p>
+						<p>
+							En caso de no haberte llegado la clave y usuario en el plazo indicado, consultas o dudas respecto al proceso o el llenado web, comunicarse al teléfono 739-0973 número de WhatsApp <span>+51 923153211</span> (sólo mensajes) o al correo <a href="">administraciondebeneficios@cientifica.edu.pe</a><br>
+							de lunes a viernes de 9:00am a 1:00pm y de 2:00 pm a 5:00 pm
+						</p>
+					</div>
 				</div>
 				<div>
 					<button (click)="createCharge()" class="btn btn-primary">Generar Cargo</button>
