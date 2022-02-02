@@ -2,7 +2,7 @@ export const notice = [
     {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/270122-admision.jpg',
         title: 'REGULARIZA TUS DOCUMENTOS DE ADMISIÓN',
-        new: true,
+        new: false,
         content: `¡Hola! Si aún tienes documentos por regularizar ingresa <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/radmision-2022-1-pregrado.pdf">aquí</a> y conoce los pasos que debes realizar.<br>
         Fecha límite de entrega: 15 de febrero de 2022<br>
         (*) Omitir este mensaje en caso hayas entregado la documentación.`,
@@ -22,7 +22,7 @@ export const notice = [
     {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/270122-admision.jpg',
         title: 'REGULARIZA TUS DOCUMENTOS DE ADMISIÓN',
-        new: true,
+        new: false,
         content: `¡Hola! Si aún tienes documentos por regularizar ingresa <a target="_blank" href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/radmision-2022-1-cpe.pdf">aquí</a> y conoce los pasos que debes realizar.<br>
         Fecha límite de entrega: 15 de febrero de 2022<br>
         (*) Omitir este mensaje en caso hayas entregado la documentación.`,
@@ -33,44 +33,6 @@ export const notice = [
         useCSV3: false,
         useCSV4: false,
         useCSV5: true,
-        useCSV6: false,
-        useCSV7: false,
-        useCSV8: false,
-        expand: true,
-        full: true,
-    },
-    {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/taller-empleabilidad-enero-2022.png',
-        title: 'Webinars de Empleabilidad - Enero',
-        new: true,
-        content: `Te invitamos a participar de los webinars de Empleabilidad del mes de <a target="_blank" href="https://bit.ly/webinarseneroempleabilidad">enero</a><br>
-        Conoce la programación de webinars <a target="_blank" href="https://drive.google.com/file/d/1geXEdyNGJZQmAe6a0qSjYfm3lzkpGbMI/view?usp=sharing">aquí</a>`,
-        filtroInst: ['PREGR', 'CPE', 'PSTGR'],
-        filtroCarr: ['ALL'],
-        useCSV: false,
-        useCSV2: true,
-        useCSV3: false,
-        useCSV4: false,
-        useCSV5: false,
-        useCSV6: false,
-        useCSV7: false,
-        useCSV8: false,
-        expand: true,
-        full: true,
-    },
-    {
-        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/sede-ucsur.jpg',
-        title: 'COMUNICADO RETORNO SEGURO A CLASES 2022-1',
-        new: true,
-        content: `¡Ya inició la Intención de Matrícula 2022-1!
-        Acepta las condiciones académicas y financieras e inicia con el proceso. Te invitamos a revisar el siguiente <a target="_blank" href="https://www.cientifica.edu.pe/sites/default/files/2022-01/Comunicado_IM%20Pregrado_2022-1%20vCX.pdf">link</a> con toda la información necesaria.`,
-        filtroInst: ['ALL'],
-        filtroCarr: ['ALL'],
-        useCSV: false,
-        useCSV2: false,
-        useCSV3: false,
-        useCSV4: false,
-        useCSV5: false,
         useCSV6: false,
         useCSV7: false,
         useCSV8: false,
