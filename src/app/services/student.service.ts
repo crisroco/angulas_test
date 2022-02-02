@@ -124,7 +124,7 @@ export class StudentService {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/triesLogin').toPromise();
     }
 
-    public getDataStudent(oprid = '1'): Promise<any> {
+    public getDataStudent(oprid = null): Promise<any> {
         return this.http.get(AppSettings.BASE + AppSettings.STUDENT + '/getDataStudent/' + oprid).toPromise();
     }
 

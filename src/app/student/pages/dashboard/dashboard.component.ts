@@ -194,7 +194,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async checkNotices() {
-    this.studentS.getDataStudent(this.session.getItem('emplidSelected'))
+    this.studentS.getDataStudent(null)
       .then(async res => {
         this.student = res.UcsMetodoDatosPersRespuesta;
         this.student['firstNombreAlumno'] = this.student.nombreAlumno.trim().split(' ')[0];
