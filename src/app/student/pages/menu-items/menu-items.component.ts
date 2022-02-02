@@ -48,7 +48,7 @@ export class MenuItemsComponent implements OnInit, OnChanges {
   public widthMenuValid = 0;
 
   ngOnInit() {
-    this.loadEnroll();
+    // this.loadEnroll();
     // this.loadConditions();
   }
 
