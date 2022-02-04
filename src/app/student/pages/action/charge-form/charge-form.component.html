@@ -5,7 +5,7 @@
 			<div class="col-2">
 				<h5>Grado</h5>
 				<select [(ngModel)]="charge.grade" class="mt-2 form-control" name="grade" id="" (change)="loadTypes(charge.grade)">
-					<option value="">Seleccione . . . </option>
+					<option value="">Seleccione ... </option>
 					<option value="PREGRADO">PREGR</option>
 					<option value="POSGRADO">POSGR</option>
 				</select>
@@ -13,7 +13,7 @@
 			<div class="col-3">
 				<h5>Tipo</h5>
 				<select (change)="selectedGrade()" [(ngModel)]="charge.type" class="mt-2 form-control" name="grade" id="">
-					<option value="">Seleccione Grado . . . </option>
+					<option value="">Seleccione el trámite deseado ...</option>
 					<option *ngFor="let type of allTypes" [ngValue]="type.code">{{type.category}}</option>
 				</select>
 			</div>
