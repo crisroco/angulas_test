@@ -1,5 +1,23 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/matricula-externado-2022.jpg',
+        title: 'MATRÍCULA EXTERNADO DE MEDICINA HUMANA 2022',
+        new: true,
+        content: `¡Hola! Pronto comenzará la Matrícula de Externado de Medicina Humana 2022. Te invitamos a revisar el siguiente <a href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/matricula-ecterno-medicina-2022.pdf" target="_blank">link</a> con toda la información necesaria.`,
+        filtroInst: [],
+        filtroCarr: [],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: true,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/270122-admision.jpg',
         title: 'REGULARIZA TUS DOCUMENTOS DE ADMISIÓN',
         new: false,
