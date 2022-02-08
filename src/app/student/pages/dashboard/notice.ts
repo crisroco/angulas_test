@@ -1,5 +1,23 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/calendario-matricula-posgrado-2022.jpg',
+        title: 'CALENDARIO DE MATRÍCULA POSGRADO FEBRERO 2022',
+        new: true,
+        content: `Para conocer el calendario de matrícula y nuevos inicios, revisa el siguiente <a href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/calendario-posgrado-febrero-2022.pdf" target="_blank" download>link.</a>`,
+        filtroInst: [],
+        filtroCarr: [],
+        useCSV: true,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/matricula-externado-2022.jpg',
         title: 'MATRÍCULA EXTERNADO DE MEDICINA HUMANA 2022',
         new: true,

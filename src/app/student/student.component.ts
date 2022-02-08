@@ -233,6 +233,11 @@ export class StudentComponent implements OnInit, OnDestroy {
 			name: 'Documentos Pregrado',
 			links: [
 				{
+					img:'',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/programacion-externado-2022.pdf',
+					description: 'ROTACIONES EXTERNADO DE MEDICINA HUMANA 2022' 
+				},
+				{
 					img: '',
 					url: 'assets/pdfjs/CALENDARIO_ACA_PRE_2022.pdf',
 					description: 'CALENDARIO ACADÉMICO PREGRADO VERANO 2022'
@@ -246,11 +251,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 					img: '',
 					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/2022-1/calendario-im-2022-1-pregrado.pdf',
 					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2022-1'
-				},
-				{
-					img: '',
-					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/2021-2/CALENDARIO_ACADE%CC%81MICO_PREGRADO_2021-2(v2).pdf',
-					description: 'CALENDARIO ACADÉMICO 2021-2'
 				}
 			],
 			isOpen: true,
@@ -277,16 +277,6 @@ export class StudentComponent implements OnInit, OnDestroy {
 					img: '',
 					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/cpe/2022-1/calendario-im-2022-1-cpe.pdf',
 					description: 'CALENDARIO INTENCIÓN DE MATRÍCULA 2022-1'
-				},
-				{
-					img: '',
-					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/cpe/2021-2/CALENDARIO%20ACADEMICO%20CPE%20V-N%202021-2.v2.pdf',
-					description: 'CALENDARIO ACADÉMICO CPE V-N 2021-2'
-				},
-				{
-					img: '',
-					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/cpe/2021-2/CALENDARIO%20ACADEMICO%20CPE%20ATE%202021-2.v2.pdf',
-					description: 'CALENDARIO ACADÉMICO CPE ATE 2021-2'
 				}
 			],
 			isOpen: true,
