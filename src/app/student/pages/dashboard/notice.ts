@@ -3,7 +3,7 @@ export const notice = [
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/calendario-matricula-posgrado-2022.jpg',
         title: 'CALENDARIO DE MATRÍCULA POSGRADO FEBRERO 2022',
         new: true,
-        content: `Para conocer el calendario de matrícula y nuevos inicios, revisa el siguiente <a href="https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/calendario-posgrado-febrero-2022.pdf" target="_blank" download>link.</a>`,
+        content: `Para conocer el calendario de matrícula y nuevos inicios, revisa el siguiente <a target="_self" href="assets/pdfjs/CALENDARIO_2022.pdf" download>link.</a>`,
         filtroInst: [],
         filtroCarr: [],
         useCSV: true,
