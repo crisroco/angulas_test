@@ -244,7 +244,7 @@ export class StudentComponent implements OnInit, OnDestroy {
 				},
 				{
 					img: '',
-					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/calendario-pregrado-2022-1.pdf',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/2022-1/calendario-pregrado-2022-1v2.pdf',
 					description: 'CALENDARIO ACADÉMICO 2022-1'
 				},
 				{
