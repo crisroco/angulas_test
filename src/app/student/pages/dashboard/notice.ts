@@ -1,5 +1,24 @@
 export const notice = [
     {
+        imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/tutorial-cambio-contrasena.png',
+        title: 'CONFIGURA TU CORREO CIENTÍFICA  ',
+        new: true,
+        content: `📨 Desde el lunes 14 de febrero, tú mismo podrás cambiar o reestablecer la contraseña de tu correo Científica de un modo más rápido y seguro. Solo debes configurar tu cuenta. Sigue los pasos <a target="_blank" href="https://docs.cientifica.edu.pe/ux/CORREO%20CIENTIFICA.png">aquí</a><br>
+        Recuerda: Esto es requisito para tu correo institucional de Microsoft 365.<br> Asegúrate de realizarlo para no tener inconvenientes de acceso. `,
+        filtroInst: ['ALL'],
+        filtroCarr: ['ALL'],
+        useCSV: false,
+        useCSV2: false,
+        useCSV3: false,
+        useCSV4: false,
+        useCSV5: false,
+        useCSV6: false,
+        useCSV7: false,
+        useCSV8: false,
+        expand: true,
+        full: true,
+    },
+    {
         imgPath: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/noticias/actividades-embleabilidad-webinars-febrero.png',
         title: 'Webinars de Empleabilidad - Febrero',
         new: true,
