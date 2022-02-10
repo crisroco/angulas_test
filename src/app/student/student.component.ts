@@ -286,6 +286,11 @@ export class StudentComponent implements OnInit, OnDestroy {
 			links: [
 				{
 					img: '',
+					url: 'https://docs.cientifica.edu.pe/miportal_sise/miportal_cientifica/documentos/pregrado/2022-1/manual-matricula-externado.pdf',
+					description: 'MANUAL DE MATRÍCULA EXTERNADO DE MEDICINA HUMANA 2022'
+				},
+				{
+					img: '',
 					url: 'assets/pdfjs/portal_alumno.pptx',
 					description: 'MANUAL DE USUARIO PORTAL ALUMNO – CIENTIFICA'
 				},
