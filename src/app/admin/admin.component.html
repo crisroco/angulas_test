@@ -10,6 +10,24 @@
 				<a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
 			</div>
 		</div>
+		<div class="row position-relative">
+			<div class="circle-q bg-white-a pointer" (click)="menus = !menus">
+				<img src="./assets/img/icon/user.png" class="img-q" alt="gg"> 
+			</div>
+			<div class="bg-white drop" *ngIf="menus">
+				<a *ngIf="userBackoffice" class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="searchStudent()"> <em class="fa fa-search"></em> Buscar Alumno</a>
+				<a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+			</div>
+		</div>
+		<div class="row position-relative">
+			<div class="circle-q bg-white-a pointer" (click)="menus = !menus">
+				<img src="./assets/img/icon/user.png" class="img-q" alt="gg"> 
+			</div>
+			<div class="bg-white drop" *ngIf="menus">
+				<a *ngIf="userBackoffice" class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="searchStudent()"> <em class="fa fa-search"></em> Buscar Alumno</a>
+				<a class="d-block m-0 text-{{company}} p-2 px-3 pointer" (click)="logout()"> <i class="fa fa-undo"></i> Cerrar sesión</a>
+			</div>
+		</div>
 			
 	</div>
 </div>
